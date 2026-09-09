@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LegalAI — Justice Powered by Intelligence</title>
+  <meta name="description" content="LegalAI connects you with top lawyers, AI legal assistance, court information, and legal articles all in one place." />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- TOP INFO BAR -->
+  <div class="topbar" id="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Address: Los Angeles, CA 90001
+        </span>
+        <span class="topbar-divider">|</span>
+        <span class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.7 19.79 19.79 0 0 1 1.61 5.1 2 2 0 0 1 3.6 2.87h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5A16 16 0 0 0 14 16.09l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Make a call: +1 (213) 555-0121
+        </span>
+        <span class="topbar-divider">|</span>
+        <span class="topbar-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email: contact@legalai.com
+        </span>
+      </div>
+      <div class="topbar-right">
+        <a href="#" class="social-icon" aria-label="Facebook">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="Twitter">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </a>
+        <a href="#" class="social-icon" aria-label="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+
+      <!-- LOGO -->
+      <a href="index.html" class="logo" id="logo-link">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
+      </a>
+
+      <!-- NAV LINKS -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="nav-link active" id="nav-home">Home</a></li>
+        <li><a href="#" class="nav-link" id="nav-ai">AI Assistant</a></li>
+        <li><a href="#lawyers" class="nav-link" id="nav-lawyers">Lawyers</a></li>
+        <li><a href="#courts" class="nav-link" id="nav-courts">Courts</a></li>
+        <li><a href="#world-news" class="nav-link" id="nav-world-news">World News</a></li>
+        <li><a href="#" class="nav-link" id="nav-articles" onclick="openArticlesModal(); return false;">Articles</a></li>
+        <li><a href="#" class="nav-link nav-bookings-link" id="nav-bookings" onclick="openBookingsModal(); return false;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>My Bookings <span class="nav-badge-count" id="nav-bookings-count">0</span></a></li>
+      </ul>
+
+      <!-- AUTH BUTTONS -->
+      <div class="nav-auth" id="nav-auth">
+        <div class="logged-out-view" id="logged-out-view">
+          <button class="btn-login" id="btn-login">Login</button>
+          <button class="btn-register" id="btn-register">
+            Register
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+        <div class="logged-in-view hidden" id="logged-in-view">
+          <div class="user-badge" id="user-badge">
+            <span class="user-avatar" id="user-avatar">U</span>
+            <span class="user-name" id="user-name">User</span>
+          </div>
+          <button class="btn-logout" id="btn-logout" title="Logout">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- HAMBURGER -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="hero.png" alt="Lady Justice" class="hero-img" id="hero-img"/>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content" id="hero-content">
+      <div class="hero-tag">
+        <span class="line"></span>
+        <span class="tag-text">WE FIGHT FOR JUSTICE</span>
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        <span class="hero-line" id="line1">Dedicated To One</span>
+        <span class="hero-line" id="line2">Client At A Time.</span>
+      </h1>
+      <p class="hero-sub" id="hero-sub">Combining decades of legal expertise with cutting-edge AI technology to deliver justice for every client.</p>
+      <div class="hero-cta" id="hero-cta">
+        <button class="cta-primary" id="cta-consult">
+          Free Consultation
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="cta-secondary" id="cta-learn">Learn More</button>
+      </div>
+
+      <!-- HERO AI LEGAL QUESTION BAR -->
+      <div class="hero-ai-search" id="hero-ai-search">
+        <form class="hero-ai-form" id="hero-ai-form">
+          <div class="hero-ai-input-wrap">
+            <div class="hero-ai-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <input 
+              type="text" 
+              id="hero-ai-input" 
+              class="hero-ai-input" 
+              placeholder="Ask a legal question — Get best attorney match & court suggestion..." 
+              autocomplete="off"
+              required
+            />
+            <button type="submit" class="hero-ai-submit-btn" id="hero-ai-submit-btn" aria-label="Analyze legal question">
+              <span>Ask LegalAI</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </form>
+        <div class="hero-ai-suggestions">
+          <span class="hero-ai-label">Quick Inquiries:</span>
+          <button type="button" class="hero-ai-chip" data-prompt="My landlord changed the locks without notice. What are my rights?">🏠 Eviction Dispute</button>
+          <button type="button" class="hero-ai-chip" data-prompt="I was fired after reporting wage violations at my company. Can I sue?">💼 Wrongful Termination</button>
+          <button type="button" class="hero-ai-chip" data-prompt="What are my rights during police questioning and traffic stops?">⚖️ Police Rights</button>
+          <button type="button" class="hero-ai-chip" data-prompt="How do I file for child custody and dispute visitation rights?">👨‍👩‍👧 Child Custody</button>
+        </div>
+      </div>
+      <div class="hero-slider-nav" id="hero-slider-nav">
+        <button class="slider-btn prev" id="slider-prev" aria-label="Previous slide">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <span class="slide-counter" id="slide-counter">01 / 02</span>
+        <button class="slider-btn next" id="slider-next" aria-label="Next slide">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO STATS BAR -->
+    <div class="hero-stats" id="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num" data-target="1200">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Cases Won</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="98">0</span><span class="stat-suffix">%</span>
+        <span class="stat-label">Success Rate</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="350">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Expert Lawyers</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num" data-target="25">0</span><span class="stat-suffix">yrs</span>
+        <span class="stat-label">Experience</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-us" id="why-us">
+    <div class="why-us-inner">
+      <div class="why-left" id="why-left">
+        <span class="section-tag">WHY CHOOSE US</span>
+        <h2 class="why-title">Why You Need the<br/>Top Lawyers in<br/>Your Corner</h2>
+        <a href="#" class="why-cta" id="why-cta-btn">
+          View Our Team
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="why-center" id="why-center">
+        <p class="drop-cap">We are a legal and AI-powered platform of professional thinkers, strategists, digital innovators, designers and problem solvers — everyone gets a mention. Our sense of curiosity brings brands to life, gets them talking, and makes sure they're heard.</p>
+        <p>Our team of dedicated attorneys brings unmatched expertise and compassionate advocacy to every case. We combine human expertise with AI precision for results that matter.</p>
+      </div>
+      <div class="why-right" id="why-right">
+        <div class="feature-card" id="feature-1">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h4>Expert Defense</h4>
+            <p>Unmatched legal expertise protecting your rights at every step.</p>
+          </div>
+        </div>
+        <div class="feature-card" id="feature-2">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <h4>AI-Powered Research</h4>
+            <p>Cutting-edge technology to analyze cases faster and smarter.</p>
+          </div>
+        </div>
+        <div class="feature-card" id="feature-3">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h4>Dedicated Team</h4>
+            <p>A full team of specialists committed to your success.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICE AREAS -->
+  <section class="practice-areas" id="practice-areas">
+    <div class="practice-inner">
+      <div class="section-header">
+        <span class="section-tag light">PRACTICE AREAS</span>
+        <h2 class="section-title light">Areas of Legal Expertise</h2>
+      </div>
+      <div class="areas-grid" id="areas-grid">
+        <div class="area-card" id="area-1" role="button" tabindex="0" onclick="openPracticeModal('criminal');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          </div>
+          <h3>Criminal Law</h3>
+          <p>Defending your rights with strategic and experienced criminal defense.</p>
+          <a href="#" class="area-link" data-area="criminal" onclick="event.stopPropagation(); openPracticeModal('criminal'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-2" role="button" tabindex="0" onclick="openPracticeModal('family');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3>Family Law</h3>
+          <p>Compassionate guidance through divorce, custody, and family matters.</p>
+          <a href="#" class="area-link" data-area="family" onclick="event.stopPropagation(); openPracticeModal('family'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-3" role="button" tabindex="0" onclick="openPracticeModal('corporate');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h3>Corporate Law</h3>
+          <p>Expert legal counsel for businesses of all sizes and industries.</p>
+          <a href="#" class="area-link" data-area="corporate" onclick="event.stopPropagation(); openPracticeModal('corporate'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-4" role="button" tabindex="0" onclick="openPracticeModal('civil');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Civil Rights</h3>
+          <p>Fighting for equality, justice, and your fundamental civil liberties.</p>
+          <a href="#" class="area-link" data-area="civil" onclick="event.stopPropagation(); openPracticeModal('civil'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-5" role="button" tabindex="0" onclick="openPracticeModal('employment');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3>Employment Law</h3>
+          <p>Protecting workers and employers across all workplace legal disputes.</p>
+          <a href="#" class="area-link" data-area="employment" onclick="event.stopPropagation(); openPracticeModal('employment'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-6" role="button" tabindex="0" onclick="openPracticeModal('injury');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.5l3 3 8-8"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <h3>Personal Injury</h3>
+          <p>Maximum compensation for accident victims and negligence claims.</p>
+          <a href="#" class="area-link" data-area="injury" onclick="event.stopPropagation(); openPracticeModal('injury'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-7" role="button" tabindex="0" onclick="openPracticeModal('immigration');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>Immigration Law</h3>
+          <p>Navigating visas, green cards, citizenship, and deportation defense.</p>
+          <a href="#" class="area-link" data-area="immigration" onclick="event.stopPropagation(); openPracticeModal('immigration'); return false;">Learn More</a>
+        </div>
+        <div class="area-card" id="area-8" role="button" tabindex="0" onclick="openPracticeModal('ip');">
+          <div class="area-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <h3>Intellectual Property</h3>
+          <p>Securing patents, trademarks, and copyrights for your innovations.</p>
+          <a href="#" class="area-link" data-area="ip" onclick="event.stopPropagation(); openPracticeModal('ip'); return false;">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICE AREA DETAIL MODAL -->
+  <div class="pa-modal-overlay hidden" id="pa-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pa-modal-title">
+    <div class="pa-modal">
+      <button class="pa-modal-close" id="pa-modal-close" aria-label="Close">&times;</button>
+      <div class="pa-modal-header">
+        <div class="pa-modal-icon" id="pa-modal-icon"></div>
+        <div>
+          <div class="pa-modal-tag" id="pa-modal-tag">PRACTICE AREA</div>
+          <h3 class="pa-modal-title" id="pa-modal-title">Criminal Law</h3>
+          <p class="pa-modal-subtitle" id="pa-modal-subtitle"></p>
+        </div>
+      </div>
+      <div class="pa-modal-body">
+        <div class="pa-stats-row" id="pa-stats-row"></div>
+        <div class="pa-section">
+          <h4 class="pa-section-title">📋 Overview</h4>
+          <p class="pa-overview-text" id="pa-overview-text"></p>
+        </div>
+        <div class="pa-section">
+          <h4 class="pa-section-title">⚖️ Key Legal Rights & Protections</h4>
+          <ul class="pa-rights-list" id="pa-rights-list"></ul>
+        </div>
+        <div class="pa-section">
+          <h4 class="pa-section-title">🔍 Common Case Types</h4>
+          <div class="pa-cases-grid" id="pa-cases-grid"></div>
+        </div>
+        <div class="pa-section">
+          <h4 class="pa-section-title">💡 When You Need This Attorney</h4>
+          <p class="pa-when-text" id="pa-when-text"></p>
+        </div>
+      </div>
+      <div class="pa-modal-footer">
+        <button class="pa-cta-btn" id="pa-cta-btn">Find a Specialist Attorney →</button>
+        <button class="pa-close-btn" id="pa-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED ATTORNEYS & DIRECTORY SECTION -->
+  <section class="attorneys-section" id="lawyers">
+    <div class="attorneys-inner">
+      <div class="section-header center">
+        <span class="section-tag">VERIFIED LEGAL NETWORK</span>
+        <h2 class="section-title">Consult Top Verified Attorneys</h2>
+        <p class="section-subtitle">Connect with elite lawyers by practice specialty, experience, and verified bar admission credentials.</p>
+      </div>
+
+      <!-- AVAILABLE VS BOOKED TOGGLE TABS -->
+      <div class="lawyers-view-toggle">
+        <button type="button" class="lawyers-toggle-btn active" id="tab-available-lawyers">
+          <span class="status-pulse-dot"></span>
+          <span>Available Attorneys</span>
+          <span class="toggle-badge" id="badge-avail-count">22</span>
+        </button>
+        <button type="button" class="lawyers-toggle-btn" id="tab-booked-lawyers" onclick="openBookingsModal(); return false;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>My Booked Consultations</span>
+          <span class="toggle-badge booked-badge" id="badge-booked-count">2</span>
+        </button>
+      </div>
+
+      <!-- FILTER & SEARCH BAR -->
+      <div class="lawyer-controls">
+        <div class="lawyer-search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="lawyer-search-input" placeholder="Search lawyer name, city, firm, or bar number..." />
+          <button id="lawyer-search-clear" class="search-clear-btn hidden">&times;</button>
+        </div>
+
+        <div class="lawyer-filters">
+          <select id="lawyer-avail-select" class="lawyer-select">
+            <option value="">All Availability</option>
+            <option value="available">🟢 Available for Consult</option>
+            <option value="booked">🔴 Booked / In Trial</option>
+          </select>
+
+          <select id="lawyer-specialty-select" class="lawyer-select">
+            <option value="All Specialties">All Practice Specialties</option>
+            <option value="Corporate Law">Corporate Law</option>
+            <option value="Criminal Law">Criminal Law</option>
+            <option value="Intellectual Property">Intellectual Property</option>
+            <option value="Family Law">Family Law</option>
+            <option value="Employment Law">Employment Law</option>
+            <option value="Immigration Law">Immigration Law</option>
+            <option value="Real Estate Law">Real Estate Law</option>
+            <option value="Civil Rights">Civil Rights</option>
+            <option value="Personal Injury">Personal Injury</option>
+            <option value="Healthcare Law">Healthcare Law</option>
+            <option value="Tax Law">Tax Law</option>
+          </select>
+
+          <select id="lawyer-rate-select" class="lawyer-select">
+            <option value="">Any Hourly Rate</option>
+            <option value="300">Under $300 / hr</option>
+            <option value="350">Under $350 / hr</option>
+            <option value="400">Under $400 / hr</option>
+            <option value="450">Under $450 / hr</option>
+          </select>
+
+          <select id="lawyer-rating-select" class="lawyer-select">
+            <option value="">Any Rating</option>
+            <option value="4.8">4.8+ ⭐ Star Rating</option>
+            <option value="4.9">4.9+ ⭐ Star Rating</option>
+            <option value="5.0">5.0 ⭐ Top Rated Only</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SEARCH STATS BADGE BAR -->
+      <div class="lawyer-results-header">
+        <span id="lawyer-count-badge" class="lawyer-count-badge">Showing 24 Verified Attorneys</span>
+        <div class="lawyer-pills-row" id="lawyer-specialty-pills">
+          <button class="pill-chip active" data-specialty="All Specialties">All</button>
+          <button class="pill-chip" data-specialty="Corporate Law">Corporate</button>
+          <button class="pill-chip" data-specialty="Criminal Law">Criminal</button>
+          <button class="pill-chip" data-specialty="Intellectual Property">IP Law</button>
+          <button class="pill-chip" data-specialty="Family Law">Family</button>
+          <button class="pill-chip" data-specialty="Employment Law">Employment</button>
+          <button class="pill-chip" data-specialty="Immigration Law">Immigration</button>
+          <button class="pill-chip" data-specialty="Real Estate Law">Real Estate</button>
+          <button class="pill-chip" data-specialty="Civil Rights">Civil Rights</button>
+          <button class="pill-chip" data-specialty="Personal Injury">Injury</button>
+          <button class="pill-chip" data-specialty="Healthcare Law">Healthcare</button>
+          <button class="pill-chip" data-specialty="Tax Law">Tax</button>
+        </div>
+      </div>
+
+      <!-- LAWYER GRID -->
+      <div class="lawyers-grid" id="lawyers-grid">
+        <!-- Dynamic Cards rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================
+       COURT DIRECTORY & JURISDICTIONS SECTION
+       =================================== -->
+  <section class="courts-section" id="courts">
+    <div class="container">
+      <div class="section-header">
+        <div class="tag">
+          <span class="tag-line"></span>
+          <span class="tag-text">JUDICIAL DIRECTORY & JURISDICTIONS</span>
+        </div>
+        <h2 class="section-title">Explore Authoritative Courts & Jurisdictions</h2>
+        <p class="section-subtitle">Comprehensive directory of federal appeals circuits, trial districts, specialized equity chancery tribunals, state supreme courts, and e-filing portals.</p>
+      </div>
+
+      <!-- COURT CONTROLS & SEARCH -->
+      <div class="court-controls">
+        <div class="court-search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="court-search-input" placeholder="Search court name, circuit, city, state, or judge..." />
+          <button id="court-search-clear" class="search-clear-btn hidden">&times;</button>
+        </div>
+
+        <div class="court-filters">
+          <select id="court-jurisdiction-select" class="court-select">
+            <option value="All Jurisdictions">All Jurisdictions</option>
+            <option value="Federal Supreme">Federal Supreme Court</option>
+            <option value="Federal Appellate">Federal Circuit Courts of Appeals</option>
+            <option value="Federal District">Federal District Courts (Trial)</option>
+            <option value="Specialized Court">Specialized & Chancery Courts</option>
+            <option value="State Supreme">State Supreme Courts</option>
+            <option value="County & Circuit Court">County & Circuit Courts</option>
+            <option value="Bankruptcy Court">U.S. Bankruptcy Courts</option>
+          </select>
+
+          <select id="court-state-select" class="court-select">
+            <option value="All States">All Locations</option>
+            <option value="DC">Washington, D.C.</option>
+            <option value="NY">New York</option>
+            <option value="CA">California</option>
+            <option value="DE">Delaware</option>
+            <option value="TX">Texas</option>
+            <option value="IL">Illinois</option>
+            <option value="FL">Florida</option>
+            <option value="MA">Massachusetts</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- COURT RESULTS HEADER & PILLS -->
+      <div class="court-results-header">
+        <span id="court-count-badge" class="court-count-badge">Showing 20 Verified Courts</span>
+        <div class="court-pills-row" id="court-pills-row">
+          <button class="court-pill-chip active" data-jurisdiction="All Jurisdictions">All Courts</button>
+          <button class="court-pill-chip" data-jurisdiction="Federal Supreme">Supreme Court</button>
+          <button class="court-pill-chip" data-jurisdiction="Federal Appellate">Appeals Circuits</button>
+          <button class="court-pill-chip" data-jurisdiction="Federal District">District Courts</button>
+          <button class="court-pill-chip" data-jurisdiction="Specialized Court">Specialized / Chancery</button>
+          <button class="court-pill-chip" data-jurisdiction="State Supreme">State Supreme</button>
+          <button class="court-pill-chip" data-jurisdiction="County & Circuit Court">County / Circuit</button>
+        </div>
+      </div>
+
+      <!-- COURTS GRID -->
+      <div class="courts-grid" id="courts-grid">
+        <!-- Dynamic Cards rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================
+       WORLD LEGAL NEWS & INTERNATIONAL LAW SECTION
+       =================================== -->
+  <section class="world-news-section" id="world-news">
+    <div class="world-news-inner">
+      <!-- SECTION HEADER -->
+      <div class="section-header center">
+        <span class="section-tag">GLOBAL JURISPRUDENCE &amp; DISPATCHES</span>
+        <h2 class="section-title">World Legal News &amp; International Law</h2>
+        <p class="section-subtitle">Real-time dispatches on international court verdicts, cross-border treaty frameworks, multinational regulatory mandates, and global jurisprudence.</p>
+      </div>
+
+      <!-- LIVE GLOBAL WIRE TICKER -->
+      <div class="world-ticker-bar" id="world-ticker-bar">
+        <div class="world-ticker-badge">
+          <span class="status-pulse-dot"></span>
+          <span>LIVE GLOBAL WIRE</span>
+        </div>
+        <div class="world-ticker-content" id="world-ticker-content">
+          <span class="ticker-item">🌐 <strong>EU AI Act</strong>: Enters full cross-border enforcement with worldwide turnover sanctions up to €35M</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🇺🇳 <strong>ICJ The Hague</strong>: Issues historic Advisory Opinion establishing binding customary state climate obligations under UNCLOS</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🇬🇧 <strong>UK Supreme Court</strong>: Rules generative artificial intelligence cannot be designated as patent inventors</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🇪🇺 <strong>CJEU Luxembourg</strong>: Mandates zero-knowledge client-side encryption for transatlantic enterprise cloud transfers</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🌏 <strong>SICC Singapore</strong>: Enforces decentralized smart contract escrows in international maritime arbitration</span>
+        </div>
+      </div>
+
+      <!-- CONTROLS & FILTER BAR -->
+      <div class="world-news-controls">
+        <div class="world-search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="world-search-input" placeholder="Search world legal news, treaties, or tribunals..." />
+          <button id="world-search-clear" class="search-clear-btn hidden">&times;</button>
+        </div>
+
+        <div class="world-status-group">
+          <div class="world-live-badge">
+            <span class="articles-live-dot"></span>
+            <span id="world-feed-status">Global Wire Active</span>
+          </div>
+          <button class="world-refresh-btn" id="world-refresh-btn" title="Refresh Global Dispatches">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- REGION PILL FILTERS -->
+      <div class="world-region-pills" id="world-region-pills">
+        <button class="world-pill-chip active" data-region="All">🌐 All Global Regions</button>
+        <button class="world-pill-chip" data-region="European Union">🇪🇺 European Union</button>
+        <button class="world-pill-chip" data-region="International Courts">🇺🇳 International Courts (ICJ / ICC)</button>
+        <button class="world-pill-chip" data-region="UK &amp; Commonwealth">🇬🇧 UK &amp; Commonwealth</button>
+        <button class="world-pill-chip" data-region="Asia-Pacific">🌏 Asia-Pacific &amp; Trade</button>
+        <button class="world-pill-chip" data-region="Americas">🌎 Americas &amp; Human Rights</button>
+        <button class="world-pill-chip" data-region="Global Tech">⚡ Global AI &amp; Finance</button>
+      </div>
+
+      <!-- FEATURED LEAD DISPATCH (HERO) -->
+      <div class="world-featured-wrapper" id="world-featured-wrapper">
+        <!-- Rendered dynamically via script.js -->
+      </div>
+
+      <!-- WORLD NEWS GRID -->
+      <div class="world-news-grid" id="world-news-grid">
+        <!-- Rendered dynamically via script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo footer-logo">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+              <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGrad2)"/>
+              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="logoGrad2" x1="0" y1="0" x2="40" y2="40">
+                  <stop offset="0%" stop-color="#b8956a"/>
+                  <stop offset="100%" stop-color="#8b6914"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
+        </div>
+        <p class="footer-desc">Justice powered by intelligence. Combining legal expertise with AI for unmatched results.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#" id="footer-ai-link">AI Assistant</a></li>
+          <li><a href="#lawyers">Find Lawyers</a></li>
+          <li><a href="#courts">Courts Directory</a></li>
+          <li><a href="#world-news">World Legal News</a></li>
+          <li><a href="#practice-areas">Practice Articles</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>Los Angeles, CA 90001</p>
+        <p>+1 (213) 555-0121</p>
+        <p>contact@legalai.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>2026 LegalAI. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- AUTH MODAL OVERLAY -->
+  <div class="auth-modal-overlay hidden" id="auth-modal-overlay">
+    <div class="auth-modal-card" id="auth-modal-card">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <!-- MODAL HEADER -->
+      <div class="modal-header">
+        <div class="modal-logo">
+          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#modalLogoGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="modalLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h3 class="modal-title" id="modal-title">Welcome Back</h3>
+        <p class="modal-subtitle" id="modal-subtitle">Sign in to access your legal dashboard & AI assistant</p>
+      </div>
+
+      <!-- ERROR / ALERT CONTAINER -->
+      <div class="form-alert hidden" id="form-alert"></div>
+
+      <!-- LOGIN FORM -->
+      <form class="auth-form" id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="login-email" placeholder="name@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="login-password">Password</label>
+            <a href="#" class="forgot-link" id="forgot-link">Forgot?</a>
+          </div>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="toggle-password" data-target="login-password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="login-remember" checked/>
+            <span class="custom-checkbox"></span>
+            Remember me
+          </label>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="login-submit">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+
+        <p class="switch-mode-text">
+          Don't have an account? <a href="#" id="switch-to-register">Create Account</a>
+        </p>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form class="auth-form hidden" id="register-form">
+        <div class="form-group">
+          <label for="reg-name">Full Name</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="reg-name" placeholder="John Doe" required autocomplete="name"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="reg-email" placeholder="name@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-role">Account Type</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <select id="reg-role">
+              <option value="user">Client / Legal Client</option>
+              <option value="lawyer">Lawyer / Legal Professional</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Password</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="reg-password" placeholder="At least 8 characters" required autocomplete="new-password"/>
+            <button type="button" class="toggle-password" data-target="reg-password">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="reg-terms" required/>
+            <span class="custom-checkbox"></span>
+            I agree to the <a href="#" class="inline-link">Terms & Service</a>
+          </label>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="reg-submit">
+          <span class="btn-text">Create Account</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+
+        <p class="switch-mode-text">
+          Already have an account? <a href="#" id="switch-to-login">Sign In</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ATTORNEY CONSULTATION BOOKING MODAL -->
+  <div class="auth-modal-overlay hidden" id="consult-modal-overlay">
+    <div class="auth-modal-card consult-modal-card" id="consult-modal-card">
+      <button class="modal-close-btn" id="consult-modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <div class="modal-logo">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#consultGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2"/>
+            <defs>
+              <linearGradient id="consultGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h3 class="modal-title" id="consult-modal-title">Book Attorney Consultation</h3>
+        <p class="modal-subtitle" id="consult-attorney-subtitle">Consult directly with top legal specialists</p>
+      </div>
+
+      <form id="consult-form" class="auth-form">
+        <input type="hidden" id="consult-lawyer-id" name="lawyerId" value="" />
+
+        <div class="form-group">
+          <label for="consult-name">Full Name</label>
+          <div class="input-wrapper">
+            <input type="text" id="consult-name" required placeholder="John Doe" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-email">Email Address</label>
+          <div class="input-wrapper">
+            <input type="email" id="consult-email" required placeholder="john@example.com" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-phone">Phone Number</label>
+          <div class="input-wrapper">
+            <input type="tel" id="consult-phone" required placeholder="(555) 000-0000" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-date">Preferred Consultation Date</label>
+          <div class="input-wrapper">
+            <input type="date" id="consult-date" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-summary">Brief Case / Dispute Summary</label>
+          <div class="input-wrapper">
+            <textarea id="consult-summary" rows="3" required placeholder="Describe your legal matter, key facts, or specific questions..."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="consult-submit">
+          <span class="btn-text">Confirm Consultation Booking</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================
+       BOOKED CONSULTATIONS MODAL
+       =================================== -->
+  <div class="bookings-modal-overlay hidden" id="bookings-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="bookings-modal-title">
+    <div class="bookings-modal-card" id="bookings-modal-card">
+      <button class="modal-close-btn" id="bookings-modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="bookings-modal-header">
+        <div class="bookings-header-left">
+          <div class="bookings-logo-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+              <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+            </svg>
+          </div>
+          <div>
+            <div class="bookings-tag">CLIENT PORTAL · SCHEDULED SESSIONS</div>
+            <h3 class="bookings-modal-title" id="bookings-modal-title">My Booked Consultations</h3>
+            <p class="bookings-modal-subtitle">Review, manage, or contact your booked specialist attorneys</p>
+          </div>
+        </div>
+        <div class="bookings-header-actions">
+          <button class="bookings-refresh-btn" id="bookings-refresh-btn" title="Refresh bookings list">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- SEARCH / FILTER BOOKINGS -->
+      <div class="bookings-filter-bar">
+        <div class="bookings-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="bookings-search-input" placeholder="Filter bookings by lawyer name, specialty, or email..." />
+        </div>
+        <div class="bookings-stats-chip">
+          <span id="bookings-total-count">0</span> Active Booking<span id="bookings-plural-s">s</span>
+        </div>
+      </div>
+
+      <!-- BOOKINGS LIST CONTAINER -->
+      <div class="bookings-list-container" id="bookings-list-container">
+        <!-- Rendered dynamically via script.js -->
+      </div>
+
+      <!-- MODAL FOOTER -->
+      <div class="bookings-modal-footer">
+        <button class="bookings-explore-btn" onclick="closeBookingsModal(); scrollToLawyers();">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Browse Available Attorneys
+        </button>
+        <button class="bookings-close-action-btn" onclick="closeBookingsModal();">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COURT DETAILS MODAL -->
+  <div class="court-modal-overlay hidden" id="court-modal-overlay">
+    <div class="court-modal">
+      <button class="modal-close" id="court-modal-close">&times;</button>
+      <div class="court-modal-header">
+        <div class="court-modal-badge" id="court-modal-badge">Federal Supreme</div>
+        <h3 class="court-modal-title" id="court-modal-title">Supreme Court of the United States</h3>
+        <p class="court-modal-circuit" id="court-modal-circuit">Federal / Nationwide Jurisdiction</p>
+      </div>
+
+      <div class="court-modal-body">
+        <div class="court-modal-stats-grid">
+          <div class="court-mstat">
+            <span class="court-mstat-lbl">Jurisdiction Level</span>
+            <span class="court-mstat-val" id="court-modal-level">Supreme</span>
+          </div>
+          <div class="court-mstat">
+            <span class="court-mstat-lbl">Chief Presiding Judge</span>
+            <span class="court-mstat-val" id="court-modal-judge">Chief Justice John G. Roberts, Jr.</span>
+          </div>
+          <div class="court-mstat">
+            <span class="court-mstat-lbl">Electronic Filing Portal</span>
+            <span class="court-mstat-val" id="court-modal-filing">Supreme Court E-Filing System</span>
+          </div>
+          <div class="court-mstat">
+            <span class="court-mstat-lbl">Clerk Office Hours</span>
+            <span class="court-mstat-val" id="court-modal-hours">Mon - Fri: 9:00 AM - 5:00 PM EST</span>
+          </div>
+        </div>
+
+        <div class="court-modal-section">
+          <h4 class="court-msection-title">📍 Physical Address & Contact</h4>
+          <div class="court-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="court-modal-address">1 First Street NE, Washington, DC 20543</span>
+          </div>
+          <div class="court-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span id="court-modal-phone">(202) 479-3000</span>
+          </div>
+        </div>
+
+        <div class="court-modal-section">
+          <h4 class="court-msection-title">⚖️ Judicial Scope & Overview</h4>
+          <p class="court-modal-desc" id="court-modal-overview">Overview text...</p>
+        </div>
+
+        <div class="court-modal-section">
+          <h4 class="court-msection-title">📂 Primary Divisions & Dockets</h4>
+          <div class="court-modal-divisions" id="court-modal-divisions"></div>
+        </div>
+      </div>
+
+      <div class="court-modal-footer">
+        <a href="#" target="_blank" rel="noopener" class="btn-court-portal" id="court-modal-link">
+          🌐 Visit Official Court Portal
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <button class="btn-court-close" id="court-modal-btn-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING AI ASSISTANT TRIGGER BUTTON -->
+  <button class="ai-fab-btn" id="ai-fab-btn" aria-label="Open LegalAI Assistant">
+    <div class="ai-fab-glow"></div>
+    <div class="ai-fab-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+    </div>
+    <span class="ai-fab-label">AI Assistant</span>
+    <span class="ai-fab-badge"></span>
+  </button>
+
+  <!-- AI ASSISTANT CHAT DRAWER / WIDGET -->
+  <div class="ai-drawer-container hidden" id="ai-drawer">
+    <div class="ai-drawer-card">
+      <!-- HEADER -->
+      <div class="ai-drawer-header">
+        <div class="ai-header-left">
+          <div class="ai-bot-avatar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="10" rx="2"/>
+              <circle cx="12" cy="5" r="2"/>
+              <path d="M12 7v4"/>
+              <line x1="8" y1="16" x2="8" y2="16"/>
+              <line x1="16" y1="16" x2="16" y2="16"/>
+            </svg>
+            <span class="ai-status-dot" id="ai-status-indicator" title="Backend Server Status"></span>
+          </div>
+          <div class="ai-header-info">
+            <div class="ai-header-title-row">
+              <h4 class="ai-header-title">LegalAI Assistant</h4>
+              <span class="ai-pill-tag" id="ai-status-badge">AI Legal Engine</span>
+            </div>
+            <p class="ai-header-sub" id="ai-status-sub">Instant legal analysis & attorney guidance</p>
+          </div>
+        </div>
+        <div class="ai-header-actions">
+          <button class="ai-action-btn" id="ai-clear-btn" title="Clear Conversation">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+          <button class="ai-action-btn" id="ai-close-btn" title="Close Assistant">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- QUICK SUGGESTIONS -->
+      <div class="ai-quick-topics" id="ai-quick-topics">
+        <span class="ai-topics-label">Suggested Legal Topics:</span>
+        <div class="ai-topics-scroll" id="ai-topics-list">
+          <button class="ai-topic-chip" data-query="What are my legal rights if my landlord refuses to return my security deposit?">📜 Tenant Deposit Dispute</button>
+          <button class="ai-topic-chip" data-query="What are the main differences and liability protections between an LLC and an S-Corp?">💼 LLC vs S-Corp Setup</button>
+          <button class="ai-topic-chip" data-query="What are my 5th and 6th Amendment constitutional rights during police questioning?">🛡️ Police Rights & Miranda</button>
+          <button class="ai-topic-chip" data-query="A client breached our signed contract and failed to pay. What are my legal options?">⚖️ Contract Breach Steps</button>
+          <button class="ai-topic-chip" data-query="I was terminated after submitting an internal safety report. Is this wrongful termination?">👔 Wrongful Termination</button>
+        </div>
+      </div>
+
+      <!-- MESSAGES SCROLL AREA -->
+      <div class="ai-messages-wrapper" id="ai-messages-wrapper">
+        <div class="ai-messages" id="ai-messages">
+          <!-- Initial welcome greeting -->
+          <div class="ai-msg bot">
+            <div class="ai-msg-avatar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+            </div>
+            <div class="ai-msg-bubble">
+              <div class="ai-msg-meta">
+                <span class="ai-msg-author">LegalAI Intelligence</span>
+                <span class="ai-msg-time">Online</span>
+              </div>
+              <div class="ai-msg-text">
+                Welcome to <strong>LegalAI Assistant</strong>. I am your specialized legal intelligence engine. Describe your dispute, contractual question, or potential case, or click any topic above to receive a structured legal assessment, statutory rights breakdown, and attorney checklist.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TYPING INDICATOR -->
+        <div class="ai-typing hidden" id="ai-typing">
+          <div class="ai-msg-avatar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+          </div>
+          <div class="ai-typing-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT BAR -->
+      <form class="ai-input-form" id="ai-input-form">
+        <div class="ai-input-container">
+          <textarea id="ai-user-input" class="ai-user-input" rows="1" placeholder="Describe your legal matter or question..." required></textarea>
+          <button type="submit" class="ai-send-btn" id="ai-send-btn" aria-label="Send message">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+        <div class="ai-disclaimer-note">
+          <span>⚠️ Educational legal information. Does not constitute formal attorney representation.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================
+       REAL-TIME LEGAL ARTICLES MODAL
+       =================================== -->
+  <div class="articles-modal-overlay hidden" id="articles-modal-overlay" role="dialog" aria-modal="true" aria-label="Legal Articles">
+    <div class="articles-modal">
+
+      <!-- HEADER -->
+      <div class="articles-modal-header">
+        <div class="articles-header-left">
+          <div class="articles-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="articles-modal-title">Legal News &amp; Articles</h3>
+            <p class="articles-modal-sub" id="articles-last-updated">Fetching real-time legal news...</p>
+          </div>
+        </div>
+        <div class="articles-header-right">
+          <button class="articles-refresh-btn" id="articles-refresh-btn" title="Refresh Articles">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"/>
+              <polyline points="1 20 1 14 7 14"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+            Refresh
+          </button>
+          <button class="articles-close-btn" id="articles-close-btn" aria-label="Close articles">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="articles-controls">
+        <!-- Search -->
+        <div class="articles-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="articles-search-input" placeholder="Search legal topics, keywords..." />
+          <button id="articles-search-clear" class="articles-clear-btn hidden">&times;</button>
+        </div>
+
+        <!-- Live status badge -->
+        <div class="articles-live-badge" id="articles-live-badge">
+          <span class="articles-live-dot" id="articles-live-dot"></span>
+          <span id="articles-live-text">Loading...</span>
+        </div>
+      </div>
+
+      <!-- CATEGORY PILLS -->
+      <div class="articles-category-pills" id="articles-category-pills">
+        <button class="articles-pill active" data-category="All">All</button>
+        <button class="articles-pill" data-category="Supreme Court">⚖️ Supreme Court</button>
+        <button class="articles-pill" data-category="Criminal Law">🛡️ Criminal</button>
+        <button class="articles-pill" data-category="Family Law">👨‍👩‍👧 Family</button>
+        <button class="articles-pill" data-category="Employment Law">👔 Employment</button>
+        <button class="articles-pill" data-category="Corporate Law">💼 Corporate</button>
+        <button class="articles-pill" data-category="Real Estate Law">🏠 Real Estate</button>
+        <button class="articles-pill" data-category="Civil Rights">⚖️ Civil Rights</button>
+        <button class="articles-pill" data-category="Personal Injury">⚕️ Injury</button>
+        <button class="articles-pill" data-category="Contract Law">📝 Contracts</button>
+        <button class="articles-pill" data-category="Legal Industry">📰 Industry</button>
+        <button class="articles-pill" data-category="Legal News">📋 News</button>
+      </div>
+
+      <!-- ARTICLES GRID -->
+      <div class="articles-body" id="articles-body">
+        <!-- Skeleton loaders shown initially -->
+        <div class="articles-grid" id="articles-grid">
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+          <div class="article-skeleton"><div class="sk-img"></div><div class="sk-cat"></div><div class="sk-title"></div><div class="sk-desc"></div><div class="sk-meta"></div></div>
+        </div>
+        <!-- Empty state -->
+        <div class="articles-empty hidden" id="articles-empty">
+          <div class="articles-empty-icon">📰</div>
+          <h4>No Articles Found</h4>
+          <p>Try adjusting your search or category filter.</p>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="articles-modal-footer">
+        <span id="articles-count-text" class="articles-count-text">Loading articles...</span>
+        <span class="articles-auto-refresh" id="articles-auto-refresh-label">🔄 Auto-refreshes every 5 min</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================
+       LEGAL ARTICLE READER MODAL
+       =================================== -->
+  <div class="article-reader-overlay hidden" id="article-reader-overlay" role="dialog" aria-modal="true" aria-label="Legal Article Reader">
+    <div class="article-reader-modal" id="article-reader-modal">
+      <!-- Reading Progress Bar -->
+      <div class="reader-progress-track">
+        <div class="reader-progress-bar" id="reader-progress-bar"></div>
+      </div>
+
+      <!-- Reader Top Bar -->
+      <div class="reader-topbar">
+        <button class="reader-back-btn" id="reader-back-btn" title="Back to Articles">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>All Articles</span>
+        </button>
+
+        <div class="reader-topbar-actions">
+          <button class="reader-action-btn" id="reader-speech-btn" title="Read Aloud / Text-to-Speech">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            <span id="reader-speech-text">Listen</span>
+          </button>
+          <button class="reader-action-btn" id="reader-bookmark-btn" title="Bookmark Article">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span id="reader-bookmark-text">Save</span>
+          </button>
+          <button class="reader-action-btn" id="reader-share-btn" title="Copy Article Link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>Share</span>
+          </button>
+          <button class="reader-action-btn ai-highlight" id="reader-ask-ai-btn" title="Ask LegalAI About This">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+              <circle cx="12" cy="5" r="2"></circle>
+              <path d="M12 7v4"></path>
+            </svg>
+            <span>Ask AI</span>
+          </button>
+          <button class="reader-close-btn" id="reader-close-btn" aria-label="Close reader">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reader Scrollable Body -->
+      <div class="reader-scroll-area" id="reader-scroll-area">
+        <div class="reader-container">
+
+          <!-- Meta Pill Row -->
+          <div class="reader-meta-row">
+            <span class="reader-cat-badge" id="reader-cat-badge">⚖️ Criminal Law</span>
+            <span class="reader-read-time" id="reader-read-time">⏱️ 4 min read</span>
+            <span class="reader-source-badge" id="reader-source-badge">LegalAI Editorial</span>
+            <span class="reader-pub-date" id="reader-pub-date">Updated Today</span>
+          </div>
+
+          <!-- Headline & Lead -->
+          <h1 class="reader-title" id="reader-title">Article Title</h1>
+          <p class="reader-lead" id="reader-lead">Article summary and lead introduction.</p>
+
+          <!-- Executive Summary / Key Takeaways -->
+          <div class="reader-takeaways-card" id="reader-takeaways-card">
+            <div class="takeaways-header">
+              <span class="takeaways-icon">⚡</span>
+              <h4>Executive Summary &amp; Key Takeaways</h4>
+            </div>
+            <ul class="takeaways-list" id="reader-takeaways-list">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+
+          <!-- Rich Content Sections -->
+          <div class="reader-body-content" id="reader-body-content">
+            <!-- Dynamically populated with rich paragraphs, subheadings, quotes -->
+          </div>
+
+          <!-- Statutes & Legal References -->
+          <div class="reader-laws-section" id="reader-laws-section">
+            <h4 class="reader-section-tag">⚖️ Statutory Authority &amp; Key Case Precedents</h4>
+            <div class="reader-laws-chips" id="reader-laws-chips">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Interactive Action Checklist -->
+          <div class="reader-checklist-section" id="reader-checklist-section">
+            <h4 class="reader-section-tag">📋 Action Steps &amp; Rights Checklist</h4>
+            <div class="reader-checklist" id="reader-checklist">
+              <!-- Dynamically populated interactive checkboxes -->
+            </div>
+          </div>
+
+          <!-- Caution Callout -->
+          <div class="reader-warning-box" id="reader-warning-box">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+              <strong>Critical Legal Disclaimer:</strong>
+              <p id="reader-warning-text">This article provides educational guidance and is not a formal legal consultation. State laws and local court rules vary significantly.</p>
+            </div>
+          </div>
+
+          <!-- Footer Consultation CTA -->
+          <div class="reader-footer-card">
+            <div class="reader-footer-info">
+              <h4>Need Professional Legal Counsel on This Topic?</h4>
+              <p id="reader-footer-sub">Connect directly with a verified, state-licensed specialist attorney or consult the LegalAI assistant for instant guidance.</p>
+            </div>
+            <div class="reader-footer-buttons">
+              <button class="reader-lawyer-cta" id="reader-lawyer-cta">Find a Specialist Attorney →</button>
+              <button class="reader-ai-cta" id="reader-ai-cta">Consult LegalAI Assistant</button>
+              <a href="#" class="reader-external-link hidden" id="reader-external-link" target="_blank" rel="noopener noreferrer">Read Original Publication ↗</a>
+            </div>
+          </div>
+
+          <!-- Prev / Next Navigation -->
+          <div class="reader-article-nav">
+            <button class="article-nav-btn prev" id="reader-prev-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <div>
+                <span class="nav-direction">Previous Article</span>
+                <span class="nav-title" id="reader-prev-title">Previous</span>
+              </div>
+            </button>
+            <button class="article-nav-btn next" id="reader-next-btn">
+              <div>
+                <span class="nav-direction">Next Article</span>
+                <span class="nav-title" id="reader-next-title">Next</span>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

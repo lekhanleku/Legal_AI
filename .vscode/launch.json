@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        // ── 1. Launch the Node.js backend server (with debugger attached) ──
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "▶ Start LegalAI Server",
+            "program": "${workspaceFolder}/server/server.js",
+            "cwd": "${workspaceFolder}/server",
+            "envFile": "${workspaceFolder}/server/.env",
+            "env": {
+                "NODE_ENV": "development",
+                "PORT": "5000"
+            },
+            "console": "integratedTerminal",
+            "restart": true,
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"]
+        },
+
+        // ── 2. Open Chrome at localhost:5000 (server must already be running) ──
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🌐 Open LegalAI in Chrome",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "preLaunchTask": "start-server"
+        },
+
+        // ── 3. Full-stack: start server then open browser (F5 shortcut) ──
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "🚀 Full Stack (Server + Browser)",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "preLaunchTask": "start-server"
+        }
+
+    ],
+
+    // ── Compound: start both Node debugger and Chrome together ──
+    "compounds": [
+        {
+            "name": "⚡ Debug Full Stack",
+            "configurations": ["▶ Start LegalAI Server", "🌐 Open LegalAI in Chrome"],
+            "stopAll": true
+        }
+    ]
+}
