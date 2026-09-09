@@ -88,7 +88,7 @@ class Court {
 
     return {
       totalCourts: total,
-      jurisdictions,
+      jurisdictions,                             
       states
     };
   }
