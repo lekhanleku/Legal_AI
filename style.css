@@ -2509,6 +2509,58 @@ body {
   border-color: var(--gold);
 }
 
+/* ── FORM VALIDATION & FIELD ERRORS ── */
+.required-star {
+  color: #f87171;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.field-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 6px;
+  animation: fieldShakeIn 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.field-error-msg.hidden {
+  display: none !important;
+}
+
+.field-error-msg svg {
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+.input-wrapper input.input-error {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22) !important;
+}
+
+.input-wrapper input.input-valid {
+  border-color: #22c55e !important;
+  background: rgba(34, 197, 94, 0.04) !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15) !important;
+}
+
+@keyframes fieldShakeIn {
+  0% { opacity: 0; transform: translateX(-8px); }
+  20% { opacity: 1; transform: translateX(6px); }
+  40% { transform: translateX(-4px); }
+  60% { transform: translateX(3px); }
+  80% { transform: translateX(-1px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
 /* ── RESPONSIVE ATTORNEYS ── */
 @media (max-width: 900px) {
   .lawyers-grid {

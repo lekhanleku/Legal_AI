@@ -145,6 +145,17 @@ router.post('/:id/consult', (req, res) => {
       });
     }
 
+    // Phone number format validation (at least 10 digits, max 15, valid phone chars)
+    const phoneTrimmed = String(clientPhone).trim();
+    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
+    const digitsOnly = phoneTrimmed.replace(/\D/g, '');
+    if (!phoneRegex.test(phoneTrimmed) || digitsOnly.length < 10 || digitsOnly.length > 15 || /^(\d)\1+$/.test(digitsOnly)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid phone number. Please give a correct phone number (e.g. (555) 000-0000 or +1 213-555-0121).'
+      });
+    }
+
     const consultation = Lawyer.bookConsultation({
       lawyerId: Number(lawyerId),
       clientName,

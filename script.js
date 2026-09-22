@@ -1793,6 +1793,89 @@ specialtyPills.forEach(pill => {
   });
 });
 
+// ── Phone Number Validation Helper ──
+function validatePhoneNumber(phone) {
+  const trimmed = (phone || '').trim();
+  if (!trimmed) {
+    return {
+      valid: false,
+      message: 'Phone number is required. Please provide a valid contact number.'
+    };
+  }
+
+  // Permitted characters: optional leading +, digits, spaces, hyphens, parentheses, and dots
+  const validPattern = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
+  if (!validPattern.test(trimmed)) {
+    return {
+      valid: false,
+      message: 'Invalid phone number format! Letters and special symbols are not allowed. Please give a correct phone number (e.g. (555) 000-0000 or +1 213-555-0121).'
+    };
+  }
+
+  const digits = trimmed.replace(/\D/g, '');
+  if (digits.length < 10) {
+    return {
+      valid: false,
+      message: `Invalid phone number! It has only ${digits.length} digits. Please give a correct 10-digit phone number (e.g. (555) 000-0000 or +1 213-555-0121).`
+    };
+  }
+  if (digits.length > 15) {
+    return {
+      valid: false,
+      message: `Invalid phone number! Too long (${digits.length} digits). Standard phone numbers cannot exceed 15 digits. Please give a correct phone number.`
+    };
+  }
+
+  // Reject dummy repeating numbers like 0000000000, 1111111111
+  if (/^(\d)\1+$/.test(digits)) {
+    return {
+      valid: false,
+      message: 'Invalid phone number! Repeating placeholder digits are not accepted. Please give a real, correct phone number.'
+    };
+  }
+
+  return { valid: true, digits };
+}
+
+function showConsultPhoneError(message) {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  const errorText = document.getElementById('consult-phone-error-text');
+
+  if (phoneInput) {
+    phoneInput.classList.add('input-error');
+    phoneInput.classList.remove('input-valid');
+  }
+  if (errorEl && errorText) {
+    errorText.textContent = message;
+    errorEl.classList.remove('hidden');
+  }
+}
+
+function clearConsultPhoneError() {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  if (phoneInput) {
+    phoneInput.classList.remove('input-error');
+    phoneInput.classList.remove('input-valid');
+  }
+  if (errorEl) {
+    errorEl.classList.add('hidden');
+  }
+}
+
+function showConsultPhoneValid() {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  if (phoneInput) {
+    phoneInput.classList.remove('input-error');
+    phoneInput.classList.add('input-valid');
+  }
+  if (errorEl) {
+    errorEl.classList.add('hidden');
+  }
+}
+
 // ── Consultation Modal ──
 window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   let lawyer = lawyersData.find(l => l.id === lawyerId) || fallbackLawyer;
@@ -1810,6 +1893,9 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   const dateInput = document.getElementById('consult-date');
   if (dateInput) dateInput.min = today;
 
+  // Clear any existing errors
+  clearConsultPhoneError();
+
   consultOverlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
@@ -1817,6 +1903,7 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
 function closeConsultModal() {
   if (consultOverlay) consultOverlay.classList.add('hidden');
   document.body.style.overflow = '';
+  clearConsultPhoneError();
   if (consultForm) consultForm.reset();
 }
 
@@ -1825,6 +1912,39 @@ if (consultModalClose) consultModalClose.addEventListener('click', closeConsultM
 if (consultOverlay) {
   consultOverlay.addEventListener('click', (e) => {
     if (e.target === consultOverlay) closeConsultModal();
+  });
+}
+
+// Attach real-time validation on phone input
+const consultPhoneInput = document.getElementById('consult-phone');
+if (consultPhoneInput) {
+  consultPhoneInput.addEventListener('blur', () => {
+    const val = consultPhoneInput.value.trim();
+    if (!val) {
+      clearConsultPhoneError();
+      return;
+    }
+    const check = validatePhoneNumber(val);
+    if (!check.valid) {
+      showConsultPhoneError(check.message);
+    } else {
+      showConsultPhoneValid();
+    }
+  });
+
+  consultPhoneInput.addEventListener('input', () => {
+    const val = consultPhoneInput.value.trim();
+    if (!val) {
+      clearConsultPhoneError();
+      return;
+    }
+    // If field was previously in error state, recheck as user corrects it
+    if (consultPhoneInput.classList.contains('input-error')) {
+      const check = validatePhoneNumber(val);
+      if (check.valid) {
+        showConsultPhoneValid();
+      }
+    }
   });
 }
 
@@ -1842,6 +1962,15 @@ if (consultForm) {
 
     if (!lawyerId || !clientName || !clientEmail || !clientPhone || !preferredDate || !caseSummary) {
       showToast('Please fill in all required fields.', 'error');
+      return;
+    }
+
+    // Validate phone number
+    const phoneCheck = validatePhoneNumber(clientPhone);
+    if (!phoneCheck.valid) {
+      showToast(`⚠️ ${phoneCheck.message}`, 'error');
+      showConsultPhoneError(phoneCheck.message);
+      if (consultPhoneInput) consultPhoneInput.focus();
       return;
     }
 
@@ -1864,6 +1993,10 @@ if (consultForm) {
         showToast(`✅ Consultation booked with ${data.lawyer.name}! You'll be contacted within 24 hours.`, 'success');
         fetchAndRenderBookings();
       } else {
+        if (data.message && data.message.toLowerCase().includes('phone')) {
+          showConsultPhoneError(data.message);
+          if (consultPhoneInput) consultPhoneInput.focus();
+        }
         showToast(data.message || 'Could not submit booking. Please try again.', 'error');
       }
     } catch (err) {

@@ -438,6 +438,29 @@ function getBestLawyerAndCourt(domain, cleanPrompt) {
 }
 
 /**
+ * Query the Python Machine Learning (Classifier) and RAG (FAISS Vector Search) Microservice
+ */
+async function queryMLAndRAGService(prompt) {
+  try {
+    const mlUrl = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000/api/rag/query';
+    const response = await fetch(mlUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: prompt, top_k: 3 }),
+      signal: AbortSignal.timeout(4000)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (err) {
+    console.warn('ℹ️ Python ML/RAG microservice unavailable, using internal legal reasoning engine fallback:', err.message);
+  }
+  return null;
+}
+
+/**
  * Main AI Assistant processor function
  * @param {object} params { prompt, user, history }
  * @returns {Promise<{ text: string, category: string, suggestedLawyer: object, suggestedCourt: object, timestamp: string }>}
@@ -462,25 +485,69 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
     };
   }
 
-  // 2. Identify Legal Domain
-  const domain = identifyLegalCategory(cleanPrompt);
+  // 2. Query Machine Learning (Classifier) & RAG (FAISS Vector Search) Engine
+  const mlRagResult = await queryMLAndRAGService(cleanPrompt);
+  if (mlRagResult && mlRagResult.success) {
+    const Lawyer = require('../models/Lawyer');
+    const Court = require('../models/Court');
+    const targetSpecialty = mlRagResult.suggested_specialty || 'Corporate Law';
+    const lawyers = Lawyer.findAll({ specialty: targetSpecialty, limit: 1 });
+    const lawyerRow = (lawyers && lawyers.length > 0) ? lawyers[0] : (Lawyer.findAll({ limit: 1 })[0] || null);
 
-  // 3. Resolve Best Matching Attorney & Competent Court
-  const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
+    let courtRow = Court.findByCode(mlRagResult.suggested_court?.code || 'SDNY');
+    if (!courtRow) courtRow = Court.findById(6);
 
-  // 4. Try external LLM if configured in environment
-  const llmResult = await queryExternalLLM(cleanPrompt, domain, userName);
-  if (llmResult) {
+    const mlSuggestedLawyer = lawyerRow ? {
+      id: lawyerRow.id,
+      name: lawyerRow.name,
+      title: lawyerRow.title,
+      specialty: lawyerRow.specialty,
+      barNumber: lawyerRow.barNumber,
+      experienceYears: lawyerRow.experienceYears,
+      firmName: lawyerRow.firmName,
+      city: lawyerRow.city,
+      state: lawyerRow.state,
+      hourlyRate: lawyerRow.hourlyRate,
+      rating: lawyerRow.rating,
+      reviewCount: lawyerRow.reviewCount,
+      avatarUrl: lawyerRow.avatarUrl,
+      casesWon: lawyerRow.casesWon,
+      successRate: lawyerRow.successRate,
+      matchReason: `ML Specialist Match: ${lawyerRow.specialty} (${mlRagResult.confidence_percent} ML model confidence).`
+    } : null;
+
+    const mlSuggestedCourt = courtRow ? {
+      id: courtRow.id,
+      code: courtRow.code,
+      name: courtRow.name,
+      jurisdiction: courtRow.jurisdiction,
+      level: courtRow.level,
+      city: courtRow.city,
+      state: courtRow.state,
+      address: courtRow.address,
+      filingSystem: courtRow.filingSystem,
+      website: courtRow.website,
+      overview: courtRow.overview,
+      jurisdictionGuidance: `Identified by ML & RAG Engine for ${mlRagResult.category} proceedings.`
+    } : null;
+
     return {
-      text: llmResult.text,
-      category: llmResult.category,
-      suggestedLawyer,
-      suggestedCourt,
+      text: mlRagResult.grounded_answer,
+      category: mlRagResult.category,
+      mlConfidence: mlRagResult.confidence,
+      mlConfidencePercent: mlRagResult.confidence_percent,
+      retrievedSources: mlRagResult.retrieved_sources || [],
+      modelInfo: mlRagResult.model_info || null,
+      suggestedLawyer: mlSuggestedLawyer,
+      suggestedCourt: mlSuggestedCourt,
       timestamp: new Date().toISOString()
     };
   }
 
-  // 5. Fallback to comprehensive built-in Legal Intelligence Engine
+  // 3. Heuristic / Rule-based Fallback when ML service is offline
+  const domain = identifyLegalCategory(cleanPrompt);
+  const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
+
   const localResult = synthesizeLegalInsight(cleanPrompt, domain, userName);
   return {
     text: localResult.text,
