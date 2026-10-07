@@ -61,7 +61,7 @@ router.get('/consultations', (req, res) => {
 });
 
 // @route   DELETE /api/lawyers/consultations/:id
-// @desc    Cancel a booked consultation
+// @desc    Cancel a booked consultation (marks as cancelled)
 // @access  Public
 router.delete('/consultations/:id', (req, res) => {
   try {
@@ -78,6 +78,50 @@ router.delete('/consultations/:id', (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Could not cancel consultation: ' + err.message
+    });
+  }
+});
+
+// @route   POST /api/lawyers/consultations/:id/restore
+// @desc    Restore / reactivate a cancelled consultation
+// @access  Public
+router.post('/consultations/:id/restore', (req, res) => {
+  try {
+    const success = Lawyer.restoreConsultation(req.params.id);
+    if (!success) {
+      return res.status(404).json({ success: false, message: 'Consultation record not found' });
+    }
+    return res.json({
+      success: true,
+      message: 'Consultation successfully restored!'
+    });
+  } catch (err) {
+    console.error('Restore Consultation Error:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not restore consultation: ' + err.message
+    });
+  }
+});
+
+// @route   DELETE /api/lawyers/consultations/:id/permanent
+// @desc    Permanently remove a consultation record
+// @access  Public
+router.delete('/consultations/:id/permanent', (req, res) => {
+  try {
+    const success = Lawyer.deleteConsultation(req.params.id);
+    if (!success) {
+      return res.status(404).json({ success: false, message: 'Consultation record not found' });
+    }
+    return res.json({
+      success: true,
+      message: 'Consultation record permanently removed.'
+    });
+  } catch (err) {
+    console.error('Permanent Delete Consultation Error:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not remove consultation: ' + err.message
     });
   }
 });

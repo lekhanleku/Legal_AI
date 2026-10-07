@@ -172,10 +172,28 @@ class Lawyer {
   }
 
   /**
-   * Cancel or delete a consultation
+   * Cancel consultation (marks as cancelled)
    */
   static cancelConsultation(id) {
     const stmt = db.prepare("UPDATE consultations SET status = 'cancelled' WHERE id = ?");
+    const res = stmt.run(Number(id));
+    return res.changes > 0;
+  }
+
+  /**
+   * Restore / reactivate a consultation
+   */
+  static restoreConsultation(id) {
+    const stmt = db.prepare("UPDATE consultations SET status = 'pending' WHERE id = ?");
+    const res = stmt.run(Number(id));
+    return res.changes > 0;
+  }
+
+  /**
+   * Permanently delete a consultation record
+   */
+  static deleteConsultation(id) {
+    const stmt = db.prepare("DELETE FROM consultations WHERE id = ?");
     const res = stmt.run(Number(id));
     return res.changes > 0;
   }

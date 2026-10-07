@@ -438,24 +438,39 @@ function getBestLawyerAndCourt(domain, cleanPrompt) {
 }
 
 /**
- * Query the Python Machine Learning (Classifier) and RAG (FAISS Vector Search) Microservice
+ * Query the Python Machine Learning (Classifier) and Advanced Adaptive RAG Microservice
  */
 async function queryMLAndRAGService(prompt) {
+  const adaptiveUrl = process.env.ML_ADAPTIVE_URL || 'http://127.0.0.1:8000/api/rag/adaptive';
+  const legacyUrl = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000/api/rag/query';
+
+  // 1. Try modern Adaptive RAG pipeline
   try {
-    const mlUrl = process.env.ML_SERVICE_URL || 'http://127.0.0.1:8000/api/rag/query';
-    const response = await fetch(mlUrl, {
+    const response = await fetch(adaptiveUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: prompt, top_k: 3 }),
-      signal: AbortSignal.timeout(4000)
+      signal: AbortSignal.timeout(6000)
     });
 
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      return await response.json();
     }
   } catch (err) {
-    console.warn('ℹ️ Python ML/RAG microservice unavailable, using internal legal reasoning engine fallback:', err.message);
+    // Attempt fallback to legacy query endpoint if adaptive is unavailable
+    try {
+      const fallbackResponse = await fetch(legacyUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: prompt, top_k: 3 }),
+        signal: AbortSignal.timeout(3000)
+      });
+      if (fallbackResponse.ok) {
+        return await fallbackResponse.json();
+      }
+    } catch (fallbackErr) {
+      console.warn('ℹ️ Python ML/RAG microservice unavailable, using internal legal reasoning engine fallback:', fallbackErr.message);
+    }
   }
   return null;
 }
@@ -463,7 +478,7 @@ async function queryMLAndRAGService(prompt) {
 /**
  * Main AI Assistant processor function
  * @param {object} params { prompt, user, history }
- * @returns {Promise<{ text: string, category: string, suggestedLawyer: object, suggestedCourt: object, timestamp: string }>}
+ * @returns {Promise<object>}
  */
 async function processLegalQuery({ prompt, user = null, history = [] }) {
   if (!prompt || typeof prompt !== 'string') {
@@ -485,7 +500,7 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
     };
   }
 
-  // 2. Query Machine Learning (Classifier) & RAG (FAISS Vector Search) Engine
+  // 2. Query Machine Learning (Classifier) & Adaptive RAG Engine
   const mlRagResult = await queryMLAndRAGService(cleanPrompt);
   if (mlRagResult && mlRagResult.success) {
     const Lawyer = require('../models/Lawyer');
@@ -538,6 +553,13 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
       mlConfidencePercent: mlRagResult.confidence_percent,
       retrievedSources: mlRagResult.retrieved_sources || [],
       modelInfo: mlRagResult.model_info || null,
+      routing: mlRagResult.routing || null,
+      temporalValidity: mlRagResult.temporal_validity || null,
+      jurisdictionProfile: mlRagResult.jurisdiction_profile || null,
+      knowledgeGraphChecklists: mlRagResult.knowledge_graph_checklists || null,
+      claimAttributions: mlRagResult.claim_attributions || null,
+      calibratedJudgeEvaluation: mlRagResult.calibrated_judge_evaluation || null,
+      laypersonView: mlRagResult.layperson_view || null,
       suggestedLawyer: mlSuggestedLawyer,
       suggestedCourt: mlSuggestedCourt,
       timestamp: new Date().toISOString()

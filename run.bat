@@ -36,7 +36,7 @@ if %errorlevel% equ 0 (
 )
 
 :: 4. Check dependencies
-echo [1/3] Checking Node.js dependencies...
+echo [1/4] Checking Node.js dependencies...
 if not exist node_modules (
     echo Installing dependencies in server folder...
     call npm install
@@ -46,18 +46,23 @@ if not exist node_modules (
         exit /b 1
     )
 ) else (
-    echo [OK] Dependencies ready.
+    echo [OK] Node dependencies ready.
 )
 echo.
 
-:: 5. Schedule automatic browser launch (safe 1.5 second delay)
-echo [2/3] Preparing automatic browser opening...
-start "" cmd /c "powershell -NoProfile -Command Start-Sleep -Milliseconds 1500; Start-Process 'http://localhost:5000'"
+:: 5. Launch Python ML & Adaptive RAG Engine (Port 8000)
+echo [2/4] Starting Python Adaptive RAG Intelligence Engine (Port 8000)...
+start "LegalAI ML & Adaptive RAG Service" /min cmd /c "cd /d \"%~dp0ml\" && python app.py"
 
-:: 6. Start Express backend server
-echo [3/3] Starting LegalAI Server (SQLite)...
+:: 6. Schedule automatic browser launch (safe 2 second delay)
+echo [3/4] Preparing automatic browser opening...
+start "" cmd /c "powershell -NoProfile -Command Start-Sleep -Milliseconds 2000; Start-Process 'http://localhost:5000'"
+
+:: 7. Start Express backend server
+echo [4/4] Starting LegalAI Server (SQLite + Express)...
 echo ---------------------------------------------------
-echo Server API URL:  http://localhost:5000
+echo Web App URL:     http://localhost:5000
+echo Python ML Engine: http://127.0.0.1:8000
 echo Web App URL:     http://localhost:5000
 echo Database:        SQLite (legalai.db)
 echo.

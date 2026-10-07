@@ -193,8 +193,8 @@ const btnLogout         = document.getElementById('btn-logout');
 
 let currentMode = 'login'; // 'login' | 'register'
 
-// Show Toast Function
-function showToast(message, type = 'info') {
+// Show Toast Function with Interactive Action Support
+function showToast(message, type = 'info', action = null) {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
@@ -202,15 +202,33 @@ function showToast(message, type = 'info') {
   toast.className = `toast toast-${type}`;
   
   const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
-  toast.innerHTML = `<span style="font-weight:700;font-size:16px;">${icon}</span> <span>${message}</span>`;
+  const actionBtnHtml = action && action.label ? `<button class="toast-action-btn" type="button">${action.label}</button>` : '';
+
+  toast.innerHTML = `
+    <span style="font-weight:700;font-size:16px;">${icon}</span>
+    <span class="toast-message-text" style="flex:1;">${message}</span>
+    ${actionBtnHtml}
+  `;
+
+  if (action && action.callback) {
+    const actionBtn = toast.querySelector('.toast-action-btn');
+    if (actionBtn) {
+      actionBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        action.callback();
+        toast.remove();
+      });
+    }
+  }
   
   container.appendChild(toast);
   
+  const duration = action ? 8500 : 4500;
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transform = 'translateY(10px)';
     setTimeout(() => toast.remove(), 300);
-  }, 4000);
+  }, duration);
 }
 
 // Show Form Alert
@@ -1546,6 +1564,36 @@ function lawyerCardHTML(l) {
         ⏳ Join Waitlist / Inquire
       </button>`;
 
+  // Check if current user has an active, confirmed booking for this attorney
+  const activeBooking = (typeof bookingsData !== 'undefined' && Array.isArray(bookingsData))
+    ? bookingsData.find(b => b.lawyerId === l.id && b.status !== 'cancelled')
+    : null;
+
+  const footerAction = activeBooking
+    ? `
+      <div class="lawyer-card-booked-footer">
+        <div class="card-booked-status">
+          <span class="status-pulse-dot"></span>
+          <span>Booked: <strong>${activeBooking.preferredDate}</strong></span>
+        </div>
+        <div class="card-booked-actions">
+          <button class="btn-card-cancel" onclick="cancelConsultationBooking(${activeBooking.id})" title="Cancel this consultation immediately">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Cancel Booking
+          </button>
+          <button class="btn-card-manage" onclick="openBookingsModal()" title="View full booking details">
+            Manage
+          </button>
+        </div>
+      </div>
+    `
+    : `
+      ${consultBtn}
+      <button class="btn-profile" title="Bar Number: ${l.barNumber}">
+        ${l.barNumber}
+      </button>
+    `;
+
   return `
   <div class="lawyer-card ${isAvail ? 'card-available' : 'card-booked'}" id="lawyer-card-${l.id}" data-id="${l.id}">
     <div class="lawyer-card-header">
@@ -1608,10 +1656,7 @@ function lawyerCardHTML(l) {
     <p class="lawyer-bio">${l.bio}</p>
 
     <div class="lawyer-card-footer">
-      ${consultBtn}
-      <button class="btn-profile" title="Bar Number: ${l.barNumber}">
-        ${l.barNumber}
-      </button>
+      ${footerAction}
     </div>
   </div>`;
 }
@@ -1990,8 +2035,18 @@ if (consultForm) {
 
       if (data.success) {
         closeConsultModal();
-        showToast(`✅ Consultation booked with ${data.lawyer.name}! You'll be contacted within 24 hours.`, 'success');
-        fetchAndRenderBookings();
+        const bookedId = data.consultation?.id;
+        showToast(
+          `✅ Consultation booked with ${data.lawyer.name}!`,
+          'success',
+          bookedId ? {
+            label: 'Cancel Booking',
+            callback: () => cancelConsultationBooking(bookedId, true)
+          } : null
+        );
+        await fetchAndRenderBookings();
+        renderLawyers(lawyersData);
+        updateFloatingBookingPill();
       } else {
         if (data.message && data.message.toLowerCase().includes('phone')) {
           showConsultPhoneError(data.message);
@@ -2095,6 +2150,18 @@ if (bookingsSearchInput) {
   }, 250));
 }
 
+let currentBookingTab = 'all'; // 'all' | 'active' | 'cancelled'
+
+// Tab switching event listeners
+document.addEventListener('click', (e) => {
+  const tabBtn = e.target.closest('.booking-tab');
+  if (!tabBtn) return;
+  document.querySelectorAll('.booking-tab').forEach(b => b.classList.remove('active'));
+  tabBtn.classList.add('active');
+  currentBookingTab = tabBtn.dataset.tab || 'all';
+  renderBookingsList(bookingsData);
+});
+
 function updateBookingsCounters(count) {
   if (navBookingsCount) navBookingsCount.textContent = count;
   if (badgeBookedCount) badgeBookedCount.textContent = count;
@@ -2102,8 +2169,30 @@ function updateBookingsCounters(count) {
   if (bookingsPluralS) bookingsPluralS.textContent = count === 1 ? '' : 's';
 }
 
+function updateFloatingBookingPill() {
+  const pill = document.getElementById('floating-booking-pill');
+  const sub = document.getElementById('floating-pill-sub');
+  const cancelBtn = document.getElementById('floating-pill-cancel-btn');
+  if (!pill) return;
+
+  const activeBookings = (bookingsData || []).filter(b => b.status !== 'cancelled');
+  if (activeBookings.length === 0) {
+    pill.classList.add('hidden');
+    return;
+  }
+
+  const latest = activeBookings[0];
+  if (sub) {
+    sub.textContent = `${latest.lawyerName || 'Attorney'} · 📅 ${latest.preferredDate || 'Upcoming'}`;
+  }
+  if (cancelBtn) {
+    cancelBtn.onclick = () => cancelConsultationBooking(latest.id, true);
+  }
+  pill.classList.remove('hidden');
+}
+
 async function fetchAndRenderBookings() {
-  if (bookingsListContainer) {
+  if (bookingsListContainer && (!bookingsData || bookingsData.length === 0)) {
     bookingsListContainer.innerHTML = `
       <div style="text-align:center; padding: 40px 20px; color: var(--muted-text);">
         <div class="skeleton-line" style="height: 100px; width: 100%; border-radius: 12px; margin-bottom: 12px;"></div>
@@ -2122,6 +2211,12 @@ async function fetchAndRenderBookings() {
     const activeBookings = bookingsData.filter(b => b.status !== 'cancelled');
     updateBookingsCounters(activeBookings.length);
     renderBookingsList(bookingsData);
+    updateFloatingBookingPill();
+
+    // Re-render lawyers if loaded so lawyer cards update their Booked/Cancel status
+    if (lawyersData && lawyersData.length > 0) {
+      renderLawyers(lawyersData);
+    }
   } catch (err) {
     console.error('Fetch bookings error:', err);
     if (bookingsListContainer) {
@@ -2139,7 +2234,32 @@ async function fetchAndRenderBookings() {
 function renderBookingsList(bookings) {
   if (!bookingsListContainer) return;
 
-  if (!bookings || bookings.length === 0) {
+  const allBookings = bookingsData || [];
+  const activeBookings = allBookings.filter(b => b.status !== 'cancelled');
+  const cancelledBookings = allBookings.filter(b => b.status === 'cancelled');
+
+  // Update tab counts
+  const countAllTab = document.getElementById('count-all-tab');
+  const countActiveTab = document.getElementById('count-active-tab');
+  const countCancelledTab = document.getElementById('count-cancelled-tab');
+  if (countAllTab) countAllTab.textContent = allBookings.length;
+  if (countActiveTab) countActiveTab.textContent = activeBookings.length;
+  if (countCancelledTab) countCancelledTab.textContent = cancelledBookings.length;
+
+  let filtered = bookings || [];
+  if (currentBookingTab === 'active') {
+    filtered = filtered.filter(b => b.status !== 'cancelled');
+  } else if (currentBookingTab === 'cancelled') {
+    filtered = filtered.filter(b => b.status === 'cancelled');
+  }
+
+  if (!filtered || filtered.length === 0) {
+    const emptyMsg = currentBookingTab === 'cancelled'
+      ? 'No cancelled consultations.'
+      : currentBookingTab === 'active'
+        ? 'No active consultations currently scheduled.'
+        : 'No Consultations Booked Yet';
+
     bookingsListContainer.innerHTML = `
       <div class="bookings-empty-state">
         <div class="empty-icon-wrap">
@@ -2150,7 +2270,7 @@ function renderBookingsList(bookings) {
             <line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
         </div>
-        <h4>No Consultations Booked Yet</h4>
+        <h4>${emptyMsg}</h4>
         <p>Browse our directory of verified specialist attorneys and schedule your one-on-one consultation today.</p>
         <button class="bookings-explore-btn" style="margin: 16px auto 0 auto;" onclick="closeBookingsModal(); scrollToLawyers();">
           Explore Available Attorneys
@@ -2160,7 +2280,7 @@ function renderBookingsList(bookings) {
     return;
   }
 
-  bookingsListContainer.innerHTML = bookings.map(b => {
+  bookingsListContainer.innerHTML = filtered.map(b => {
     const isCancelled = b.status === 'cancelled';
     const statusBadge = isCancelled
       ? `<span class="booking-status-pill status-cancelled"><span class="status-busy-dot"></span> Cancelled</span>`
@@ -2257,12 +2377,20 @@ function renderBookingsList(bookings) {
           </button>
 
           ${!isCancelled ? `
-            <button class="booking-action-btn btn-cancel" onclick="cancelConsultationBooking(${b.id})" title="Cancel this scheduled session">
+            <button class="booking-action-btn btn-cancel" onclick="cancelConsultationBooking(${b.id})" title="Cancel this consultation immediately">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
               Cancel Booking
             </button>
           ` : `
-            <span class="booking-cancelled-label">Consultation Cancelled</span>
+            <span class="booking-cancelled-label">Cancelled</span>
+            <button class="booking-action-btn btn-restore" onclick="restoreConsultationBooking(${b.id})" title="Re-activate this consultation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Re-activate
+            </button>
+            <button class="booking-action-btn btn-delete" onclick="deleteConsultationPermanent(${b.id})" title="Permanently remove from history">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              Remove
+            </button>
           `}
         </div>
       </div>
@@ -2306,8 +2434,10 @@ window.downloadBookingICS = function(id) {
   showToast('Calendar event (.ics) downloaded!', 'success');
 };
 
+// ── Instant 1-Click Cancel Booking with Undo ──
 window.cancelConsultationBooking = async function(id) {
-  if (!confirm('Are you sure you want to cancel this consultation booking?')) return;
+  const b = (bookingsData || []).find(item => item.id === id);
+  const attyName = b?.lawyerName || 'Attorney';
 
   try {
     const resp = await fetch(`${LAWYERS_API}/consultations/${id}`, {
@@ -2315,14 +2445,59 @@ window.cancelConsultationBooking = async function(id) {
     });
     const data = await resp.json();
     if (data.success) {
-      showToast('Consultation cancelled successfully.', 'info');
-      fetchAndRenderBookings();
+      showToast(
+        `Consultation with ${attyName} cancelled.`,
+        'info',
+        {
+          label: 'Undo',
+          callback: () => restoreConsultationBooking(id)
+        }
+      );
+      await fetchAndRenderBookings();
     } else {
       showToast(data.message || 'Could not cancel booking.', 'error');
     }
   } catch (err) {
     console.error('Cancel booking error:', err);
     showToast('Failed to cancel booking. Make sure the server is reachable.', 'error');
+  }
+};
+
+// ── Restore / Undo Consultation Booking ──
+window.restoreConsultationBooking = async function(id) {
+  try {
+    const resp = await fetch(`${LAWYERS_API}/consultations/${id}/restore`, {
+      method: 'POST'
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showToast('Consultation booking restored and confirmed!', 'success');
+      await fetchAndRenderBookings();
+    } else {
+      showToast(data.message || 'Could not restore booking.', 'error');
+    }
+  } catch (err) {
+    console.error('Restore booking error:', err);
+    showToast('Failed to restore booking.', 'error');
+  }
+};
+
+// ── Permanently Remove Consultation from History ──
+window.deleteConsultationPermanent = async function(id) {
+  try {
+    const resp = await fetch(`${LAWYERS_API}/consultations/${id}/permanent`, {
+      method: 'DELETE'
+    });
+    const data = await resp.json();
+    if (data.success) {
+      showToast('Consultation removed from history.', 'info');
+      await fetchAndRenderBookings();
+    } else {
+      showToast(data.message || 'Could not remove consultation record.', 'error');
+    }
+  } catch (err) {
+    console.error('Delete booking error:', err);
+    showToast('Failed to remove consultation.', 'error');
   }
 };
 

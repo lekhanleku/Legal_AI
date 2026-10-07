@@ -1,0 +1,607 @@
+[
+  {
+    "id": "bns_318_4_cheating",
+    "act_code": "BNS_2023",
+    "act_name": "Bharatiya Nyaya Sanhita, 2023",
+    "domain": "Criminal Law",
+    "jurisdiction": "India",
+    "language": "en",
+    "section": "Section 318(4)",
+    "title": "Cheating and dishonestly inducing delivery of property",
+    "citation": "Bharatiya Nyaya Sanhita, 2023 § 318(4) (formerly Indian Penal Code, 1860 § 420)",
+    "effective_date": "2024-07-01",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": {
+      "old_act": "Indian Penal Code, 1860",
+      "old_section": "Section 420",
+      "transition_note": "IPC Section 420 was replaced on 1 July 2024 by Section 318(4) BNS. Penalty remains up to 7 years imprisonment and fine. Procedural investigation governed by BNSS 2023."
+    },
+    "structure": {
+      "chapter": "Chapter XVII - Of Offences Against Property",
+      "article_symbol": "§ 318(4)",
+      "substantive_rule": "Whoever cheats and thereby dishonestly induces the person deceived to deliver any property to any person, or to make, alter or destroy the whole or any part of a valuable security, shall be punished with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.",
+      "attached_exceptions": [
+        "Mere breach of contract does not constitute cheating unless fraudulent or dishonest intention is demonstrated at the inception of the transaction (Hridaya Ranjan Pd. Verma v. State of Bihar rule)."
+      ],
+      "provisos": [
+        "Provided that civil remedy does not bar criminal proceedings if deceptive inducement was present at the inception."
+      ]
+    },
+    "text": "Section 318(4) of the Bharatiya Nyaya Sanhita, 2023 defines cheating with dishonest inducement to deliver property. To sustain a conviction, the prosecution must establish: (1) deception practiced on the complainant, (2) dishonest inducement to deliver property or alter a valuable security, and (3) dishonest or fraudulent intention existing at the very time the representation was made. Breach of promise without initial fraudulent intent remains purely a civil dispute.",
+    "preconditions": [
+      "Deceptive representation made by the accused",
+      "Dishonest or fraudulent intention existing at the inception of the transaction",
+      "Delivery of property or valuable security caused by the deception"
+    ],
+    "exceptions": [
+      "Pure breach of civil contract without initial dishonest intent",
+      "Ordinary commercial dispute subject to arbitration or civil recovery"
+    ],
+    "cross_references": [
+      "BNS § 318(1) (General definition of cheating)",
+      "BNSS § 173 (Registration of FIR / preliminary inquiry)",
+      "BNSS § 480 (Bail provisions for non-bailable offences)"
+    ],
+    "key_elements": [
+      "Statutory punishment: Imprisonment up to 7 years + mandatory fine",
+      "Replaces former IPC Section 420 as of 1 July 2024",
+      "Fraudulent intent must exist at the inception of the promise",
+      "Cognizable and non-bailable offence under BNSS First Schedule"
+    ],
+    "action_checklist": [
+      "Verify whether the dispute arose prior to 1 July 2024 (IPC governs) or after (BNS governs)",
+      "Collect contemporaneous proof of fraudulent representations made prior to funds transfer",
+      "Submit formal complaint under Section 173 BNSS to jurisdictional police station or e-FIR portal"
+    ]
+  },
+  {
+    "id": "ipc_420_cheating_legacy",
+    "act_code": "IPC_1860",
+    "act_name": "Indian Penal Code, 1860",
+    "domain": "Criminal Law",
+    "jurisdiction": "India",
+    "language": "en",
+    "section": "Section 420",
+    "title": "Cheating and dishonestly inducing delivery of property (Legacy Code)",
+    "citation": "Indian Penal Code, 1860 § 420 [REPEALED effective 2024-07-01]",
+    "effective_date": "1862-01-01",
+    "repeal_date": "2024-06-30",
+    "status": "REPEALED",
+    "superseded_by": {
+      "new_act": "Bharatiya Nyaya Sanhita, 2023",
+      "new_section": "Section 318(4)",
+      "transition_note": "Repealed and replaced by BNS § 318(4). For offences committed prior to 1 July 2024, IPC § 420 remains applicable under General Clauses Act § 6 savings clause."
+    },
+    "structure": {
+      "chapter": "Chapter XVII",
+      "article_symbol": "§ 420",
+      "substantive_rule": "Whoever cheats and thereby dishonestly induces the person deceived to deliver any property, shall be punished with imprisonment for a term up to seven years, and fine.",
+      "attached_exceptions": [
+        "Distinction between mere breach of contract and criminal cheating hinges on mens rea at inception."
+      ],
+      "provisos": []
+    },
+    "text": "Indian Penal Code Section 420 penalizes cheating and dishonest delivery of property. Note: The IPC has been replaced by the Bharatiya Nyaya Sanhita (BNS) 2023 effective 1 July 2024. For allegations arising from conduct occurring on or after 1 July 2024, charge Section 318(4) of BNS instead.",
+    "preconditions": [
+      "Offence occurred prior to 1 July 2024",
+      "Deceptive inducement with mens rea at inception",
+      "Deprivation of property"
+    ],
+    "exceptions": ["Commercial disputes lacking initial criminal mens rea"],
+    "cross_references": ["BNS § 318(4)", "CrPC § 154", "BNSS § 173"],
+    "key_elements": [
+      "REPEALED effective 1 July 2024",
+      "Corresponds directly to Section 318(4) BNS",
+      "Applies only to offences committed on or before 30 June 2024"
+    ],
+    "action_checklist": [
+      "Check transaction date: If on or after July 1, 2024, cite Section 318(4) BNS",
+      "File under Section 420 IPC only if cause of action arose before July 1, 2024"
+    ]
+  },
+  {
+    "id": "bnss_480_482_bail",
+    "act_code": "BNSS_2023",
+    "act_name": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+    "domain": "Criminal Law",
+    "jurisdiction": "India",
+    "language": "en",
+    "section": "Sections 480 & 482",
+    "title": "Bail in Non-Bailable Offences and Anticipatory Bail Preconditions",
+    "citation": "Bharatiya Nagarik Suraksha Sanhita, 2023 §§ 480, 482 (formerly CrPC, 1973 §§ 437, 438)",
+    "effective_date": "2024-07-01",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": {
+      "old_act": "Code of Criminal Procedure, 1973",
+      "old_section": "Sections 437 & 438",
+      "transition_note": "Replaces CrPC Sections 437 and 438. Section 480 governs bail in non-bailable cases; Section 482 governs pre-arrest anticipatory bail."
+    },
+    "structure": {
+      "chapter": "Chapter XXXV - Provisions as to Bail and Bonds",
+      "article_symbol": "§ 480 & § 482",
+      "substantive_rule": "When any person accused of, or suspected of, the commission of any non-bailable offence is arrested or detained without warrant, he may be released on bail by the court, subject to statutory limits.",
+      "attached_exceptions": [
+        "Person shall not be released if reasonable grounds appear for believing that he has been guilty of an offence punishable with death or imprisonment for life.",
+        "Provided that the Court may direct that a person under the age of sixteen years, or a woman, or a sick or infirm person be released on bail."
+      ],
+      "provisos": [
+        "Provided further that the Court may impose conditions requiring surrender of passport and non-tampering with witnesses."
+      ]
+    },
+    "text": "Under BNSS 2023 Section 480 (regular bail) and Section 482 (anticipatory bail), courts weigh the nature and gravity of accusation, risk of flight, and likelihood of evidence tampering. Anticipatory bail under Section 482 can be petitioned before the Sessions Court or High Court where an individual has reasonable apprehension of arrest on accusation of an offence.",
+    "preconditions": [
+      "Apprehension of arrest in non-bailable offence (for § 482)",
+      "Cooperation with investigating officer upon summons",
+      "No direct threat, inducement, or tampering with prosecution witnesses",
+      "Surrender of passport / permission required prior to leaving jurisdiction"
+    ],
+    "exceptions": [
+      "Court retains discretion to grant bail to women, minors under 16, or sick/infirm individuals even in severe offences",
+      "Bar on anticipatory bail in offences punishable with death or life imprisonment unless extraordinary innocence shown"
+    ],
+    "cross_references": ["BNSS § 479 (Maximum period of detention for undertrials)", "BNS § 318(4)"],
+    "key_elements": [
+      "Replaces CrPC §§ 437, 438 effective 1 July 2024",
+      "Special statutory humanitarian proviso for women, minors, and infirm",
+      "Court can impose travel restrictions and attendance conditions"
+    ],
+    "action_checklist": [
+      "Draft petition under Section 482 BNSS before Sessions Court or High Court",
+      "Attach proof of non-flight risk (permanent residence, employment, assets)",
+      "Undertake to join investigation as and when required by the Investigating Officer"
+    ]
+  },
+  {
+    "id": "dutch_bw7_247_rent_regulation",
+    "act_code": "DUTCH_BW7",
+    "act_name": "Burgerlijk Wetboek Boek 7 (Dutch Civil Code)",
+    "domain": "Tenant Law",
+    "jurisdiction": "Netherlands",
+    "language": "en",
+    "section": "Article 7:247",
+    "title": "Social Housing Liberalization Threshold & Rent Protection Exceptions",
+    "citation": "Burgerlijk Wetboek Boek 7, Artikel 247 (BW 7:247)",
+    "effective_date": "2016-07-01",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Title 4 - Rent (Huur)",
+      "article_symbol": "Art. 7:247 BW",
+      "substantive_rule": "The provisions of Articles 248 to 265 and 270a do not apply to the lease of independent residential living space if the initial agreed rent price exceeds the statutory liberalization limit (liberalisatiegrens).",
+      "attached_exceptions": [
+        "Exception: Article 7:249 BW remains applicable: A tenant of liberalized housing may petition the Rent Tribunal (Huurcommissie) within 6 months of lease commencement to evaluate whether the initial rent exceeded reasonable valuation points (Woningwaarderingsstelsel).",
+        "Mandatory protection: Mandatory maintenance and eviction grounds (Articles 7:204 and 7:271) cannot be contracted out of, regardless of rent price."
+      ],
+      "provisos": [
+        "Provided that the liberalization threshold is evaluated strictly at the lease commencement date, not subsequent indexations."
+      ]
+    },
+    "text": "Article 7:247 of Book 7 of the Dutch Civil Code establishes the demarcation between regulated (social) housing and liberalized (private sector) tenancy. Under regulated tenancy (rent below liberalization boundary), statutory maximum rent limits and mandatory Rent Tribunal (Huurcommissie) price ceilings apply. However, under the exception in Article 7:249 BW, a tenant may contest the rent level within 6 months of moving in.",
+    "preconditions": [
+      "Initial rental price must be compared against the official liberalization threshold at lease commencement date",
+      "Application to Huurcommissie under Art. 7:249 must be submitted strictly within 6 months of contract start",
+      "Dwelling must be classified as independent residential living accommodation"
+    ],
+    "exceptions": [
+      "Liberalized housing (vrije sector) exempt from statutory rent ceiling",
+      "Core tenant protection against unlawful termination (Art. 7:271) remains universally non-waivable"
+    ],
+    "cross_references": [
+      "BW 7:249 (Initial rent assessment by Rent Tribunal)",
+      "BW 7:204 (Definition of defect / gebrek)",
+      "BW 7:206 (Landlord duty to remedy defects)"
+    ],
+    "key_elements": [
+      "Core demarcation in Dutch tenancy law: Social vs Liberalized",
+      "Strict 6-month statutory deadline to challenge rent under Article 7:249",
+      "Landlord repair obligations under 7:204 cannot be excluded by contract"
+    ],
+    "action_checklist": [
+      "Calculate property quality points under Woningwaarderingsstelsel (WWS)",
+      "Verify whether lease start date is within the mandatory 6-month Huurcommissie window",
+      "Submit formal assessment petition to Huurcommissie before deadline expires"
+    ]
+  },
+  {
+    "id": "ny_ll144_aedt_bias_audit",
+    "act_code": "NYC_LL144",
+    "act_name": "New York City Local Law 144 of 2021",
+    "domain": "Employment Law",
+    "jurisdiction": "USA - New York",
+    "language": "en",
+    "section": "NYC Admin. Code § 20-871",
+    "title": "Automated Employment Decision Tools (AEDT) Mandatory Bias Audits",
+    "citation": "N.Y.C. Admin. Code §§ 20-870 - 20-874 / NYC Local Law 144 (effective 2023)",
+    "effective_date": "2023-07-05",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Title 20 - Consumer Affairs, Chapter 5",
+      "article_symbol": "§ 20-871",
+      "substantive_rule": "In the city of New York, it is unlawful for an employer or employment agency to use an automated employment decision tool (AEDT) to screen a candidate or employee for an employment decision unless such tool has been subjected to an independent bias audit no more than one year prior to use.",
+      "attached_exceptions": [
+        "Exception: Tools that merely perform clerical or administrative tasks, such as word processing or calendar scheduling without scoring, ranking, or filtering, are exempt from audit requirements.",
+        "Notice requirement: Employers must provide written notice to candidates residing in NYC at least 10 business days prior to using an AEDT, disclosing the qualifications evaluated and allowing candidates to request alternative selection processes."
+      ],
+      "provisos": [
+        "Provided that the summary of the bias audit and distribution ratios across sex, race, and ethnicity must be published publicly on the employer's careers website."
+      ]
+    },
+    "text": "NYC Local Law 144 regulates employer usage of AI, machine learning, and algorithmic tools in hiring and promotion decisions. Before deploying an AEDT on NYC candidates, employers must: (1) commission an independent third-party bias audit conducted within the preceding 12 months, (2) publish the audit summary and impact ratios publicly on their careers website, and (3) provide candidates with 10 business days advance written notice.",
+    "preconditions": [
+      "Tool scores, ranks, or substantially assists employment screening for NYC roles",
+      "Independent bias audit completed within past 365 days by an unconflicted auditor",
+      "Public posting of impact ratios across Equal Employment Opportunity categories",
+      "10 business days advance written notice provided to candidate prior to screening"
+    ],
+    "exceptions": [
+      "Purely clerical automation (e.g. video platform without algorithmic evaluation)",
+      "Applicant testing conducted exclusively outside New York City jurisdiction"
+    ],
+    "cross_references": [
+      "Civil Rights Act Title VII, 42 U.S.C. § 2000e",
+      "New York State Human Rights Law § 296"
+    ],
+    "key_elements": [
+      "Enforceable civil penalties: $500 for first violation, up to $1,500 per subsequent daily violation",
+      "Mandatory 10 business days notice to applicants before AI tool use",
+      "Independent third-party bias audit required annually"
+    ],
+    "action_checklist": [
+      "Audit all automated candidate screening algorithms for NYC applicant exposure",
+      "Obtain certified annual bias audit report from independent technical auditor",
+      "Publish public audit results summary on careers page and implement 10-day applicant notice"
+    ]
+  },
+  {
+    "id": "statute_tenant_deposit_01",
+    "act_code": "US_URLTA_CAL",
+    "act_name": "Uniform Residential Landlord & Tenant Act & Cal. Civ. Code",
+    "domain": "Tenant Law",
+    "jurisdiction": "USA - California / Generic State",
+    "language": "en",
+    "section": "§ 2.101 / Cal. Civ. Code § 1950.5",
+    "title": "Statutory Security Deposit Protections, Deductions & Timelines",
+    "citation": "URLTA § 2.101 / Cal. Civ. Code § 1950.5 / Cook County RTLO § 42-808",
+    "effective_date": "2003-01-01",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Part 4 - Obligations Arising from Particular Transactions",
+      "article_symbol": "§ 1950.5",
+      "substantive_rule": "No later than 21 calendar days after the tenant has vacated the premises, the landlord shall furnish the tenant with an itemized written statement showing the basis for, and the amount of, any security deposit received and the disposition of the security, and shall return any remaining portion of the security to the tenant.",
+      "attached_exceptions": [
+        "Exception: Deductions are strictly prohibited for ordinary wear and tear resulting from normal residential use.",
+        "Provided that deductions for repairs exceeding $125 must include copies of invoices, receipts, or bills detailing hourly work performed."
+      ],
+      "provisos": [
+        "Provided further that bad faith claim or retention by landlord subjects landlord to statutory damages up to twice the amount of the security, in addition to actual damages."
+      ]
+    },
+    "text": "Landlords are statutorily required to return tenant security deposits within strict deadlines (14 to 30 days depending on jurisdiction, 21 days in California) accompanied by an itemized written statement detailing any lawful deductions. Deductions are strictly limited to unpaid rent, cleaning to restore move-in cleanliness, and repair of damages beyond ordinary wear and tear. Bad-faith retention entitles the tenant to statutory double or treble damages plus attorney fees.",
+    "preconditions": [
+      "Tenant has formally surrendered possession and vacated premises",
+      "Itemized statement delivered within statutory 14-30 day deadline",
+      "Deductions supported by itemized receipts and time records"
+    ],
+    "exceptions": [
+      "Ordinary wear and tear cannot be deducted under any circumstances",
+      "Pre-existing defects documented on move-in checklist exempt from tenant liability"
+    ],
+    "cross_references": ["Restatement (Second) of Property § 5.5", "Cook County RTLO § 42-808"],
+    "key_elements": [
+      "Return deadline: 14 to 30 days statutory maximum",
+      "Itemized written statement required for any deduction",
+      "Bad faith entitles tenant to statutory double or treble damages",
+      "Ordinary wear and tear is landlord's operational responsibility"
+    ],
+    "action_checklist": [
+      "Send formal written demand letter via certified mail demanding return within 10 days",
+      "Attach move-in and move-out inspection photos with timestamps",
+      "File small claims court complaint seeking statutory treble damages for bad-faith retention"
+    ]
+  },
+  {
+    "id": "statute_tenant_habitability_02",
+    "act_code": "US_HABITABILITY",
+    "act_name": "Implied Warranty of Habitability Standard",
+    "domain": "Tenant Law",
+    "jurisdiction": "USA - Federal & State",
+    "language": "en",
+    "section": "Restatement § 5.5 / Javins Standard",
+    "title": "Implied Warranty of Habitability & Constructive Eviction",
+    "citation": "Restatement (Second) of Property § 5.5 / Javins v. First National Realty Corp.",
+    "effective_date": "1970-05-07",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Chapter 5 - Landlord's Obligations",
+      "article_symbol": "§ 5.5",
+      "substantive_rule": "Every residential lease incorporates a mandatory, non-waivable implied warranty of habitability requiring landlord to maintain weatherproofing, safe plumbing, clean water, functioning heating, and freedom from vermin or toxic mold.",
+      "attached_exceptions": [
+        "Condition: Tenant must provide reasonable written notice to landlord detailing defects before withholding rent or repairing and deducting.",
+        "Exception: Tenant cannot claim habitability breach for damages caused by the tenant's own willful acts or gross negligence."
+      ],
+      "provisos": [
+        "Provided that rent withholding must strictly comply with local escrow deposit requirements to prevent summary unlawful detainer."
+      ]
+    },
+    "text": "Every residential lease incorporates a non-waivable implied warranty of habitability requiring the landlord to maintain hot and cold running water, functioning heating, weather-tight roofing and windows, safe electrical wiring, sanitary facilities, and freedom from mold or vermin infestations. If a landlord fails to remedy substantial code violations within reasonable notice (typically 14 days), the tenant may withhold rent into escrow, repair and deduct, or vacate under constructive eviction.",
+    "preconditions": [
+      "Defect affects health, safety, or basic human habitability",
+      "Tenant gave timely written notice and reasonable opportunity to cure (typically 14 days)",
+      "Withheld rent must be placed into a dedicated escrow account where required by local statute"
+    ],
+    "exceptions": [
+      "Conditions caused by tenant abuse, unauthorized alterations, or guest negligence",
+      "Minor aesthetic or cosmetic defects not impacting health and safety"
+    ],
+    "cross_references": ["Cal. Civ. Code § 1941.1", "Cook County RTLO § 42-805"],
+    "key_elements": [
+      "Non-waivable implied warranty in all residential residential leases",
+      "Landlord must maintain heating, running water, plumbing, and structural safety",
+      "Right to repair-and-deduct or escrow rent upon formal written notice",
+      "Constructive eviction doctrine permits immediate lease termination for egregious breach"
+    ],
+    "action_checklist": [
+      "Document code violations with time-stamped photographs and video logs",
+      "Deliver written 14-day notice to landlord demanding remedy under warranty of habitability",
+      "Contact municipal housing/code enforcement inspectors for an official inspection citation"
+    ]
+  },
+  {
+    "id": "statute_criminal_miranda_01",
+    "act_code": "US_CONST_AMEND_5_6",
+    "act_name": "United States Constitution - 5th & 6th Amendments",
+    "domain": "Criminal Law",
+    "jurisdiction": "USA - Federal",
+    "language": "en",
+    "section": "Fifth & Sixth Amendments",
+    "title": "Fifth & Sixth Amendment Custodial Protections & Miranda Admissibility",
+    "citation": "U.S. Const. amends. V, VI / Miranda v. Arizona, 384 U.S. 436 (1966)",
+    "effective_date": "1966-06-13",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Bill of Rights",
+      "article_symbol": "Amend. V & VI",
+      "substantive_rule": "Prior to any custodial interrogation, law enforcement officers must advise an individual of their constitutional rights: the right to remain silent, that any statement can be used against them in court, the right to the presence of an attorney, and court appointment if indigent.",
+      "attached_exceptions": [
+        "Public Safety Exception: Officers may ask unwarned questions reasonably prompted by an immediate concern for public safety (New York v. Quarles).",
+        "Condition: Invocation of the right to counsel or silence must be unambiguous and unequivocal (Berghuis v. Thompkins; Davis v. United States)."
+      ],
+      "provisos": [
+        "Provided that statements obtained in violation of Miranda may still be used for impeachment if the defendant testifies inconsistently at trial (Harris v. New York)."
+      ]
+    },
+    "text": "Prior to any custodial interrogation, law enforcement officers must advise an individual of their constitutional rights. Any custodial statements obtained in violation of Miranda are inadmissible in the prosecution's case-in-chief. Invocation of the right to counsel must be unambiguous and immediately halts all questioning until counsel is present.",
+    "preconditions": [
+      "Individual must be in 'custody' (reasonable person would not feel free to leave)",
+      "Interrogation must occur (express questioning or words/actions reasonably likely to elicit incriminating response)",
+      "Invocation of counsel must be explicit, clear, and unambiguous"
+    ],
+    "exceptions": [
+      "Public safety exception (locating an immediate discarded weapon)",
+      "Voluntary spontaneous unprompted statements made without police interrogation",
+      "Use of unwarned voluntary statements for impeachment of testifying defendant"
+    ],
+    "cross_references": ["U.S. Const. amend. IV (Search and Seizure)", "Fed. R. Crim. P. 5 (Initial Appearance)"],
+    "key_elements": [
+      "Custodial interrogation triggers mandatory Miranda advisory",
+      "Statements obtained without waiver subject to suppression in case-in-chief",
+      "Invocation of counsel immediately terminates questioning",
+      "Right to court-appointed counsel for indigent defendants"
+    ],
+    "action_checklist": [
+      "Politely state: 'I am exercising my right to remain silent and I want an attorney'",
+      "Refuse to answer questions or sign confession/waiver documents until attorney arrives",
+      "Request defense counsel file a pretrial Motion to Suppress Statements under the 5th Amendment"
+    ]
+  },
+  {
+    "id": "statute_employment_title7_01",
+    "act_code": "US_TITLE_VII",
+    "act_name": "Civil Rights Act of 1964, Title VII",
+    "domain": "Employment Law",
+    "jurisdiction": "USA - Federal",
+    "language": "en",
+    "section": "42 U.S.C. § 2000e-2, 2000e-3",
+    "title": "Title VII Employment Discrimination & Anti-Retaliation Protections",
+    "citation": "Civil Rights Act of 1964, 42 U.S.C. § 2000e / Burlington Northern v. White",
+    "effective_date": "1964-07-02",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Equal Employment Opportunities",
+      "article_symbol": "42 U.S.C. § 2000e",
+      "substantive_rule": "It shall be an unlawful employment practice for an employer having fifteen or more employees to discriminate against any individual because of race, color, religion, sex, or national origin, or to retaliate against an employee for engaging in protected activity.",
+      "attached_exceptions": [
+        "Bona Fide Occupational Qualification (BFOQ) Exception: Religion, sex, or national origin may be considered in rare circumstances where reasonably necessary to normal business operation (never applies to race).",
+        "Mandatory Exhaustion Precondition: Plaintiff must file a charge with the EEOC within 180 days (or 300 days in deferral states) and receive a Right-to-Sue letter before filing in federal court."
+      ],
+      "provisos": [
+        "Provided that retaliation claims do not require proving the underlying discrimination claim was successful, so long as complainant held a good-faith reasonable belief."
+      ]
+    },
+    "text": "Title VII makes it unlawful for employers with 15 or more employees to discriminate in hiring, firing, pay, or terms of employment based on race, color, religion, sex, or national origin. It strictly prohibits retaliation against employees who oppose unlawful practices or participate in an investigation. Plaintiffs must exhaust administrative remedies by filing an EEOC charge within 180/300 days before initiating federal litigation.",
+    "preconditions": [
+      "Employer must have 15 or more employees for statutory coverage",
+      "Mandatory EEOC filing within 180 or 300 calendar days of adverse action",
+      "Receipt of EEOC Notice of Right to Sue prior to filing district court lawsuit"
+    ],
+    "exceptions": [
+      "Bona Fide Occupational Qualification (BFOQ) for religion, sex, national origin (never race)",
+      "Religious organizations permitted preference in employing co-religionists"
+    ],
+    "cross_references": ["42 U.S.C. § 1981", "Americans with Disabilities Act 42 U.S.C. § 12112"],
+    "key_elements": [
+      "Protection across race, color, religion, sex, national origin",
+      "Strict anti-retaliation protection for whistleblowers and complainants",
+      "Mandatory EEOC exhaustion within 180 or 300 days",
+      "Remedies: Back pay, front pay, compensatory damages, and attorney fees"
+    ],
+    "action_checklist": [
+      "Preserve all emails, performance evaluations, Slack messages, and termination paperwork",
+      "Submit internal written grievance to HR to establish formal protected activity date",
+      "File timely administrative Charge of Discrimination with the EEOC to preserve federal claims"
+    ]
+  },
+  {
+    "id": "statute_corp_governance_01",
+    "act_code": "US_DEL_DGCL",
+    "act_name": "Delaware General Corporation Law",
+    "domain": "Corporate Law",
+    "jurisdiction": "USA - Delaware",
+    "language": "en",
+    "section": "Del. Code Ann. tit. 8, § 141",
+    "title": "Delaware General Corporation Law & Board Fiduciary Duties",
+    "citation": "Del. Code Ann. tit. 8, § 141 / In re Caremark International Inc. Derivative Litigation",
+    "effective_date": "1967-07-03",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Subchapter IV - Directors and Officers",
+      "article_symbol": "8 Del. C. § 141",
+      "substantive_rule": "The business and affairs of every corporation shall be managed by or under the direction of a board of directors, who owe fiduciary duties of care and loyalty to the corporation and stockholders.",
+      "attached_exceptions": [
+        "Business Judgment Rule Precondition: Directors acting on an informed basis, in good faith, and without self-interest are protected against judicial second-guessing.",
+        "Non-Exculpation Exception under § 102(b)(7): Charter exculpation provisions cannot eliminate or limit director liability for breach of the duty of loyalty, bad faith, or intentional misconduct."
+      ],
+      "provisos": [
+        "Provided that transactions involving interested directors must be sanitized by independent committee approval, majority-of-the-minority stockholder vote, or proof of entire fairness."
+      ]
+    },
+    "text": "Corporate directors owe strict fiduciary duties of care, loyalty, and good faith. The duty of care requires directors to act on an informed basis with reasonable diligence, protected under the Business Judgment Rule. The duty of loyalty prohibits self-dealing, usurping corporate opportunities, and bad faith. Breaches of loyalty cannot be exculpated under corporate charter provisions.",
+    "preconditions": [
+      "Informed deliberation supported by contemporaneous board records and independent advice",
+      "Absence of director self-dealing, financial conflict of interest, or divided loyalties",
+      "Independent committee review (MFW framework) for controlling stockholder transactions"
+    ],
+    "exceptions": [
+      "Business Judgment Rule protects informed, disinterested decisions even if commercially unsuccessful",
+      "Duty of loyalty breaches and bad faith can NEVER be exculpated under 8 Del. C. § 102(b)(7)"
+    ],
+    "cross_references": ["8 Del. C. § 102(b)(7)", "8 Del. C. § 144 (Interested Director Transactions)"],
+    "key_elements": [
+      "Twin fiduciary duties: Care and Loyalty",
+      "Business Judgment Rule presumptively protects disinterested board choices",
+      "Absolute prohibition on self-dealing without independent sanitization",
+      "Derivative action standing requires demand on board or proof of demand futility"
+    ],
+    "action_checklist": [
+      "Establish independent special committee for any transaction involving board conflicts",
+      "Document contemporaneous board minutes, valuation opinions, and advisor presentations",
+      "Ensure robust D&O insurance and indemnification agreements are in effect"
+    ]
+  },
+  {
+    "id": "statute_contracts_breach_01",
+    "act_code": "US_CONTRACTS",
+    "act_name": "Restatement of Contracts & UCC",
+    "domain": "Contracts Law",
+    "jurisdiction": "USA - Federal & State",
+    "language": "en",
+    "section": "Restatement § 241 / UCC § 2-601",
+    "title": "Material Breach, Expectation Damages & Mandatory Opportunity to Cure",
+    "citation": "Restatement (Second) of Contracts § 241 / Uniform Commercial Code § 2-601",
+    "effective_date": "1981-01-01",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Chapter 10 - Performance and Non-Performance",
+      "article_symbol": "§ 241",
+      "substantive_rule": "In determining whether a failure to render or to offer performance is material, courts consider the extent to which the injured party will be deprived of the benefit reasonably expected, and whether the failing party can cure the failure.",
+      "attached_exceptions": [
+        "Condition: Where contract contains a formal 'Notice of Default and Cure' clause, non-breaching party must provide written notice and allow the specified cure period before terminating.",
+        "Exception: Immediate termination without cure period is permitted only where the breach constitutes an incurable repudiation or time is of the essence."
+      ],
+      "provisos": [
+        "Provided that non-breaching party maintains an affirmative legal duty to mitigate damages."
+      ]
+    },
+    "text": "A breach of contract is material if it deprives the injured party of the fundamental benefit reasonably expected under the agreement. A material breach excuses further performance and triggers expectation damages. Where the agreement contains a notice and cure clause, the non-breaching party must serve formal written notice and allow the stipulated cure window (typically 15 to 30 days) before filing suit.",
+    "preconditions": [
+      "Breach goes to the essence of the contractual bargain",
+      "Formal written Notice of Default delivered in accordance with notice provisions",
+      "Stipulated cure period (e.g. 15-30 days) expired without full cure",
+      "Injured party exercised reasonable efforts to mitigate losses"
+    ],
+    "exceptions": [
+      "Incurable anticipatory repudiation excuses obligation to provide cure window",
+      "Express 'Time is of the Essence' clauses make minor delivery delays automatically material"
+    ],
+    "cross_references": ["UCC § 2-712 (Buyer's Cover)", "Restatement (Second) of Contracts § 347"],
+    "key_elements": [
+      "Material breach excuses non-breaching party from continuing performance",
+      "Mandatory written Notice of Default and cure period compliance",
+      "Expectation damages restores party to benefit of bargain",
+      "Affirmative duty to mitigate losses"
+    ],
+    "action_checklist": [
+      "Review contract clause-by-clause for express default notice and cure provisions",
+      "Issue formal written Notice of Default citing exact breached sections and 30-day cure deadline",
+      "Maintain itemized ledger of financial harm suffered and documented mitigation measures"
+    ]
+  },
+  {
+    "id": "statute_civilrights_1983_01",
+    "act_code": "US_42USC1983",
+    "act_name": "Civil Rights Act of 1871 / 42 U.S.C. § 1983",
+    "domain": "Civil Rights",
+    "jurisdiction": "USA - Federal",
+    "language": "en",
+    "section": "42 U.S.C. § 1983",
+    "title": "Deprivation of Civil Rights Under Color of State Law & Monell Liability",
+    "citation": "42 U.S.C. § 1983 / Monell v. Dept. of Social Services, 436 U.S. 658",
+    "effective_date": "1871-04-20",
+    "repeal_date": null,
+    "status": "IN_FORCE",
+    "supersedes": null,
+    "structure": {
+      "chapter": "Chapter 21 - Civil Rights",
+      "article_symbol": "42 U.S.C. § 1983",
+      "substantive_rule": "Every person who, under color of any statute, ordinance, regulation, custom, or usage, of any State, subjects any citizen to the deprivation of any rights secured by the Constitution, shall be liable to the party injured.",
+      "attached_exceptions": [
+        "Qualified Immunity Precondition: Government officials performing discretionary functions are shielded from civil damages unless their conduct violated clearly established statutory or constitutional rights (Harlow v. Fitzgerald).",
+        "Municipal Liability Precondition (Monell): A municipality cannot be held liable under respondeat superior; plaintiff must prove an official municipal policy, custom, or failure to train caused the constitutional injury."
+      ],
+      "provisos": [
+        "Provided that prevailing plaintiffs are entitled to statutory reasonable attorney's fees under 42 U.S.C. § 1988."
+      ]
+    },
+    "text": "Section 1983 provides the primary federal civil enforcement remedy for constitutional violations committed by state or local actors. To prevail, plaintiff must establish: (1) deprivation of a federal constitutional right, (2) committed under color of state law. Individual officers may assert qualified immunity unless the right was clearly established at the time. Municipalities are liable under Monell only if an official policy, custom, or deliberate indifference caused the violation.",
+    "preconditions": [
+      "Defendant acted under 'color of state law' (state/local official exercising government authority)",
+      "Actual deprivation of an enumerated federal constitutional or statutory right",
+      "For individual officers: Right violated was 'clearly established' to defeat qualified immunity",
+      "For municipal liability: Unconstitutional policy, practice, or deliberate indifference"
+    ],
+    "exceptions": [
+      "Federal officials cannot be sued under § 1983 (Bivens claims or FTCA apply instead)",
+      "States and state agencies enjoy 11th Amendment sovereign immunity in federal court",
+      "Judges and prosecutors enjoy absolute immunity for judicial and prosecutorial acts"
+    ],
+    "cross_references": ["42 U.S.C. § 1988 (Attorney Fees)", "U.S. Const. amend. IV, XIV"],
+    "key_elements": [
+      "Color of state law requirement for government officials",
+      "Redress for excessive force, unlawful arrest, and due process violations",
+      "Monell standard for municipal government liability",
+      "Statutory attorney fee shifting under Section 1988"
+    ],
+    "action_checklist": [
+      "Preserve all body-worn camera video, 911 dispatch tapes, and witness recordings",
+      "File required municipal Notice of Claim within statutory deadlines (often 90 days)",
+      "Retain constitutional civil rights counsel to evaluate qualified immunity hurdles"
+    ]
+  }
+]

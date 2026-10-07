@@ -45,6 +45,7 @@
         <li><a href="#world-news" class="nav-link" id="nav-world-news">World News</a></li>
         <li><a href="#" class="nav-link" id="nav-articles" onclick="openArticlesModal(); return false;">Articles</a></li>
         <li><a href="#" class="nav-link nav-bookings-link" id="nav-bookings" onclick="openBookingsModal(); return false;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px; margin-right:4px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>My Bookings <span class="nav-badge-count" id="nav-bookings-count">0</span></a></li>
+        <li><a href="#" class="nav-link nav-rag-link" id="nav-rag-lab" onclick="openRagLabModal(); return false;"><span class="rag-chip-badge">NEW</span> RAG Lab</a></li>
       </ul>
 
       <!-- AUTH BUTTONS -->
@@ -871,8 +872,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" id="bookings-search-input" placeholder="Filter bookings by lawyer name, specialty, or email..." />
         </div>
-        <div class="bookings-stats-chip">
-          <span id="bookings-total-count">0</span> Active Booking<span id="bookings-plural-s">s</span>
+        <div class="bookings-tab-group">
+          <button class="booking-tab active" data-tab="all" id="tab-all-bookings">All (<span id="count-all-tab">0</span>)</button>
+          <button class="booking-tab" data-tab="active" id="tab-active-bookings">Confirmed (<span id="count-active-tab">0</span>)</button>
+          <button class="booking-tab" data-tab="cancelled" id="tab-cancelled-bookings">Cancelled (<span id="count-cancelled-tab">0</span>)</button>
         </div>
       </div>
 
@@ -994,6 +997,10 @@
           </div>
         </div>
         <div class="ai-header-actions">
+          <button class="ai-action-btn ai-rag-lab-btn" id="ai-rag-lab-trigger-btn" onclick="openRagLabModal(); return false;" title="Open RAG Intelligence Lab">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>RAG Lab</span>
+          </button>
           <button class="ai-action-btn" id="ai-clear-btn" title="Clear Conversation">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
@@ -1007,11 +1014,12 @@
       <div class="ai-quick-topics" id="ai-quick-topics">
         <span class="ai-topics-label">Suggested Legal Topics:</span>
         <div class="ai-topics-scroll" id="ai-topics-list">
+          <button class="ai-topic-chip" data-query="What happens under IPC 420 after July 2024 with the new Bharatiya Nyaya Sanhita?">🔄 IPC 420 ➔ BNS 318(4) Transition</button>
           <button class="ai-topic-chip" data-query="What are my legal rights if my landlord refuses to return my security deposit?">📜 Tenant Deposit Dispute</button>
-          <button class="ai-topic-chip" data-query="What are the main differences and liability protections between an LLC and an S-Corp?">💼 LLC vs S-Corp Setup</button>
+          <button class="ai-topic-chip" data-query="Under what conditions can a tenant withhold rent under the warranty of habitability?">⚖️ Habitability Preconditions</button>
           <button class="ai-topic-chip" data-query="What are my 5th and 6th Amendment constitutional rights during police questioning?">🛡️ Police Rights & Miranda</button>
-          <button class="ai-topic-chip" data-query="A client breached our signed contract and failed to pay. What are my legal options?">⚖️ Contract Breach Steps</button>
-          <button class="ai-topic-chip" data-query="I was terminated after submitting an internal safety report. Is this wrongful termination?">👔 Wrongful Termination</button>
+          <button class="ai-topic-chip" data-query="What are the NYC Local Law 144 bias audit requirements for AI employment tools?">🤖 NYC LL144 AI Hiring Audit</button>
+          <button class="ai-topic-chip" data-query="Can a tenant petition Huurcommissie under Dutch Civil Code Article 247?">🇳🇱 Dutch Tenancy Art. 7:247</button>
         </div>
       </div>
 
@@ -1058,6 +1066,229 @@
           <span>⚠️ Educational legal information. Does not constitute formal attorney representation.</span>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ==============================================================
+       RESEARCH-GRADE LEGAL RAG INTELLIGENCE & VERIFICATION LAB MODAL
+       ============================================================== -->
+  <div class="rag-lab-modal-overlay hidden" id="rag-lab-modal-overlay" role="dialog" aria-modal="true" aria-label="Legal RAG Intelligence Lab">
+    <div class="rag-lab-modal">
+      <!-- HEADER -->
+      <div class="rag-lab-header">
+        <div class="rag-lab-header-left">
+          <div class="rag-lab-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div class="rag-lab-title-row">
+              <h3 class="rag-lab-title">Legal RAG Intelligence &amp; Verification Lab</h3>
+              <span class="rag-lab-version-chip">v3.0.0 Adaptive Hybrid-RAG</span>
+            </div>
+            <p class="rag-lab-sub">Version-Aware, Structure-Preserving Legal Intelligence with Claim-Level Citations &amp; Calibrated LLM Judge</p>
+          </div>
+        </div>
+        <div class="rag-lab-header-right">
+          <button class="rag-lab-close-btn" id="rag-lab-close-btn" aria-label="Close RAG Lab" onclick="closeRagLabModal();">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- SYSTEM METRIC PILLS BAR -->
+      <div class="rag-lab-metrics-bar">
+        <div class="rag-metric-item">
+          <span class="rag-metric-dot pulse-green"></span>
+          <span class="rag-metric-label">Adaptive Router:</span>
+          <span class="rag-metric-val">HyPA Complexity + Confidence Gating</span>
+        </div>
+        <div class="rag-metric-divider"></div>
+        <div class="rag-metric-item">
+          <span class="rag-metric-dot pulse-gold"></span>
+          <span class="rag-metric-label">Statute Chunking:</span>
+          <span class="rag-metric-val">Structure-Aware (§ Bound Exceptions)</span>
+        </div>
+        <div class="rag-metric-divider"></div>
+        <div class="rag-metric-item">
+          <span class="rag-metric-dot pulse-blue"></span>
+          <span class="rag-metric-label">Attribution:</span>
+          <span class="rag-metric-val">ALCE Claim-Level NLI (0.92 Faithfulness)</span>
+        </div>
+        <div class="rag-metric-divider"></div>
+        <div class="rag-metric-item">
+          <span class="rag-metric-dot pulse-purple"></span>
+          <span class="rag-metric-label">Temporal Validity:</span>
+          <span class="rag-metric-val">IPC ➔ BNS 2024 Transition In Force</span>
+        </div>
+      </div>
+
+      <!-- NAVIGATION TABS -->
+      <div class="rag-lab-tabs-nav" id="rag-lab-tabs-nav">
+        <button class="rag-tab-btn active" data-tab="tab-router">
+          <span class="rag-tab-icon">⚡</span>
+          <span>Adaptive Router</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-chunker">
+          <span class="rag-tab-icon">🧩</span>
+          <span>Structure Chunker</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-hybrid">
+          <span class="rag-tab-icon">⚖️</span>
+          <span>Hybrid Retrieval</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-kg">
+          <span class="rag-tab-icon">🕸️</span>
+          <span>Knowledge Graph</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-attribution">
+          <span class="rag-tab-icon">🔍</span>
+          <span>Claim Attribution</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-version">
+          <span class="rag-tab-icon">📅</span>
+          <span>Version Timeline</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-evaluation">
+          <span class="rag-tab-icon">📊</span>
+          <span>Evaluation &amp; Judge</span>
+        </button>
+        <button class="rag-tab-btn" data-tab="tab-bias">
+          <span class="rag-tab-icon">⚖️</span>
+          <span>Bias Audit</span>
+        </button>
+      </div>
+
+      <!-- TAB CONTENTS CONTAINER -->
+      <div class="rag-lab-content-area" id="rag-lab-content-area">
+
+        <!-- TAB 1: ADAPTIVE ROUTER -->
+        <div class="rag-tab-pane active" id="tab-router">
+          <div class="rag-pane-header">
+            <h4>Adaptive Retrieval Router &amp; Query-Complexity Classifier</h4>
+            <p>Solves the AILQA finding where unnecessary retrieval degraded Llama3-70B from 4.43 to 3.37. Classifies queries into <code>DIRECT</code>, <code>RETRIEVE</code>, or <code>RETRIEVE_MORE</code>.</p>
+          </div>
+          <div class="rag-interactive-box">
+            <div class="rag-input-group">
+              <input type="text" id="rag-router-input" class="rag-text-input" placeholder="Enter a legal inquiry to observe routing logic..." value="What are the essential preconditions for anticipatory bail under Section 482 BNSS compared to CrPC?" />
+              <button class="rag-btn-primary" id="rag-router-test-btn" onclick="runRouterTest();">Analyze Routing Decision</button>
+            </div>
+            <div class="rag-presets-row">
+              <span class="rag-preset-label">Test Bench Presets:</span>
+              <button class="rag-preset-chip" onclick="setRouterPreset('What is a plaintiff?');">Direct Definition (AILQA Safe)</button>
+              <button class="rag-preset-chip" onclick="setRouterPreset('Can landlord deduct normal wear and tear from security deposit?');">Standard RAG Inquiry</button>
+              <button class="rag-preset-chip" onclick="setRouterPreset('Under what preconditions and exceptions can a tenant withhold rent under warranty of habitability?');">Deep Precondition &amp; Exception RAG</button>
+              <button class="rag-preset-chip" onclick="setRouterPreset('What happens under Section 420 IPC for cheating after July 1, 2024?');">Temporal Transition Query</button>
+            </div>
+          </div>
+          <div class="rag-result-card" id="rag-router-result-card">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 2: STRUCTURE-AWARE CHUNKER -->
+        <div class="rag-tab-pane" id="tab-chunker">
+          <div class="rag-pane-header">
+            <h4>Structure-Aware Statutory Chunker vs. Fixed 150-Word Cuts</h4>
+            <p>Demonstrates how cutting statutes at 150 words (Dutch paper) or fixed characters (AILQA) severs legal rules from their modifying exceptions and provisos.</p>
+          </div>
+          <div class="rag-action-row">
+            <button class="rag-btn-primary" id="rag-chunker-run-btn" onclick="runChunkerComparison();">Run Empirical Chunking Comparison</button>
+          </div>
+          <div class="rag-comparison-grid" id="rag-chunker-comparison-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 3: HYBRID RETRIEVAL & RERANKER -->
+        <div class="rag-tab-pane" id="tab-hybrid">
+          <div class="rag-pane-header">
+            <h4>Hybrid Retrieval (BM25 + FAISS Dense Cosine) &amp; Legal Cross-Encoder Reranker</h4>
+            <p>Reciprocal Rank Fusion (RRF) with fine-grained cross-encoder reranking, elevating retrieval precision and faithfulness to ~0.92.</p>
+          </div>
+          <div class="rag-interactive-box">
+            <div class="rag-input-group">
+              <input type="text" id="rag-hybrid-input" class="rag-text-input" placeholder="Search statutory authorities..." value="What are the statutory requirements for security deposit return and bad faith treble damages?" />
+              <button class="rag-btn-primary" id="rag-hybrid-test-btn" onclick="runHybridSearchTest();">Execute Hybrid Search &amp; Rerank</button>
+            </div>
+          </div>
+          <div class="rag-retrieval-results-wrap" id="rag-hybrid-results-wrap">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 4: STATUTE KNOWLEDGE GRAPH -->
+        <div class="rag-tab-pane" id="tab-kg">
+          <div class="rag-pane-header">
+            <h4>Statute Knowledge Graph: Preconditions ('Only If') &amp; Exception Chains</h4>
+            <p>NetworkX directed graph capturing triples: <code>(action, requires_condition, condition)</code> and <code>(exception, exception_to, rule)</code> for multi-step legal reasoning.</p>
+          </div>
+          <div class="rag-kg-explorer-wrap">
+            <div class="rag-kg-search-bar">
+              <input type="text" id="rag-kg-input" class="rag-text-input" placeholder="Filter by legal action or statutory issue (e.g. bail, withhold rent, deposit, cheating)..." value="withhold rent" />
+              <button class="rag-btn-primary" onclick="queryKnowledgeGraph();">Extract Preconditions &amp; Exceptions</button>
+            </div>
+            <div class="rag-kg-display" id="rag-kg-display">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: CLAIM-LEVEL ATTRIBUTION (ALCE) -->
+        <div class="rag-tab-pane" id="tab-attribution">
+          <div class="rag-pane-header">
+            <h4>Claim-Level Attribution &amp; ALCE Legal Error Taxonomy</h4>
+            <p>Sentence-by-sentence Natural Language Inference (NLI) verification classifying claims into <code>SUPPORTED</code>, <code>MISSING_CONDITION</code>, <code>WRONG_CITATION</code>, or <code>EXTRAPOLATION</code>.</p>
+          </div>
+          <div class="rag-attribution-demo-wrap" id="rag-attribution-demo-wrap">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 6: VERSION-AWARE LEGAL TIMELINE -->
+        <div class="rag-tab-pane" id="tab-version">
+          <div class="rag-pane-header">
+            <h4>Version-Aware Legal Registry &amp; Code Transition Engine</h4>
+            <p>Indexes provisions by effective dates. Automatically tracks the 1 July 2024 transition from Indian Penal Code (IPC) and CrPC to Bharatiya Nyaya Sanhita (BNS) and BNSS, plus NYC LL144 and Dutch Civil Code.</p>
+          </div>
+          <div class="rag-version-table-wrap" id="rag-version-table-wrap">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 7: EVALUATION & CALIBRATED LLM JUDGE -->
+        <div class="rag-tab-pane" id="tab-evaluation">
+          <div class="rag-pane-header">
+            <h4>Blinded Expert Review (Krippendorff's α) &amp; Calibrated LLM Judge</h4>
+            <p>Addresses human evaluation bias from AILQA with multi-coder inter-rater reliability (α) and an LLM Judge calibrated via Spearman rank correlation (ρ > 0.85).</p>
+          </div>
+          <div class="rag-eval-report-wrap" id="rag-eval-report-wrap">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TAB 8: BIAS & LEGAL MONOCULTURE AUDIT -->
+        <div class="rag-tab-pane" id="tab-bias">
+          <div class="rag-pane-header">
+            <h4>Bias &amp; Legal Monoculture Distribution Auditor</h4>
+            <p>Quantifies party balance (Tenant vs Landlord, Accused vs State, Worker vs Employer), jurisdictional diversity (India, USA, Netherlands), and humanitarian minority provision coverage.</p>
+          </div>
+          <div class="rag-bias-report-wrap" id="rag-bias-report-wrap">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="rag-lab-footer">
+        <span class="rag-footer-note">⚡ Powered by LegalAI Adaptive Hybrid-RAG System with Structure-Aware Indexing and Claim Attribution.</span>
+        <button class="rag-btn-secondary" onclick="closeRagLabModal();">Close Lab Console</button>
+      </div>
+
     </div>
   </div>
 
@@ -1311,6 +1542,26 @@
 
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- FLOATING QUICK ACTIVE BOOKING BAR -->
+  <div class="floating-booking-pill hidden" id="floating-booking-pill">
+    <div class="pill-left">
+      <span class="pill-dot"></span>
+      <div class="pill-content">
+        <span class="pill-heading">Scheduled Consultation</span>
+        <span class="pill-sub" id="floating-pill-sub">Alexander Wright, Esq. · 2026-09-23</span>
+      </div>
+    </div>
+    <div class="pill-actions">
+      <button class="pill-btn-cancel" id="floating-pill-cancel-btn" title="Cancel this scheduled consultation immediately">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Cancel
+      </button>
+      <button class="pill-btn-view" onclick="openBookingsModal();" title="View in My Bookings">
+        My Bookings
+      </button>
     </div>
   </div>
 
