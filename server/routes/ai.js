@@ -139,9 +139,9 @@ router.get('/knowledge-graph', async (req, res) => {
   });
 });
 
-// @route   POST /api/ai/evaluate
+// @route   POST & GET /api/ai/evaluate
 // @desc    Run blinded expert review & calibrated LLM judge benchmark
-router.post('/evaluate', async (req, res) => {
+router.all('/evaluate', async (req, res) => {
   const data = await proxyToML('/api/rag/evaluate', 'POST', {});
   if (data) return res.json(data);
   return res.json({
@@ -164,9 +164,9 @@ router.get('/bias-audit', async (req, res) => {
   return res.json({ success: true, report: { status: "Offline default" } });
 });
 
-// @route   POST /api/ai/chunk-comparison
+// @route   POST & GET /api/ai/chunk-comparison
 // @desc    Compare structure-aware chunking vs fixed-word cut chunking
-router.post('/chunk-comparison', async (req, res) => {
+router.all('/chunk-comparison', async (req, res) => {
   const data = await proxyToML('/api/rag/chunk-comparison', 'POST', {});
   if (data) return res.json(data);
   return res.json({

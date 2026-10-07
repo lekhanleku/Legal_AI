@@ -37,6 +37,8 @@ app.use(express.static(path.join(__dirname, '..')));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/user', require('./routes/user'));
+app.use('/api/admin', require('./routes/admin'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/lawyers', require('./routes/lawyers'));
 app.use('/api/courts', require('./routes/courts'));

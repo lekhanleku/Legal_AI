@@ -258,6 +258,8 @@ class AdaptiveRAGResponse(BaseModel):
 # -------------------------------------------------------------
 # API Endpoints
 # -------------------------------------------------------------
+@app.get("/")
+@app.get("/health")
 @app.get("/api/ml/health")
 def health():
     return {
@@ -569,6 +571,7 @@ def run_bias_audit():
     }
 
 
+@app.get("/api/rag/chunk-comparison")
 @app.post("/api/rag/chunk-comparison")
 def compare_chunking():
     """Compares Structure-Aware chunking against fixed 150-word cut chunking."""

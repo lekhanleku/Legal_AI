@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LegalAI Command — Master Administration &amp; Operations Suite</title>
+  <meta name="description" content="Centralized management dashboard for user accounts, attorney directory, consultation bookings, and AI statutory engine metrics."/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="portal.css"/>
+</head>
+<body>
+
+  <!-- PORTAL NAVBAR -->
+  <header class="portal-nav">
+    <div class="portal-nav-container">
+      <a href="admin.html" class="portal-brand">
+        <div class="portal-logo-icon" style="background: linear-gradient(135deg, #a855f7, #6366f1); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="portal-brand-text">
+          <div class="portal-brand-title">
+            LegalAI <span class="portal-brand-badge badge-admin">Master Admin</span>
+          </div>
+          <span class="portal-brand-sub">Platform Operations &amp; Intelligence Suite</span>
+        </div>
+      </a>
+
+      <div class="portal-system-status">
+        <span class="status-dot"></span>
+        <span>Systems Operational :5000 &amp; :8000</span>
+      </div>
+
+      <nav class="portal-nav-links">
+        <a href="index.html" class="portal-nav-link">Main Site ↗</a>
+        <a href="user.html" class="portal-nav-link">Client Portal ↗</a>
+      </nav>
+
+      <div class="portal-user-menu" id="admin-user-menu">
+        <div class="user-profile-chip" id="admin-header-chip">
+          <div class="user-avatar-circle user-avatar-admin" id="admin-header-avatar">A</div>
+          <div class="user-chip-info">
+            <span class="user-chip-name" id="admin-header-name">Super Administrator</span>
+            <span class="user-chip-role" style="color:#c084fc;">Master Admin</span>
+          </div>
+        </div>
+        <button class="btn-portal-logout" id="btn-admin-logout" title="Sign out of Admin Command">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACCESS GATE (Shown when not authenticated as admin) -->
+  <div class="portal-access-gate hidden" id="admin-access-gate">
+    <div class="access-gate-icon" style="background:rgba(168,85,247,0.15); color:#c084fc;">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <h2 class="access-gate-title">Admin Command Authentication</h2>
+    <p class="access-gate-desc">Restricted area. Administrator credentials with <code>role = 'admin'</code> are required to access this operations suite.</p>
+
+    <!-- Quick One-Click Admin Login -->
+    <div style="background:#131823; border:1px solid rgba(168,85,247,0.35); padding:18px; border-radius:12px; margin-bottom:22px; text-align:left;">
+      <div style="font-size:0.78rem; font-weight:700; color:#c084fc; text-transform:uppercase; margin-bottom:6px;">👑 Instant Administrator Login</div>
+      <div style="font-size:0.84rem; color:#cbd5e1; margin-bottom:12px;">Sign in immediately as the pre-seeded root administrator to manage users, bookings, and AI engine settings.</div>
+      <button class="btn-portal-primary" id="btn-quick-admin-login" style="width:100%; justify-content:center; background:linear-gradient(135deg, #a855f7, #6366f1);">
+        Sign In as Master Admin (admin@legalai.com)
+      </button>
+    </div>
+
+    <form id="admin-login-form" style="text-align:left;">
+      <div class="portal-form-group">
+        <label for="admin-gate-email">Admin Email Address</label>
+        <input type="email" id="admin-gate-email" class="portal-form-input" placeholder="admin@legalai.com" required/>
+      </div>
+      <div class="portal-form-group">
+        <label for="admin-gate-password">Admin Password</label>
+        <input type="password" id="admin-gate-password" class="portal-form-input" placeholder="••••••••" required/>
+      </div>
+      <div id="admin-gate-alert" style="color:#f87171; font-size:0.84rem; margin-bottom:14px; display:none;"></div>
+      <button type="submit" class="btn-portal-primary" style="width:100%; justify-content:center; margin-bottom:14px; background:linear-gradient(135deg, #a855f7, #6366f1);">
+        Authenticate Administrator
+      </button>
+      <div style="text-align:center;">
+        <a href="index.html" style="color:#94a3b8; font-size:0.84rem; text-decoration:none;">← Return to Main Website</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- AUTHENTICATED ADMIN DASHBOARD CONTENT -->
+  <main class="portal-main" id="admin-dashboard-content">
+
+    <!-- HERO OPERATIONS BANNER -->
+    <section class="portal-hero" style="border-color: rgba(168, 85, 247, 0.25);">
+      <div class="portal-hero-content">
+        <div class="portal-hero-meta">
+          <span class="meta-pill" style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.35);">👑 Administrator Cockpit</span>
+          <span class="meta-pill meta-pill-emerald">● SQLite Engine Online</span>
+          <span class="meta-pill meta-pill-gold">FastAPI :8000 Connected</span>
+          <span class="meta-pill meta-pill-blue">v3.0.0 Adaptive Hybrid-RAG</span>
+        </div>
+        <h1 class="portal-hero-title">LegalAI Master Operations &amp; Control</h1>
+        <p class="portal-hero-desc">
+          Manage user accounts and roles, supervise attorney consultation pipelines, configure directory listings, and monitor AI RAG intelligence microservices.
+        </p>
+      </div>
+    </section>
+
+    <!-- KPI STATS CARDS -->
+    <section class="portal-kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Registered Accounts</span>
+          <div class="kpi-icon kpi-icon-purple">👥</div>
+        </div>
+        <div class="kpi-value" id="kpi-admin-users">0</div>
+        <div class="kpi-sub" id="kpi-admin-users-sub">Clients, Lawyers, Admins</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Consultations</span>
+          <div class="kpi-icon kpi-icon-gold">📅</div>
+        </div>
+        <div class="kpi-value" id="kpi-admin-consults">0</div>
+        <div class="kpi-sub" id="kpi-admin-consults-sub">Pending review bookings</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Verified Attorneys</span>
+          <div class="kpi-icon kpi-icon-blue">⚖️</div>
+        </div>
+        <div class="kpi-value" id="kpi-admin-lawyers">0</div>
+        <div class="kpi-sub" id="kpi-admin-lawyers-sub">Active bar advocates</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">AI Queries Processed</span>
+          <div class="kpi-icon kpi-icon-emerald">🧠</div>
+        </div>
+        <div class="kpi-value" id="kpi-admin-ai-queries">0</div>
+        <div class="kpi-sub">Adaptive RAG sessions</div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <div class="portal-tabs-nav">
+      <button class="portal-tab-btn active" data-tab="tab-users-mgmt">
+        <span>👥</span>
+        <span>User Accounts</span>
+        <span class="tab-badge" id="tab-badge-users">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-consults-mgmt">
+        <span>📅</span>
+        <span>Consultations &amp; Bookings</span>
+        <span class="tab-badge" id="tab-badge-bookings">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-lawyers-mgmt">
+        <span>⚖️</span>
+        <span>Attorney Directory</span>
+        <span class="tab-badge" id="tab-badge-attorneys">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-ai-ops">
+        <span>🧠</span>
+        <span>AI Engine &amp; RAG Logs</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-system-diag">
+        <span>🛡️</span>
+        <span>System Diagnostics</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: USER ACCOUNTS MANAGEMENT -->
+    <div class="portal-tab-pane active" id="tab-users-mgmt">
+      <div class="portal-toolbar">
+        <div class="portal-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="users-search-input" placeholder="Search by name, email, or role..."/>
+        </div>
+        <div class="portal-filter-group" id="users-role-filters">
+          <button class="portal-filter-btn active" data-role="all">All Roles</button>
+          <button class="portal-filter-btn" data-role="user">Clients</button>
+          <button class="portal-filter-btn" data-role="lawyer">Lawyers</button>
+          <button class="portal-filter-btn" data-role="admin">Admins</button>
+        </div>
+        <button class="btn-portal-primary" id="btn-open-create-user">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Create User Account
+        </button>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Verified</th>
+                <th>Joined Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-tbody">
+              <tr><td colspan="7" style="text-align:center; padding:30px;">Loading user accounts...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CONSULTATIONS & BOOKINGS MANAGEMENT -->
+    <div class="portal-tab-pane" id="tab-consults-mgmt">
+      <div class="portal-toolbar">
+        <div class="portal-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="consults-search-input" placeholder="Search client name, email, or lawyer..."/>
+        </div>
+        <div class="portal-filter-group" id="admin-consults-filters">
+          <button class="portal-filter-btn active" data-status="all">All Bookings</button>
+          <button class="portal-filter-btn" data-status="pending">Pending</button>
+          <button class="portal-filter-btn" data-status="confirmed">Confirmed</button>
+          <button class="portal-filter-btn" data-status="completed">Completed</button>
+          <button class="portal-filter-btn" data-status="cancelled">Cancelled</button>
+        </div>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client Name &amp; Contact</th>
+                <th>Assigned Attorney</th>
+                <th>Preferred Date</th>
+                <th>Case Summary</th>
+                <th>Status</th>
+                <th>Manage Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-consults-tbody">
+              <tr><td colspan="7" style="text-align:center; padding:30px;">Loading platform bookings...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: ATTORNEY DIRECTORY CONTROL -->
+    <div class="portal-tab-pane" id="tab-lawyers-mgmt">
+      <div class="portal-toolbar">
+        <div class="portal-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="lawyers-search-input" placeholder="Search attorney by name, firm, bar #..."/>
+        </div>
+        <button class="btn-portal-primary" id="btn-open-add-lawyer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add New Verified Attorney
+        </button>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Attorney</th>
+                <th>Specialty</th>
+                <th>Bar Number</th>
+                <th>Hourly Rate</th>
+                <th>Rating &amp; Wins</th>
+                <th>Availability</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-lawyers-tbody">
+              <tr><td colspan="8" style="text-align:center; padding:30px;">Loading verified lawyers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: RAG & AI OPERATIONS COCKPIT -->
+    <div class="portal-tab-pane" id="tab-ai-ops">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:24px;">
+        <div class="kpi-card">
+          <h4 style="color:#fff; margin-bottom:12px; font-size:1.05rem;">Python FastAPI Microservice Health</h4>
+          <div style="display:flex; flex-direction:column; gap:8px; font-size:0.86rem; color:#cbd5e1;">
+            <div><strong>Microservice URL:</strong> <code>http://127.0.0.1:8000</code></div>
+            <div><strong>Status:</strong> <span style="color:#86efac; font-weight:700;">● Online &amp; Responding</span></div>
+            <div><strong>Statutes in FAISS Vector Index:</strong> 12 multi-jurisdictional codes</div>
+            <div><strong>Routing Engine:</strong> HyPA Continuous Complexity ($C \in [0, 1]$)</div>
+            <div><strong>Attribution Engine:</strong> ALCE Claim-Level NLI (0.92 Faithfulness)</div>
+          </div>
+          <div style="margin-top:16px;">
+            <a href="index.html" class="btn-portal-primary" style="display:inline-flex; text-decoration:none;">
+              Open Full 8-Tab RAG Research Lab ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <h4 style="color:#fff; margin-bottom:12px; font-size:1.05rem;">Top Legal Inquiry Domains</h4>
+          <div id="ai-domains-breakdown" style="display:flex; flex-direction:column; gap:8px;">
+            <!-- Populated dynamically -->
+            <div style="color:#94a3b8; font-size:0.86rem;">Analyzing practice domain distribution...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="portal-table-card">
+        <div style="padding:16px 20px; border-bottom:1px solid var(--border);">
+          <h4 style="color:#fff; margin:0; font-size:1rem;">Recent AI Advisory Inquiries (Audit Log)</h4>
+        </div>
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User / Client</th>
+                <th>Prompt Inquiry</th>
+                <th>Identified Domain</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="admin-ai-chats-tbody">
+              <tr><td colspan="5" style="text-align:center; padding:30px;">Loading recent AI chats...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: SYSTEM DIAGNOSTICS -->
+    <div class="portal-tab-pane" id="tab-system-diag">
+      <div class="portal-form-card" style="max-width:800px;">
+        <h3 style="color:#fff; font-size:1.2rem; margin-bottom:16px; font-family:var(--font-heading);">Database &amp; Architecture Diagnostics</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; font-size:0.86rem; color:#cbd5e1; margin-bottom:20px;">
+          <div style="background:#131823; padding:16px; border-radius:8px; border:1px solid var(--border);">
+            <div style="color:#dfb77c; font-weight:700; margin-bottom:6px;">SQLite Database</div>
+            <div><strong>Location:</strong> <code>server/legalai.db</code></div>
+            <div><strong>Journal Mode:</strong> WAL (Write-Ahead Logging)</div>
+            <div><strong>Driver:</strong> better-sqlite3 (Native C++ Bindings)</div>
+          </div>
+          <div style="background:#131823; padding:16px; border-radius:8px; border:1px solid var(--border);">
+            <div style="color:#86efac; font-weight:700; margin-bottom:6px;">Port Configuration</div>
+            <div><strong>Node.js Express Server:</strong> Port 5000</div>
+            <div><strong>Python Adaptive RAG Microservice:</strong> Port 8000</div>
+            <div><strong>PNA Header:</strong> Enabled for local origins</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:16px;">
+          <h4 style="color:#fff; margin-bottom:8px;">Administrative Security Notice</h4>
+          <p style="font-size:0.84rem; color:#94a3b8; margin-bottom:16px;">
+            All administrative actions are authenticated using JSON Web Tokens (JWT) with strict role-level verification. Modifications take effect immediately across all connected client interfaces.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CREATE USER MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-create-user">
+    <div class="portal-modal">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">Create New Account</h3>
+        <button class="portal-modal-close" onclick="closeModal('modal-create-user');">&times;</button>
+      </div>
+      <form id="form-create-user">
+        <div class="portal-modal-body">
+          <div class="portal-form-group">
+            <label>Full Name</label>
+            <input type="text" id="new-user-name" class="portal-form-input" placeholder="Jane Doe" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Email Address</label>
+            <input type="email" id="new-user-email" class="portal-form-input" placeholder="user@example.com" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Account Role</label>
+            <select id="new-user-role" class="portal-form-select">
+              <option value="user">Client / General User</option>
+              <option value="lawyer">Lawyer / Legal Professional</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Password (min 8 chars)</label>
+            <input type="password" id="new-user-password" class="portal-form-input" placeholder="••••••••" required minlength="8"/>
+          </div>
+        </div>
+        <div class="portal-modal-footer">
+          <button type="button" class="portal-filter-btn" onclick="closeModal('modal-create-user');">Cancel</button>
+          <button type="submit" class="btn-portal-primary">Create User Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD LAWYER MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-add-lawyer">
+    <div class="portal-modal" style="max-width:760px;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">Add Verified Attorney to Directory</h3>
+        <button class="portal-modal-close" onclick="closeModal('modal-add-lawyer');">&times;</button>
+      </div>
+      <form id="form-add-lawyer">
+        <div class="portal-modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="portal-form-group">
+            <label>Full Name</label>
+            <input type="text" id="new-lawyer-name" class="portal-form-input" placeholder="Elena Vance, Esq." required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Title / Role</label>
+            <input type="text" id="new-lawyer-title" class="portal-form-input" placeholder="Senior Housing & Real Estate Counsel"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Specialty Practice Domain</label>
+            <input type="text" id="new-lawyer-specialty" class="portal-form-input" placeholder="Real Estate Law" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>State Bar Number</label>
+            <input type="text" id="new-lawyer-barnum" class="portal-form-input" placeholder="NY-849201" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Firm Name</label>
+            <input type="text" id="new-lawyer-firm" class="portal-form-input" placeholder="Vance & Partners LLP"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Hourly Rate ($)</label>
+            <input type="number" id="new-lawyer-rate" class="portal-form-input" placeholder="350" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>City &amp; State</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="new-lawyer-city" class="portal-form-input" placeholder="New York" required/>
+              <input type="text" id="new-lawyer-state" class="portal-form-input" placeholder="NY" style="max-width:70px;" required/>
+            </div>
+          </div>
+          <div class="portal-form-group">
+            <label>Experience (Years)</label>
+            <input type="number" id="new-lawyer-exp" class="portal-form-input" placeholder="12"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Phone Number</label>
+            <input type="text" id="new-lawyer-phone" class="portal-form-input" placeholder="(212) 555-0199" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Email Address</label>
+            <input type="email" id="new-lawyer-email" class="portal-form-input" placeholder="elena@vancelaw.com" required/>
+          </div>
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Professional Bio</label>
+            <textarea id="new-lawyer-bio" class="portal-form-input" rows="2" placeholder="Trial attorney dedicated to client advocacy..."></textarea>
+          </div>
+        </div>
+        <div class="portal-modal-footer">
+          <button type="button" class="portal-filter-btn" onclick="closeModal('modal-add-lawyer');">Cancel</button>
+          <button type="submit" class="btn-portal-primary">Add Attorney to Directory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

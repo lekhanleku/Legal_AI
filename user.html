@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Client Case Portal &amp; Consultations — LegalAI</title>
+  <meta name="description" content="Manage your booked attorney consultations, review case action checklists, and track LegalAI statutory research sessions."/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="portal.css"/>
+</head>
+<body>
+
+  <!-- PORTAL NAVBAR -->
+  <header class="portal-nav">
+    <div class="portal-nav-container">
+      <a href="index.html" class="portal-brand">
+        <div class="portal-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="portal-brand-text">
+          <div class="portal-brand-title">
+            LegalAI <span class="portal-brand-badge badge-client">Client Portal</span>
+          </div>
+          <span class="portal-brand-sub">Justice Powered by Intelligence</span>
+        </div>
+      </a>
+
+      <nav class="portal-nav-links">
+        <a href="index.html" class="portal-nav-link">Main Site</a>
+        <a href="index.html#lawyers" class="portal-nav-link">Lawyers Directory</a>
+        <a href="index.html#articles" class="portal-nav-link">Legal Articles</a>
+        <a href="admin.html" class="portal-nav-link" id="nav-admin-link" style="display:none; color:#c084fc;">Admin Portal ↗</a>
+      </nav>
+
+      <div class="portal-user-menu" id="portal-user-menu">
+        <div class="user-profile-chip" id="user-header-chip" title="Click to view profile settings">
+          <div class="user-avatar-circle" id="user-header-avatar">U</div>
+          <div class="user-chip-info">
+            <span class="user-chip-name" id="user-header-name">Client Account</span>
+            <span class="user-chip-role" id="user-header-role">Verified Client</span>
+          </div>
+        </div>
+        <button class="btn-portal-logout" id="btn-user-logout" title="Sign out of LegalAI">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACCESS GATE (Shown when logged out) -->
+  <div class="portal-access-gate hidden" id="user-access-gate">
+    <div class="access-gate-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <h2 class="access-gate-title">Client Portal Sign In</h2>
+    <p class="access-gate-desc">Please sign in to access your booked consultations, legal AI query records, and personalized case checklists.</p>
+
+    <!-- Quick Demo Login -->
+    <div style="background:#131823; border:1px solid rgba(223,183,124,0.3); padding:16px; border-radius:10px; margin-bottom:20px; text-align:left;">
+      <div style="font-size:0.78rem; font-weight:700; color:#dfb77c; text-transform:uppercase; margin-bottom:6px;">⚡ Instant Demo Login</div>
+      <div style="font-size:0.84rem; color:#cbd5e1; margin-bottom:12px;">Sign in immediately as a pre-configured verified client to explore all features.</div>
+      <button class="btn-portal-primary" id="btn-quick-demo-login" style="width:100%; justify-content:center;">
+        Sign in as Demo Client (demouser@legalai.com)
+      </button>
+    </div>
+
+    <form id="portal-login-form" style="text-align:left;">
+      <div class="portal-form-group">
+        <label for="gate-email">Email Address</label>
+        <input type="email" id="gate-email" class="portal-form-input" placeholder="name@example.com" required/>
+      </div>
+      <div class="portal-form-group">
+        <label for="gate-password">Password</label>
+        <input type="password" id="gate-password" class="portal-form-input" placeholder="••••••••" required/>
+      </div>
+      <div id="gate-alert" style="color:#f87171; font-size:0.84rem; margin-bottom:14px; display:none;"></div>
+      <button type="submit" class="btn-portal-primary" style="width:100%; justify-content:center; margin-bottom:14px;">Sign In to Client Portal</button>
+      <div style="text-align:center;">
+        <a href="index.html" style="color:#94a3b8; font-size:0.84rem; text-decoration:none;">← Return to Main Website</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- AUTHENTICATED CLIENT DASHBOARD CONTENT -->
+  <main class="portal-main" id="user-dashboard-content">
+
+    <!-- HERO WELCOME BANNER -->
+    <section class="portal-hero">
+      <div class="portal-hero-content">
+        <div class="portal-hero-meta">
+          <span class="meta-pill meta-pill-emerald">● Account Active</span>
+          <span class="meta-pill meta-pill-gold" id="user-verified-badge">✓ Verified Client</span>
+          <span class="meta-pill meta-pill-blue" id="user-joined-badge">Joined 2026</span>
+          <span class="meta-pill meta-pill-gold">SQLite WAL Storage</span>
+        </div>
+        <h1 class="portal-hero-title" id="user-welcome-title">Welcome back, Client</h1>
+        <p class="portal-hero-desc">
+          Manage your scheduled attorney consultations, review case action checklists, and review your historical AI legal inquiries.
+        </p>
+      </div>
+    </section>
+
+    <!-- KPI STATS CARDS -->
+    <section class="portal-kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Active Consultations</span>
+          <div class="kpi-icon kpi-icon-gold">📅</div>
+        </div>
+        <div class="kpi-value" id="kpi-active-consultations">0</div>
+        <div class="kpi-sub"><span style="color:#86efac;">●</span> Scheduled case meetings</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Total Bookings</span>
+          <div class="kpi-icon kpi-icon-blue">📁</div>
+        </div>
+        <div class="kpi-value" id="kpi-total-consultations">0</div>
+        <div class="kpi-sub">Lifetime attorney consultations</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">AI Research Sessions</span>
+          <div class="kpi-icon kpi-icon-purple">🧠</div>
+        </div>
+        <div class="kpi-value" id="kpi-ai-queries">0</div>
+        <div class="kpi-sub">Statutory guidance inquiries</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Case Action Items</span>
+          <div class="kpi-icon kpi-icon-emerald">📋</div>
+        </div>
+        <div class="kpi-value" id="kpi-checklist-items">6</div>
+        <div class="kpi-sub"><span style="color:#86efac;">Ready</span> Procedural steps to execute</div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <div class="portal-tabs-nav">
+      <button class="portal-tab-btn active" data-tab="tab-consultations">
+        <span>📅</span>
+        <span>My Consultations</span>
+        <span class="tab-badge" id="tab-badge-consults">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-ai-chats">
+        <span>💬</span>
+        <span>Legal AI History</span>
+        <span class="tab-badge" id="tab-badge-chats">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-checklists">
+        <span>📋</span>
+        <span>Case Action Checklists</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-settings">
+        <span>⚙️</span>
+        <span>Profile &amp; Security</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: CONSULTATIONS -->
+    <div class="portal-tab-pane active" id="tab-consultations">
+      <div class="portal-toolbar">
+        <div class="portal-filter-group" id="consult-filters">
+          <button class="portal-filter-btn active" data-status="all">All Bookings</button>
+          <button class="portal-filter-btn" data-status="confirmed">Upcoming / Confirmed</button>
+          <button class="portal-filter-btn" data-status="pending">Pending Review</button>
+          <button class="portal-filter-btn" data-status="cancelled">Cancelled</button>
+        </div>
+        <a href="index.html#lawyers" class="btn-portal-primary" style="text-decoration:none;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Book New Consultation
+        </a>
+      </div>
+
+      <div id="consultations-container">
+        <!-- Dynamically populated or empty state -->
+        <div style="text-align:center; padding:40px; color:#94a3b8;">
+          Loading your scheduled consultations...
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: AI CHATS -->
+    <div class="portal-tab-pane" id="tab-ai-chats">
+      <div class="portal-toolbar">
+        <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.15rem;">Your Legal AI Advisory History</h3>
+        <button class="btn-portal-primary" onclick="window.location.href='index.html';">
+          Ask New Legal Question ↗
+        </button>
+      </div>
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Legal Question / Prompt</th>
+                <th>Identified Domain</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-chats-tbody">
+              <tr>
+                <td colspan="5" style="text-align:center; padding:30px;">Loading chat sessions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CASE CHECKLISTS -->
+    <div class="portal-tab-pane" id="tab-checklists">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap:22px;">
+
+        <!-- Checklist 1: Tenant Security Deposit -->
+        <div class="consult-card">
+          <div style="margin-bottom:14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:#dfb77c; text-transform:uppercase;">Real Estate &amp; Housing</div>
+            <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.1rem;">Tenant Security Deposit Recovery</h3>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:0.86rem; color:#cbd5e1;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" checked style="accent-color:#b8956a;"/>
+              <span>Send formal written 14-day demand letter with certified tracking</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" checked style="accent-color:#b8956a;"/>
+              <span>Request itemized deductions list with repair receipts</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" style="accent-color:#b8956a;"/>
+              <span>File small claims or Housing Court petition for double damages</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Checklist 2: Contract Breach -->
+        <div class="consult-card">
+          <div style="margin-bottom:14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:#38bdf8; text-transform:uppercase;">Commercial &amp; Contracts</div>
+            <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.1rem;">Contract Breach &amp; Default Cure</h3>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:0.86rem; color:#cbd5e1;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" checked style="accent-color:#38bdf8;"/>
+              <span>Identify precise clause breached and cure period (e.g., 30 days)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" style="accent-color:#38bdf8;"/>
+              <span>Issue formal Notice of Default citing governing choice-of-law</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" style="accent-color:#38bdf8;"/>
+              <span>Compile ledger of quantifiable consequential damages</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Checklist 3: Criminal & Bail -->
+        <div class="consult-card">
+          <div style="margin-bottom:14px;">
+            <div style="font-size:0.75rem; font-weight:700; color:#86efac; text-transform:uppercase;">Criminal Law (2024 BNSS / US 5th)</div>
+            <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.1rem;">Pre-Arrest &amp; Bail Safeguards</h3>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:10px; font-size:0.86rem; color:#cbd5e1;">
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" checked style="accent-color:#10b981;"/>
+              <span>Assert right to remain silent until licensed counsel is present</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" style="accent-color:#10b981;"/>
+              <span>Verify if offence is cognizable under BNSS § 173 (e-FIR)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; cursor:pointer;">
+              <input type="checkbox" style="accent-color:#10b981;"/>
+              <span>Draft Anticipatory Bail petition under BNSS § 482</span>
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 4: PROFILE & SETTINGS -->
+    <div class="portal-tab-pane" id="tab-settings">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:24px;">
+
+        <!-- Edit Profile Form -->
+        <div class="portal-form-card">
+          <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.2rem; margin-bottom:16px;">Personal Information</h3>
+          <form id="user-profile-form">
+            <div class="portal-form-group">
+              <label for="profile-name">Full Name</label>
+              <input type="text" id="profile-name" class="portal-form-input" required/>
+            </div>
+            <div class="portal-form-group">
+              <label for="profile-email">Email Address</label>
+              <input type="email" id="profile-email" class="portal-form-input" required/>
+            </div>
+            <div id="profile-alert" style="font-size:0.85rem; margin-bottom:12px; display:none;"></div>
+            <button type="submit" class="btn-portal-primary">Save Profile Changes</button>
+          </form>
+        </div>
+
+        <!-- Change Password Form -->
+        <div class="portal-form-card">
+          <h3 style="font-family:var(--font-heading); color:#fff; font-size:1.2rem; margin-bottom:16px;">Change Account Password</h3>
+          <form id="user-password-form">
+            <div class="portal-form-group">
+              <label for="current-password">Current Password</label>
+              <input type="password" id="current-password" class="portal-form-input" placeholder="••••••••" required/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-password">New Password (min 8 chars)</label>
+              <input type="password" id="new-password" class="portal-form-input" placeholder="••••••••" required minlength="8"/>
+            </div>
+            <div id="password-alert" style="font-size:0.85rem; margin-bottom:12px; display:none;"></div>
+            <button type="submit" class="btn-portal-primary">Update Password</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="user.js"></script>
+</body>
+</html>

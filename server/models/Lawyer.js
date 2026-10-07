@@ -192,8 +192,152 @@ class Lawyer {
   /**
    * Permanently delete a consultation record
    */
-  static deleteConsultation(id) {
-    const stmt = db.prepare("DELETE FROM consultations WHERE id = ?");
+  /**
+   * Update consultation status (pending, confirmed, completed, cancelled)
+   */
+  static updateConsultationStatus(id, status) {
+    const validStatuses = ['pending', 'confirmed', 'completed', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      throw new Error(`Invalid status. Must be one of: ${validStatuses.join(', ')}`);
+    }
+    const stmt = db.prepare("UPDATE consultations SET status = ? WHERE id = ?");
+    const res = stmt.run(status, Number(id));
+    return res.changes > 0;
+  }
+
+  /**
+   * Get all consultations with status filter and search for admin
+   */
+  static getAllConsultations({ status = '', search = '', limit = 50, offset = 0 } = {}) {
+    let query = `
+      SELECT 
+        c.*,
+        l.name as lawyerName,
+        l.specialty as lawyerSpecialty,
+        l.title as lawyerTitle,
+        l.firmName as lawyerFirm,
+        l.hourlyRate as lawyerRate,
+        l.avatarUrl as lawyerAvatar
+      FROM consultations c
+      JOIN lawyers l ON c.lawyerId = l.id
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (status && status !== 'all') {
+      query += ' AND c.status = ?';
+      params.push(status);
+    }
+
+    if (search && search.trim()) {
+      const s = `%${search.trim().toLowerCase()}%`;
+      query += ' AND (LOWER(c.clientName) LIKE ? OR LOWER(c.clientEmail) LIKE ? OR LOWER(l.name) LIKE ? OR LOWER(c.caseSummary) LIKE ?)';
+      params.push(s, s, s, s);
+    }
+
+    const countQuery = query.replace(/SELECT\s+c\.\*[\s\S]*?FROM consultations c/, 'SELECT COUNT(*) as total FROM consultations c');
+    const total = db.prepare(countQuery).get(...params).total;
+
+    query += ' ORDER BY c.id DESC LIMIT ? OFFSET ?';
+    params.push(Number(limit), Number(offset));
+
+    const consultations = db.prepare(query).all(...params);
+    return { consultations, total };
+  }
+
+  /**
+   * Get consultation statistics for admin dashboard
+   */
+  static getConsultationStats() {
+    const total = db.prepare('SELECT COUNT(*) as count FROM consultations').get().count;
+    const statuses = db.prepare('SELECT status, COUNT(*) as count FROM consultations GROUP BY status').all();
+    
+    const statusMap = { pending: 0, confirmed: 0, completed: 0, cancelled: 0 };
+    statuses.forEach(s => { statusMap[s.status] = s.count; });
+
+    return {
+      total,
+      byStatus: statusMap
+    };
+  }
+
+  /**
+   * Add a new lawyer to the directory (Admin)
+   */
+  static create(data) {
+    const stmt = db.prepare(`
+      INSERT INTO lawyers (
+        name, title, specialty, barNumber, experienceYears, education, firmName,
+        city, state, hourlyRate, rating, reviewCount, languages, bio, casesWon,
+        successRate, phone, email, avatarUrl, isAvailable
+      ) VALUES (
+        ?, ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?, ?, ?, ?, ?,
+        ?, ?, ?, ?, ?
+      )
+    `);
+
+    const result = stmt.run(
+      data.name,
+      data.title || 'Senior Counsel',
+      data.specialty,
+      data.barNumber,
+      Number(data.experienceYears) || 5,
+      data.education || 'J.D., Accredited Law School',
+      data.firmName || 'Independent Legal Practice',
+      data.city,
+      data.state,
+      Number(data.hourlyRate) || 250,
+      Number(data.rating) || 5.0,
+      Number(data.reviewCount) || 10,
+      data.languages || 'English',
+      data.bio || 'Dedicated legal advocate specializing in client advocacy.',
+      Number(data.casesWon) || 25,
+      Number(data.successRate) || 95,
+      data.phone,
+      data.email,
+      data.avatarUrl || '',
+      data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1
+    );
+
+    return Lawyer.findById(result.lastInsertRowid);
+  }
+
+  /**
+   * Update existing lawyer details (Admin)
+   */
+  static update(id, data) {
+    const fields = [];
+    const params = [];
+
+    const allowed = [
+      'name', 'title', 'specialty', 'barNumber', 'experienceYears', 'education',
+      'firmName', 'city', 'state', 'hourlyRate', 'rating', 'reviewCount',
+      'languages', 'bio', 'casesWon', 'successRate', 'phone', 'email',
+      'avatarUrl', 'isAvailable'
+    ];
+
+    for (const key of allowed) {
+      if (data[key] !== undefined) {
+        fields.push(`${key} = ?`);
+        params.push(data[key]);
+      }
+    }
+
+    if (fields.length === 0) return Lawyer.findById(id);
+
+    const sql = `UPDATE lawyers SET ${fields.join(', ')} WHERE id = ?`;
+    params.push(Number(id));
+
+    db.prepare(sql).run(...params);
+    return Lawyer.findById(id);
+  }
+
+  /**
+   * Delete lawyer by ID (Admin)
+   */
+  static delete(id) {
+    const stmt = db.prepare('DELETE FROM lawyers WHERE id = ?');
     const res = stmt.run(Number(id));
     return res.changes > 0;
   }

@@ -80,11 +80,12 @@ class AdaptiveRetrievalRouter:
         - RETRIEVE: Otherwise standard hybrid retrieval.
         """
         q_lower = query.lower().strip()
+        q_clean = re.sub(r"[\?\.\!\,]+$", "", q_lower).strip()
         complexity_score, complexity_reasons = self.compute_query_complexity(query)
 
         # Check for direct answer trigger
-        is_direct = any(q_lower == dk or q_lower.startswith(dk + " ") for dk in self.direct_keywords)
-        if len(q_lower.split()) <= 4 and is_direct:
+        is_direct = any(q_clean == dk or q_clean.startswith(dk + " ") for dk in self.direct_keywords)
+        if len(q_clean.split()) <= 5 and is_direct:
             return {
                 "route": "DIRECT",
                 "recommended_top_k": 0,
