@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../db');
 const User = require('../models/User');
 const Lawyer = require('../models/Lawyer');
+const Court = require('../models/Court');
 
 // Admin Auth Middleware
 function requireAdmin(req, res, next) {
@@ -40,6 +41,7 @@ router.get('/stats', requireAdmin, async (req, res) => {
     const userStats = User.getStats();
     const lawyerStats = Lawyer.getStats();
     const consultStats = Lawyer.getConsultationStats();
+    const courtStats = Court.getStats();
 
     // AI chat metrics
     const totalAIChats = db.prepare('SELECT COUNT(*) as count FROM ai_chats').get().count;
@@ -68,6 +70,7 @@ router.get('/stats', requireAdmin, async (req, res) => {
         users: userStats,
         lawyers: lawyerStats,
         consultations: consultStats,
+        courts: courtStats,
         ai: {
           totalQueries: totalAIChats,
           topCategories: aiCategories
@@ -260,6 +263,22 @@ router.post('/lawyers', requireAdmin, (req, res) => {
   }
 });
 
+// @route   GET /api/admin/lawyers/:id
+// @desc    Get single lawyer profile for admin inspection or editing
+// @access  Admin
+router.get('/lawyers/:id', requireAdmin, (req, res) => {
+  try {
+    const lawyer = Lawyer.findById(req.params.id);
+    if (!lawyer) {
+      return res.status(404).json({ success: false, message: 'Attorney not found' });
+    }
+    return res.json({ success: true, lawyer });
+  } catch (err) {
+    console.error('Admin Get Lawyer Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   PUT /api/admin/lawyers/:id
 // @desc    Update lawyer profile
 // @access  Admin
@@ -285,6 +304,116 @@ router.delete('/lawyers/:id', requireAdmin, (req, res) => {
     return res.json({ success: true, message: 'Attorney removed from directory' });
   } catch (err) {
     console.error('Admin Delete Lawyer Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ================================================================
+// COURTS DIRECTORY ADMINISTRATION
+// ================================================================
+
+// @route   GET /api/admin/courts
+// @desc    Get all courts for administrative control
+// @access  Admin
+router.get('/courts', requireAdmin, (req, res) => {
+  try {
+    const { search, jurisdiction, state, limit = 100 } = req.query;
+    const courts = Court.findAllAdmin({ search, jurisdiction, state, limit });
+    return res.json({ success: true, courts, count: courts.length });
+  } catch (err) {
+    console.error('Admin Fetch Courts Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   GET /api/admin/courts/:id
+// @desc    Get single court details
+// @access  Admin
+router.get('/courts/:id', requireAdmin, (req, res) => {
+  try {
+    const court = Court.findById(req.params.id);
+    if (!court) {
+      return res.status(404).json({ success: false, message: 'Court venue not found' });
+    }
+    return res.json({ success: true, court });
+  } catch (err) {
+    console.error('Admin Get Court Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   POST /api/admin/courts
+// @desc    Add new court venue to directory
+// @access  Admin
+router.post('/courts', requireAdmin, (req, res) => {
+  try {
+    const { name, code } = req.body;
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, message: 'Court name is required.' });
+    }
+    if (!code || !code.trim()) {
+      return res.status(400).json({ success: false, message: 'Court unique identifier code is required.' });
+    }
+
+    const cleanCode = code.trim().toUpperCase();
+    const existing = Court.findByCode(cleanCode);
+    if (existing) {
+      return res.status(400).json({ success: false, message: `A court venue with code "${cleanCode}" already exists.` });
+    }
+
+    const payload = {
+      ...req.body,
+      name: name.trim(),
+      code: cleanCode
+    };
+
+    const court = Court.create(payload);
+    return res.status(201).json({ success: true, court, message: 'Court venue successfully added to directory' });
+  } catch (err) {
+    console.error('Admin Add Court Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   PUT /api/admin/courts/:id
+// @desc    Update court venue details or availability
+// @access  Admin
+router.put('/courts/:id', requireAdmin, (req, res) => {
+  try {
+    const existing = Court.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Court venue not found' });
+    }
+
+    if (req.body.code && req.body.code.trim().toUpperCase() !== existing.code) {
+      const cleanCode = req.body.code.trim().toUpperCase();
+      const codeTaken = Court.findByCode(cleanCode);
+      if (codeTaken && codeTaken.id !== existing.id) {
+        return res.status(400).json({ success: false, message: `Court code "${cleanCode}" is already in use by another venue.` });
+      }
+      req.body.code = cleanCode;
+    }
+
+    const updated = Court.update(req.params.id, req.body);
+    return res.json({ success: true, court: updated, message: 'Court venue details updated successfully' });
+  } catch (err) {
+    console.error('Admin Update Court Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   DELETE /api/admin/courts/:id
+// @desc    Delete court venue from directory
+// @access  Admin
+router.delete('/courts/:id', requireAdmin, (req, res) => {
+  try {
+    const success = Court.delete(req.params.id);
+    if (!success) {
+      return res.status(404).json({ success: false, message: 'Court venue not found' });
+    }
+    return res.json({ success: true, message: 'Court venue removed from directory' });
+  } catch (err) {
+    console.error('Admin Delete Court Error:', err);
     return res.status(500).json({ success: false, message: err.message });
   }
 });

@@ -166,7 +166,7 @@ document.head.appendChild(style);
   document.getElementById('cta-learn')
 ].forEach(btn => { if (btn) { btn.style.position = 'relative'; addRipple(btn); } });
 
-// ── AUTH SYSTEM & MONGODB API INTEGRATION ──
+// ── AUTH SYSTEM & SQLITE REST API INTEGRATION ──
 
 // Dynamic Server Origin Detection (handles localhost:5000, 127.0.0.1:5000, custom ports, or static local files)
 const SERVER_ORIGIN = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
@@ -310,19 +310,57 @@ switchToLogin?.addEventListener('click', (e) => {
 
 // Update Navbar Auth State
 function setLoggedInState(user) {
+  const adminChip = document.getElementById('nav-admin-chip');
+  const dropdownAdminItem = document.getElementById('dropdown-admin-item');
+  const dropdownName = document.getElementById('dropdown-user-name');
+  const dropdownEmail = document.getElementById('dropdown-user-email');
+  const dropdownRole = document.getElementById('dropdown-user-role');
+
   if (!user) {
-    loggedOutView.classList.remove('hidden');
-    loggedInView.classList.add('hidden');
+    loggedOutView?.classList.remove('hidden');
+    loggedInView?.classList.add('hidden');
+    adminChip?.classList.add('hidden');
+    dropdownAdminItem?.classList.add('hidden');
     return;
   }
 
   const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
-  userAvatarEl.textContent = initial;
-  userNameEl.textContent = user.name;
-  
-  loggedOutView.classList.add('hidden');
-  loggedInView.classList.remove('hidden');
+  if (userAvatarEl) userAvatarEl.textContent = initial;
+  if (userNameEl) userNameEl.textContent = user.name;
+  if (dropdownName) dropdownName.textContent = user.name;
+  if (dropdownEmail) dropdownEmail.textContent = user.email || 'user@legalai.com';
+  if (dropdownRole) dropdownRole.textContent = user.role === 'admin' ? '👑 Master Administrator' : 'Verified Client';
+
+  loggedOutView?.classList.add('hidden');
+  loggedInView?.classList.remove('hidden');
+
+  if (user.role === 'admin') {
+    adminChip?.classList.remove('hidden');
+    dropdownAdminItem?.classList.remove('hidden');
+  } else {
+    adminChip?.classList.add('hidden');
+    dropdownAdminItem?.classList.add('hidden');
+  }
 }
+
+// User Menu Dropdown Toggle Handler
+const userBadgeBtn = document.getElementById('user-badge-btn');
+const userMenuWrap = document.getElementById('user-menu-dropdown-wrap');
+userBadgeBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  userMenuWrap?.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (userMenuWrap && !userMenuWrap.contains(e.target)) {
+    userMenuWrap.classList.remove('open');
+  }
+});
+
+// Menu item triggers
+document.getElementById('menu-ai-assistant')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (typeof openAIDrawer === 'function') openAIDrawer();
+});
 
 // Check session on startup
 async function initSession() {
