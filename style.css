@@ -7884,6 +7884,27 @@ body {
   color: #ffffff;
 }
 
+.world-source-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--muted);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.world-source-link-btn:hover {
+  background: rgba(184, 149, 106, 0.2);
+  border-color: var(--gold);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
 .world-empty-state {
   grid-column: 1 / -1;
   text-align: center;

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const https = require('https');
 const http = require('http');
+const liveNewsService = require('../services/liveNewsService');
 
 // ── LEGAL NEWS SOURCES (RSS → JSON via rss2json.com free API) ──
 const LEGAL_RSS_FEEDS = [
@@ -834,60 +835,47 @@ const WORLD_LEGAL_ARTICLES = [
 
 // ── GET /api/articles/world-news ──
 router.get('/world-news', async (req, res) => {
-  const { region, search, limit = 20 } = req.query;
+  const { region, search, limit = 25, fresh } = req.query;
 
-  let list = [...WORLD_LEGAL_ARTICLES];
-
-  // Filter by region if requested
-  if (region && region !== 'All') {
-    const rLow = region.toLowerCase();
-    list = list.filter(a =>
-      a.region.toLowerCase().includes(rLow) ||
-      (rLow.includes('eu') && a.region.toLowerCase().includes('european union')) ||
-      (rLow.includes('uk') && a.region.toLowerCase().includes('uk')) ||
-      (rLow.includes('un') && (a.region.toLowerCase().includes('international') || a.category.toLowerCase().includes('un'))) ||
-      (rLow.includes('asia') && a.region.toLowerCase().includes('asia')) ||
-      (rLow.includes('tech') && (a.category.toLowerCase().includes('ai') || a.category.toLowerCase().includes('tech') || a.region.toLowerCase().includes('tech')))
-    );
+  try {
+    const liveData = await liveNewsService.getArticles({
+      region,
+      search,
+      limit,
+      fresh: fresh === 'true' || fresh === '1'
+    });
+    return res.json(liveData);
+  } catch (err) {
+    console.error('[routes/articles] Error fetching live world news:', err);
+    let list = [...WORLD_LEGAL_ARTICLES];
+    return res.json({
+      success: true,
+      count: list.length,
+      totalAvailable: list.length,
+      liveFeedStatus: 'fallback',
+      wireTimestamp: new Date().toISOString(),
+      articles: list.slice(0, parseInt(limit))
+    });
   }
-
-  // Filter by search keyword
-  if (search) {
-    const q = search.toLowerCase();
-    list = list.filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      a.description.toLowerCase().includes(q) ||
-      a.region.toLowerCase().includes(q) ||
-      a.category.toLowerCase().includes(q) ||
-      a.source.toLowerCase().includes(q) ||
-      (a.laws && a.laws.some(l => l.toLowerCase().includes(q)))
-    );
-  }
-
-  // Sort by date newest first
-  list.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-  // Limit results
-  const sliced = list.slice(0, parseInt(limit));
-
-  return res.json({
-    success: true,
-    count: sliced.length,
-    totalAvailable: WORLD_LEGAL_ARTICLES.length,
-    liveFeedStatus: 'connected',
-    wireTimestamp: new Date().toISOString(),
-    articles: sliced
-  });
 });
 
 // ── GET /api/articles/world-news/:id ──
-router.get('/world-news/:id', (req, res) => {
+router.get('/world-news/:id', async (req, res) => {
   const { id } = req.params;
-  const article = WORLD_LEGAL_ARTICLES.find(a => a.id === id);
-  if (!article) {
+  try {
+    const liveArticle = await liveNewsService.getArticleById(id);
+    if (liveArticle) {
+      return res.json({ success: true, article: liveArticle });
+    }
+  } catch (err) {
+    console.error('[routes/articles] Error retrieving article by id:', err);
+  }
+
+  const fallback = WORLD_LEGAL_ARTICLES.find(a => a.id === id);
+  if (!fallback) {
     return res.status(404).json({ success: false, message: 'World legal news article not found' });
   }
-  return res.json({ success: true, article });
+  return res.json({ success: true, article: fallback });
 });
 
 // ── GET /api/articles/:id ──
