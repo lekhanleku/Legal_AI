@@ -95,6 +95,16 @@ function showDashboard(profileData) {
     navAdminLink.style.display = 'inline-block';
   }
 
+  // Update Drawer Info
+  const drawerName = document.getElementById('drawer-user-name');
+  const drawerEmail = document.getElementById('drawer-user-email');
+  const drawerRoleBadge = document.getElementById('drawer-user-role-badge');
+  const drawerAdminLink = document.getElementById('drawer-admin-link');
+  if (drawerName) drawerName.textContent = u.name || 'Client Account';
+  if (drawerEmail) drawerEmail.textContent = u.email || '';
+  if (drawerRoleBadge) drawerRoleBadge.textContent = u.role === 'admin' ? '👑 Admin' : (u.isVerified ? '✓ Verified Client' : 'Client');
+  if (u.role === 'admin' && drawerAdminLink) drawerAdminLink.style.display = 'flex';
+
   // Update Hero Banner
   const elWelcome = document.getElementById('user-welcome-title');
   if (elWelcome) elWelcome.textContent = `Welcome back, ${u.name}`;
@@ -500,6 +510,83 @@ function escapeHtml(str) {
   div.textContent = String(str);
   return div.innerHTML;
 }
+
+// ── PORTAL THREE LINE MENU BUTTON & DRAWER ──
+const portalMenuBtn    = document.getElementById('portal-menu-btn');
+const portalSideDrawer = document.getElementById('portal-side-drawer');
+const portalSideOverlay= document.getElementById('portal-side-overlay');
+const portalSideClose  = document.getElementById('portal-side-close');
+const drawerLogoutBtn  = document.getElementById('drawer-btn-logout');
+
+function openPortalDrawer() {
+  if (portalSideDrawer) {
+    portalSideDrawer.classList.add('open');
+    portalSideDrawer.setAttribute('aria-hidden', 'false');
+  }
+  if (portalSideOverlay) {
+    portalSideOverlay.classList.add('open');
+    portalSideOverlay.setAttribute('aria-hidden', 'false');
+  }
+  if (portalMenuBtn) {
+    portalMenuBtn.classList.add('open');
+    portalMenuBtn.setAttribute('aria-expanded', 'true');
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closePortalDrawer() {
+  if (portalSideDrawer) {
+    portalSideDrawer.classList.remove('open');
+    portalSideDrawer.setAttribute('aria-hidden', 'true');
+  }
+  if (portalSideOverlay) {
+    portalSideOverlay.classList.remove('open');
+    portalSideOverlay.setAttribute('aria-hidden', 'true');
+  }
+  if (portalMenuBtn) {
+    portalMenuBtn.classList.remove('open');
+    portalMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+  document.body.style.overflow = '';
+}
+
+portalMenuBtn?.addEventListener('click', () => {
+  if (portalSideDrawer?.classList.contains('open')) {
+    closePortalDrawer();
+  } else {
+    openPortalDrawer();
+  }
+});
+
+portalSideClose?.addEventListener('click', closePortalDrawer);
+portalSideOverlay?.addEventListener('click', closePortalDrawer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && portalSideDrawer?.classList.contains('open')) {
+    closePortalDrawer();
+  }
+});
+
+// Portal drawer tab navigation
+document.querySelectorAll('[data-portal-tab]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tabId = link.getAttribute('data-portal-tab');
+    document.querySelector(`.portal-tab-btn[data-tab="${tabId}"]`)?.click();
+    
+    // Update active state in drawer
+    document.querySelectorAll('[data-portal-tab]').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    
+    closePortalDrawer();
+  });
+});
+
+drawerLogoutBtn?.addEventListener('click', () => {
+  closePortalDrawer();
+  clearAuthSession();
+  showAccessGate();
+});
 
 // Run on page load
 initUserPortal();

@@ -17,24 +17,34 @@
   <nav class="navbar" id="navbar">
     <div class="nav-inner">
 
-      <!-- LOGO -->
-      <a href="index.html" class="logo" id="logo-link">
-        <div class="logo-icon">
-          <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
-            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGrad)"/>
-            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <defs>
-              <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
-                <stop offset="0%" stop-color="#b8956a"/>
-                <stop offset="100%" stop-color="#8b6914"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
-      </a>
+      <!-- LEFT SECTION: THREE LINE MENU BUTTON & LOGO -->
+      <div class="nav-left" id="nav-left">
+        <!-- THREE LINE MENU BUTTON -->
+        <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" title="Menu">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+        </button>
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo" id="logo-link">
+          <div class="logo-icon">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+              <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGrad)"/>
+              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                  <stop offset="0%" stop-color="#b8956a"/>
+                  <stop offset="100%" stop-color="#8b6914"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
+        </a>
+      </div>
 
       <!-- SIMPLE & CLEAR MENU BAR -->
       <ul class="nav-links" id="nav-links">
@@ -182,12 +192,160 @@
         </div>
       </div>
 
-      <!-- HAMBURGER -->
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </nav>
+
+  <!-- LEFT SIDEBAR DRAWER MENU -->
+  <div class="side-menu-overlay" id="side-menu-overlay" aria-hidden="true"></div>
+  <aside class="side-menu-drawer" id="side-menu-drawer" aria-label="Side Navigation Menu" aria-hidden="true">
+    <div class="side-menu-header">
+      <div class="side-menu-brand">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGradSide)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="logoGradSide" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="side-menu-title">Legal<span class="logo-accent">AI</span></span>
+      </div>
+      <button class="side-menu-close" id="side-menu-close" aria-label="Close navigation menu" title="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- QUICK ASK AI PROMPT CARD -->
+    <div class="side-menu-ai-card" id="side-menu-ai-card">
+      <div class="side-menu-ai-badge">
+        <span>🤖</span>
+        <span>AI Legal Assistant</span>
+      </div>
+      <p class="side-menu-ai-desc">Instant 24/7 legal analysis, statutory guidance, and procedural rights answers.</p>
+      <button type="button" class="btn-side-ask-ai" id="side-btn-ask-ai">
+        <span>Ask Legal AI</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <!-- DRAWER SCROLLABLE CONTENT -->
+    <div class="side-menu-body">
+      <div class="side-menu-section-label">Main Navigation</div>
+      <nav class="side-menu-nav">
+        <a href="#" class="side-menu-link active" data-nav="home">
+          <span class="side-link-icon">🏛️</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Home</span>
+            <span class="side-link-sub">Overview &amp; search portal</span>
+          </div>
+        </a>
+        <a href="#lawyers" class="side-menu-link" data-nav="lawyers">
+          <span class="side-link-icon">⚖️</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Find Licensed Lawyers</span>
+            <span class="side-link-sub">Browse by specialty, fee &amp; city</span>
+          </div>
+        </a>
+        <a href="#courts" class="side-menu-link" data-nav="courts">
+          <span class="side-link-icon">🏢</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Court Directory</span>
+            <span class="side-link-sub">Clerk hours &amp; filing instructions</span>
+          </div>
+        </a>
+        <a href="#practice-areas" class="side-menu-link" data-nav="areas">
+          <span class="side-link-icon">🛡️</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Practice Areas</span>
+            <span class="side-link-sub">Civil, Criminal, Family &amp; Corporate</span>
+          </div>
+        </a>
+        <a href="#" class="side-menu-link" id="side-link-articles">
+          <span class="side-link-icon">📚</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Legal Guides &amp; Rights</span>
+            <span class="side-link-sub">Know your rights in simple words</span>
+          </div>
+        </a>
+        <a href="#world-news" class="side-menu-link" data-nav="news">
+          <span class="side-link-icon">🌐</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Legal News &amp; Reforms</span>
+            <span class="side-link-sub">Regulatory updates &amp; rulings</span>
+          </div>
+        </a>
+        <a href="#" class="side-menu-link" id="side-link-rag">
+          <span class="side-link-icon">🔬</span>
+          <div class="side-link-content">
+            <span class="side-link-title">AI Law Search Lab <span class="side-chip-badge">NEW</span></span>
+            <span class="side-link-sub">Deep statutory RAG search</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="side-menu-divider"></div>
+
+      <div class="side-menu-section-label">Portals &amp; Tools</div>
+      <nav class="side-menu-nav">
+        <a href="user.html" class="side-menu-link">
+          <span class="side-link-icon">📁</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Client Case Portal</span>
+            <span class="side-link-sub">My consultations &amp; checklists</span>
+          </div>
+        </a>
+        <a href="#" class="side-menu-link" id="side-link-bookings">
+          <span class="side-link-icon">📅</span>
+          <div class="side-link-content">
+            <span class="side-link-title">My Bookings</span>
+            <span class="side-link-sub">Upcoming attorney appointments</span>
+          </div>
+        </a>
+        <a href="admin.html" class="side-menu-link" id="side-link-admin" style="display:none;">
+          <span class="side-link-icon" style="color:#c084fc;">👑</span>
+          <div class="side-link-content">
+            <span class="side-link-title" style="color:#c084fc;">Admin Dashboard</span>
+            <span class="side-link-sub">Manage platform, users &amp; ML</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="side-menu-divider"></div>
+
+      <!-- EMERGENCY LEGAL HELPLINE -->
+      <div class="side-menu-help">
+        <div class="side-help-title">Emergency Legal Assistance</div>
+        <div class="side-help-phone">📞 1-800-LEGAL-AI (24/7)</div>
+        <div class="side-help-sub">Immediate guidance for urgent filings &amp; bail assistance</div>
+      </div>
+    </div>
+
+    <!-- DRAWER FOOTER: USER / AUTH STATE -->
+    <div class="side-menu-footer" id="side-menu-footer">
+      <div class="side-footer-logged-out" id="side-footer-logged-out">
+        <button type="button" class="btn-side-login" id="side-btn-login">Sign In</button>
+        <button type="button" class="btn-side-register" id="side-btn-register">Register</button>
+      </div>
+      <div class="side-footer-logged-in hidden" id="side-footer-logged-in">
+        <div class="side-user-chip">
+          <div class="side-user-avatar" id="side-user-avatar">U</div>
+          <div class="side-user-info">
+            <div class="side-user-name" id="side-user-name">Client Account</div>
+            <div class="side-user-email" id="side-user-email">user@legalai.com</div>
+          </div>
+        </div>
+        <button type="button" class="side-btn-logout" id="side-btn-logout" title="Sign Out">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
 
   <!-- HERO SECTION -->
   <section class="hero" id="hero">

@@ -8,12 +8,118 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// ── HAMBURGER MENU ──
-const hamburger = document.getElementById('hamburger');
-const navLinks  = document.getElementById('nav-links');
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navLinks.classList.toggle('open');
+// ── LEFT SIDE THREE LINE MENU BUTTON & SIDEBAR DRAWER ──
+const navMenuBtn     = document.getElementById('nav-menu-btn');
+const sideMenuDrawer = document.getElementById('side-menu-drawer');
+const sideMenuOverlay= document.getElementById('side-menu-overlay');
+const sideMenuClose  = document.getElementById('side-menu-close');
+const legacyHamburger= document.getElementById('hamburger');
+const navLinks       = document.getElementById('nav-links');
+
+function openSideMenu() {
+  if (sideMenuDrawer) {
+    sideMenuDrawer.classList.add('open');
+    sideMenuDrawer.setAttribute('aria-hidden', 'false');
+  }
+  if (sideMenuOverlay) {
+    sideMenuOverlay.classList.add('open');
+    sideMenuOverlay.setAttribute('aria-hidden', 'false');
+  }
+  if (navMenuBtn) {
+    navMenuBtn.classList.add('open');
+    navMenuBtn.setAttribute('aria-expanded', 'true');
+  }
+  if (legacyHamburger) legacyHamburger.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSideMenu() {
+  if (sideMenuDrawer) {
+    sideMenuDrawer.classList.remove('open');
+    sideMenuDrawer.setAttribute('aria-hidden', 'true');
+  }
+  if (sideMenuOverlay) {
+    sideMenuOverlay.classList.remove('open');
+    sideMenuOverlay.setAttribute('aria-hidden', 'true');
+  }
+  if (navMenuBtn) {
+    navMenuBtn.classList.remove('open');
+    navMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+  if (legacyHamburger) legacyHamburger.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function toggleSideMenu() {
+  const isOpen = sideMenuDrawer?.classList.contains('open');
+  if (isOpen) {
+    closeSideMenu();
+  } else {
+    openSideMenu();
+  }
+}
+
+navMenuBtn?.addEventListener('click', toggleSideMenu);
+legacyHamburger?.addEventListener('click', toggleSideMenu);
+sideMenuClose?.addEventListener('click', closeSideMenu);
+sideMenuOverlay?.addEventListener('click', closeSideMenu);
+
+// Escape key to close side drawer
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && sideMenuDrawer?.classList.contains('open')) {
+    closeSideMenu();
+  }
+});
+
+// Close drawer when any internal navigation link is clicked
+document.querySelectorAll('.side-menu-link').forEach(link => {
+  link.addEventListener('click', () => {
+    closeSideMenu();
+  });
+});
+
+// Side drawer Ask AI trigger
+document.getElementById('side-btn-ask-ai')?.addEventListener('click', () => {
+  closeSideMenu();
+  if (typeof openAIDrawer === 'function') openAIDrawer();
+});
+
+// Side drawer Guides & Articles trigger
+document.getElementById('side-link-articles')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  closeSideMenu();
+  if (typeof openArticlesModal === 'function') openArticlesModal();
+});
+
+// Side drawer RAG lab trigger
+document.getElementById('side-link-rag')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  closeSideMenu();
+  if (typeof openRagLabModal === 'function') openRagLabModal();
+});
+
+// Side drawer Bookings trigger
+document.getElementById('side-link-bookings')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  closeSideMenu();
+  if (typeof openBookingsModal === 'function') openBookingsModal();
+});
+
+// Side drawer login/register buttons
+document.getElementById('side-btn-login')?.addEventListener('click', () => {
+  closeSideMenu();
+  if (typeof openModal === 'function') openModal('login');
+});
+document.getElementById('side-btn-register')?.addEventListener('click', () => {
+  closeSideMenu();
+  if (typeof openModal === 'function') openModal('register');
+});
+
+// Side drawer logout button
+document.getElementById('side-btn-logout')?.addEventListener('click', () => {
+  closeSideMenu();
+  const logoutBtn = document.getElementById('btn-logout');
+  if (logoutBtn) logoutBtn.click();
 });
 
 // ── NAV LINK ACTIVE STATE ──
@@ -21,9 +127,8 @@ document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', function () {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     this.classList.add('active');
-    // close mobile menu
-    navLinks.classList.remove('open');
-    hamburger.classList.remove('open');
+    if (navLinks) navLinks.classList.remove('open');
+    closeSideMenu();
   });
 });
 
@@ -265,11 +370,23 @@ function setLoggedInState(user) {
   const dropdownEmail = document.getElementById('dropdown-user-email');
   const dropdownRole = document.getElementById('dropdown-user-role');
 
+  // Side Drawer Elements
+  const sideLoggedOut = document.getElementById('side-footer-logged-out');
+  const sideLoggedIn  = document.getElementById('side-footer-logged-in');
+  const sideAvatar    = document.getElementById('side-user-avatar');
+  const sideName      = document.getElementById('side-user-name');
+  const sideEmail     = document.getElementById('side-user-email');
+  const sideAdminLink = document.getElementById('side-link-admin');
+
   if (!user) {
     loggedOutView?.classList.remove('hidden');
     loggedInView?.classList.add('hidden');
     adminChip?.classList.add('hidden');
     dropdownAdminItem?.classList.add('hidden');
+
+    sideLoggedOut?.classList.remove('hidden');
+    sideLoggedIn?.classList.add('hidden');
+    if (sideAdminLink) sideAdminLink.style.display = 'none';
     return;
   }
 
@@ -283,12 +400,21 @@ function setLoggedInState(user) {
   loggedOutView?.classList.add('hidden');
   loggedInView?.classList.remove('hidden');
 
+  // Update Side Drawer Info
+  sideLoggedOut?.classList.add('hidden');
+  sideLoggedIn?.classList.remove('hidden');
+  if (sideAvatar) sideAvatar.textContent = initial;
+  if (sideName) sideName.textContent = user.name;
+  if (sideEmail) sideEmail.textContent = user.email || 'user@legalai.com';
+
   if (user.role === 'admin') {
     adminChip?.classList.remove('hidden');
     dropdownAdminItem?.classList.remove('hidden');
+    if (sideAdminLink) sideAdminLink.style.display = 'flex';
   } else {
     adminChip?.classList.add('hidden');
     dropdownAdminItem?.classList.add('hidden');
+    if (sideAdminLink) sideAdminLink.style.display = 'none';
   }
 }
 
