@@ -27,58 +27,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
   });
 });
 
-// ── HERO SLIDER (text only) ──
-const slides = [
-  {
-    tag: 'WE FIGHT FOR JUSTICE',
-    line1: 'Dedicated To One',
-    line2: 'Client At A Time.',
-    sub: 'Combining decades of legal expertise with cutting-edge AI technology to deliver justice for every client.',
-    counter: '01 / 02'
-  },
-  {
-    tag: 'YOUR RIGHTS MATTER',
-    line1: 'Excellence In Every',
-    line2: 'Case We Take.',
-    sub: 'Our AI-powered platform matches you with the right attorney for your specific legal situation.',
-    counter: '02 / 02'
-  }
-];
-let currentSlide = 0;
 
-function applySlide(index) {
-  const s = slides[index];
-  document.querySelector('.tag-text').textContent = s.tag;
-  document.getElementById('line1').textContent = s.line1;
-  document.getElementById('line2').textContent = s.line2;
-  document.getElementById('hero-sub').textContent = s.sub;
-  document.getElementById('slide-counter').textContent = s.counter;
-
-  // animate
-  const content = document.getElementById('hero-content');
-  content.style.opacity = '0';
-  content.style.transform = 'translateY(20px)';
-  requestAnimationFrame(() => {
-    content.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    content.style.opacity = '1';
-    content.style.transform = 'translateY(0)';
-  });
-}
-
-document.getElementById('slider-next').addEventListener('click', () => {
-  currentSlide = (currentSlide + 1) % slides.length;
-  applySlide(currentSlide);
-});
-document.getElementById('slider-prev').addEventListener('click', () => {
-  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-  applySlide(currentSlide);
-});
-
-// Auto-advance
-setInterval(() => {
-  currentSlide = (currentSlide + 1) % slides.length;
-  applySlide(currentSlide);
-}, 6000);
 
 // ── COUNTER ANIMATION ──
 function animateCounter(el) {

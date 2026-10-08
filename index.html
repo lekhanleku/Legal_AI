@@ -36,91 +36,91 @@
         <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
       </a>
 
-      <!-- NEAT GROUPED MENU BAR -->
+      <!-- SIMPLE & CLEAR MENU BAR -->
       <ul class="nav-links" id="nav-links">
         <li><a href="#" class="nav-link active" id="nav-home">Home</a></li>
 
-        <!-- DIRECTORY DROPDOWN -->
+        <!-- LAWYERS & COURTS DROPDOWN -->
         <li class="nav-item-dropdown">
           <a href="#lawyers" class="nav-link nav-dropdown-trigger" id="nav-dir-trigger">
-            Find Counsel
+            Find Lawyers
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <div class="nav-dropdown-menu">
             <a href="#lawyers" class="nav-dropdown-item">
               <span class="dropdown-item-icon">⚖️</span>
               <div class="dropdown-item-text">
-                <strong>Verified Attorneys</strong>
-                <span>Specialists filtered by jurisdiction &amp; hourly rate</span>
+                <strong>Find a Lawyer</strong>
+                <span>Browse licensed lawyers by specialty &amp; fee</span>
               </div>
             </a>
             <a href="#courts" class="nav-dropdown-item">
               <span class="dropdown-item-icon">🏛️</span>
               <div class="dropdown-item-text">
-                <strong>Courts &amp; Venues</strong>
-                <span>Federal, State &amp; Circuit trial venues</span>
+                <strong>Find a Court</strong>
+                <span>Court locations, clerk office hours &amp; filing info</span>
               </div>
             </a>
           </div>
         </li>
 
-        <!-- LEGAL INTELLIGENCE & RESEARCH DROPDOWN -->
+        <!-- AI & LEGAL HELP DROPDOWN -->
         <li class="nav-item-dropdown">
           <a href="#" class="nav-link nav-dropdown-trigger" id="nav-ai-trigger" onclick="return false;">
-            Intelligence
+            AI &amp; Legal Help
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <div class="nav-dropdown-menu">
             <a href="#" class="nav-dropdown-item" id="menu-ai-assistant">
               <span class="dropdown-item-icon">🤖</span>
               <div class="dropdown-item-text">
-                <strong>AI Legal Assistant</strong>
-                <span>Instant case assessment &amp; statutory advice</span>
-              </div>
-            </a>
-            <a href="#" class="nav-dropdown-item" onclick="openRagLabModal(); return false;">
-              <span class="dropdown-item-icon">🔬</span>
-              <div class="dropdown-item-text">
-                <strong>RAG Research Lab <span class="rag-chip-badge">NEW</span></strong>
-                <span>Adaptive retrieval router, attribution &amp; 2024 BNS</span>
+                <strong>Ask AI Assistant</strong>
+                <span>Instant answers to your legal questions 24/7</span>
               </div>
             </a>
             <a href="#" class="nav-dropdown-item" onclick="openArticlesModal(); return false;">
               <span class="dropdown-item-icon">📚</span>
               <div class="dropdown-item-text">
-                <strong>Statutory Practice Articles</strong>
-                <span>Curated legal guides &amp; precedent reviews</span>
+                <strong>Legal Guides &amp; Rights</strong>
+                <span>Simple guides explaining your rights and legal steps</span>
               </div>
             </a>
             <a href="#world-news" class="nav-dropdown-item">
               <span class="dropdown-item-icon">🌐</span>
               <div class="dropdown-item-text">
-                <strong>World Legal News</strong>
-                <span>Real-time global legal updates &amp; AI breakdown</span>
+                <strong>Legal News</strong>
+                <span>Latest updates on new laws and regulations</span>
+              </div>
+            </a>
+            <a href="#" class="nav-dropdown-item" onclick="openRagLabModal(); return false;">
+              <span class="dropdown-item-icon">🔬</span>
+              <div class="dropdown-item-text">
+                <strong>AI Law Search Lab <span class="rag-chip-badge">NEW</span></strong>
+                <span>Deep search through laws, statutes &amp; citations</span>
               </div>
             </a>
           </div>
         </li>
 
-        <!-- PORTALS DROPDOWN -->
+        <!-- USER & ADMIN PORTALS DROPDOWN -->
         <li class="nav-item-dropdown">
           <a href="user.html" class="nav-link nav-dropdown-trigger" id="nav-portals-trigger">
-            Portals
+            Client &amp; Admin
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <div class="nav-dropdown-menu">
             <a href="user.html" class="nav-dropdown-item">
               <span class="dropdown-item-icon">📁</span>
               <div class="dropdown-item-text">
-                <strong>Client Case Portal</strong>
-                <span>Consultations, checklists &amp; query history</span>
+                <strong>Client Portal (My Cases)</strong>
+                <span>View your appointments, checklists &amp; questions</span>
               </div>
             </a>
             <a href="admin.html" class="nav-dropdown-item">
               <span class="dropdown-item-icon" style="color:#c084fc;">👑</span>
               <div class="dropdown-item-text">
-                <strong style="color:#c084fc;">Admin Command Suite</strong>
-                <span>User accounts, directory control &amp; RAG ops</span>
+                <strong style="color:#c084fc;">Admin Dashboard</strong>
+                <span>Manage user accounts, lawyers, courts &amp; settings</span>
               </div>
             </a>
           </div>
@@ -162,11 +162,11 @@
               </a>
               <a href="admin.html" class="user-menu-item hidden" id="dropdown-admin-item" style="color:#c084fc;">
                 <span class="user-menu-item-icon">👑</span>
-                <span>Admin Console</span>
+                <span>Admin Dashboard</span>
               </a>
               <a href="#" class="user-menu-item" onclick="openRagLabModal(); return false;">
                 <span class="user-menu-item-icon">🔬</span>
-                <span>RAG Research Lab</span>
+                <span>AI Law Search Lab</span>
               </a>
               <a href="user.html#tab-settings" class="user-menu-item">
                 <span class="user-menu-item-icon">⚙️</span>
@@ -197,23 +197,7 @@
     </div>
 
     <div class="hero-content" id="hero-content">
-      <div class="hero-tag">
-        <span class="line"></span>
-        <span class="tag-text">WE FIGHT FOR JUSTICE</span>
-      </div>
-      <h1 class="hero-title" id="hero-title">
-        <span class="hero-line" id="line1">Dedicated To One</span>
-        <span class="hero-line" id="line2">Client At A Time.</span>
-      </h1>
-      <p class="hero-sub" id="hero-sub">Combining decades of legal expertise with cutting-edge AI technology to deliver justice for every client.</p>
-      <div class="hero-cta" id="hero-cta">
-        <button class="cta-primary" id="cta-consult">
-          Free Consultation
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-        <button class="cta-secondary" id="cta-learn">Learn More</button>
-      </div>
-
+      <h1 class="sr-only">LegalAI — AI Legal Assistant &amp; Lawyer Consultation Platform</h1>
       <!-- HERO AI LEGAL QUESTION BAR -->
       <div class="hero-ai-search" id="hero-ai-search">
         <form class="hero-ai-form" id="hero-ai-form">
@@ -246,14 +230,13 @@
           <button type="button" class="hero-ai-chip" data-prompt="How do I file for child custody and dispute visitation rights?">👨‍👩‍👧 Child Custody</button>
         </div>
       </div>
-      <div class="hero-slider-nav" id="hero-slider-nav">
-        <button class="slider-btn prev" id="slider-prev" aria-label="Previous slide">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+
+      <div class="hero-cta" id="hero-cta">
+        <button class="cta-primary" id="cta-consult">
+          Free Consultation
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
-        <span class="slide-counter" id="slide-counter">01 / 02</span>
-        <button class="slider-btn next" id="slider-next" aria-label="Next slide">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
+        <button class="cta-secondary" id="cta-learn">Learn More</button>
       </div>
     </div>
 
