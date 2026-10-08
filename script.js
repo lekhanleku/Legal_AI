@@ -4913,6 +4913,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentArticleIndex = 0;
   let activeReaderIsWorld = false;
+  let currentActiveReaderArticle = null;
   let isSpeaking = false;
 
   // DOM elements for Reader Modal
@@ -5044,6 +5045,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       article = getEnrichedArticle(rawArticle);
     }
+
+    currentActiveReaderArticle = article;
+    window.currentActiveReaderArticle = article;
 
     // Stop previous audio
     stopSpeech();
@@ -5215,50 +5219,79 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── TEXT-TO-SPEECH (READ ALOUD) ──
   function toggleSpeech() {
     if (!('speechSynthesis' in window)) {
-      showToast('⚠️ Speech synthesis is not supported on this browser', 'warning');
+      showToast('⚠️ Speech synthesis is not supported in this browser', 'warning');
       return;
     }
 
     if (isSpeaking) {
       stopSpeech();
+      showToast('⏹️ Audio playback stopped', 'info');
       return;
     }
 
-    const list = getFilteredArticles();
-    const rawArticle = list[currentArticleIndex];
-    if (!rawArticle) return;
-    const article = getEnrichedArticle(rawArticle);
+    const article = currentActiveReaderArticle;
+    if (!article) return;
 
-    const speechText = `${article.title}. ${article.lead || ''}. Key takeaways: ${(article.takeaways || []).join('. ')}.`;
+    let speechParts = [];
+    if (article.title) speechParts.push(article.title + '.');
+    if (article.source) speechParts.push('Published by ' + article.source + '.');
+    if (article.lead || article.description) speechParts.push((article.lead || article.description) + '.');
+    if (article.takeaways && article.takeaways.length > 0) {
+      speechParts.push('Key legal takeaways: ' + article.takeaways.join('. '));
+    }
 
-    const utterance = new SpeechSynthesisUtterance(speechText);
-    utterance.rate = 0.95;
-    utterance.pitch = 1.0;
+    const speechText = speechParts.join(' ').replace(/\s+/g, ' ').trim();
+    if (!speechText) {
+      showToast('No text available to read aloud', 'warning');
+      return;
+    }
 
-    utterance.onstart = () => {
-      isSpeaking = true;
-      if (readerSpeechBtn) {
-        readerSpeechBtn.classList.add('active');
-        if (readerSpeechText) readerSpeechText.textContent = 'Stop';
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(speechText);
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
+      utterance.lang = 'en-US';
+
+      // Pick natural or English voice if available
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const preferredVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Neural') || v.name.includes('Samantha') || v.name.includes('David')));
+        if (preferredVoice) utterance.voice = preferredVoice;
       }
-    };
 
-    utterance.onend = () => {
+      utterance.onstart = () => {
+        isSpeaking = true;
+        if (readerSpeechBtn) {
+          readerSpeechBtn.classList.add('active');
+          if (readerSpeechText) readerSpeechText.textContent = 'Stop';
+        }
+        showToast('🔊 Reading article aloud...', 'info');
+      };
+
+      utterance.onend = () => {
+        stopSpeech();
+      };
+
+      utterance.onerror = (err) => {
+        console.warn('SpeechSynthesis event error/aborted:', err);
+        stopSpeech();
+      };
+
+      window.speechSynthesis.speak(utterance);
+    } catch (err) {
+      console.error('Speech synthesis initiation failed:', err);
       stopSpeech();
-    };
-
-    utterance.onerror = () => {
-      stopSpeech();
-    };
-
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+      showToast('Could not start audio playback', 'error');
+    }
   }
 
   function stopSpeech() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    try {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    } catch (e) {}
     isSpeaking = false;
     if (readerSpeechBtn) {
       readerSpeechBtn.classList.remove('active');
@@ -5266,7 +5299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ── BOOKMARK SYSTEM ──
+  // ── BOOKMARK SYSTEM (SAVE) ──
   function getBookmarks() {
     try {
       return JSON.parse(localStorage.getItem('legalai_bookmarks') || '[]');
@@ -5275,30 +5308,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function isArticleBookmarked(idOrTitle) {
+    if (!idOrTitle) return false;
+    const bookmarks = getBookmarks();
+    return bookmarks.some(b => {
+      if (typeof b === 'string') return b === idOrTitle;
+      return b.id === idOrTitle || b.title === idOrTitle;
+    });
+  }
+
   function toggleBookmark() {
-    const list = getFilteredArticles();
-    const article = list[currentArticleIndex];
+    const article = currentActiveReaderArticle;
     if (!article) return;
 
     const id = article.id || article.title;
     let bookmarks = getBookmarks();
-    const index = bookmarks.indexOf(id);
+    const index = bookmarks.findIndex(b => {
+      if (typeof b === 'string') return b === id;
+      return b.id === id || b.title === article.title;
+    });
 
     if (index === -1) {
-      bookmarks.push(id);
+      bookmarks.push({
+        id: id,
+        title: article.title,
+        source: article.source || 'LegalAI Editorial',
+        category: article.category || 'Legal',
+        link: article.link || '',
+        savedAt: new Date().toISOString()
+      });
       localStorage.setItem('legalai_bookmarks', JSON.stringify(bookmarks));
-      showToast('🔖 Article saved to bookmarks', 'success');
+      showToast('🔖 Article saved to bookmarks!', 'success');
+      updateBookmarkButtonState(id);
     } else {
       bookmarks.splice(index, 1);
       localStorage.setItem('legalai_bookmarks', JSON.stringify(bookmarks));
       showToast('Bookmark removed', 'info');
+      updateBookmarkButtonState(id);
     }
-    updateBookmarkButtonState(id);
   }
 
   function updateBookmarkButtonState(id) {
-    const bookmarks = getBookmarks();
-    const isSaved = bookmarks.includes(id);
+    const isSaved = isArticleBookmarked(id);
     if (readerBookmarkBtn) {
       readerBookmarkBtn.classList.toggle('active', isSaved);
       if (readerBookmarkText) {
@@ -5307,21 +5358,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ── SHARE / COPY LINK ──
-  function shareArticle() {
-    const list = getFilteredArticles();
-    const article = list[currentArticleIndex];
+  // ── SHARE ARTICLE ──
+  async function shareArticle() {
+    const article = currentActiveReaderArticle;
     if (!article) return;
 
-    const shareUrl = `${window.location.origin}${window.location.pathname}#article-${article.id || currentArticleIndex}`;
+    const shareUrl = (article.link && article.link !== '#') 
+      ? article.link 
+      : `${window.location.origin}${window.location.pathname}#article-${article.id || currentArticleIndex}`;
+
+    const shareData = {
+      title: article.title,
+      text: `${article.title} — LegalAI Dispatches`,
+      url: shareUrl
+    };
+
+    // Try native Web Share API (mobile/modern browsers)
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+        showToast('✅ Article shared successfully', 'success');
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return; // User cancelled modal
+      }
+    }
+
+    // Fallback: Copy URL to clipboard with visual animation
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(shareUrl).then(() => {
         showToast('📋 Article link copied to clipboard!', 'success');
+        triggerShareButtonFeedback();
       }).catch(() => {
-        showToast('Article: ' + article.title, 'info');
+        fallbackCopyText(shareUrl);
       });
     } else {
-      showToast('Article: ' + article.title, 'info');
+      fallbackCopyText(shareUrl);
+    }
+  }
+
+  function fallbackCopyText(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('📋 Article link copied to clipboard!', 'success');
+      triggerShareButtonFeedback();
+    } catch (e) {
+      prompt('Copy article link:', text);
+    }
+  }
+
+  function triggerShareButtonFeedback() {
+    if (readerShareBtn) {
+      readerShareBtn.classList.add('active');
+      const shareSpan = readerShareBtn.querySelector('span');
+      const originalText = shareSpan ? shareSpan.textContent : 'Share';
+      if (shareSpan) shareSpan.textContent = 'Copied!';
+      setTimeout(() => {
+        readerShareBtn.classList.remove('active');
+        if (shareSpan) shareSpan.textContent = originalText;
+      }, 2000);
     }
   }
 
@@ -5359,9 +5462,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (readerShareBtn) readerShareBtn.addEventListener('click', shareArticle);
   if (readerAskAiBtn) {
     readerAskAiBtn.addEventListener('click', () => {
-      const list = getFilteredArticles();
-      if (list[currentArticleIndex]) {
-        window.askAIAboutTopic(list[currentArticleIndex].title);
+      const article = currentActiveReaderArticle;
+      if (article && article.title) {
+        window.askAIAboutTopic(article.title);
+      } else {
+        const list = getFilteredArticles();
+        if (list[currentArticleIndex]) {
+          window.askAIAboutTopic(list[currentArticleIndex].title);
+        }
       }
     });
   }

@@ -5297,6 +5297,19 @@ body {
   color: var(--gold);
 }
 
+.reader-action-btn.active#reader-bookmark-btn svg {
+  fill: var(--gold);
+}
+
+.reader-action-btn.active#reader-speech-btn svg {
+  animation: speechPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes speechPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+
 .reader-action-btn.ai-highlight {
   border-color: rgba(184, 149, 106, 0.35);
   color: var(--gold);
