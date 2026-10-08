@@ -7467,6 +7467,19 @@ body {
   color: #ffffff;
 }
 
+.world-refresh-btn.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.world-refresh-btn.loading svg {
+  animation: worldRefreshSpin 0.8s linear infinite;
+}
+
+@keyframes worldRefreshSpin {
+  100% { transform: rotate(360deg); }
+}
+
 /* ── REGION PILL FILTERS ── */
 .world-region-pills {
   display: flex;

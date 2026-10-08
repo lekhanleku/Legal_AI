@@ -52,7 +52,8 @@ function cleanTitleAndSource(rawTitle, rawSource) {
 // Strip HTML tags and clean description
 function cleanDescription(rawDesc) {
   if (!rawDesc) return '';
-  let cleaned = rawDesc.replace(/<[^>]+>/g, ' ');
+  let cleaned = decodeHTMLEntities(rawDesc);
+  cleaned = cleaned.replace(/<[^>]+>/g, ' ');
   cleaned = decodeHTMLEntities(cleaned);
   cleaned = cleaned.replace(/\s+/g, ' ').trim();
   return cleaned;
@@ -198,8 +199,10 @@ function parseRssXml(xmlText) {
 
     const { title, source } = cleanTitleAndSource(rawTitle, rawSource);
     let description = cleanDescription(rawDesc);
-    if (!description || description.length < 15) {
-      description = `Live legal dispatch reported by ${source}: In-depth analysis of evolving judicial proceedings and regulatory compliance standards.`;
+    const cleanTitleLower = title.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const cleanDescLower = description.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!description || description.length < 25 || cleanDescLower.startsWith(cleanTitleLower)) {
+      description = `Live legal dispatch reported by ${source}: In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning "${title}".`;
     }
 
     let parsedDate = new Date(rawPubDate);

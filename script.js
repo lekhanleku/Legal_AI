@@ -4912,6 +4912,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ═══════════════════════════════════════════════════════════
 
   let currentArticleIndex = 0;
+  let activeReaderIsWorld = false;
   let isSpeaking = false;
 
   // DOM elements for Reader Modal
@@ -5012,15 +5013,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── OPEN ARTICLE READER ──
   window.openArticleReader = function (indexOrId) {
     let article = null;
-    if (typeof indexOrId === 'string' && window.worldNewsData) {
-      const wMatch = window.worldNewsData.find(a => a.id === indexOrId);
-      if (wMatch) {
-        article = wMatch;
+    let list = [];
+
+    if (typeof indexOrId === 'string' && window.worldNewsData && window.worldNewsData.length > 0) {
+      const wIdx = window.worldNewsData.findIndex(a => a.id === indexOrId);
+      if (wIdx !== -1) {
+        article = window.worldNewsData[wIdx];
+        activeReaderIsWorld = true;
+        list = window.worldNewsData;
+        currentArticleIndex = wIdx;
       }
     }
 
     if (!article) {
-      const list = getFilteredArticles();
+      activeReaderIsWorld = false;
+      list = getFilteredArticles();
       if (list.length === 0) return;
 
       let targetIndex = 0;
@@ -5142,7 +5149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Prev / Next Navigation
     if (readerPrevBtn) {
       readerPrevBtn.disabled = currentArticleIndex === 0;
-      if (currentArticleIndex > 0) {
+      if (currentArticleIndex > 0 && list && list[currentArticleIndex - 1]) {
         readerPrevTitle.textContent = list[currentArticleIndex - 1].title;
       } else {
         readerPrevTitle.textContent = 'None';
@@ -5150,8 +5157,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (readerNextBtn) {
-      readerNextBtn.disabled = currentArticleIndex >= list.length - 1;
-      if (currentArticleIndex < list.length - 1) {
+      readerNextBtn.disabled = !list || currentArticleIndex >= list.length - 1;
+      if (list && currentArticleIndex < list.length - 1 && list[currentArticleIndex + 1]) {
         readerNextTitle.textContent = list[currentArticleIndex + 1].title;
       } else {
         readerNextTitle.textContent = 'End of List';
@@ -5361,14 +5368,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (readerPrevBtn) {
     readerPrevBtn.addEventListener('click', () => {
-      if (currentArticleIndex > 0) window.openArticleReader(currentArticleIndex - 1);
+      if (activeReaderIsWorld && window.worldNewsData && window.worldNewsData.length > 0) {
+        if (currentArticleIndex > 0) window.openArticleReader(window.worldNewsData[currentArticleIndex - 1].id);
+      } else {
+        if (currentArticleIndex > 0) window.openArticleReader(currentArticleIndex - 1);
+      }
     });
   }
 
   if (readerNextBtn) {
     readerNextBtn.addEventListener('click', () => {
-      const list = getFilteredArticles();
-      if (currentArticleIndex < list.length - 1) window.openArticleReader(currentArticleIndex + 1);
+      if (activeReaderIsWorld && window.worldNewsData && window.worldNewsData.length > 0) {
+        if (currentArticleIndex < window.worldNewsData.length - 1) window.openArticleReader(window.worldNewsData[currentArticleIndex + 1].id);
+      } else {
+        const list = getFilteredArticles();
+        if (currentArticleIndex < list.length - 1) window.openArticleReader(currentArticleIndex + 1);
+      }
     });
   }
 
@@ -5423,11 +5438,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else if (readerOverlay && !readerOverlay.classList.contains('hidden')) {
       if (e.key === 'ArrowLeft' && currentArticleIndex > 0) {
-        window.openArticleReader(currentArticleIndex - 1);
+        if (activeReaderIsWorld && window.worldNewsData && window.worldNewsData.length > 0) {
+          window.openArticleReader(window.worldNewsData[currentArticleIndex - 1].id);
+        } else {
+          window.openArticleReader(currentArticleIndex - 1);
+        }
       } else if (e.key === 'ArrowRight') {
-        const list = getFilteredArticles();
-        if (currentArticleIndex < list.length - 1) {
-          window.openArticleReader(currentArticleIndex + 1);
+        if (activeReaderIsWorld && window.worldNewsData && window.worldNewsData.length > 0) {
+          if (currentArticleIndex < window.worldNewsData.length - 1) {
+            window.openArticleReader(window.worldNewsData[currentArticleIndex + 1].id);
+          }
+        } else {
+          const list = getFilteredArticles();
+          if (currentArticleIndex < list.length - 1) {
+            window.openArticleReader(currentArticleIndex + 1);
+          }
         }
       }
     }
@@ -5471,7 +5496,7 @@ function worldNewsCardHTML(a) {
           <span class="world-region-badge">${flag} ${escapeHtml(a.region)}</span>
           <span class="world-cat-badge">${escapeHtml(a.category)}</span>
         </div>
-        <span class="world-card-time">⏱️ ${a.readTime || '4 min'}</span>
+        <span class="world-card-time">⏱️ ${a.readTime || '4 min'} · ${escapeHtml(a.relativeTime || 'Today')}</span>
       </div>
 
       <h3 class="world-card-title" onclick="window.openArticleReader('${a.id}')">${escapeHtml(a.title)}</h3>
@@ -5494,6 +5519,11 @@ function worldNewsCardHTML(a) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
             <span>Ask AI</span>
           </button>
+          ${a.link && a.link !== '#' ? `
+            <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="world-source-link-btn" title="Open Original Publisher / Source ↗">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          ` : ''}
         </div>
       </div>
     </article>
@@ -5518,7 +5548,7 @@ function renderFeaturedWorldNews(lead) {
         <span class="featured-lead-tag">🌟 TOP GLOBAL DISPATCH</span>
         <span class="world-region-badge large">${flag} ${escapeHtml(lead.region)}</span>
         <span class="world-cat-badge large">${escapeHtml(lead.category)}</span>
-        <span class="world-timestamp">⏱️ ${lead.readTime || '5 min read'} · Updated Recently</span>
+        <span class="world-timestamp">⏱️ ${lead.readTime || '5 min read'} · ${lead.relativeTime ? `Updated ${lead.relativeTime}` : 'Updated Today'}</span>
       </div>
 
       <h2 class="world-featured-title" onclick="window.openArticleReader('${lead.id}')">
@@ -5588,7 +5618,7 @@ function renderWorldNews(articles) {
   }
 }
 
-async function fetchAndRenderWorldNews() {
+async function fetchAndRenderWorldNews(forceFresh = false) {
   if (worldNewsGrid) {
     worldNewsGrid.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
@@ -5602,6 +5632,11 @@ async function fetchAndRenderWorldNews() {
     `;
   }
 
+  if (worldRefreshBtn) {
+    worldRefreshBtn.classList.add('loading');
+    worldRefreshBtn.disabled = true;
+  }
+
   try {
     const params = new URLSearchParams();
     if (worldNewsFilters.region && worldNewsFilters.region !== 'All') {
@@ -5609,6 +5644,9 @@ async function fetchAndRenderWorldNews() {
     }
     if (worldNewsFilters.search) {
       params.set('search', worldNewsFilters.search);
+    }
+    if (forceFresh) {
+      params.set('fresh', 'true');
     }
 
     const resp = await fetch(`${WORLD_NEWS_API}?${params.toString()}`);
@@ -5618,8 +5656,20 @@ async function fetchAndRenderWorldNews() {
     window.worldNewsData = worldNewsData;
     renderWorldNews(worldNewsData);
 
+    // Update Live Ticker Content dynamically with real headlines
+    const tickerContainer = document.getElementById('world-ticker-content');
+    if (tickerContainer && worldNewsData.length > 0) {
+      tickerContainer.innerHTML = worldNewsData.slice(0, 10).map(a => `
+        <span class="ticker-item" style="cursor:pointer;" onclick="window.openArticleReader('${a.id}')" title="Click to read full dispatch">
+          ${a.flag || '🌐'} <strong>${escapeHtml(a.source || a.region)}</strong>: ${escapeHtml(a.title)}
+        </span>
+        <span class="ticker-divider">·</span>
+      `).join('');
+    }
+
     if (worldFeedStatus) {
-      worldFeedStatus.textContent = `Global Wire Active (${worldNewsData.length} Dispatches)`;
+      const mode = data.liveFeedStatus === 'connected' ? 'Live Daily Wire' : 'Cached Wire';
+      worldFeedStatus.textContent = `${mode} (${worldNewsData.length} Dispatches)`;
     }
   } catch (err) {
     console.error('Fetch world news error:', err);
@@ -5632,6 +5682,11 @@ async function fetchAndRenderWorldNews() {
           <p>Verify server is running on port 5000 and try refreshing.</p>
         </div>
       `;
+    }
+  } finally {
+    if (worldRefreshBtn) {
+      worldRefreshBtn.classList.remove('loading');
+      worldRefreshBtn.disabled = false;
     }
   }
 }
@@ -5667,8 +5722,8 @@ if (worldSearchClear) {
 
 if (worldRefreshBtn) {
   worldRefreshBtn.addEventListener('click', () => {
-    fetchAndRenderWorldNews();
-    showToast('Global Legal Wire refreshed', 'info');
+    fetchAndRenderWorldNews(true);
+    showToast('Global Legal Wire updated from live feeds', 'info');
   });
 }
 
