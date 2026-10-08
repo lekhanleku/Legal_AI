@@ -1113,5 +1113,81 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// ── ADMIN THREE LINE MENU BUTTON & DRAWER ──
+const adminMenuBtn     = document.getElementById('portal-admin-menu-btn');
+const adminSideDrawer  = document.getElementById('admin-side-drawer');
+const adminSideOverlay = document.getElementById('admin-side-overlay');
+const adminSideClose   = document.getElementById('admin-side-close');
+const adminDrawerLogout= document.getElementById('admin-drawer-btn-logout');
+
+function openAdminDrawer() {
+  if (adminSideDrawer) {
+    adminSideDrawer.classList.add('open');
+    adminSideDrawer.setAttribute('aria-hidden', 'false');
+  }
+  if (adminSideOverlay) {
+    adminSideOverlay.classList.add('open');
+    adminSideOverlay.setAttribute('aria-hidden', 'false');
+  }
+  if (adminMenuBtn) {
+    adminMenuBtn.classList.add('open');
+    adminMenuBtn.setAttribute('aria-expanded', 'true');
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAdminDrawer() {
+  if (adminSideDrawer) {
+    adminSideDrawer.classList.remove('open');
+    adminSideDrawer.setAttribute('aria-hidden', 'true');
+  }
+  if (adminSideOverlay) {
+    adminSideOverlay.classList.remove('open');
+    adminSideOverlay.setAttribute('aria-hidden', 'true');
+  }
+  if (adminMenuBtn) {
+    adminMenuBtn.classList.remove('open');
+    adminMenuBtn.setAttribute('aria-expanded', 'false');
+  }
+  document.body.style.overflow = '';
+}
+
+adminMenuBtn?.addEventListener('click', () => {
+  if (adminSideDrawer?.classList.contains('open')) {
+    closeAdminDrawer();
+  } else {
+    openAdminDrawer();
+  }
+});
+
+adminSideClose?.addEventListener('click', closeAdminDrawer);
+adminSideOverlay?.addEventListener('click', closeAdminDrawer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && adminSideDrawer?.classList.contains('open')) {
+    closeAdminDrawer();
+  }
+});
+
+// Admin drawer tab navigation
+document.querySelectorAll('[data-admin-tab]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tabId = link.getAttribute('data-admin-tab');
+    document.querySelector(`.portal-tab-btn[data-tab="${tabId}"]`)?.click();
+    
+    document.querySelectorAll('[data-admin-tab]').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+    
+    closeAdminDrawer();
+  });
+});
+
+adminDrawerLogout?.addEventListener('click', () => {
+  closeAdminDrawer();
+  clearAdminSession();
+  showAccessGate();
+});
+
 // Run on page load
 initAdminDashboard();
