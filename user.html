@@ -39,7 +39,7 @@
 
       <nav class="portal-nav-links">
         <a href="index.html" class="portal-nav-link">Main Site</a>
-        <a href="index.html#lawyers" class="portal-nav-link">Lawyers Directory</a>
+        <a href="lawyers.html" class="portal-nav-link">Advocates Directory</a>
         <a href="index.html#articles" class="portal-nav-link">Legal Articles</a>
         <a href="admin.html" class="portal-nav-link" id="nav-admin-link" style="display:none; color:#c084fc;">Admin Portal ↗</a>
       </nav>
@@ -449,6 +449,103 @@
     </div>
 
   </main>
+
+  <!-- LAWYER FULL DETAILS MODAL -->
+  <div class="lawyer-modal-overlay hidden" id="lawyer-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="lawyer-modal-name">
+    <div class="lawyer-modal" id="lawyer-modal">
+      <button class="modal-close" id="lawyer-modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="lawyer-modal-header">
+        <div class="lawyer-modal-avatar-col" id="lawyer-modal-avatar-wrap">
+          <!-- Populated dynamically by openLawyerModal -->
+        </div>
+        <div class="lawyer-modal-header-info">
+          <div class="lawyer-modal-badges">
+            <span class="badge-specialty" id="lawyer-modal-specialty">Civil Litigation</span>
+            <span class="badge-availability" id="lawyer-modal-avail">Available</span>
+          </div>
+          <h3 class="lawyer-modal-name" id="lawyer-modal-name">Advocate Name</h3>
+          <p class="lawyer-modal-title" id="lawyer-modal-title">Senior Advocate</p>
+          <div class="lawyer-modal-barnum-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span id="lawyer-modal-barnum">Bar No: D/1428/2006</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-body">
+        <div class="lawyer-modal-stats-grid">
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Experience</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-exp">18+ Years</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Cases Won</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-wins">240 Cases</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Success Rate</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-success">96%</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Client Rating</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-rating">★ 4.9 (142 reviews)</span>
+          </div>
+          <div class="lawyer-mstat full-span">
+            <span class="lawyer-mstat-lbl">Consultation Rate</span>
+            <span class="lawyer-mstat-val highlight" id="lawyer-modal-rate">₹7,500 / hr</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🏛 Chambers &amp; Practice Location</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🎓 Education &amp; Languages Spoken</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span id="lawyer-modal-education">Faculty of Law, University of Delhi, LL.B.</span>
+          </div>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span id="lawyer-modal-languages">English, Hindi, Bengali</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">📞 Direct Verified Contact Channels</h4>
+          <div class="lawyer-minfo-grid">
+            <a class="lawyer-contact-link" id="lawyer-modal-phone-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span id="lawyer-modal-phone">+91 11 2461 7890</span>
+            </a>
+            <a class="lawyer-contact-link" id="lawyer-modal-email-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span id="lawyer-modal-email">advocate@legalai.org</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">📜 Professional Biography &amp; Courtroom Background</h4>
+          <p class="lawyer-modal-bio" id="lawyer-modal-bio">Professional biography...</p>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-footer">
+        <button type="button" class="btn-lawyer-copy" id="lawyer-modal-btn-copy" title="Copy full advocate profile summary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="lawyer-copy-btn-text">Copy Advocate Details</span>
+        </button>
+        <button type="button" class="btn-court-close" id="lawyer-modal-btn-close">Close</button>
+      </div>
+    </div>
+  </div>
 
   <script src="user.js"></script>
 </body>

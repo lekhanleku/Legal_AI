@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css?v=2.6.1"/>
 </head>
 <body>
 
@@ -57,11 +57,18 @@
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <div class="nav-dropdown-menu">
-            <a href="#lawyers" class="nav-dropdown-item">
+            <a href="lawyers.html" class="nav-dropdown-item">
               <span class="dropdown-item-icon">⚖️</span>
               <div class="dropdown-item-text">
-                <strong>Find a Lawyer</strong>
-                <span>Browse licensed lawyers by specialty &amp; fee</span>
+                <strong>Advocate Directory (Full Page)</strong>
+                <span>All 27 advocates, filters, sorting &amp; booking</span>
+              </div>
+            </a>
+            <a href="#lawyers" class="nav-dropdown-item">
+              <span class="dropdown-item-icon">🔍</span>
+              <div class="dropdown-item-text">
+                <strong>Featured Lawyers Preview</strong>
+                <span>Browse advocate cards on this page</span>
               </div>
             </a>
             <a href="#courts" class="nav-dropdown-item">
@@ -245,11 +252,18 @@
             <span class="side-link-sub">Overview &amp; search portal</span>
           </div>
         </a>
-        <a href="#lawyers" class="side-menu-link" data-nav="lawyers">
+        <a href="lawyers.html" class="side-menu-link">
           <span class="side-link-icon">⚖️</span>
           <div class="side-link-content">
-            <span class="side-link-title">Find Licensed Lawyers</span>
-            <span class="side-link-sub">Browse by specialty, fee &amp; city</span>
+            <span class="side-link-title">Advocates Directory (Full Page)</span>
+            <span class="side-link-sub">27 advocates, advanced filters &amp; sorting</span>
+          </div>
+        </a>
+        <a href="#lawyers" class="side-menu-link" data-nav="lawyers">
+          <span class="side-link-icon">🔍</span>
+          <div class="side-link-content">
+            <span class="side-link-title">Featured Lawyers Preview</span>
+            <span class="side-link-sub">Browse on homepage</span>
           </div>
         </a>
         <a href="#courts" class="side-menu-link" data-nav="courts">
@@ -428,7 +442,7 @@
       <div class="why-left" id="why-left">
         <span class="section-tag">WHY CHOOSE US</span>
         <h2 class="why-title">Why You Need the<br/>Top Lawyers in<br/>Your Corner</h2>
-        <a href="#" class="why-cta" id="why-cta-btn">
+        <a href="#lawyers" class="why-cta" id="why-cta-btn">
           View Our Team
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
@@ -588,29 +602,33 @@
     <div class="attorneys-inner">
       <div class="section-header center">
         <span class="section-tag">VERIFIED LEGAL NETWORK</span>
-        <h2 class="section-title">Consult Top Verified Attorneys</h2>
-        <p class="section-subtitle">Connect with elite lawyers by practice specialty, experience, and verified bar admission credentials.</p>
+        <h2 class="section-title">Consult Top Verified Indian Advocates</h2>
+        <p class="section-subtitle">Connect with elite Indian senior advocates and partners by practice specialty, experience, and verified Bar Council credentials.</p>
       </div>
 
       <!-- AVAILABLE VS BOOKED TOGGLE TABS -->
       <div class="lawyers-view-toggle">
         <button type="button" class="lawyers-toggle-btn active" id="tab-available-lawyers">
           <span class="status-pulse-dot"></span>
-          <span>Available Attorneys</span>
-          <span class="toggle-badge" id="badge-avail-count">22</span>
+          <span>Available Advocates</span>
+          <span class="toggle-badge" id="badge-avail-count">27</span>
         </button>
         <button type="button" class="lawyers-toggle-btn" id="tab-booked-lawyers" onclick="openBookingsModal(); return false;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           <span>My Booked Consultations</span>
-          <span class="toggle-badge booked-badge" id="badge-booked-count">2</span>
+          <span class="toggle-badge booked-badge" id="badge-booked-count">0</span>
         </button>
+        <a href="lawyers.html" class="lawyers-toggle-btn lawyers-fullpage-link" title="Open Full Advocates Directory Page" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Full Directory Page ↗</span>
+        </a>
       </div>
 
       <!-- FILTER & SEARCH BAR -->
       <div class="lawyer-controls">
         <div class="lawyer-search-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="lawyer-search-input" placeholder="Search lawyer name, city, firm, or bar number..." />
+          <input type="text" id="lawyer-search-input" placeholder="Search advocate name, city, firm, or Bar Council enrollment number..." />
           <button id="lawyer-search-clear" class="search-clear-btn hidden">&times;</button>
         </div>
 
@@ -618,7 +636,7 @@
           <select id="lawyer-avail-select" class="lawyer-select">
             <option value="">All Availability</option>
             <option value="available">🟢 Available for Consult</option>
-            <option value="booked">🔴 Booked / In Trial</option>
+            <option value="booked">🔴 Booked / In Hearing</option>
           </select>
 
           <select id="lawyer-specialty-select" class="lawyer-select">
@@ -638,10 +656,10 @@
 
           <select id="lawyer-rate-select" class="lawyer-select">
             <option value="">Any Hourly Rate</option>
-            <option value="300">Under $300 / hr</option>
-            <option value="350">Under $350 / hr</option>
-            <option value="400">Under $400 / hr</option>
-            <option value="450">Under $450 / hr</option>
+            <option value="25000">Under ₹25,000 / hr</option>
+            <option value="35000">Under ₹35,000 / hr</option>
+            <option value="45000">Under ₹45,000 / hr</option>
+            <option value="55000">Under ₹55,000 / hr</option>
           </select>
 
           <select id="lawyer-rating-select" class="lawyer-select">
@@ -655,7 +673,7 @@
 
       <!-- SEARCH STATS BADGE BAR -->
       <div class="lawyer-results-header">
-        <span id="lawyer-count-badge" class="lawyer-count-badge">Showing 24 Verified Attorneys</span>
+        <span id="lawyer-count-badge" class="lawyer-count-badge">Showing 27 Verified Advocates</span>
         <div class="lawyer-pills-row" id="lawyer-specialty-pills">
           <button class="pill-chip active" data-specialty="All Specialties">All</button>
           <button class="pill-chip" data-specialty="Corporate Law">Corporate</button>
@@ -689,8 +707,8 @@
           <span class="tag-line"></span>
           <span class="tag-text">JUDICIAL DIRECTORY & JURISDICTIONS</span>
         </div>
-        <h2 class="section-title">Explore Authoritative Courts & Jurisdictions</h2>
-        <p class="section-subtitle">Comprehensive directory of federal appeals circuits, trial districts, specialized equity chancery tribunals, state supreme courts, and e-filing portals.</p>
+        <h2 class="section-title">Explore Authoritative Indian Courts &amp; Jurisdictions</h2>
+        <p class="section-subtitle">Authoritative directory of the Supreme Court of India, State High Courts, National Tribunals (NCLAT, NGT, ITAT, TDSAT, NCDRC), and District &amp; Sessions Courts with e-filing systems.</p>
       </div>
 
       <!-- COURT CONTROLS & SEARCH -->
@@ -704,25 +722,24 @@
         <div class="court-filters">
           <select id="court-jurisdiction-select" class="court-select">
             <option value="All Jurisdictions">All Jurisdictions</option>
-            <option value="Federal Supreme">Federal Supreme Court</option>
-            <option value="Federal Appellate">Federal Circuit Courts of Appeals</option>
-            <option value="Federal District">Federal District Courts (Trial)</option>
-            <option value="Specialized Court">Specialized & Chancery Courts</option>
-            <option value="State Supreme">State Supreme Courts</option>
-            <option value="County & Circuit Court">County & Circuit Courts</option>
-            <option value="Bankruptcy Court">U.S. Bankruptcy Courts</option>
+            <option value="Apex Supreme Court">Supreme Court of India</option>
+            <option value="State High Court">State High Courts</option>
+            <option value="Specialized Tribunal">National Tribunals &amp; Commissions</option>
+            <option value="District & Sessions Court">District &amp; Sessions Courts</option>
           </select>
 
           <select id="court-state-select" class="court-select">
             <option value="All States">All Locations</option>
-            <option value="DC">Washington, D.C.</option>
-            <option value="NY">New York</option>
-            <option value="CA">California</option>
-            <option value="DE">Delaware</option>
-            <option value="TX">Texas</option>
-            <option value="IL">Illinois</option>
-            <option value="FL">Florida</option>
-            <option value="MA">Massachusetts</option>
+            <option value="Delhi">Delhi (NCR)</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Punjab & Haryana">Punjab &amp; Haryana</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Kerala">Kerala</option>
           </select>
         </div>
       </div>
@@ -732,12 +749,10 @@
         <span id="court-count-badge" class="court-count-badge">Showing 20 Verified Courts</span>
         <div class="court-pills-row" id="court-pills-row">
           <button class="court-pill-chip active" data-jurisdiction="All Jurisdictions">All Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Federal Supreme">Supreme Court</button>
-          <button class="court-pill-chip" data-jurisdiction="Federal Appellate">Appeals Circuits</button>
-          <button class="court-pill-chip" data-jurisdiction="Federal District">District Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Specialized Court">Specialized / Chancery</button>
-          <button class="court-pill-chip" data-jurisdiction="State Supreme">State Supreme</button>
-          <button class="court-pill-chip" data-jurisdiction="County & Circuit Court">County / Circuit</button>
+          <button class="court-pill-chip" data-jurisdiction="Apex Supreme Court">Supreme Court</button>
+          <button class="court-pill-chip" data-jurisdiction="State High Court">High Courts</button>
+          <button class="court-pill-chip" data-jurisdiction="Specialized Tribunal">National Tribunals</button>
+          <button class="court-pill-chip" data-jurisdiction="District & Sessions Court">District Courts</button>
         </div>
       </div>
 
@@ -757,25 +772,43 @@
       <div class="section-header center">
         <span class="section-tag">GLOBAL JURISPRUDENCE &amp; DISPATCHES</span>
         <h2 class="section-title">World Legal News &amp; International Law</h2>
-        <p class="section-subtitle">Real-time dispatches on international court verdicts, cross-border treaty frameworks, multinational regulatory mandates, and global jurisprudence.</p>
+        <p class="section-subtitle">Real-time dispatches on Indian and international court verdicts, constitutional benches, regulatory mandates, and global jurisprudence.</p>
+      </div>
+
+      <!-- NEWS LANGUAGE SELECTION BAR (INDIAN & GLOBAL LANGUAGES) -->
+      <div class="news-lang-bar" id="news-lang-bar">
+        <div class="news-lang-label">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span id="news-lang-label-text">Read In:</span>
+        </div>
+        <div class="news-lang-pills" id="news-lang-pills">
+          <button type="button" class="news-lang-btn active" data-lang="en"><span class="lang-flag">🇬🇧</span> English</button>
+          <button type="button" class="news-lang-btn" data-lang="kn"><span class="lang-flag">🇮🇳</span> ಕನ್ನಡ (Kannada)</button>
+          <button type="button" class="news-lang-btn" data-lang="hi"><span class="lang-flag">🇮🇳</span> हिन्दी (Hindi)</button>
+          <button type="button" class="news-lang-btn" data-lang="ta"><span class="lang-flag">🇮🇳</span> தமிழ் (Tamil)</button>
+          <button type="button" class="news-lang-btn" data-lang="te"><span class="lang-flag">🇮🇳</span> తెలుగు (Telugu)</button>
+          <button type="button" class="news-lang-btn" data-lang="bn"><span class="lang-flag">🇮🇳</span> বাংলা (Bengali)</button>
+          <button type="button" class="news-lang-btn" data-lang="mr"><span class="lang-flag">🇮🇳</span> मराठी (Marathi)</button>
+          <button type="button" class="news-lang-btn" data-lang="gu"><span class="lang-flag">🇮🇳</span> ગુજરાતી (Gujarati)</button>
+        </div>
       </div>
 
       <!-- LIVE GLOBAL WIRE TICKER -->
       <div class="world-ticker-bar" id="world-ticker-bar">
         <div class="world-ticker-badge">
           <span class="status-pulse-dot"></span>
-          <span>LIVE GLOBAL WIRE</span>
+          <span id="world-ticker-badge-text">LIVE LEGAL WIRE</span>
         </div>
         <div class="world-ticker-content" id="world-ticker-content">
+          <span class="ticker-item">🇮🇳 <strong>Supreme Court</strong>: Affirms DPDP Act Enforcement with corporate penalties up to ₹250 Cr</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🏛️ <strong>Karnataka High Court</strong>: Orders civic infrastructure accountability & pothole compensation</span>
+          <span class="ticker-divider">·</span>
+          <span class="ticker-item">🇮🇳 <strong>Constitution Bench</strong>: Declares voter right to know political contributions as fundamental right</span>
+          <span class="ticker-divider">·</span>
           <span class="ticker-item">🌐 <strong>EU AI Act</strong>: Enters full cross-border enforcement with worldwide turnover sanctions up to €35M</span>
           <span class="ticker-divider">·</span>
           <span class="ticker-item">🇺🇳 <strong>ICJ The Hague</strong>: Issues historic Advisory Opinion establishing binding customary state climate obligations under UNCLOS</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item">🇬🇧 <strong>UK Supreme Court</strong>: Rules generative artificial intelligence cannot be designated as patent inventors</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item">🇪🇺 <strong>CJEU Luxembourg</strong>: Mandates zero-knowledge client-side encryption for transatlantic enterprise cloud transfers</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item">🌏 <strong>SICC Singapore</strong>: Enforces decentralized smart contract escrows in international maritime arbitration</span>
         </div>
       </div>
 
@@ -783,7 +816,7 @@
       <div class="world-news-controls">
         <div class="world-search-box">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="world-search-input" placeholder="Search world legal news, treaties, or tribunals..." />
+          <input type="text" id="world-search-input" placeholder="Search world & Indian legal news, treaties, or tribunals..." />
           <button id="world-search-clear" class="search-clear-btn hidden">&times;</button>
         </div>
 
@@ -794,20 +827,22 @@
           </div>
           <button class="world-refresh-btn" id="world-refresh-btn" title="Refresh Global Dispatches">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            Refresh
+            <span id="world-refresh-text">Refresh</span>
           </button>
         </div>
       </div>
 
       <!-- REGION PILL FILTERS -->
       <div class="world-region-pills" id="world-region-pills">
-        <button class="world-pill-chip active" data-region="All">🌐 All Global Regions</button>
-        <button class="world-pill-chip" data-region="European Union">🇪🇺 European Union</button>
-        <button class="world-pill-chip" data-region="International Courts">🇺🇳 International Courts (ICJ / ICC)</button>
-        <button class="world-pill-chip" data-region="UK &amp; Commonwealth">🇬🇧 UK &amp; Commonwealth</button>
-        <button class="world-pill-chip" data-region="Asia-Pacific">🌏 Asia-Pacific &amp; Trade</button>
-        <button class="world-pill-chip" data-region="Americas">🌎 Americas &amp; Human Rights</button>
-        <button class="world-pill-chip" data-region="Global Tech">⚡ Global AI &amp; Finance</button>
+        <button class="world-pill-chip active" data-region="All" id="pill-region-all">🌐 All Jurisdictions</button>
+        <button class="world-pill-chip" data-region="India & Supreme Court" id="pill-region-india">🇮🇳 India &amp; Supreme Court</button>
+        <button class="world-pill-chip" data-region="Karnataka & High Courts" id="pill-region-karnataka">🏛️ Karnataka &amp; High Courts</button>
+        <button class="world-pill-chip" data-region="European Union" id="pill-region-eu">🇪🇺 European Union</button>
+        <button class="world-pill-chip" data-region="International Courts" id="pill-region-intl">🇺🇳 International Courts (ICJ / ICC)</button>
+        <button class="world-pill-chip" data-region="UK & Commonwealth" id="pill-region-uk">🇬🇧 UK &amp; Commonwealth</button>
+        <button class="world-pill-chip" data-region="Asia-Pacific" id="pill-region-asia">🌏 Asia-Pacific &amp; Trade</button>
+        <button class="world-pill-chip" data-region="Americas" id="pill-region-americas">🌎 Americas &amp; Human Rights</button>
+        <button class="world-pill-chip" data-region="Global Tech" id="pill-region-tech">⚡ Global AI &amp; Finance</button>
       </div>
 
       <!-- FEATURED LEAD DISPATCH (HERO) -->
@@ -863,7 +898,8 @@
           <li><a href="user.html">Client Case Portal</a></li>
           <li><a href="admin.html">Admin Command Suite</a></li>
           <li><a href="#" id="footer-ai-link">AI Assistant</a></li>
-          <li><a href="#lawyers">Find Lawyers</a></li>
+          <li><a href="lawyers.html">Advocates Directory</a></li>
+          <li><a href="#lawyers">Featured Lawyers</a></li>
           <li><a href="#courts">Courts Directory</a></li>
           <li><a href="#world-news">World Legal News</a></li>
           <li><a href="#practice-areas">Practice Articles</a></li>
@@ -1149,6 +1185,112 @@
         <button class="bookings-close-action-btn" onclick="closeBookingsModal();">
           Close
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAWYER FULL DETAILS MODAL -->
+  <div class="lawyer-modal-overlay hidden" id="lawyer-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="lawyer-modal-name">
+    <div class="lawyer-modal" id="lawyer-modal">
+      <button class="modal-close" id="lawyer-modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="lawyer-modal-header">
+        <div class="lawyer-modal-avatar-col" id="lawyer-modal-avatar-wrap">
+          <!-- Populated dynamically by openLawyerModal -->
+        </div>
+        <div class="lawyer-modal-header-info">
+          <div class="lawyer-modal-badges">
+            <span class="badge-verified">✓ Bar Verified</span>
+            <span class="badge-specialty" id="lawyer-modal-specialty">Civil Litigation</span>
+            <span class="badge-availability" id="lawyer-modal-avail">Available</span>
+          </div>
+          <h3 class="lawyer-modal-name" id="lawyer-modal-name">Advocate Name</h3>
+          <p class="lawyer-modal-title" id="lawyer-modal-title">Senior Advocate</p>
+          <div class="lawyer-modal-barnum-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <span id="lawyer-modal-barnum">Bar No: D/1428/2006</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-body">
+        <!-- Key Metrics Grid -->
+        <div class="lawyer-modal-stats-grid">
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Experience</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-exp">18+ Years</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Cases Won</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-wins">240 Cases</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Success Rate</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-success">96%</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Client Rating</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-rating">★ 4.9 (142 reviews)</span>
+          </div>
+          <div class="lawyer-mstat full-span">
+            <span class="lawyer-mstat-lbl">Consultation Rate</span>
+            <span class="lawyer-mstat-val highlight" id="lawyer-modal-rate">₹7,500 / hr</span>
+          </div>
+        </div>
+
+        <!-- Practice & Chambers -->
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🏛️ Chambers & Practice Location</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
+          </div>
+        </div>
+
+        <!-- Education & Languages -->
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🎓 Education & Languages Spoken</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <span id="lawyer-modal-education">Faculty of Law, University of Delhi, LL.B.</span>
+          </div>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span id="lawyer-modal-languages">English, Hindi, Bengali</span>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">📞 Direct Verified Contact Channels</h4>
+          <div class="lawyer-minfo-grid">
+            <a class="lawyer-contact-link" id="lawyer-modal-phone-link" href="#" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span id="lawyer-modal-phone">+91 11 2461 7890</span>
+            </a>
+            <a class="lawyer-contact-link" id="lawyer-modal-email-link" href="#" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span id="lawyer-modal-email">advocate@legalai.org</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Full Biography -->
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">⚖️ Professional Biography & Courtroom Background</h4>
+          <p class="lawyer-modal-bio" id="lawyer-modal-bio">Professional biography...</p>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-footer">
+        <button type="button" class="btn-lawyer-copy" id="lawyer-modal-btn-copy" title="Copy full advocate profile summary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="lawyer-copy-btn-text">Copy Advocate Details</span>
+        </button>
+        <button type="button" class="btn-consult btn-lawyer-modal-book" id="lawyer-modal-btn-book">
+          📅 Book Consultation
+        </button>
+        <button type="button" class="btn-court-close" id="lawyer-modal-btn-close">Close</button>
       </div>
     </div>
   </div>
@@ -1668,6 +1810,19 @@
         </button>
 
         <div class="reader-topbar-actions">
+          <div class="reader-lang-selector-wrap" title="Change Article Reading Language">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <select id="reader-lang-select" class="reader-lang-select" aria-label="Choose Language" onchange="window.setNewsLanguage(this.value)">
+              <option value="en">English (Default)</option>
+              <option value="kn">ಕನ್ನಡ (Kannada)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="ta">தமிழ் (Tamil)</option>
+              <option value="te">తెలుగు (Telugu)</option>
+              <option value="bn">বাংলা (Bengali)</option>
+              <option value="mr">मराठी (Marathi)</option>
+              <option value="gu">ગુજરાતી (Gujarati)</option>
+            </select>
+          </div>
           <button class="reader-action-btn" id="reader-speech-btn" onclick="window.toggleArticleSpeech(event)" title="Read Aloud / Text-to-Speech">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -1704,6 +1859,35 @@
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive TTS Audio Player Bar -->
+      <div class="reader-audio-player hidden" id="reader-audio-player">
+        <div class="audio-player-left">
+          <div class="audio-equalizer" id="audio-equalizer">
+            <span class="eq-bar bar-1"></span>
+            <span class="eq-bar bar-2"></span>
+            <span class="eq-bar bar-3"></span>
+            <span class="eq-bar bar-4"></span>
+          </div>
+          <div class="audio-info">
+            <span class="audio-status-label" id="audio-status-label">Narrating Dispatch</span>
+            <span class="audio-track-title" id="audio-track-title">Loading audio...</span>
+          </div>
+        </div>
+        <div class="audio-player-controls">
+          <button class="audio-btn" id="audio-pause-btn" onclick="window.pauseOrResumeSpeech()" title="Pause/Resume">
+            <svg id="audio-pause-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            <span id="audio-pause-text">Pause</span>
+          </button>
+          <button class="audio-btn" id="audio-speed-btn" onclick="window.cycleSpeechRate()" title="Speed">
+            <span id="audio-speed-text">1.0x</span>
+          </button>
+          <button class="audio-btn stop-btn" id="audio-stop-btn" onclick="window.stopArticleSpeech()" title="Stop Audio">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"></rect></svg>
+            <span>Stop</span>
           </button>
         </div>
       </div>
@@ -1824,6 +2008,7 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toast-container"></div>
 
-  <script src="script.js?v=2.6.0"></script>
+  <script src="newsLanguages.js?v=2.6.2"></script>
+  <script src="script.js?v=2.6.2"></script>
 </body>
 </html>

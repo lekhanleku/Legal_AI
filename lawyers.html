@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verified Indian Advocates & Senior Counsel Directory — LegalAI</title>
+  <meta name="description" content="Browse and consult top verified Indian senior advocates, partners, and legal specialists by practice domain, city, experience, and hourly fee."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css?v=2.6.1"/>
+</head>
+<body class="directory-page-main">
+
+  <!-- ===================================
+       HEADER NAVBAR
+       =================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand-group">
+        <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+          <span class="bar bar-1"></span>
+          <span class="bar bar-2"></span>
+          <span class="bar bar-3"></span>
+        </button>
+
+        <a href="index.html" class="nav-logo" aria-label="LegalAI Home">
+          <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span class="logo-text">Legal<span class="gold">AI</span></span>
+        </a>
+      </div>
+
+      <nav class="nav-desktop">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="lawyers.html" class="nav-link active">Find Lawyers</a></li>
+          <li><a href="index.html#courts" class="nav-link">Courts Directory</a></li>
+          <li><a href="user.html" class="nav-link">Client Portal</a></li>
+          <li><a href="admin.html" class="nav-link">Admin</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="nav-bookings-link" onclick="openBookingsModal();" title="View your scheduled consultations">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="nav-bookings-text">My Consultations</span>
+          <span class="nav-badge-count" id="badge-nav-bookings">0</span>
+        </button>
+        <a href="user.html" class="nav-cta-btn" id="nav-auth-btn">Client Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================
+       SIDEBAR MOBILE DRAWER
+       =================================== -->
+  <aside class="side-menu-drawer" id="side-menu-drawer" aria-hidden="true">
+    <div class="side-menu-header">
+      <a href="index.html" class="side-menu-logo">
+        <svg class="logo-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span class="logo-text">Legal<span class="gold">AI</span></span>
+      </a>
+      <button class="side-menu-close" id="side-menu-close" aria-label="Close Menu">&times;</button>
+    </div>
+    <div class="side-menu-body">
+      <div class="side-nav-group">
+        <div class="side-nav-label">Navigation</div>
+        <a href="index.html" class="side-menu-link">Home Landing Page</a>
+        <a href="lawyers.html" class="side-menu-link active">Find Licensed Advocates</a>
+        <a href="index.html#courts" class="side-menu-link">Courts & Jurisdictions</a>
+        <a href="user.html" class="side-menu-link">Client Portal (My Cases)</a>
+        <a href="admin.html" class="side-menu-link">Administrative Portal</a>
+      </div>
+      <div class="side-nav-group">
+        <div class="side-nav-label">Quick Consultations</div>
+        <button type="button" class="side-menu-link" onclick="closeSideMenu(); openBookingsModal();">
+          📅 My Booked Consultations
+        </button>
+      </div>
+    </div>
+  </aside>
+  <div class="side-menu-overlay" id="side-menu-overlay"></div>
+
+  <!-- ===================================
+       HERO BANNER
+       =================================== -->
+  <section class="directory-hero">
+    <div class="directory-hero-inner">
+      <nav class="directory-breadcrumbs" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <span>Directory</span>
+        <span class="sep">/</span>
+        <span class="curr">Verified Advocates</span>
+      </nav>
+
+      <div class="directory-title-wrap">
+        <div class="section-tag">VERIFIED LEGAL NETWORK · SUPREME COURT & HIGH COURTS</div>
+        <h1 class="directory-hero-title">
+          Consult Top Verified <span>Indian Advocates</span>
+        </h1>
+        <p class="directory-hero-desc">
+          Connect directly with elite Senior Advocates, King's Counsel, and Managing Partners practicing before the Supreme Court of India, State High Courts, and Specialized National Tribunals. Verified Bar Council registrations, transparent fee schedules, and proven courtroom track records.
+        </p>
+      </div>
+
+      <div class="directory-kpi-bar">
+        <div class="directory-kpi-card">
+          <div class="directory-kpi-icon">⚖️</div>
+          <div>
+            <div class="directory-kpi-num" id="kpi-total-lawyers">27</div>
+            <div class="directory-kpi-label">Verified Advocates</div>
+          </div>
+        </div>
+
+        <div class="directory-kpi-card">
+          <div class="directory-kpi-icon">🛡️</div>
+          <div>
+            <div class="directory-kpi-num">100%</div>
+            <div class="directory-kpi-label">State Bar Verified</div>
+          </div>
+        </div>
+
+        <div class="directory-kpi-card">
+          <div class="directory-kpi-icon">🏆</div>
+          <div>
+            <div class="directory-kpi-num">97%+</div>
+            <div class="directory-kpi-label">Average Win Rate</div>
+          </div>
+        </div>
+
+        <div class="directory-kpi-card">
+          <div class="directory-kpi-icon">🟢</div>
+          <div>
+            <div class="directory-kpi-num" id="kpi-available-count">27</div>
+            <div class="directory-kpi-label">Available for Consult</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================
+       MAIN DIRECTORY SECTION
+       =================================== -->
+  <main class="directory-body-section">
+
+    <!-- SEARCH & FILTER TOOLBAR -->
+    <div class="directory-toolbar-card">
+      <div class="directory-search-row">
+        <div class="directory-search-input-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="lawyer-search-input"
+            class="directory-search-input"
+            placeholder="Search advocate name, chambers, city, or Bar Council enrollment (e.g. Harish Salve, D/248/1980)..."
+            autocomplete="off"
+          />
+          <button type="button" id="lawyer-search-clear" class="directory-search-clear hidden" aria-label="Clear search">&times;</button>
+        </div>
+
+        <button type="button" class="directory-reset-btn" id="btn-reset-filters" title="Reset all search filters">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          Reset Filters
+        </button>
+      </div>
+
+      <div class="directory-filters-grid">
+        <!-- Practice Specialty Filter -->
+        <select id="lawyer-specialty-select" class="directory-select" aria-label="Filter by practice specialty">
+          <option value="All Specialties">All Practice Specialties</option>
+          <option value="Corporate Law">Corporate Law & M&A</option>
+          <option value="Criminal Law">Criminal Law & Trial Defense</option>
+          <option value="Intellectual Property">Intellectual Property (IP)</option>
+          <option value="Civil Rights">Civil Rights & Constitutional</option>
+          <option value="Real Estate Law">Real Estate & Property Law</option>
+          <option value="Family Law">Family Law & Matrimonial</option>
+          <option value="Employment Law">Employment & Workplace Disputes</option>
+          <option value="Tax Law">Tax Law & Cross-Border Wealth</option>
+          <option value="Immigration Law">Immigration & Global Mobility</option>
+          <option value="Personal Injury">Personal Injury & Torts</option>
+          <option value="Healthcare Law">Healthcare & Pharma Regulation</option>
+        </select>
+
+        <!-- Location Filter -->
+        <select id="lawyer-location-select" class="directory-select" aria-label="Filter by location">
+          <option value="All Locations">All Practice Locations</option>
+          <option value="New Delhi">New Delhi (NCR / Supreme Court)</option>
+          <option value="Mumbai">Mumbai (Maharashtra / Bombay HC)</option>
+          <option value="Bengaluru">Bengaluru (Karnataka HC)</option>
+          <option value="Chennai">Chennai (Madras HC)</option>
+        </select>
+
+        <!-- Hourly Fee Filter -->
+        <select id="lawyer-rate-select" class="directory-select" aria-label="Filter by fee">
+          <option value="">Any Hourly Rate</option>
+          <option value="25000">Under ₹25,000 / hr</option>
+          <option value="35000">Under ₹35,000 / hr</option>
+          <option value="45000">Under ₹45,000 / hr</option>
+          <option value="55000">Under ₹55,000 / hr</option>
+        </select>
+
+        <!-- Rating Filter -->
+        <select id="lawyer-rating-select" class="directory-select" aria-label="Filter by rating">
+          <option value="">Any Client Rating</option>
+          <option value="4.8">4.8+ ⭐ Star Rating</option>
+          <option value="4.9">4.9+ ⭐ Star Rating</option>
+          <option value="5.0">5.0 ⭐ Top Rated Advocates</option>
+        </select>
+
+        <!-- Availability Filter -->
+        <select id="lawyer-avail-select" class="directory-select" aria-label="Filter by availability">
+          <option value="">All Availability Status</option>
+          <option value="available">🟢 Available for Consult Today</option>
+          <option value="booked">🔴 Booked / Currently in Trial</option>
+        </select>
+
+        <!-- Sort Select -->
+        <select id="lawyer-sort-select" class="directory-select" aria-label="Sort advocates">
+          <option value="rating">Sort: Highest Rated First</option>
+          <option value="experience">Sort: Most Experienced First</option>
+          <option value="cases">Sort: Most Cases Won</option>
+          <option value="rate-asc">Sort: Fee (Low to High)</option>
+          <option value="rate-desc">Sort: Fee (High to Low)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SUBNAV CONTROLS & SPECIALTY PILLS ROW -->
+    <div class="directory-subnav-row">
+      <div class="directory-results-count">
+        <span class="status-pulse-dot"></span>
+        <span id="lawyer-count-badge">Showing 27 Verified Advocates</span>
+      </div>
+
+      <div class="directory-view-toggles">
+        <button type="button" class="lawyers-toggle-btn active" id="tab-available-lawyers">
+          <span class="status-pulse-dot"></span>
+          <span>Available Advocates</span>
+        </button>
+        <button type="button" class="lawyers-toggle-btn" id="tab-booked-lawyers" onclick="openBookingsModal(); return false;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>My Booked Consultations</span>
+          <span class="toggle-badge booked-badge" id="badge-booked-count">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SPECIALTY PILLS -->
+    <div class="lawyer-pills-row" id="lawyer-specialty-pills" style="margin-bottom: 30px;">
+      <button class="pill-chip active" data-specialty="All Specialties">All Advocates</button>
+      <button class="pill-chip" data-specialty="Corporate Law">Corporate Law</button>
+      <button class="pill-chip" data-specialty="Criminal Law">Criminal Law</button>
+      <button class="pill-chip" data-specialty="Intellectual Property">Intellectual Property</button>
+      <button class="pill-chip" data-specialty="Civil Rights">Civil Rights</button>
+      <button class="pill-chip" data-specialty="Real Estate Law">Real Estate</button>
+      <button class="pill-chip" data-specialty="Family Law">Family Law</button>
+      <button class="pill-chip" data-specialty="Employment Law">Employment Law</button>
+      <button class="pill-chip" data-specialty="Tax Law">Tax Law</button>
+      <button class="pill-chip" data-specialty="Immigration Law">Immigration</button>
+      <button class="pill-chip" data-specialty="Personal Injury">Personal Injury</button>
+      <button class="pill-chip" data-specialty="Healthcare Law">Healthcare Law</button>
+    </div>
+
+    <!-- DYNAMIC LAWYERS GRID -->
+    <div class="lawyers-grid" id="lawyers-grid">
+      <!-- Populated dynamically by lawyers.js -->
+    </div>
+  </main>
+
+  <!-- ===================================
+       LAWYER FULL DETAILS MODAL
+       =================================== -->
+  <div class="lawyer-modal-overlay hidden" id="lawyer-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="lawyer-modal-name">
+    <div class="lawyer-modal" id="lawyer-modal">
+      <button class="modal-close" id="lawyer-modal-close" aria-label="Close modal">&times;</button>
+      
+      <div class="lawyer-modal-header">
+        <div class="lawyer-modal-avatar-col" id="lawyer-modal-avatar-wrap">
+          <!-- Populated dynamically by openLawyerModal -->
+        </div>
+        <div class="lawyer-modal-header-info">
+          <div class="lawyer-modal-badges">
+            <span class="badge-specialty" id="lawyer-modal-specialty">Civil Litigation</span>
+            <span class="badge-availability" id="lawyer-modal-avail">Available</span>
+          </div>
+          <h3 class="lawyer-modal-name" id="lawyer-modal-name">Advocate Name</h3>
+          <p class="lawyer-modal-title" id="lawyer-modal-title">Senior Advocate</p>
+          <div class="lawyer-modal-barnum-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span id="lawyer-modal-barnum">Bar No: D/1428/2006</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-body">
+        <div class="lawyer-modal-stats-grid">
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Experience</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-exp">18+ Years</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Cases Won</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-wins">240 Cases</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Success Rate</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-success">96%</span>
+          </div>
+          <div class="lawyer-mstat">
+            <span class="lawyer-mstat-lbl">Client Rating</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-rating">★ 4.9 (142 reviews)</span>
+          </div>
+          <div class="lawyer-mstat full-span">
+            <span class="lawyer-mstat-lbl">Consultation Rate</span>
+            <span class="lawyer-mstat-val highlight" id="lawyer-modal-rate">₹7,500 / hr</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🏛 Chambers &amp; Practice Location</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">🎓 Education &amp; Languages Spoken</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span id="lawyer-modal-education">Faculty of Law, University of Delhi, LL.B.</span>
+          </div>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span id="lawyer-modal-languages">English, Hindi, Bengali</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">📞 Direct Verified Contact Channels</h4>
+          <div class="lawyer-minfo-grid">
+            <a class="lawyer-contact-link" id="lawyer-modal-phone-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span id="lawyer-modal-phone">+91 11 2461 7890</span>
+            </a>
+            <a class="lawyer-contact-link" id="lawyer-modal-email-link" href="#" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <span id="lawyer-modal-email">advocate@legalai.org</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">📜 Professional Biography &amp; Courtroom Background</h4>
+          <p class="lawyer-modal-bio" id="lawyer-modal-bio">Professional biography...</p>
+        </div>
+      </div>
+
+      <div class="lawyer-modal-footer">
+        <button type="button" class="btn-lawyer-copy" id="lawyer-modal-btn-copy" title="Copy full advocate profile summary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <span id="lawyer-copy-btn-text">Copy Advocate Details</span>
+        </button>
+        <button type="button" class="btn-consult btn-lawyer-modal-book" id="lawyer-modal-btn-book">
+          📅 Book Consultation with This Advocate
+        </button>
+        <button type="button" class="btn-court-close" id="lawyer-modal-btn-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================
+       ATTORNEY CONSULTATION BOOKING MODAL
+       =================================== -->
+  <div class="modal-overlay hidden" id="consult-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="consult-modal-title">
+    <div class="modal-box">
+      <button class="modal-close" id="consult-modal-close" aria-label="Close modal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-icon">⚖️</div>
+        <h3 class="modal-title" id="consult-modal-title">Book Attorney Consultation</h3>
+        <p class="modal-subtitle" id="consult-attorney-subtitle">Consult directly with top legal specialists</p>
+      </div>
+
+      <form class="consult-form" id="consult-form" novalidate>
+        <input type="hidden" id="consult-lawyer-id" name="lawyerId" value="" />
+
+        <div class="form-group">
+          <label for="consult-name">Full Name <span class="required">*</span></label>
+          <input type="text" id="consult-name" name="clientName" placeholder="Advocate or Client Full Name" required />
+          <span class="field-error" id="err-consult-name"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="consult-email">Email Address <span class="required">*</span></label>
+            <input type="email" id="consult-email" name="clientEmail" placeholder="client@example.com" required />
+            <span class="field-error" id="err-consult-email"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="consult-phone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="consult-phone" name="clientPhone" placeholder="+91 98765 43210" required />
+            <span class="field-error" id="err-consult-phone"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-date">Preferred Consultation Date <span class="required">*</span></label>
+          <input type="date" id="consult-date" name="preferredDate" required />
+          <span class="field-error" id="err-consult-date"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="consult-summary">Brief Case Summary / Legal Concern</label>
+          <textarea id="consult-summary" name="caseSummary" rows="3" placeholder="Describe the dispute, contract, court hearing, or legal guidance required..."></textarea>
+        </div>
+
+        <div class="consult-modal-footer">
+          <button type="submit" class="btn-submit-consult" id="consult-submit">
+            <span class="btn-text">Confirm Consultation Request</span>
+            <span class="btn-spinner hidden"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================
+       BOOKINGS LIST MODAL
+       =================================== -->
+  <div class="bookings-modal-overlay hidden" id="bookings-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="bookings-modal-title">
+    <div class="bookings-modal" id="bookings-modal">
+      <div class="bookings-modal-header">
+        <div>
+          <div class="bookings-modal-tag"><span class="status-pulse-dot"></span> CLIENT CONSULTATION PORTAL</div>
+          <h3 class="bookings-modal-title" id="bookings-modal-title">My Booked Consultations</h3>
+          <p class="bookings-modal-subtitle">Review, manage, or contact your booked specialist attorneys</p>
+        </div>
+        <button class="bookings-modal-close" id="bookings-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="bookings-tabs-bar">
+        <button class="bookings-tab-btn active" data-tab="all" id="tab-btn-all">
+          All Sessions (<span id="count-all-tab">0</span>)
+        </button>
+        <button class="bookings-tab-btn" data-tab="active" id="tab-btn-active">
+          Confirmed Consultations (<span id="count-active-tab">0</span>)
+        </button>
+        <button class="bookings-tab-btn" data-tab="cancelled" id="tab-btn-cancelled">
+          Cancelled (<span id="count-cancelled-tab">0</span>)
+        </button>
+      </div>
+
+      <div class="bookings-toolbar">
+        <div class="bookings-search-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="bookings-search-input" placeholder="Filter bookings by lawyer name, specialty, or email..." />
+        </div>
+        <button class="bookings-refresh-btn" id="bookings-refresh-btn" title="Refresh Consultation Records">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="bookings-list-container" id="bookings-list-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ===================================
+       FOOTER
+       =================================== -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-col brand-col">
+        <a href="index.html" class="footer-logo">
+          <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span class="logo-text">Legal<span class="gold">AI</span></span>
+        </a>
+        <p class="footer-tagline">Elite human legal expertise combined with verified state bar credentials and intelligent AI legal workflows.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Legal Directory</h4>
+        <ul class="footer-links">
+          <li><a href="lawyers.html">Find Verified Advocates</a></li>
+          <li><a href="index.html#courts">Courts & Jurisdictions</a></li>
+          <li><a href="user.html">Client Portal</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Top Specialties</h4>
+        <ul class="footer-links">
+          <li><a href="lawyers.html?specialty=Corporate%20Law">Corporate Law & M&A</a></li>
+          <li><a href="lawyers.html?specialty=Criminal%20Law">Criminal Defense</a></li>
+          <li><a href="lawyers.html?specialty=Intellectual%20Property">Intellectual Property</a></li>
+          <li><a href="lawyers.html?specialty=Civil%20Rights">Constitutional & Rights</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Bar Compliance</h4>
+        <p style="font-size: 0.8rem; color: var(--muted); line-height: 1.5;">
+          All advocates listed in this directory are licensed members of their respective State Bar Councils and the Bar Council of India.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 LegalAI. All rights reserved. Information provided is for legal directory and scheduling purposes.</p>
+    </div>
+  </footer>
+
+  <script src="lawyers.js?v=2.6.1"></script>
+</body>
+</html>
+

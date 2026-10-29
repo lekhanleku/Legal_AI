@@ -428,10 +428,10 @@
         </div>
         <div class="portal-filter-group" id="courts-jurisdiction-filters">
           <button class="portal-filter-btn active" data-jurisdiction="all">All Jurisdictions</button>
-          <button class="portal-filter-btn" data-jurisdiction="Federal Appellate">Appellate</button>
-          <button class="portal-filter-btn" data-jurisdiction="Federal District">Federal District</button>
-          <button class="portal-filter-btn" data-jurisdiction="State Supreme">State Supreme</button>
-          <button class="portal-filter-btn" data-jurisdiction="Specialized Jurisdiction">Specialized</button>
+          <button class="portal-filter-btn" data-jurisdiction="Apex Supreme Court">Supreme Court</button>
+          <button class="portal-filter-btn" data-jurisdiction="State High Court">High Courts</button>
+          <button class="portal-filter-btn" data-jurisdiction="Specialized Tribunal">Tribunals</button>
+          <button class="portal-filter-btn" data-jurisdiction="District & Sessions Court">District Courts</button>
         </div>
         <button class="btn-portal-primary" id="btn-open-add-court">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -591,54 +591,54 @@
         <div class="portal-modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div class="portal-form-group">
             <label>Full Name *</label>
-            <input type="text" id="new-lawyer-name" class="portal-form-input" placeholder="Elena Vance, Esq." required/>
+            <input type="text" id="new-lawyer-name" class="portal-form-input" placeholder="Harish Salve, Senior Advocate" required/>
           </div>
           <div class="portal-form-group">
             <label>Title / Role *</label>
-            <input type="text" id="new-lawyer-title" class="portal-form-input" placeholder="Senior Housing & Real Estate Counsel" required/>
+            <input type="text" id="new-lawyer-title" class="portal-form-input" placeholder="Senior Advocate & King's Counsel" required/>
           </div>
           <div class="portal-form-group">
             <label>Specialty Practice Domain *</label>
-            <input type="text" id="new-lawyer-specialty" class="portal-form-input" placeholder="Real Estate Law" required/>
+            <input type="text" id="new-lawyer-specialty" class="portal-form-input" placeholder="Corporate Law" required/>
           </div>
           <div class="portal-form-group">
-            <label>State Bar Number *</label>
-            <input type="text" id="new-lawyer-barnum" class="portal-form-input" placeholder="NY-849201" required/>
+            <label>Bar Council Enrollment Number *</label>
+            <input type="text" id="new-lawyer-barnum" class="portal-form-input" placeholder="D/248/1980" required/>
           </div>
           <div class="portal-form-group">
             <label>Firm Name</label>
-            <input type="text" id="new-lawyer-firm" class="portal-form-input" placeholder="Vance & Partners LLP"/>
+            <input type="text" id="new-lawyer-firm" class="portal-form-input" placeholder="Chambers of Harish Salve"/>
           </div>
           <div class="portal-form-group">
-            <label>Hourly Rate ($) *</label>
-            <input type="number" id="new-lawyer-rate" class="portal-form-input" placeholder="350" required min="50"/>
+            <label>Hourly Rate (₹) *</label>
+            <input type="number" id="new-lawyer-rate" class="portal-form-input" placeholder="45000" required min="1000"/>
           </div>
           <div class="portal-form-group">
             <label>City &amp; State *</label>
             <div style="display:flex; gap:8px;">
-              <input type="text" id="new-lawyer-city" class="portal-form-input" placeholder="New York" required/>
-              <input type="text" id="new-lawyer-state" class="portal-form-input" placeholder="NY" style="max-width:70px;" required/>
+              <input type="text" id="new-lawyer-city" class="portal-form-input" placeholder="New Delhi" required/>
+              <input type="text" id="new-lawyer-state" class="portal-form-input" placeholder="Delhi" style="max-width:80px;" required/>
             </div>
           </div>
           <div class="portal-form-group">
             <label>Education / Law School</label>
-            <input type="text" id="new-lawyer-edu" class="portal-form-input" placeholder="Columbia Law School, J.D."/>
+            <input type="text" id="new-lawyer-edu" class="portal-form-input" placeholder="Faculty of Law, University of Delhi, LL.B."/>
           </div>
           <div class="portal-form-group">
             <label>Experience (Years)</label>
-            <input type="number" id="new-lawyer-exp" class="portal-form-input" placeholder="12" min="1"/>
+            <input type="number" id="new-lawyer-exp" class="portal-form-input" placeholder="30" min="1"/>
           </div>
           <div class="portal-form-group">
             <label>Languages Spoken</label>
-            <input type="text" id="new-lawyer-languages" class="portal-form-input" placeholder="English, Spanish"/>
+            <input type="text" id="new-lawyer-languages" class="portal-form-input" placeholder="English, Hindi"/>
           </div>
           <div class="portal-form-group">
             <label>Phone Number *</label>
-            <input type="text" id="new-lawyer-phone" class="portal-form-input" placeholder="(212) 555-0199" required/>
+            <input type="text" id="new-lawyer-phone" class="portal-form-input" placeholder="+91 11 2461 7890" required/>
           </div>
           <div class="portal-form-group">
             <label>Email Address *</label>
-            <input type="email" id="new-lawyer-email" class="portal-form-input" placeholder="elena@vancelaw.com" required/>
+            <input type="email" id="new-lawyer-email" class="portal-form-input" placeholder="h.salve@chambersofsalve.in" required/>
           </div>
           <div class="portal-form-group">
             <label>Avatar Photo URL (Optional)</label>
@@ -690,7 +690,7 @@
             <input type="text" id="edit-lawyer-specialty" class="portal-form-input" required/>
           </div>
           <div class="portal-form-group">
-            <label>State Bar Number *</label>
+            <label>Bar Council Enrollment Number *</label>
             <input type="text" id="edit-lawyer-barnum" class="portal-form-input" required/>
           </div>
           <div class="portal-form-group">
@@ -698,8 +698,8 @@
             <input type="text" id="edit-lawyer-firm" class="portal-form-input"/>
           </div>
           <div class="portal-form-group">
-            <label>Hourly Rate ($) *</label>
-            <input type="number" id="edit-lawyer-rate" class="portal-form-input" required min="50"/>
+            <label>Hourly Rate (₹) *</label>
+            <input type="number" id="edit-lawyer-rate" class="portal-form-input" required min="1000"/>
           </div>
           <div class="portal-form-group">
             <label>City &amp; State *</label>
@@ -763,77 +763,76 @@
         <div class="portal-modal-body" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div class="portal-form-group" style="grid-column: 1 / -1;">
             <label>Court Venue Full Name *</label>
-            <input type="text" id="new-court-name" class="portal-form-input" placeholder="U.S. Court of Appeals for the Ninth Circuit" required/>
+            <input type="text" id="new-court-name" class="portal-form-input" placeholder="Supreme Court of India" required/>
           </div>
           <div class="portal-form-group">
             <label>Court Unique Code (Identifier) *</label>
-            <input type="text" id="new-court-code" class="portal-form-input" placeholder="US-CA9" style="text-transform:uppercase;" required/>
+            <input type="text" id="new-court-code" class="portal-form-input" placeholder="SCI" style="text-transform:uppercase;" required/>
           </div>
           <div class="portal-form-group">
             <label>Jurisdiction Category *</label>
             <select id="new-court-jurisdiction" class="portal-form-select" required>
-              <option value="Federal Appellate">Federal Appellate</option>
-              <option value="Federal District">Federal District</option>
-              <option value="State Supreme">State Supreme</option>
-              <option value="Specialized Jurisdiction">Specialized Jurisdiction</option>
-              <option value="Bankruptcy">Bankruptcy</option>
-              <option value="State Circuit">State Circuit</option>
+              <option value="Apex Supreme Court">Apex Supreme Court</option>
+              <option value="State High Court">State High Court</option>
+              <option value="Specialized Tribunal">Specialized Tribunal</option>
+              <option value="District & Sessions Court">District &amp; Sessions Court</option>
             </select>
           </div>
           <div class="portal-form-group">
             <label>Judicial Level *</label>
             <select id="new-court-level" class="portal-form-select" required>
-              <option value="Appellate">Appellate</option>
+              <option value="Supreme">Supreme</option>
+              <option value="High Court">High Court</option>
+              <option value="Appellate Tribunal">Appellate Tribunal</option>
+              <option value="Trial Tribunal">Trial Tribunal</option>
               <option value="Trial">Trial</option>
-              <option value="Court of Last Resort">Court of Last Resort</option>
-              <option value="Bankruptcy">Bankruptcy</option>
             </select>
           </div>
           <div class="portal-form-group">
             <label>Circuit / Region</label>
-            <input type="text" id="new-court-circuit" class="portal-form-input" placeholder="9th Circuit (or State / Federal)"/>
+            <input type="text" id="new-court-circuit" class="portal-form-input" placeholder="All India / State Jurisdiction"/>
           </div>
           <div class="portal-form-group">
             <label>City &amp; State *</label>
             <div style="display:flex; gap:8px;">
-              <input type="text" id="new-court-city" class="portal-form-input" placeholder="San Francisco" required/>
-              <input type="text" id="new-court-state" class="portal-form-input" placeholder="CA" style="max-width:70px;" required/>
+              <input type="text" id="new-court-city" class="portal-form-input" placeholder="New Delhi" required/>
+              <input type="text" id="new-court-state" class="portal-form-input" placeholder="Delhi" style="max-width:100px;" required/>
             </div>
           </div>
           <div class="portal-form-group">
-            <label>Street Address &amp; Zip *</label>
+            <label>Street Address &amp; Pin Code *</label>
             <div style="display:flex; gap:8px;">
-              <input type="text" id="new-court-address" class="portal-form-input" placeholder="95 7th Street" required/>
-              <input type="text" id="new-court-zip" class="portal-form-input" placeholder="94103" style="max-width:90px;" required/>
+              <input type="text" id="new-court-address" class="portal-form-input" placeholder="Tilak Marg, Mandi House" required/>
+              <input type="text" id="new-court-zip" class="portal-form-input" placeholder="110001" style="max-width:90px;" required/>
             </div>
           </div>
           <div class="portal-form-group">
             <label>Clerk Office Phone *</label>
-            <input type="text" id="new-court-phone" class="portal-form-input" placeholder="(415) 355-8000" required/>
+            <input type="text" id="new-court-phone" class="portal-form-input" placeholder="+91 11 2338 8922" required/>
           </div>
           <div class="portal-form-group">
             <label>Official Court Website URL *</label>
-            <input type="url" id="new-court-website" class="portal-form-input" placeholder="https://www.ca9.uscourts.gov" required/>
+            <input type="url" id="new-court-website" class="portal-form-input" placeholder="https://main.sci.gov.in" required/>
           </div>
           <div class="portal-form-group">
             <label>Clerk Office Hours</label>
-            <input type="text" id="new-court-hours" class="portal-form-input" placeholder="8:30 AM - 5:00 PM PT" value="8:30 AM - 5:00 PM"/>
+            <input type="text" id="new-court-hours" class="portal-form-input" placeholder="10:00 AM - 5:00 PM IST" value="10:00 AM - 5:00 PM IST"/>
           </div>
           <div class="portal-form-group">
             <label>Electronic Filing System *</label>
-            <input type="text" id="new-court-filing" class="portal-form-input" placeholder="CM/ECF & ACMS" required/>
+            <input type="text" id="new-court-filing" class="portal-form-input" placeholder="Supreme Court e-Filing Portal 2.0" required/>
           </div>
           <div class="portal-form-group">
             <label>Presiding Chief Judge *</label>
-            <input type="text" id="new-court-judge" class="portal-form-input" placeholder="Chief Judge Mary H. Murguia" required/>
+            <input type="text" id="new-court-judge" class="portal-form-input" placeholder="Chief Justice of India" required/>
           </div>
           <div class="portal-form-group">
             <label>Court Divisions</label>
-            <input type="text" id="new-court-divisions" class="portal-form-input" placeholder="Appellate, En Banc, Motions Panel"/>
+            <input type="text" id="new-court-divisions" class="portal-form-input" placeholder="Constitutional Bench, Appellate Division, PIL, Review Benches"/>
           </div>
           <div class="portal-form-group" style="grid-column: 1 / -1;">
             <label>Venue Overview &amp; Subject-Matter Scope *</label>
-            <textarea id="new-court-overview" class="portal-form-input" rows="2" placeholder="Authoritative federal appellate forum hearing appeals from district courts across 9 Western states..." required></textarea>
+            <textarea id="new-court-overview" class="portal-form-input" rows="2" placeholder="The highest judicial forum and final court of appeal under the Constitution of India..." required></textarea>
           </div>
         </div>
         <div class="portal-modal-footer">
@@ -868,21 +867,20 @@
           <div class="portal-form-group">
             <label>Jurisdiction Category *</label>
             <select id="edit-court-jurisdiction" class="portal-form-select" required>
-              <option value="Federal Appellate">Federal Appellate</option>
-              <option value="Federal District">Federal District</option>
-              <option value="State Supreme">State Supreme</option>
-              <option value="Specialized Jurisdiction">Specialized Jurisdiction</option>
-              <option value="Bankruptcy">Bankruptcy</option>
-              <option value="State Circuit">State Circuit</option>
+              <option value="Apex Supreme Court">Apex Supreme Court</option>
+              <option value="State High Court">State High Court</option>
+              <option value="Specialized Tribunal">Specialized Tribunal</option>
+              <option value="District & Sessions Court">District &amp; Sessions Court</option>
             </select>
           </div>
           <div class="portal-form-group">
             <label>Judicial Level *</label>
             <select id="edit-court-level" class="portal-form-select" required>
-              <option value="Appellate">Appellate</option>
+              <option value="Supreme">Supreme</option>
+              <option value="High Court">High Court</option>
+              <option value="Appellate Tribunal">Appellate Tribunal</option>
+              <option value="Trial Tribunal">Trial Tribunal</option>
               <option value="Trial">Trial</option>
-              <option value="Court of Last Resort">Court of Last Resort</option>
-              <option value="Bankruptcy">Bankruptcy</option>
             </select>
           </div>
           <div class="portal-form-group">

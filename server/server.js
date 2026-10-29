@@ -45,6 +45,17 @@ app.use('/api/courts', require('./routes/courts'));
 app.use('/api/articles', require('./routes/articles'));
 
 
+// Clean URL aliases for HTML pages
+app.get('/lawyers', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'lawyers.html'));
+});
+app.get('/user', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'user.html'));
+});
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'admin.html'));
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'LegalAI API is running smoothly' });

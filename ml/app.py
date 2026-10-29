@@ -79,69 +79,69 @@ metrics_data = {}
 DOMAIN_MAPPINGS = {
     "Tenant Law": {
         "specialty": "Real Estate Law",
-        "courtCode": "COOK-IL",
-        "courtName": "Cook County Housing & Municipal Court",
-        "role": "Tenant Rights & Real Estate Attorney"
+        "courtCode": "DEL-TIS",
+        "courtName": "Tis Hazari District & Sessions Court",
+        "role": "Tenant Rights & Real Estate Advocate"
     },
     "Criminal Law": {
         "specialty": "Criminal Law",
-        "courtCode": "MASS-SUFFOLK",
-        "courtName": "Suffolk Superior Court Criminal Division",
-        "role": "Criminal Defense Specialist"
+        "courtCode": "DEL-PAT",
+        "courtName": "Patiala House District Courts",
+        "role": "Criminal Defense Advocate"
     },
     "Corporate Law": {
         "specialty": "Corporate Law",
-        "courtCode": "DE-CHANCERY",
-        "courtName": "Delaware Court of Chancery",
-        "role": "Corporate & Venture Counsel"
+        "courtCode": "NCLAT",
+        "courtName": "National Company Law Appellate Tribunal",
+        "role": "Corporate & Insolvency Advocate"
     },
     "Contracts Law": {
         "specialty": "Corporate Law",
-        "courtCode": "SDNY",
-        "courtName": "U.S. District Court (S.D.N.Y.)",
-        "role": "Civil Litigation & Commercial Contracts Attorney"
+        "courtCode": "DHC",
+        "courtName": "High Court of Delhi (Commercial Division)",
+        "role": "Commercial & Arbitration Advocate"
     },
     "Family Law": {
         "specialty": "Family Law",
-        "courtCode": "FL-11TH",
-        "courtName": "Miami-Dade County Family Court",
-        "role": "Family Law & Custody Attorney"
+        "courtCode": "MUM-SES",
+        "courtName": "City Civil and Sessions Court, Mumbai",
+        "role": "Family & Matrimonial Advocate"
     },
     "Employment Law": {
         "specialty": "Employment Law",
-        "courtCode": "NDIL",
-        "courtName": "U.S. District Court (N.D. Ill.)",
-        "role": "Labor & Employment Rights Attorney"
+        "courtCode": "KHC",
+        "courtName": "High Court of Karnataka",
+        "role": "Labor & Employment Advocate"
     },
     "Civil Rights": {
         "specialty": "Civil Rights",
-        "courtCode": "SDNY",
-        "courtName": "U.S. District Court (Federal Civil Rights)",
-        "role": "Civil Rights & Constitutional Attorney"
+        "courtCode": "SCI",
+        "courtName": "Supreme Court of India",
+        "role": "Constitutional & Civil Rights Advocate"
     },
     "Personal Injury": {
         "specialty": "Personal Injury",
-        "courtCode": "FL-11TH",
-        "courtName": "Circuit Court (Tort Division)",
-        "role": "Personal Injury & Trial Attorney"
+        "courtCode": "DEL-TIS",
+        "courtName": "Motor Accident Claims Tribunal (MACT)",
+        "role": "Motor Accident & Torts Advocate"
     },
     "Intellectual Property": {
         "specialty": "Intellectual Property",
-        "courtCode": "NDCA",
-        "courtName": "U.S. District Court (N.D. Cal. Silicon Valley)",
-        "role": "Intellectual Property Trial Attorney"
+        "courtCode": "DHC",
+        "courtName": "High Court of Delhi (Intellectual Property Division)",
+        "role": "Intellectual Property & Patent Advocate"
     },
     "Immigration Law": {
         "specialty": "Immigration Law",
-        "courtCode": "CA9",
-        "courtName": "U.S. Court of Appeals (9th Circuit) / EOIR",
-        "role": "Immigration & Removal Defense Attorney"
+        "courtCode": "DHC",
+        "courtName": "High Court of Delhi (Writ Jurisdiction)",
+        "role": "Immigration & Citizenship Advocate"
     },
     "Tax Law": {
         "specialty": "Tax Law",
-        "courtCode": "USTC",
-        "courtName": "United States Tax Court (Washington, D.C.)",
-        "role": "Tax Controversy & Defense Attorney"
+        "courtCode": "ITAT",
+        "courtName": "Income Tax Appellate Tribunal (Presidential Bench)",
+        "role": "Direct Tax & Corporate Appellate Advocate"
     }
 }
 
@@ -381,9 +381,9 @@ def adaptive_rag_query(req: QueryRequest):
     answer_parts = []
     mapping = DOMAIN_MAPPINGS.get(category, {
         "specialty": "Corporate & Civil Litigation",
-        "courtCode": "SDNY",
-        "courtName": "District Civil Court",
-        "role": "General Legal Counsel"
+        "courtCode": "DHC",
+        "courtName": "High Court of Delhi",
+        "role": "General Legal Advocate"
     })
 
     # Header with diagnostic metadata

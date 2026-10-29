@@ -310,7 +310,7 @@ async function loadAdminConsultations(search = '', status = 'all') {
         </td>
         <td>
           <div style="font-weight:600; color:#dfb77c;">${escapeHtml(c.lawyerName)}</div>
-          <div style="font-size:0.75rem; color:#94a3b8;">${escapeHtml(c.lawyerSpecialty || '')} · $${c.lawyerRate}/hr</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">${escapeHtml(c.lawyerSpecialty || '')} · ₹${Number(c.lawyerRate || 25000).toLocaleString('en-IN')}/hr</div>
         </td>
         <td style="font-size:0.82rem; white-space:nowrap;">${escapeHtml(c.preferredDate)}</td>
         <td style="max-width:280px; font-size:0.82rem; color:#cbd5e1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(c.caseSummary)}">
@@ -412,7 +412,7 @@ async function loadAdminLawyers(search = '') {
         </td>
         <td><span class="meta-pill meta-pill-gold">${escapeHtml(l.specialty)}</span></td>
         <td style="font-size:0.8rem; font-family:monospace;">${escapeHtml(l.barNumber)}</td>
-        <td style="color:#86efac; font-weight:700;">$${l.hourlyRate}/hr</td>
+        <td style="color:#86efac; font-weight:700;">₹${Number(l.hourlyRate).toLocaleString('en-IN')}/hr</td>
         <td>★ ${l.rating || 5.0} (${l.casesWon || 20} wins)</td>
         <td>
           <button type="button" class="portal-filter-btn" style="padding:3px 8px; font-size:0.75rem;" onclick="toggleLawyerAvail(${l.id}, ${l.isAvailable ? 0 : 1})">
@@ -637,8 +637,8 @@ window.openEditCourtModal = async function(id) {
     document.getElementById('edit-court-id').value = c.id;
     document.getElementById('edit-court-name').value = c.name || '';
     document.getElementById('edit-court-code').value = c.code || '';
-    document.getElementById('edit-court-jurisdiction').value = c.jurisdiction || 'Federal District';
-    document.getElementById('edit-court-level').value = c.level || 'Trial';
+    document.getElementById('edit-court-jurisdiction').value = c.jurisdiction || 'Apex Supreme Court';
+    document.getElementById('edit-court-level').value = c.level || 'Supreme';
     document.getElementById('edit-court-circuit').value = c.circuit || '';
     document.getElementById('edit-court-city').value = c.city || '';
     document.getElementById('edit-court-state').value = c.state || '';
@@ -713,42 +713,42 @@ document.getElementById('btn-open-add-court')?.addEventListener('click', () => o
 
 // ── PREFILL HELPERS ──
 document.getElementById('btn-prefill-lawyer')?.addEventListener('click', () => {
-  document.getElementById('new-lawyer-name').value = 'Marcus Vance, Esq.';
-  document.getElementById('new-lawyer-title').value = 'Managing Partner & Senior Trial Litigator';
+  document.getElementById('new-lawyer-name').value = 'Harish Salve, Senior Advocate';
+  document.getElementById('new-lawyer-title').value = 'Senior Advocate & King\'s Counsel';
   document.getElementById('new-lawyer-specialty').value = 'Corporate Law';
-  document.getElementById('new-lawyer-barnum').value = 'NY Bar #9182341';
-  document.getElementById('new-lawyer-firm').value = 'Vance & Sterling LLP';
-  document.getElementById('new-lawyer-rate').value = '425';
-  document.getElementById('new-lawyer-city').value = 'New York';
-  document.getElementById('new-lawyer-state').value = 'NY';
-  document.getElementById('new-lawyer-edu').value = 'Columbia Law School, J.D.';
-  document.getElementById('new-lawyer-exp').value = '15';
-  document.getElementById('new-lawyer-languages').value = 'English, German, French';
-  document.getElementById('new-lawyer-phone').value = '(212) 555-0144';
-  document.getElementById('new-lawyer-email').value = 'marcus.vance@vancesterling.com';
+  document.getElementById('new-lawyer-barnum').value = 'D/248/1980';
+  document.getElementById('new-lawyer-firm').value = 'Chambers of Harish Salve';
+  document.getElementById('new-lawyer-rate').value = '45000';
+  document.getElementById('new-lawyer-city').value = 'New Delhi';
+  document.getElementById('new-lawyer-state').value = 'Delhi';
+  document.getElementById('new-lawyer-edu').value = 'Nagpur University, LL.B. · FCA';
+  document.getElementById('new-lawyer-exp').value = '44';
+  document.getElementById('new-lawyer-languages').value = 'English, Hindi, Marathi';
+  document.getElementById('new-lawyer-phone').value = '+91 11 2461 7890';
+  document.getElementById('new-lawyer-email').value = 'h.salve@chambersofsalve.in';
   document.getElementById('new-lawyer-avatar').value = 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&q=80&w=400';
-  document.getElementById('new-lawyer-rating').value = '4.9';
-  document.getElementById('new-lawyer-wins').value = '115';
-  document.getElementById('new-lawyer-bio').value = 'Senior trial counselor specializing in corporate governance, securities disputes, startup capitalization, and high-stakes cross-border mergers.';
+  document.getElementById('new-lawyer-rating').value = '5.0';
+  document.getElementById('new-lawyer-wins').value = '860';
+  document.getElementById('new-lawyer-bio').value = 'Former Solicitor General of India and King\'s Counsel. Master legal strategist renowned worldwide for high-stakes international commercial arbitration, cross-border corporate mergers, Kulbhushan Jadhav case before the ICJ, and landmark Supreme Court constitutional benches.';
 });
 
 document.getElementById('btn-prefill-court')?.addEventListener('click', () => {
-  document.getElementById('new-court-name').value = 'U.S. District Court for the Southern District of New York';
-  document.getElementById('new-court-code').value = 'US-SDNY';
-  document.getElementById('new-court-jurisdiction').value = 'Federal District';
-  document.getElementById('new-court-level').value = 'Trial';
-  document.getElementById('new-court-circuit').value = '2nd Circuit';
-  document.getElementById('new-court-city').value = 'New York';
-  document.getElementById('new-court-state').value = 'NY';
-  document.getElementById('new-court-address').value = '500 Pearl Street';
-  document.getElementById('new-court-zip').value = '10007';
-  document.getElementById('new-court-phone').value = '(212) 805-0136';
-  document.getElementById('new-court-website').value = 'https://www.nysd.uscourts.gov';
-  document.getElementById('new-court-hours').value = '8:30 AM - 5:00 PM ET';
-  document.getElementById('new-court-filing').value = 'CM/ECF (NextGen)';
-  document.getElementById('new-court-judge').value = 'Chief Judge Laura Taylor Swain';
-  document.getElementById('new-court-divisions').value = 'Civil, Criminal, Admiralty, Commercial';
-  document.getElementById('new-court-overview').value = 'Premier federal district trial venue possessing broad subject-matter jurisdiction over commercial, financial, international trade, and high-profile federal criminal proceedings.';
+  document.getElementById('new-court-name').value = 'Supreme Court of India';
+  document.getElementById('new-court-code').value = 'SCI';
+  document.getElementById('new-court-jurisdiction').value = 'Apex Supreme Court';
+  document.getElementById('new-court-level').value = 'Supreme';
+  document.getElementById('new-court-circuit').value = 'All India / Apex Judicial';
+  document.getElementById('new-court-city').value = 'New Delhi';
+  document.getElementById('new-court-state').value = 'Delhi';
+  document.getElementById('new-court-address').value = 'Tilak Marg, Mandi House';
+  document.getElementById('new-court-zip').value = '110001';
+  document.getElementById('new-court-phone').value = '+91 11 2338 8922';
+  document.getElementById('new-court-website').value = 'https://main.sci.gov.in';
+  document.getElementById('new-court-hours').value = '10:00 AM - 5:00 PM IST';
+  document.getElementById('new-court-filing').value = 'Supreme Court e-Filing Portal 2.0';
+  document.getElementById('new-court-judge').value = 'Chief Justice of India';
+  document.getElementById('new-court-divisions').value = 'Constitutional Bench, Appellate Division, PIL, Review Benches';
+  document.getElementById('new-court-overview').value = 'The highest constitutional judicial forum and final court of appeal under the Constitution of India, possessing original jurisdiction under Article 32, appellate jurisdiction, and advisory powers.';
 });
 
 // ── FORM: CREATE USER ──
