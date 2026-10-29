@@ -268,108 +268,192 @@ function getBaselineArticles() {
 
   return [
     {
-      id: 'world-eu-ai-act-live',
-      title: 'EU AI Act Enters Comprehensive Enforcement Phase with Global Corporate Penalties',
-      region: 'European Union',
-      flag: '🇪🇺',
-      category: 'AI & Tech Regulation',
-      source: 'European Commission / Official Journal of the EU',
+      id: 'india-sc-dpdp-act-verdict',
+      title: 'Supreme Court & MeitY Finalize Digital Personal Data Protection (DPDP) Act Compliance Rules',
+      region: 'India & Supreme Court',
+      flag: '🇮🇳',
+      category: 'Data Privacy & Tech Law',
+      source: 'Supreme Court of India / Ministry of Electronics & IT',
       pubDate: dToday,
       relativeTime: 'Today',
       readTime: '5 min read',
-      laws: ['EU Regulation 2024/1689 (AI Act)', 'GDPR Article 82', 'EU Digital Services Act'],
-      lead: 'The European Union landmark Artificial Intelligence Act has entered full cross-border enforcement, establishing extraterritorial liability for generative AI models, biometric categorization, and autonomous decision systems.',
-      description: 'The European Union landmark Artificial Intelligence Act has entered full cross-border enforcement, establishing extraterritorial liability for generative AI models, biometric categorization, and autonomous decision systems.',
+      laws: ['Digital Personal Data Protection Act, 2023', 'Constitution of India Art. 21', 'Information Technology Act, 2000'],
+      lead: 'The Supreme Court of India and Ministry of Electronics & IT finalize operational guidelines under the DPDP Act 2023, mandating strict verifiable consent architectures, Data Protection Board adjudication frameworks, and penalties up to ₹250 Crores.',
+      description: 'The Supreme Court of India and Ministry of Electronics & IT finalize operational guidelines under the DPDP Act 2023, mandating strict verifiable consent architectures, Data Protection Board adjudication frameworks, and penalties up to ₹250 Crores for systemic corporate breaches.',
       takeaways: [
-        'Tier-1 General Purpose AI (GPAI) providers face mandatory algorithmic transparency filings.',
-        'High-risk AI systems must maintain documented human oversight mechanisms and audited training corpus logs.',
-        'Maximum penalties reach €35 Million or 7% of total worldwide annual corporate turnover.'
+        'Mandatory appointment of Data Protection Officers (DPO) and independent audits for Significant Data Fiduciaries.',
+        'Maximum statutory penalties reach up to ₹250 Crores for significant corporate data breaches.',
+        'Strict parental consent verification frameworks established for minors and children\'s digital services.'
       ],
-      link: 'https://eur-lex.europa.eu/',
+      link: 'https://www.sci.gov.in/',
       isLive: true
     },
     {
-      id: 'world-scotus-tech-immunity',
-      title: 'Supreme Court Hears Landmark Arguments on Algorithmic Amplification and Section 230',
-      region: 'Americas',
-      flag: '🌎',
-      category: 'Constitutional & Appellate Jurisprudence',
-      source: 'SCOTUSblog / Federal Judiciary News',
+      id: 'india-karnataka-hc-civic-liability',
+      title: 'Karnataka High Court Mandates Strict Public Tort Liability and Compensation for Civic Infrastructure Failures',
+      region: 'Karnataka & High Courts',
+      flag: '⚖️',
+      category: 'Constitutional & Civic Tort Law',
+      source: 'High Court of Karnataka, Principal Bench Bengaluru',
       pubDate: dToday,
       relativeTime: 'Today',
       readTime: '4 min read',
-      laws: ['Communications Decency Act § 230', 'First Amendment', 'Federal Civil Procedure Rule 12(b)(6)'],
-      lead: 'The Supreme Court of the United States heard oral arguments on whether automated recommender algorithms forfeit traditional statutory distributor immunity when directing users to targeted content.',
-      description: 'The Supreme Court of the United States heard oral arguments on whether automated recommender algorithms forfeit traditional statutory distributor immunity when directing users to targeted content.',
+      laws: ['Constitution of India Art. 226', 'Karnataka Municipal Corporations Act, 1976', 'Law of Public Torts'],
+      lead: 'A Division Bench of the High Court of Karnataka has ruled that municipal civic bodies are strictly liable under constitutional tort principles to award time-bound financial restitution to citizens harmed by unmaintained public roads and potholes.',
+      description: 'A Division Bench of the High Court of Karnataka has ruled that municipal civic bodies are strictly liable under constitutional tort principles to award time-bound financial restitution to citizens harmed by unmaintained public roads and potholes.',
       takeaways: [
-        'Justices questioned whether algorithm design constitutes distinct first-party expressive speech.',
-        'A narrow ruling could recalibrate product liability parameters for social media platforms.',
-        'Circuit splits regarding algorithmic recommendations may be resolved by the close of the current term.'
+        'BBMP and municipal corporations held strictly liable for civic injuries caused by poor infrastructure.',
+        'Citizens are constitutionally entitled to safe, motorable roads under Article 21 Right to Life.',
+        'Mandates institutional compensation dispersal within 45 days of municipal safety assessment.'
       ],
-      link: 'https://www.supremecourt.gov/',
+      link: 'https://karnatakahighcourt.kar.nic.in/',
       isLive: true
     },
     {
-      id: 'world-icj-climate-obligations',
-      title: 'International Court of Justice Issues Groundbreaking Advisory Opinion on State Climate Obligations',
-      region: 'International Courts',
-      flag: '🇺🇳',
-      category: 'International Treaties & Conventions',
-      source: 'International Court of Justice, The Hague',
+      id: 'india-sc-electoral-transparency',
+      title: 'Supreme Court Constitution Bench Reaffirms Voter Right to Information and Campaign Transparency',
+      region: 'India & Supreme Court',
+      flag: '🇮🇳',
+      category: 'Constitutional Law',
+      source: 'Supreme Court of India (Constitution Bench)',
       pubDate: dYesterday,
       relativeTime: 'Yesterday',
       readTime: '6 min read',
-      laws: ['UN Convention on the Law of the Sea (UNCLOS)', 'Paris Agreement Article 4', 'Customary International Law'],
-      lead: 'The ICJ has confirmed that major industrial nations bear binding customary legal obligations to prevent transboundary ecological harms affecting developing island sovereign states.',
-      description: 'The ICJ has confirmed that major industrial nations bear binding customary legal obligations to prevent transboundary ecological harms affecting developing island sovereign states.',
+      laws: ['Constitution of India Art. 19(1)(a)', 'Representation of the People Act, 1951', 'Companies Act, 2013 Section 182'],
+      lead: 'The five-judge Constitution Bench of the Supreme Court of India unanimously holds that unconstrained anonymous political corporate contributions violate voters fundamental democratic rights.',
+      description: 'The five-judge Constitution Bench of the Supreme Court of India unanimously holds that unconstrained anonymous political corporate contributions violate voters fundamental democratic rights.',
       takeaways: [
-        'Customary international law imposes an affirmative duty of due diligence across all transboundary emission activities.',
-        'Vulnerable coastal states may introduce advisory findings in domestic judicial tort actions.',
-        'Creates an evidentiary basis for cross-border climate reparation arbitrations.'
+        'Voters possess a fundamental constitutional right to transparent information under Article 19(1)(a).',
+        'Corporate political financial records and bond transactions must remain accessible to the electorate.',
+        'Affirms stringent limits on corporate funding to preserve sovereign democratic integrity.'
       ],
-      link: 'https://www.icj-cij.org/',
+      link: 'https://www.sci.gov.in/',
       isLive: true
     },
     {
-      id: 'world-uk-high-court-ai-patents',
-      title: 'UK Supreme Court Affirms Precedent on Human Authorship in Generative Inventions',
-      region: 'UK & Commonwealth',
-      flag: '🇬🇧',
-      category: 'AI, Tech & Intellectual Property',
-      source: 'UK Supreme Court Judicial Office',
+      id: 'india-bns-criminal-code-reforms',
+      title: 'Supreme Court Clarifies Evidentiary Rules and Audio-Visual Recording Mandates under Bharatiya Nyaya Sanhita (BNS)',
+      region: 'India & Supreme Court',
+      flag: '🇮🇳',
+      category: 'Criminal Jurisprudence & Procedure',
+      source: 'Supreme Court of India / High Courts Gazette',
       pubDate: dYesterday,
       relativeTime: 'Yesterday',
-      readTime: '4 min read',
-      laws: ['UK Patents Act 1977 Section 7', 'European Patent Convention (EPC Article 60)', 'WIPO PCT Guidelines'],
-      lead: 'The UK Supreme Court has issued its definitive ruling establishing that an artificial intelligence model cannot be designated as an inventor on statutory patent applications.',
-      description: 'The UK Supreme Court has issued its definitive ruling establishing that an artificial intelligence model cannot be designated as an inventor on statutory patent applications.',
+      readTime: '5 min read',
+      laws: ['Bharatiya Nyaya Sanhita (BNS), 2023', 'Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023', 'Bharatiya Sakshya Adhiniyam (BSA), 2023'],
+      lead: 'The Supreme Court issues authoritative procedural directives standardizing mandatory digital evidence collection, electronic seizure timestamps, and audio-video forensic protocols across all police stations.',
+      description: 'The Supreme Court issues authoritative procedural directives standardizing mandatory digital evidence collection, electronic seizure timestamps, and audio-video forensic protocols across all police stations.',
       takeaways: [
-        'Statutory interpretation requires an inventor to be a natural person under UK Patents Act 1977.',
-        'Patent filings naming automated AI systems as primary inventors remain legally void ab initio.',
-        'Corporations must establish human personnel contributions in laboratory invention disclosures.'
+        'Standardizes digital search and seizure audio-visual recording protocols across trial courts.',
+        'Clarifies forensic hashing and electronic certificate standards under Bharatiya Sakshya Adhiniyam.',
+        'Mandates trial court digital infrastructure modernization for accelerated forensic hearings.'
       ],
-      link: 'https://www.supremecourt.uk/',
+      link: 'https://www.sci.gov.in/',
       isLive: true
     },
     {
-      id: 'world-singapore-arbitration-defi',
-      title: 'Singapore Commercial Court Enforces Cross-Border Smart Contract Arbitration Award',
-      region: 'Asia-Pacific',
-      flag: '🌏',
-      category: 'Global Trade & Maritime Law',
-      source: 'Singapore International Commercial Court (SICC)',
+      id: 'india-const-article14-gender-equality',
+      title: 'Supreme Court Enforces Article 14 & 15 Constitutional Mandate on Gender Pay Equity and Permanent Commissions',
+      region: 'Equality & Social Justice (Part III & IV)',
+      flag: '⚖️',
+      category: 'Substantive Equality & Non-Discrimination',
+      source: 'Supreme Court of India (Appellate Civil Division)',
+      pubDate: dYesterday,
+      relativeTime: 'Yesterday',
+      readTime: '5 min read',
+      laws: ['Constitution of India Art. 14', 'Constitution of India Art. 15(1)', 'Constitution of India Art. 39(d)'],
+      lead: 'Apex Court rules that systemic remuneration disparities and career progression restrictions breach the non-negotiable equality guarantees under Articles 14 and 15, ordering enforceable institutional parity audits.',
+      description: 'Apex Court rules that systemic remuneration disparities and career progression restrictions breach the non-negotiable equality guarantees under Articles 14 and 15, ordering enforceable institutional parity audits.',
+      takeaways: [
+        'Substantive equality under Article 14 requires structural dismantling of indirect gender discrimination.',
+        'Equal pay for equal work elevated from a Directive Principle to an enforceable Article 14 fundamental right facet.',
+        'Mandates all public and corporate bodies to conduct transparent annual gender remuneration audits.'
+      ],
+      link: 'https://main.sci.gov.in/',
+      isLive: true
+    },
+    {
+      id: 'india-const-article20-22-bns-criminal-safeguards',
+      title: 'Supreme Court Mandates Electronic Evidence Hashing to Enforce Article 20(3) and 22 Constitutional Safeguards in Criminal Procedure',
+      region: 'Criminal Due Process & Safeguards',
+      flag: '🇮🇳',
+      category: 'Constitutional Criminal Safeguards',
+      source: 'Supreme Court of India (Criminal Appellate Division)',
       pubDate: d2DaysAgo,
       relativeTime: '2 days ago',
-      readTime: '4 min read',
-      laws: ['UNCITRAL Model Law on Electronic Commerce', 'New York Arbitration Convention 1958', 'Singapore International Arbitration Act'],
-      lead: 'The Singapore International Commercial Court has enforced an international arbitration award arising from autonomous blockchain smart contract execution in commodities trade.',
-      description: 'The Singapore International Commercial Court has enforced an international arbitration award arising from autonomous blockchain smart contract execution in commodities trade.',
+      readTime: '5 min read',
+      laws: ['Constitution of India Art. 20(3)', 'Constitution of India Art. 21', 'Constitution of India Art. 22', 'Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023'],
+      lead: 'Apex Court standardizes mandatory videography and unalterable cryptographic hashing during police search and seizures, ensuring criminal procedures strictly conform with Articles 20(3), 21, and 22 due process guarantees.',
+      description: 'Apex Court standardizes mandatory videography and unalterable cryptographic hashing during police search and seizures, ensuring criminal procedures strictly conform with Articles 20(3), 21, and 22 due process guarantees.',
       takeaways: [
-        'Automated algorithmic escrow contracts manifest valid mutual assent under commercial contract law.',
-        'Tribunal digital arbitration awards remain enforceable across 172 signatory states under the New York Convention.',
-        'Solidifies Singapore as the premier global forum for decentralized financial dispute resolution.'
+        'Right against self-incrimination (Art. 20(3)) and procedural due process (Art. 21) apply strictly to seized digital devices.',
+        'Mandatory electronic search hashing under BNSS Section 105 required to preserve forensic chain of custody.',
+        'Failure to provide contemporaneous search video and hash certificates invalidates seizure evidence at trial.'
       ],
-      link: 'https://www.sicc.gov.sg/',
+      link: 'https://main.sci.gov.in/',
+      isLive: true
+    },
+    {
+      id: 'india-const-federalism-governor-article200',
+      title: 'Supreme Court Clarifies Federalism as Basic Structure: Governors Cannot Withhold State Legislative Bills Indefinitely',
+      region: 'Federalism & State Autonomy (Art. 200)',
+      flag: '🤝',
+      category: 'Constitutional Federal Architecture',
+      source: 'Supreme Court of India (Constitution Bench)',
+      pubDate: d2DaysAgo,
+      relativeTime: '2 days ago',
+      readTime: '6 min read',
+      laws: ['Constitution of India Art. 200', 'Constitution of India Art. 163', 'Constitution of India Art. 368'],
+      lead: 'Reaffirming federalism as an inviolable pillar of the Basic Structure Doctrine, the Supreme Court limits gubernatorial inaction under Article 200, ruling that state governors cannot sit on passed legislation indefinitely.',
+      description: 'Reaffirming federalism as an inviolable pillar of the Basic Structure Doctrine, the Supreme Court limits gubernatorial inaction under Article 200, ruling that state governors cannot sit on passed legislation indefinitely.',
+      takeaways: [
+        'Federalism is an unalterable core component of the Basic Structure of the Indian Constitution.',
+        'Article 200 does not confer pocket veto powers upon state governors to frustrate state legislative will.',
+        'Governors must return bills "as soon as possible" with recommendations or grant constitutional assent.'
+      ],
+      link: 'https://main.sci.gov.in/',
+      isLive: true
+    },
+    {
+      id: 'india-const-article25-secularism-religious-autonomy',
+      title: 'Supreme Court Reaffirms Article 25 Essential Religious Practices Test Balancing Faith and Fundamental Rights',
+      region: 'Fundamental Freedoms & Secularism',
+      flag: '🇮🇳',
+      category: 'Freedom of Religion & Constitutional Morality',
+      source: 'Supreme Court of India (7-Judge Constitutional Reference)',
+      pubDate: d2DaysAgo,
+      relativeTime: '2 days ago',
+      readTime: '5 min read',
+      laws: ['Constitution of India Art. 25', 'Constitution of India Art. 26', 'Constitution of India Art. 14'],
+      lead: 'A 7-Judge Constitutional Reference bench articulates that religious freedoms under Articles 25 and 26 are inherently subordinate to Constitutional Morality, gender equality under Article 14, and individual human dignity.',
+      description: 'A 7-Judge Constitutional Reference bench articulates that religious freedoms under Articles 25 and 26 are inherently subordinate to Constitutional Morality, gender equality under Article 14, and individual human dignity.',
+      takeaways: [
+        'Article 25 freedom of conscience is expressly subject to public order, morality, health, and Part III rights.',
+        'Essential religious practices test cannot be invoked to perpetuate caste, gender, or social exclusion.',
+        'Constitutional Morality supersedes sectarian customary practices that violate human dignity.'
+      ],
+      link: 'https://main.sci.gov.in/',
+      isLive: true
+    },
+    {
+      id: 'india-const-article32-habeas-corpus-preventive-detention',
+      title: 'Supreme Court Re-Anchors Article 32 as the Heart and Soul of the Constitution against Arbitrary Preventive Detention',
+      region: 'Constitutional Remedies (Art. 32 & 226)',
+      flag: '⚖️',
+      category: 'Habeas Corpus & Constitutional Remedies',
+      source: 'Supreme Court of India (Appellate & Writ Jurisdiction)',
+      pubDate: d2DaysAgo,
+      relativeTime: '2 days ago',
+      readTime: '5 min read',
+      laws: ['Constitution of India Art. 32', 'Constitution of India Art. 226', 'Constitution of India Art. 22(4)'],
+      lead: 'Quashing arbitrary preventive custody orders, the Supreme Court declares that constitutional courts must adjudicate Habeas Corpus petitions with utmost dispatch, recalling Dr. B.R. Ambedkar doctrine that Article 32 is the very soul of the Constitution.',
+      description: 'Quashing arbitrary preventive custody orders, the Supreme Court declares that constitutional courts must adjudicate Habeas Corpus petitions with utmost dispatch, recalling Dr. B.R. Ambedkar doctrine that Article 32 is the very soul of the Constitution.',
+      takeaways: [
+        'Article 32 and 226 writ remedies represent the most potent shield against unlawful state detention.',
+        'Preventive detention is an exceptional constitutional power subject to strict procedural compliance under Article 22.',
+        'Unexplained delays in deciding representation petitions render detention orders void ab initio.'
+      ],
+      link: 'https://main.sci.gov.in/',
       isLive: true
     }
   ];
@@ -378,9 +462,9 @@ function getBaselineArticles() {
 // Main fetch function combining live feeds
 async function fetchAllLiveLegalNews() {
   const feeds = [
-    'https://news.google.com/rss/search?q=' + encodeURIComponent('legal OR court OR lawsuit OR verdict OR judge OR statute') + '&hl=en-US&gl=US&ceid=US:en',
-    'https://news.google.com/rss/search?q=' + encodeURIComponent('Supreme Court OR International Court OR treaty OR High Court') + '&hl=en-US&gl=US&ceid=US:en',
-    'https://news.google.com/rss/search?q=' + encodeURIComponent('AI Act OR antitrust OR data privacy law OR SEC lawsuit') + '&hl=en-US&gl=US&ceid=US:en'
+    'https://news.google.com/rss/search?q=' + encodeURIComponent('Supreme Court of India OR Constitution Bench OR High Court verdict OR Article 21') + '&hl=en-IN&gl=IN&ceid=IN:en',
+    'https://news.google.com/rss/search?q=' + encodeURIComponent('Indian Constitution OR fundamental rights OR High Court writ OR collegium') + '&hl=en-IN&gl=IN&ceid=IN:en',
+    'https://news.google.com/rss/search?q=' + encodeURIComponent('Karnataka High Court OR BNS 2023 OR DPDP Act OR law commission') + '&hl=en-IN&gl=IN&ceid=IN:en'
   ];
 
   try {

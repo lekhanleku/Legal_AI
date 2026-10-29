@@ -1,5 +1,6 @@
 /* ================================================================
-   LEGALAI — MULTILINGUAL INDIAN & GLOBAL LEGAL NEWS ENGINE
+   LEGALAI — MULTILINGUAL INDIAN CONSTITUTIONAL LEGAL NEWS ENGINE
+   100% Focused on the Constitution of India & Supreme Court Jurisprudence
    Supports: English (en), Kannada (kn), Hindi (hi), Tamil (ta),
              Telugu (te), Bengali (bn), Marathi (mr), Gujarati (gu)
    ================================================================ */
@@ -18,984 +19,1221 @@ window.SUPPORTED_NEWS_LANGUAGES = [
 window.NEWS_UI_STRINGS = {
   en: {
     readIn: 'Read In:',
-    tickerLabel: 'LIVE LEGAL WIRE',
-    searchPlaceholder: 'Search Indian & world legal news, verdicts, statutes, or tribunals...',
-    wireActive: 'Live Legal Wire Active',
-    refresh: 'Refresh',
-    allRegions: '🌐 All Jurisdictions',
-    indiaRegion: '🇮🇳 India & Supreme Court',
-    karnatakaRegion: '🏛️ Karnataka & High Courts',
-    euRegion: '🇪🇺 European Union',
-    intlCourts: '🇺🇳 International Courts',
-    ukRegion: '🇬🇧 UK & Commonwealth',
-    asiaRegion: '🌏 Asia-Pacific & Trade',
-    americasRegion: '🌎 Americas & Rights',
-    techRegion: '⚡ Global AI & Finance',
-    readDispatch: 'Read Dispatch',
-    askAi: 'Ask AI',
-    officialSource: 'Official Source ↗',
-    topDispatch: '🌟 TOP LEGAL DISPATCH',
-    readFull: 'Read Full Legal Analysis',
+    tickerLabel: 'CONSTITUTIONAL WIRE',
+    searchPlaceholder: 'Search Indian Constitution articles, Supreme Court verdicts, fundamental rights...',
+    wireActive: 'Constitutional Wire Active',
+    refresh: 'Refresh Dispatches',
+    allRegions: '🌐 All Constitutional Domains',
+    fundamentalRights: '⚖️ Fundamental Rights (Part III)',
+    article21Privacy: '🛡️ Art. 21 & Personal Liberty',
+    karnatakaHighCourt: '🏛️ Karnataka & High Courts (Art. 226)',
+    basicStructure: '🇮🇳 Basic Structure & Democracy',
+    equalityJustice: '👥 Equality & Non-Discrimination (Art. 14-16)',
+    federalism: '🤝 Federalism & State Autonomy (Art. 200)',
+    constitutionalRemedies: '📜 Constitutional Writs (Art. 32 & 226)',
+    readDispatch: 'Read Constitutional Analysis',
+    askAi: 'Ask LegalAI',
+    officialSource: 'Supreme Court Docket ↗',
+    topDispatch: '🌟 LANDMARK CONSTITUTIONAL BENCH RULING',
+    readFull: 'Read Full Constitutional Analysis',
     analyzeAi: 'Analyze with LegalAI',
-    statutesCited: 'Statutes & Treaties Cited:',
-    keyTakeaways: 'Key Legal Takeaways',
-    backToArticles: 'All Articles',
+    statutesCited: 'Constitutional Articles & Statutes Cited:',
+    keyTakeaways: 'Core Constitutional Takeaways',
+    backToArticles: 'All Constitutional Dispatches',
     listen: 'Listen',
     save: 'Save',
     share: 'Share',
-    checklistHeading: 'Actionable Legal Compliance Checklist',
-    disclaimerHeading: 'Statutory Disclaimer & Guidance',
-    practiceCta: 'Consult an Expert Advocate →',
-    aiCta: 'Ask LegalAI Assistant about this Ruling'
+    checklistHeading: 'Constitutional Compliance & Legal Checklist',
+    disclaimerHeading: 'Constitutional Law Advisory & Precedent Guidance',
+    practiceCta: 'Consult an Appellate Advocate →',
+    aiCta: 'Ask LegalAI about this Constitutional Verdict'
   },
   kn: {
     readIn: 'ಭಾಷೆ ಆಯ್ಕೆ (Read In):',
-    tickerLabel: 'ನ್ಯಾಯಾಂಗ ನೇರ ವರದಿ (LIVE WIRE)',
-    searchPlaceholder: 'ಕಾನೂನು ಸುದ್ದಿ, ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು, ಕಾಯ್ದೆಗಳನ್ನು ಹುಡುಕಿ...',
-    wireActive: 'ನ್ಯಾಯಾಂಗ ಲೈವ್ ವರದಿ ಸಕ್ರಿಯ',
-    refresh: 'ನವೀಕರಿಸಿ',
-    allRegions: '🌐 ಎಲ್ಲ ನ್ಯಾಯಾಂಗ ವಲಯಗಳು',
-    indiaRegion: '🇮🇳 ಭಾರತ & ಸುಪ್ರೀಂ ಕೋರ್ಟ್',
-    karnatakaRegion: '🏛️ ಕರ್ನಾಟಕ & ಉಚ್ಚ ನ್ಯಾಯಾಲಯಗಳು',
-    euRegion: '🇪🇺 ಯುರೋಪಿಯನ್ ಒಕ್ಕೂಟ',
-    intlCourts: '🇺🇳 ಅಂತರರಾಷ್ಟ್ರೀಯ ನ್ಯಾಯಾಲಯಗಳು',
-    ukRegion: '🇬🇧 ಯುಕೆ & ಕಾಮನ್‌ವೆಲ್ತ್',
-    asiaRegion: '🌏 ಏಷ್ಯಾ-ಪೆಸಿಫಿಕ್ & ವಾಣಿಜ್ಯ',
-    americasRegion: '🌎 ಅಮೆರಿಕ & ಮೂಲಭೂತ ಹಕ್ಕುಗಳು',
-    techRegion: '⚡ ಜಾಗತಿಕ AI & ಹಣಕಾಸು',
-    readDispatch: 'ವರದಿ ಓದಿ',
-    askAi: 'AI ಗೆ ಕೇಳಿ',
-    officialSource: 'ಅಧಿಕೃತ ಮೂಲ ↗',
-    topDispatch: '🌟 ಪ್ರಮುಖ ನ್ಯಾಯಾಂಗ ವರದಿ',
-    readFull: 'ಪೂರ್ಣ ಕಾನೂನು ವಿಶ್ಲೇಷಣೆ ಓದಿ',
+    tickerLabel: 'ಸಾಂವಿಧಾನಿಕ ನೇರ ವರದಿ (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'ಭಾರತೀಯ ಸಂವಿಧಾನದ ವಿಧಿಗಳು, ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು, ಮೂಲಭೂತ ಹಕ್ಕುಗಳನ್ನು ಹುಡುಕಿ...',
+    wireActive: 'ಸಾಂವಿಧಾನಿಕ ಲೈವ್ ವರದಿ ಸಕ್ರಿಯ',
+    refresh: 'ವರದಿಗಳನ್ನು ನವೀಕರಿಸಿ',
+    allRegions: '🌐 ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವಲಯಗಳು',
+    fundamentalRights: '⚖️ ಮೂಲಭೂತ ಹಕ್ಕುಗಳು (ಭಾಗ 3)',
+    article21Privacy: '🛡️ 21ನೇ ವಿಧಿ & ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯ',
+    karnatakaHighCourt: '🏛️ ಕರ್ನಾಟಕ & ಉಚ್ಚ ನ್ಯಾಯಾಲಯಗಳು (ವಿಧಿ 226)',
+    basicStructure: '🇮🇳 ಮೂಲ ಸಂರಚನೆ & ಪ್ರಜಾಪ್ರಭುತ್ವ',
+    equalityJustice: '👥 ಸಮಾನತೆ & ತಾರತಮ್ಯ ವಿರೋಧ (ವಿಧಿ 14-16)',
+    federalism: '🤝 ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ & ರಾಜ್ಯಗಳ ಅಧಿಕಾರ (ವಿಧಿ 200)',
+    constitutionalRemedies: '📜 ಸಾಂವಿಧಾನಿಕ ಪರಿಹಾರಗಳು (ವಿಧಿ 32 & 226)',
+    readDispatch: 'ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ',
+    askAi: 'LegalAI ಗೆ ಕೇಳಿ',
+    officialSource: 'ಅಧಿಕೃತ ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ದಾಖಲೆ ↗',
+    topDispatch: '🌟 ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠದ ಐತಿಹಾಸಿಕ ತೀರ್ಪು',
+    readFull: 'ಪೂರ್ಣ ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ',
     analyzeAi: 'LegalAI ನೊಂದಿಗೆ ವಿಶ್ಲೇಷಿಸಿ',
-    statutesCited: 'ಉಲ್ಲೇಖಿಸಲಾದ ಕಾಯ್ದೆಗಳು & ವಿಧಿಗಳು:',
-    keyTakeaways: 'ಪ್ರಮುಖ ಕಾನೂನು ಮುಖ್ಯಾಂಶಗಳು',
-    backToArticles: 'ಎಲ್ಲ ವರದಿಗಳು',
+    statutesCited: 'ಉಲ್ಲೇಖಿಸಲಾದ ಸಂವಿಧಾನದ ವಿಧಿಗಳು & ಕಾಯ್ದೆಗಳು:',
+    keyTakeaways: 'ಪ್ರಮುಖ ಸಾಂವಿಧಾನಿಕ ಮುಖ್ಯಾಂಶಗಳು',
+    backToArticles: 'ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವರದಿಗಳು',
     listen: 'ಆಲಿಸಿ',
     save: 'ಉಳಿಸಿ',
     share: 'ಹಂಚಿಕೊಳ್ಳಿ',
-    checklistHeading: 'ಪ್ರಾಯೋಗಿಕ ಅನುಸರಣಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ',
-    disclaimerHeading: 'ಶಾಸನಬದ್ಧ ಮುನ್ನೆಚ್ಚರಿಕೆ & ಹಕ್ಕುತ್ಯಾಗ',
-    practiceCta: 'ತಜ್ಞ ವಕೀಲರೊಂದಿಗೆ ಸಮಾಲೋಚಿಸಿ →',
-    aiCta: 'ಈ ತೀರ್ಪಿನ ಬಗ್ಗೆ LegalAI ಸಹಾಯಕನನ್ನು ಕೇಳಿ'
+    checklistHeading: 'ಸಾಂವಿಧಾನಿಕ ಅನುಸರಣಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ',
+    disclaimerHeading: 'ಶಾಸನಬದ್ಧ ಮುನ್ನೆಚ್ಚರಿಕೆ & ಸಾಂವಿಧಾನಿಕ ಮಾರ್ಗದರ್ಶನ',
+    practiceCta: 'ಅನುಭವಿ ವಕೀಲರೊಂದಿಗೆ ಸಮಾಲೋಚಿಸಿ →',
+    aiCta: 'ಈ ಸಾಂವಿಧಾನಿಕ ತೀರ್ಪಿನ ಬಗ್ಗೆ LegalAI ಸಹಾಯಕನನ್ನು ಕೇಳಿ'
   },
   hi: {
     readIn: 'भाषा चुनें (Read In):',
-    tickerLabel: 'लाइव विधिक समाचार (LIVE WIRE)',
-    searchPlaceholder: 'विधिक समाचार, सुप्रीम कोर्ट के फैसले, कानून खोजें...',
-    wireActive: 'लाइव विधिक समाचार सक्रिय',
+    tickerLabel: 'संवैधानिक लाइव वायर (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'भारतीय संविधान के अनुच्छेद, सुप्रीम कोर्ट के संवैधानिक फैसले खोजें...',
+    wireActive: 'संवैधानिक समाचार सक्रिय',
     refresh: 'ताज़ा करें',
-    allRegions: '🌐 सभी क्षेत्राधिकार',
-    indiaRegion: '🇮🇳 भारत एवं सुप्रीम कोर्ट',
-    karnatakaRegion: '🏛️ कर्नाटक एवं उच्च न्यायालय',
-    euRegion: '🇪🇺 यूरोपीय संघ',
-    intlCourts: '🇺🇳 अंतर्राष्ट्रीय न्यायालय',
-    ukRegion: '🇬🇧 यूके एवं कॉमनवेल्थ',
-    asiaRegion: '🌏 एशिया-प्रशांत एवं व्यापार',
-    americasRegion: '🌎 अमेरिका एवं अधिकार',
-    techRegion: '⚡ वैश्विक AI एवं वित्त',
-    readDispatch: 'रिपोर्ट पढ़ें',
-    askAi: 'AI से पूछें',
-    officialSource: 'आधिकारिक स्रोत ↗',
-    topDispatch: '🌟 प्रमुख विधिक रिपोर्ट',
-    readFull: 'संपूर्ण कानूनी विश्लेषण पढ़ें',
+    allRegions: '🌐 सभी संवैधानिक क्षेत्र',
+    fundamentalRights: '⚖️ मौलिक अधिकार (भाग 3)',
+    article21Privacy: '🛡️ अनु. 21 एवं व्यक्तिगत स्वतंत्रता',
+    karnatakaHighCourt: '🏛️ कर्नाटक एवं उच्च न्यायालय (अनु. 226)',
+    basicStructure: '🇮🇳 मूल संरचना एवं लोकतंत्र',
+    equalityJustice: '👥 समानता एवं गैर-भेदभाव (अनु. 14-16)',
+    federalism: '🤝 संघवाद एवं राज्यों के अधिकार (अनु. 200)',
+    constitutionalRemedies: '📜 संवैधानिक उपचार (अनु. 32 एवं 226)',
+    readDispatch: 'संवैधानिक विश्लेषण पढ़ें',
+    askAi: 'LegalAI से पूछें',
+    officialSource: 'आधिकारिक सुप्रीम कोर्ट रिकॉर्ड ↗',
+    topDispatch: '🌟 सुप्रीम कोर्ट संविधान पीठ का ऐतिहासिक फैसला',
+    readFull: 'संपूर्ण संवैधानिक विश्लेषण पढ़ें',
     analyzeAi: 'LegalAI से विश्लेषण करें',
-    statutesCited: 'संदर्भित कानून एवं धाराएं:',
-    keyTakeaways: 'प्रमुख कानूनी निष्कर्ष',
-    backToArticles: 'सभी रिपोर्ट',
+    statutesCited: 'संवैधानिक अनुच्छेद एवं अधिनियम:',
+    keyTakeaways: 'प्रमुख संवैधानिक निष्कर्ष',
+    backToArticles: 'सभी संवैधानिक रिपोर्ट',
     listen: 'सुनें',
     save: 'सहेजें',
     share: 'साझा करें',
-    checklistHeading: 'व्यावहारिक अनुपालन चेकलिस्ट',
-    disclaimerHeading: 'सांविधिक अस्वीकरण एवं चेतावनी',
-    practiceCta: 'विशेषज्ञ अधिवक्ता से परामर्श करें →',
-    aiCta: 'इस फैसले पर LegalAI से पूछें'
+    checklistHeading: 'संवैधानिक अनुपालन चेकलिस्ट',
+    disclaimerHeading: 'संवैधानिक सलाह एवं पूर्वोदाहरण मार्गदर्शन',
+    practiceCta: 'अधिवक्ता से परामर्श करें →',
+    aiCta: 'इस संवैधानिक फैसले पर LegalAI से पूछें'
   },
   ta: {
     readIn: 'மொழியைத் தேர்வுசெய்க (Read In):',
-    tickerLabel: 'நேரலை சட்டச் செய்திகள் (LIVE WIRE)',
-    searchPlaceholder: 'சட்டச் செய்திகள், உச்ச நீதிமன்றத் தீர்ப்புகளைத் தேடுக...',
-    wireActive: 'சட்ட நேரலை செயலில் உள்ளது',
+    tickerLabel: 'அரசியலமைப்பு நேரலை (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'இந்திய அரசியலமைப்பு விதிகள், உச்ச நீதிமன்ற தீர்ப்புகளைத் தேடுக...',
+    wireActive: 'அரசியலமைப்பு நேரலை செயலில் உள்ளது',
     refresh: 'புதுப்பிக்குக',
-    allRegions: '🌐 அனைத்து நீதித்துறை பகுதிகள்',
-    indiaRegion: '🇮🇳 இந்தியா & உச்ச நீதிமன்றம்',
-    karnatakaRegion: '🏛️ கர்நாடகா & உயர் நீதிமன்றங்கள்',
-    euRegion: '🇪🇺 ஐரோப்பிய ஒன்றியம்',
-    intlCourts: '🇺🇳 சர்வதேச நீதிமன்றங்கள்',
-    ukRegion: '🇬🇧 யூகே & காமன்வெல்த்',
-    asiaRegion: '🌏 ஆசியா-பசிபிக் & வர்த்தகம்',
-    americasRegion: '🌎 அமெரிக்கா & உரிமைகள்',
-    techRegion: '⚡ சர்வதேச AI & நிதி',
-    readDispatch: 'செய்தியைப் படிக்க',
-    askAi: 'AI இடம் கேட்க',
-    officialSource: 'அதிகாரப்பூர்வ தளம் ↗',
-    topDispatch: '🌟 முக்கிய சட்டச் செய்தி',
-    readFull: 'முழு சட்டப் பகுப்பாய்வைப் படிக்க',
+    allRegions: '🌐 அனைத்து அரசியலமைப்புப் பிரிவுகள்',
+    fundamentalRights: '⚖️ அடிப்படை உரிமைகள் (பகுதி 3)',
+    article21Privacy: '🛡️ பிரிவு 21 & தனிநபர் சுதந்திரம்',
+    karnatakaHighCourt: '🏛️ கர்நாடகா & உயர் நீதிமன்றங்கள் (பிரிவு 226)',
+    basicStructure: '🇮🇳 அடிப்படை கட்டமைப்பு & ஜனநாயகம்',
+    equalityJustice: '👥 சமத்துவம் & பாகுபாடின்மை (பிரிவு 14-16)',
+    federalism: '🤝 கூட்டாட்சி & மாநில சுயாட்சி (பிரிவு 200)',
+    constitutionalRemedies: '📜 அரசியலமைப்புப் பரிகாரங்கள் (பிரிவு 32 & 226)',
+    readDispatch: 'அரசியலமைப்புப் பகுப்பாய்வைப் படிக்க',
+    askAi: 'LegalAI இடம் கேட்க',
+    officialSource: 'அதிகாரப்பூர்வ உச்ச நீதிமன்ற ஆவணம் ↗',
+    topDispatch: '🌟 அரசியலமைப்பு அமர்வின் வரலாற்றுத் தீர்ப்பு',
+    readFull: 'முழு அரசியலமைப்பு பகுப்பாய்வைப் படிக்க',
     analyzeAi: 'LegalAI உடன் ஆராய்க',
-    statutesCited: 'மேற்கோள் காட்டப்பட்ட சட்டங்கள்:',
-    keyTakeaways: 'முக்கிய சட்டக் குறிப்புகள்',
+    statutesCited: 'அரசியலமைப்புப் பிரிவுகள் & சட்டங்கள்:',
+    keyTakeaways: 'முக்கிய அரசியலமைப்பு அம்சங்கள்',
     backToArticles: 'அனைத்து செய்திகள்',
     listen: 'கேட்க',
     save: 'சேமிக்க',
     share: 'பகிர்க',
-    checklistHeading: 'சட்ட இணக்க சரிபார்ப்புப் பட்டியல்',
-    disclaimerHeading: 'சட்டப்பூர்வ மறுப்பு & எச்சரிக்கை',
-    practiceCta: 'சட்ட நிபுணரிடம் ஆலோசனை பெற →',
-    aiCta: 'இந்தத் தீர்ப்பு குறித்து AI இடம் கேட்க'
+    checklistHeading: 'அரசியலமைப்பு இணக்க சரிபார்ப்புப் பட்டியல்',
+    disclaimerHeading: 'சட்ட வழிகாட்டல் & எச்சரிக்கை',
+    practiceCta: 'வழக்கறிஞரிடம் ஆலோசனை பெற →',
+    aiCta: 'இந்தத் தீர்ப்பு குறித்து LegalAI இடம் கேட்க'
   },
   te: {
     readIn: 'భాషను ఎంచుకోండి (Read In):',
-    tickerLabel: 'ప్రత్యక్ష న్యాయవార్తలు (LIVE WIRE)',
-    searchPlaceholder: 'న్యాయవార్తలు, సుప్రీంకోర్టు తీర్పులను శోధించండి...',
-    wireActive: 'లైవ్ వైర్ క్రియాశీలంగా ఉంది',
+    tickerLabel: 'రాజ్యాంగ ప్రత్యక్ష వార్తలు (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'భారత రాజ్యాంగ అధికరణలు, సుప్రీంకోర్టు తీర్పులను శోధించండి...',
+    wireActive: 'రాజ్యాంగ వైర్ క్రియాశీలంగా ఉంది',
     refresh: 'తాజాకరించు',
-    allRegions: '🌐 అన్ని న్యాయ విభాగాలు',
-    indiaRegion: '🇮🇳 భారతదేశం & సుప్రీంకోర్టు',
-    karnatakaRegion: '🏛️ కర్ణాటక & హైకోర్టులు',
-    euRegion: '🇪🇺 యూరోపియన్ యూనియన్',
-    intlCourts: '🇺🇳 అంతర్జాతీయ న్యాయస్థానాలు',
-    ukRegion: '🇬🇧 యూకే & కామన్వెల్త్',
-    asiaRegion: '🌏 ఆసియా-పసిఫిక్ & వాణిజ్యం',
-    americasRegion: '🌎 అమెరికా & హక్కులు',
-    techRegion: '⚡ గ్లోబల్ AI & ఫైనాన్స్',
-    readDispatch: 'వార్తను చదవండి',
-    askAi: 'AI ని అడగండి',
-    officialSource: 'అధికారిక మూలం ↗',
-    topDispatch: '🌟 ముఖ్యమైన న్యాయ నివేదిక',
-    readFull: 'పూర్తి విశ్లేషణను చదవండి',
+    allRegions: '🌐 అన్ని రాజ్యాంగ విభాగాలు',
+    fundamentalRights: '⚖️ ప్రాథమిక హక్కులు (భాగం 3)',
+    article21Privacy: '🛡️ అధికరణ 21 & వ్యక్తిగత స్వేచ్ఛ',
+    karnatakaHighCourt: '🏛️ కర్ణాటక & హైకోర్టులు (అధికరణ 226)',
+    basicStructure: '🇮🇳 మౌలిక స్వరూపం & ప్రజాస్వామ్యం',
+    equalityJustice: '👥 సమానత్వం & వివక్ష రహితం (అధికరణ 14-16)',
+    federalism: '🤝 సమాఖ్య వ్యవస్థ & రాష్ట్రాల అధికారాలు (అధికరణ 200)',
+    constitutionalRemedies: '📜 రాజ్యాంగ పరిహారాలు (అధికరణ 32 & 226)',
+    readDispatch: 'రాజ్యాంగ విశ్లేషణను చదవండి',
+    askAi: 'LegalAI ని అడగండి',
+    officialSource: 'అధికారిక సుప్రీంకోర్టు రికార్డు ↗',
+    topDispatch: '🌟 సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం చారిత్రాత్మక తీర్పు',
+    readFull: 'పూర్తి రాజ్యాంగ విశ్లేషణను చదవండి',
     analyzeAi: 'LegalAI తో విశ్లేషించండి',
-    statutesCited: 'ప్రస్తావించిన చట్టాలు & సెక్షన్లు:',
-    keyTakeaways: 'కీలక న్యాయ ముఖ్యాంశాలు',
+    statutesCited: 'ప్రస్తావించిన రాజ్యాంగ అధికరణలు & చట్టాలు:',
+    keyTakeaways: 'కీలక రాజ్యాంగ ముఖ్యాంశాలు',
     backToArticles: 'అన్ని నివేదికలు',
     listen: 'వినండి',
     save: 'భద్రపరచు',
     share: 'భాగస్వామ్యం',
-    checklistHeading: 'ఆచరణాత్మక చట్టబద్ధమైన తనిఖీ జాబితా',
-    disclaimerHeading: 'చట్టపరమైన నిరాకరణ & హెచ్చరిక',
-    practiceCta: 'నిపుణులైన న్యాయవాదిని సంప్రదించండి →',
+    checklistHeading: 'రాజ్యాంగ అనుసరణ తనిఖీ జాబితా',
+    disclaimerHeading: 'చట్టపరమైన మార్గదర్శకత్వం & హెచ్చరిక',
+    practiceCta: 'న్యాయవాదిని సంప్రదించండి →',
     aiCta: 'ఈ తీర్పు గురించి LegalAI ని అడగండి'
   },
   bn: {
     readIn: 'ভাষা নির্বাচন করুন (Read In):',
-    tickerLabel: 'লাইভ আইনি খবর (LIVE WIRE)',
-    searchPlaceholder: 'আইনি খবর, সুপ্রিম কোর্টের রায়, আইন অনুসন্ধান করুন...',
-    wireActive: 'লাইভ আইনি পরিষেবা সক্রিয়',
+    tickerLabel: 'সাংবিধানিক লাইভ ওয়্যার (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'ভারতের সংবিধানের অনুচ্ছেদ, সুপ্রিম কোর্টের সাংবিধানিক রায় খুঁজুন...',
+    wireActive: 'সাংবিধানিক পরিষেবা সক্রিয়',
     refresh: 'রিফ্রেশ',
-    allRegions: '🌐 সমস্ত বিচারব্যবস্থা',
-    indiaRegion: '🇮🇳 ভারত ও সুপ্রিম কোর্ট',
-    karnatakaRegion: '🏛️ কর্ণাটক ও হাইকোর্ট',
-    euRegion: '🇪🇺 ইউরোপীয় ইউনিয়ন',
-    intlCourts: '🇺🇳 আন্তর্জাতিক আদালত',
-    ukRegion: '🇬🇧 যুক্তরাজ্য ও কমনওয়েলথ',
-    asiaRegion: '🌏 এশিয়া-প্যাসিফিক ও বাণিজ্য',
-    americasRegion: '🌎 আমেরিকা ও অধিকার',
-    techRegion: '⚡ গ্লোবাল এআই ও অর্থ',
-    readDispatch: 'প্রতিবেদন পড়ুন',
-    askAi: 'AI কে জিজ্ঞাসা করুন',
-    officialSource: 'অফিসিয়াল সূত্র ↗',
-    topDispatch: '🌟 প্রধান আইনি খবর',
-    readFull: 'সম্পূর্ণ আইনি বিশ্লেষণ পড়ুন',
+    allRegions: '🌐 সমস্ত সাংবিধানিক ক্ষেত্র',
+    fundamentalRights: '⚖️ মৌলিক অধিকার (অংশ ৩)',
+    article21Privacy: '🛡️ অনুচ্ছেদ ২১ ও ব্যক্তিগত স্বাধীনতা',
+    karnatakaHighCourt: '🏛️ কর্ণাটক ও হাইকোর্ট (অনুচ্ছেদ ২২৬)',
+    basicStructure: '🇮🇳 মূল কাঠামো ও গণতন্ত্র',
+    equalityJustice: '👥 সমতা ও বৈষম্যহীনতা (অনুচ্ছেদ ১৪-১৬)',
+    federalism: '🤝 যুক্তরাষ্ট্রীয় ব্যবস্থা ও রাজ্যের অধিকার (অনুচ্ছেদ ২০০)',
+    constitutionalRemedies: '📜 সাংবিধানিক প্রতিকার (অনুচ্ছেদ ৩২ ও ২২৬)',
+    readDispatch: 'সাংবিধানিক বিশ্লেষণ পড়ুন',
+    askAi: 'LegalAI কে জিজ্ঞাসা করুন',
+    officialSource: 'অফিসিয়াল সুপ্রিম কোর্ট রেকর্ড ↗',
+    topDispatch: '🌟 সুপ্রিম কোর্টের সংবিধান বেঞ্চের ঐতিহাসিক রায়',
+    readFull: 'সম্পূর্ণ সাংবিধানিক বিশ্লেষণ পড়ুন',
     analyzeAi: 'LegalAI দিয়ে বিশ্লেষণ করুন',
-    statutesCited: 'উল্লেখিত আইন ও বিধিসমূহ:',
-    keyTakeaways: 'মূল আইনি দিকসমূহ',
-    backToArticles: 'সমস্ত প্রতিবেদন',
+    statutesCited: 'উল্লেখিত সংবিধানের অনুচ্ছেদ ও আইন:',
+    keyTakeaways: 'মূল সাংবিধানিক দিকসমূহ',
+    backToArticles: 'সমস্ত সাংবিধানिक প্রতিবেদন',
     listen: 'শুনুন',
     save: 'সংরক্ষণ',
     share: 'শেয়ার',
-    checklistHeading: 'আইনি সম্মতি চেকলিস্ট',
-    disclaimerHeading: 'সংবিধিবদ্ধ দাবিত্যাগ ও সতর্কতা',
-    practiceCta: 'বিশেষজ্ঞ আইনজীবীর পরামর্শ নিন →',
+    checklistHeading: 'সাংবিধানিক সম্মতি চেকলিস্ট',
+    disclaimerHeading: 'আইনি পরামর্শ ও সতর্কতা',
+    practiceCta: 'আইনজীবীর পরামর্শ নিন →',
     aiCta: 'এই রায় সম্পর্কে LegalAI কে জিজ্ঞাসা করুন'
   },
   mr: {
     readIn: 'भाषा निवडा (Read In):',
-    tickerLabel: 'थेट कायदेशीर बातम्या (LIVE WIRE)',
-    searchPlaceholder: 'कायदेशीर बातम्या, सर्वोच्च न्यायालयाचे निकाल शोधा...',
-    wireActive: 'थेट कायदेशीर सेवा सुरू आहे',
+    tickerLabel: 'संवैधानिक थेट बातम्या (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'भारतीय राज्यघटनेची कलमे, सर्वोच्च न्यायालयाचे घटनापीठाचे निकाल शोधा...',
+    wireActive: 'संवैधानिक सेवा सुरू आहे',
     refresh: 'ताजे करा',
-    allRegions: '🌐 सर्व अधिकारक्षेत्रे',
-    indiaRegion: '🇮🇳 भारत आणि सर्वोच्च न्यायालय',
-    karnatakaRegion: '🏛️ कर्नाटक आणि उच्च न्यायालये',
-    euRegion: '🇪🇺 युरोपीय संघ',
-    intlCourts: '🇺🇳 आंतरराष्ट्रीय न्यायालये',
-    ukRegion: '🇬🇧 यूके आणि राष्ट्रकुल',
-    asiaRegion: '🌏 आशिया-पॅसिफिक आणि व्यापार',
-    americasRegion: '🌎 अमेरिका आणि मानवाधिकार',
-    techRegion: '⚡ जागतिक AI आणि वित्त',
-    readDispatch: 'वृत्त वाचा',
-    askAi: 'AI ला विचारा',
-    officialSource: 'अधिकृत स्रोत ↗',
-    topDispatch: '🌟 मुख्य कायदेशीर वृत्त',
-    readFull: 'संपूर्ण कायदेशीर विश्लेषण वाचा',
+    allRegions: '🌐 सर्व घटनात्मक विभाग',
+    fundamentalRights: '⚖️ मूलभूत हक्क (भाग ३)',
+    article21Privacy: '🛡️ कलम २१ आणि वैयक्तिक स्वातंत्र्य',
+    karnatakaHighCourt: '🏛️ कर्नाटक आणि उच्च न्यायालये (कलम २२६)',
+    basicStructure: '🇮🇳 मूलभूत चौकट आणि लोकशाही',
+    equalityJustice: '👥 समता आणि भेदभावमुक्ती (कलम १४-१६)',
+    federalism: '🤝 संघराज्य आणि राज्यांचे अधिकार (कलम २००)',
+    constitutionalRemedies: '📜 घटनात्मक उपाययोजना (कलम ३२ व २२६)',
+    readDispatch: 'संवैधानिक विश्लेषण वाचा',
+    askAi: 'LegalAI ला विचारा',
+    officialSource: 'अधिकृत सर्वोच्च न्यायालय नोंद ↗',
+    topDispatch: '🌟 सर्वोच्च न्यायालयाच्या घटनापीठाचा ऐतिहासिक निकाल',
+    readFull: 'संपूर्ण घटनात्मक विश्लेषण वाचा',
     analyzeAi: 'LegalAI द्वारे विश्लेषण करा',
-    statutesCited: 'उल्लेखित कायदे आणि कलमे:',
-    keyTakeaways: 'महत्त्वाचे कायदेशीर मुद्दे',
-    backToArticles: 'सर्व वृत्ते',
+    statutesCited: 'उल्लेखित राज्यघटनेची कलमे आणि कायदे:',
+    keyTakeaways: 'महत्त्वाचे घटनात्मक मुद्दे',
+    backToArticles: 'सर्व घटनात्मक वृत्ते',
     listen: 'ऐका',
     save: 'जतन करा',
     share: 'शेअर करा',
-    checklistHeading: 'कायदेशीर अनुपालन तपासणी यादी',
-    disclaimerHeading: 'वैधानिक अस्वीकरण आणि इशारा',
-    practiceCta: 'तज्ज्ञ वकिलांचा सल्ला घ्या →',
+    checklistHeading: 'घटनात्मक अनुपालन तपासणी यादी',
+    disclaimerHeading: 'वैधानिक मार्गदर्शक इशारा',
+    practiceCta: 'वकिलांचा सल्ला घ्या →',
     aiCta: 'या निकालावर LegalAI ला विचारा'
   },
   gu: {
     readIn: 'ભાષા પસંદ કરો (Read In):',
-    tickerLabel: 'લાઇવ કાનૂની સમાચાર (LIVE WIRE)',
-    searchPlaceholder: 'કાનૂની સમાચાર, સુપ્રીમ કોર્ટના ચુકાદા શોધો...',
-    wireActive: 'લાઇવ કાનૂની સેવા સક્રિય',
+    tickerLabel: 'બંધારણીય લાઇવ સમાચાર (CONSTITUTIONAL WIRE)',
+    searchPlaceholder: 'ભારતના બંધારણની કલમો, સુપ્રીમ કોર્ટના બંધારણીય ચુકાદા શોધો...',
+    wireActive: 'બંધારણીય સેવા સક્રિય',
     refresh: 'તાજું કરો',
-    allRegions: '🌐 તમામ અધિકારક્ષેત્રો',
-    indiaRegion: '🇮🇳 ભારત અને સુપ્રીમ કોર્ટ',
-    karnatakaRegion: '🏛️ કર્ણાટક અને વડી અદાલતો',
-    euRegion: '🇪🇺 યુરોપિયન યુનિયન',
-    intlCourts: '🇺🇳 આંતરરાષ્ટ્રીય અદાલતો',
-    ukRegion: '🇬🇧 યુકે અને કોમનવેલ્થ',
-    asiaRegion: '🌏 એશિયા-પેસિફિક અને વેપાર',
-    americasRegion: '🌎 અમેરિકા અને અધિકારો',
-    techRegion: '⚡ ગ્લોબલ AI અને ફાઇનાન્સ',
-    readDispatch: 'અહેવાલ વાંચો',
-    askAi: 'AI ને પૂછો',
-    officialSource: 'સત્તાવાર સ્રોત ↗',
-    topDispatch: '🌟 મુખ્ય કાનૂની અહેવાલ',
-    readFull: 'સંપૂર્ણ કાનૂની વિશ્લેષણ વાંચો',
+    allRegions: '🌐 તમામ બંધારણીય ક્ષેત્રો',
+    fundamentalRights: '⚖️ મૂળભૂત અધિકારો (ભાગ ૩)',
+    article21Privacy: '🛡️ અનુચ્છેદ ૨૧ અને અંગત સ્વતંત્રતા',
+    karnatakaHighCourt: '🏛️ કર્ણાટક અને વડી અદાલતો (અનુચ્છેદ ૨૨૬)',
+    basicStructure: '🇮🇳 મૂળભૂત માળખું અને લોકશાહી',
+    equalityJustice: '👥 સમાનતા અને બિન-ભેદભાવ (અનુચ્છેદ ૧૪-૧૬)',
+    federalism: '🤝 સંઘવાદ અને રાજ્યોની સ્વાયત્તતા (અનુચ્છેદ ૨૦૦)',
+    constitutionalRemedies: '📜 બંધારણીય ઉપાયો (અનુચ્છેદ ૩૨ અને ૨૨૬)',
+    readDispatch: 'બંધારણીય વિશ્લેષણ વાંચો',
+    askAi: 'LegalAI ને પૂછો',
+    officialSource: 'સત્તાવાર સુપ્રીમ કોર્ટ રેકોર્ડ ↗',
+    topDispatch: '🌟 સુપ્રીમ કોર્ટ બંધારણીય ખંડપીઠનો ઐતિહાસિક ચુકાદો',
+    readFull: 'સંપૂર્ણ બંધારણીય વિશ્લેષણ વાંચો',
     analyzeAi: 'LegalAI સાથે વિશ્લેષણ કરો',
-    statutesCited: 'સંદર્ભિત કાયદા અને કલમો:',
-    keyTakeaways: 'મુખ્ય કાનૂની મુદ્દાઓ',
-    backToArticles: 'તમામ અહેવાલો',
+    statutesCited: 'સંદર્ભિત બંધારણીય અનુચ્છેદો અને કાયદા:',
+    keyTakeaways: 'મુખ્ય બંધારણીય મુદ્દાઓ',
+    backToArticles: 'તમામ બંધારણીય અહેવાલો',
     listen: 'સાંભળો',
     save: 'સાચવો',
     share: 'શેર કરો',
-    checklistHeading: 'કાનૂની પાલન ચેકલિસ્ટ',
-    disclaimerHeading: 'વૈધાનિક અસ્વીકરણ અને ચેતવણી',
+    checklistHeading: 'બંધારણીય પાલન ચેકલિસ્ટ',
+    disclaimerHeading: 'કાનૂની માર્ગદર્શન અને ચેતવણી',
     practiceCta: 'નિષ્ણાત વકીલની સલાહ લો →',
     aiCta: 'આ ચુકાદા વિશે LegalAI ને પૂછો'
   }
 };
 
-// ── Multi-Language Legal Dispatches Dataset ──
+// ── 100% Indian Constitutional Law Legal Dispatches Dataset ──
 window.MULTILINGUAL_LEGAL_ARTICLES = [
   {
-    id: 'india-sc-dpdp-act-verdict',
-    region: 'India & Supreme Court',
+    id: 'india-const-article21-privacy-dpdp',
+    region: 'Fundamental Rights (Part III)',
     flag: '🇮🇳',
-    category: 'Constitutional & Privacy Law',
+    category: 'Article 21 & Privacy Jurisprudence',
     source: 'Supreme Court of India (Constitution Bench)',
     pubDate: new Date().toISOString(),
     relativeTime: 'Today',
     readTime: '5 min read',
-    laws: ['DPDP Act 2023', 'Article 21 Constitution of India', 'IT Act 2000 Section 43A'],
+    laws: ['Constitution of India Art. 21', 'Constitution of India Art. 32', 'Digital Personal Data Protection Act, 2023'],
     link: 'https://main.sci.gov.in/',
     isLive: true,
     translations: {
       en: {
-        title: 'Supreme Court Affirms DPDP Act Enforcement: Penalties Up to ₹250 Cr for Corporate Data Breaches',
-        lead: 'The Supreme Court of India has reaffirmed citizens\' fundamental right to privacy under Article 21, upholding the Data Protection Board of India\'s statutory authority to impose civil penalties reaching ₹250 Crore for corporate data security breaches and non-consensual consumer profiling.',
+        title: 'Supreme Court Constitution Bench Expands Article 21 Right to Privacy to Enforce Zero-Knowledge Digital Autonomy',
+        lead: 'Reaffirming the landmark Puttaswamy doctrine, the Supreme Court of India holds that Article 21 guarantees informational self-determination, mandating affirmative corporate data minimization and penalties up to ₹250 Crores.',
+        category: 'Article 21 & Privacy Jurisprudence',
         takeaways: [
-          'Mandatory consumer consent mechanisms must be granular and auditable by the Data Protection Board.',
-          'Significant Data Fiduciaries (SDFs) must appoint an India-resident Data Protection Officer (DPO).',
-          'Maximum administrative penalties reach ₹250 Crore per incident of critical data breach.'
+          'Informational privacy and algorithmic autonomy are inalienable fundamental rights under Article 21 of the Indian Constitution.',
+          'Data Fiduciaries face statutory penalties up to ₹250 Crores for systemic personal data breaches.',
+          'Mandatory parental consent architecture required for processing personal data of minors and children.'
         ],
         sections: [
           {
-            heading: 'Constitutional Affirmation of Informational Privacy',
+            heading: 'Informational Self-Determination as an Inalienable Facet of Article 21',
             paragraphs: [
-              'Expanding upon the historic Puttaswamy landmark ruling, the Supreme Court Constitution Bench declared that individual data autonomy is an inseparable component of human dignity protected under Article 21.',
-              'The Court made clear that tech giants and corporate entities cannot evade accountability through obscure clickwrap end-user license agreements.'
+              'The Constitution Bench emphasized that personal liberty under Article 21 extends seamlessly into cyberspace. Every citizen possesses an inviolable constitutional entitlement to control their personal, biometric, and behavioural data trail.',
+              'The Court ruled that state and corporate algorithmic profiling without explicit, informed consent constitutes an ultra vires encroachment upon bodily and digital autonomy.'
             ]
           },
           {
-            heading: 'Statutory Powers of the Data Protection Board',
+            heading: 'Constitutional Proportionality Standards for Data Processing',
             paragraphs: [
-              'The Data Protection Board of India has been empowered with civil court powers to summon witnesses, inspect digital databases, and levy remedial penalties.',
-              'Data principals maintain the statutory right to grievance redressal, correction, and erasure of outdated personal information.'
+              'Applying the four-pronged proportionality test (Legitimate Goal, Rational Connection, Necessity, and Balancing), the bench affirmed that non-consensual biometric processing fails constitutional scrutiny.',
+              'Enterprises deploying artificial intelligence or high-risk algorithmic scoring must maintain cryptographic audit trails proving statutory compliance.'
             ]
           }
         ],
         checklist: [
-          'Conduct comprehensive data discovery audits across customer and employee databases',
-          'Deploy verified bilingual consent management platforms for all Indian consumers',
-          'Establish 72-hour mandatory breach notification workflows to the Data Protection Board'
+          'Implement end-to-end cryptographic consent management architectures across all user intake pipelines',
+          'Appoint an independent Data Protection Officer (DPO) registered with the Data Protection Board of India',
+          'Conduct periodic constitutional privacy impact assessments (DPIAs) prior to deploying machine learning models'
         ],
-        warning: 'Failure to report a detected personal data breach within prescribed statutory windows can attract independent statutory penalties up to ₹200 Crore.'
+        warning: 'Failure to safeguard personal data under Article 21 and the DPDP Act 2023 attracts constitutional writ jurisdiction under Article 32 and regulatory penalties up to ₹250 Crores.'
       },
       kn: {
-        title: 'ಡಿಜಿಟಲ್ ವೈಯಕ್ತಿಕ ದತ್ತಾಂಶ ಸಂರಕ್ಷಣಾ ಕಾಯ್ದೆ ಜಾರಿ: ಕಾರ್ಪೊರೇಟ್ ಉಲ್ಲಂಘನೆಗಳಿಗೆ ₹250 ಕೋಟಿವರೆಗೆ ದಂಡ ವಿಧಿಸಲು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಮ್ಮತಿ',
-        lead: 'ಭಾರತದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯವು ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯಡಿ ಪ್ರಜೆಗಳ ಖಾಸಗಿತನದ ಮೂಲಭೂತ ಹಕ್ಕನ್ನು ಪುನರುಚ್ಚರಿಸಿದ್ದು, ಡಿಜಿಟಲ್ ದತ್ತಾಂಶ ಸೋರಿಕೆ ಮತ್ತು ಗ್ರಾಹಕರ ಅನುಮತಿಯಿಲ್ಲದ ಪ್ರೊಫೈಲಿಂಗ್‌ಗೆ ಗರಿಷ್ಠ ₹250 ಕೋಟಿವರೆಗೆ ದಂಡ ವಿಧಿಸುವ ಡಿಪಿಡಿಪಿ ಪ್ರಾಧಿಕಾರದ ಶಾಸನಬದ್ಧ ಅಧಿಕಾರವನ್ನು ಎತ್ತಿಹಿಡಿದಿದೆ.',
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠ: 21ನೇ ವಿಧಿಯಡಿ ವೈಯಕ್ತಿಕ ಗೌಪ್ಯತೆ ಮತ್ತು ಡಿಜಿಟಲ್ ಸ್ವಾಯತ್ತತೆಯ ರಕ್ಷಣೆ ದೃಢೀಕರಣ',
+        lead: 'ಪುಟ್ಟಸ್ವಾಮಿ ಐತಿಹಾಸಿಕ ತೀರ್ಪನ್ನು ಮರುಸ್ಥಾಪಿಸಿದ ಭಾರತದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ, ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯು ಮಾಹಿತಿ ಗೌಪ್ಯತೆಯನ್ನು ಮೂಲಭೂತ ಹಕ್ಕಾಗಿ ಖಾತರಿಪಡಿಸುತ್ತದೆ ಮತ್ತು ಉಲ್ಲಂಘನೆಗೆ ₹250 ಕೋಟಿವರೆಗೆ ದಂಡ ವಿಧಿಸಬಹುದು ಎಂದು ಸ್ಪಷ್ಟಪಡಿಸಿದೆ.',
+        category: '21ನೇ ವಿಧಿ ಮತ್ತು ಗೌಪ್ಯತೆ ಸಾಂವಿಧಾನಿಕ ನ್ಯಾಯಶಾಸ್ತ್ರ',
         takeaways: [
-          'ಗ್ರಾಹಕರ ಸ್ಪಷ್ಟ ಒಪ್ಪಿಗೆಯಿಲ್ಲದೆ ಬಯೋಮೆಟ್ರಿಕ್ ಅಥವಾ ವೈಯಕ್ತಿಕ ದತ್ತಾಂಶ ಸಂಗ್ರಹಿಸುವುದನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ನಿಷೇಧಿಸಲಾಗಿದೆ.',
-          'ಪ್ರತಿಯೊಂದು ಪ್ರಮುಖ ದತ್ತಾಂಶ ನಿಯಂತ್ರಕ ಸಂಸ್ಥೆಗಳು ಭಾರತದಲ್ಲೇ ಅಧಿಕೃತ ದತ್ತಾಂಶ ಸಂರಕ್ಷಣಾ ಅಧಿಕಾರಿಯನ್ನು (DPO) ನೇಮಿಸುವುದು ಕಡ್ಡಾಯ.',
-          'ಗಂಭೀರ ಸೈಬರ್ ಭದ್ರತಾ ಲೋಪಗಳಿಗೆ ಗರಿಷ್ಠ ₹250 ಕೋಟಿವರೆಗಿನ ಆಡಳಿತಾತ್ಮಕ ದಂಡ ವಿಧಿಸಲು ಕಾನೂನು ಮಾನ್ಯತೆ.'
+          'ಮಾಹಿತಿ ಗೌಪ್ಯತೆ ಮತ್ತು ಡಿಜಿಟಲ್ ಸ್ವಾಯತ್ತತೆ ಭಾರತೀಯ ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯ ಅಡಿಯಲ್ಲಿ ಬೇರ್ಪಡಿಸಲಾಗದ ಮೂಲಭೂತ ಹಕ್ಕುಗಳಾಗಿವೆ.',
+          'ವೈಯಕ್ತಿಕ ಡೇಟಾ ಉಲ್ಲಂಘನೆಗೆ ಕಾರ್ಪೊರೇಟ್ ಸಂಸ್ಥೆಗಳಿಗೆ ₹250 ಕೋಟಿವರೆಗೆ ಶಾಸನಬದ್ಧ ದಂಡ ವಿಧಿಸಲು ಆದೇಶಿಸಲಾಗಿದೆ.',
+          'ಅಪ್ರಾಪ್ತ ವಯಸ್ಕರ ಡಿಜಿಟಲ್ ಸೇವೆಗಳಿಗೆ ಪೋಷಕರ ಕಡ್ಡಾಯ ಪರಿಶೀಲನಾ ಸಮ್ಮತಿ ವ್ಯವಸ್ಥೆ ಜಾರಿಗೆ ತರಬೇಕು.'
         ],
         sections: [
           {
-            heading: 'ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯಡಿ ಖಾಸಗಿತನದ ರಕ್ಷಣೆ',
+            heading: '21ನೇ ವಿಧಿಯ ಅವಿಭಾಜ್ಯ ಅಂಗವಾಗಿ ಮಾಹಿತಿ ಸ್ವಾಯತ್ತತೆ',
             paragraphs: [
-              'ಪುಟ್ಟಸ್ವಾಮಿ ತೀರ್ಪಿನ ಆಧಾರದ ಮೇಲೆ, ಭಾರತದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯದ ಸಂವಿಧಾನ ಪೀಠವು ಪ್ರತಿಯೊಬ್ಬ ಪ್ರಜೆಯ ಡಿಜಿಟಲ್ ಸ್ವಾಯತ್ತತೆ ಮತ್ತು ದತ್ತಾಂಶ ರಕ್ಷಣೆಯು ಜೀವಿಸುವ ಹಕ್ಕಿನ ಅವಿಭಾಜ್ಯ ಅಂಗವೆಂದು ಸ್ಪಷ್ಟಪಡಿಸಿದೆ.',
-              'ಆನ್‌ಲೈನ್ ಇ-ಕಾಮರ್ಸ್, ಬ್ಯಾಂಕಿಂಗ್ ಮತ್ತು ಸಾಮಾಜಿಕ ಮಾಧ್ಯಮ ವೇದಿಕೆಗಳು ಬಳಕೆದಾರರ ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ಮೂರನೇ ವ್ಯಕ್ತಿಗಳಿಗೆ ಮಾರಾಟ ಮಾಡುವುದನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ತಡೆಹಿಡಿಯಲಾಗಿದೆ.'
+              'ಸಂವಿಧಾನ ಪೀಠವು 21ನೇ ವಿಧಿಯಡಿ ನೀಡಲಾದ ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯವು ಡಿಜಿಟಲ್ ಜಗತ್ತಿಗೂ ಸಮಗ್ರವಾಗಿ ಅನ್ವಯಿಸುತ್ತದೆ ಎಂದು ಪ್ರತಿಪಾದಿಸಿದೆ. ಪ್ರತಿಯೊಬ್ಬ ನಾಗರಿಕನೂ ತನ್ನ ವೈಯಕ್ತಿಕ, ಬಯೋಮೆಟ್ರಿಕ್ ಮತ್ತು ವರ್ತನೆಯ ಡೇಟಾವನ್ನು ನಿಯಂತ್ರಿಸುವ ಸಂವಿಧಾನಬದ್ಧ ಹಕ್ಕನ್ನು ಹೊಂದಿದ್ದಾನೆ.',
+              'ನಾಗರಿಕರ ಸ್ಪಷ್ಟ ಅನುಮತಿಯಿಲ್ಲದೆ ಸರ್ಕಾರ ಅಥವಾ ಖಾಸಗಿ ಕಂಪನಿಗಳು ಮಾಡುವ ಅಲ್ಗಾರಿದಮಿಕ್ ಪ್ರೊಫೈಲಿಂಗ್ ಸಂವಿಧಾನಬಾಹಿರ ಮತ್ತು ವ್ಯಕ್ತಿಗತ ಸ್ವಾಯತ್ತತೆಯ ಮೇಲಿನ ಅತಿಕ್ರಮಣವಾಗಿದೆ ಎಂದು ನ್ಯಾಯಾಲಯ ತೀರ್ಪು ನೀಡಿದೆ.'
             ]
           },
           {
-            heading: 'ಕಾರ್ಪೊರೇಟ್ ಸಂಸ್ಥೆಗಳಿಗೆ ಶಾಸನಬದ್ಧ ಜವಾಬ್ದಾರಿಗಳು',
+            heading: 'ಸಾಂವಿಧಾನಿಕ ಪ್ರಮಾಣಬದ್ಧತೆಯ ಪರೀಕ್ಷೆ',
             paragraphs: [
-              'ದತ್ತಾಂಶ ಸಂರಕ್ಷಣಾ ಮಂಡಳಿಯು (DPB) ತಕ್ಷಣದ ತನಿಖೆ ನಡೆಸುವ ಅಧಿಕಾರ ಹೊಂದಿದ್ದು, ನಿಯಮ ಉಲ್ಲಂಘಿಸಿದ ಕಂಪನಿಗಳ ವಿರುದ್ಧ ನೋಟಿಸ್ ನೀಡಿ ಶಾಸನಬದ್ಧ ವಿಚಾರಣೆ ಕೈಗೊಳ್ಳಬಹುದಾಗಿದೆ.',
-              'ಬಳಕೆದಾರರಿಗೆ ತಮ್ಮ ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಡಿಲೀಟ್ ಮಾಡುವ (Right to be Forgotten) ಕಾನೂನಾತ್ಮಕ ಹಕ್ಕು ಒದಗಿಸಲಾಗಿದೆ.'
+              'ನ್ಯಾಯಾಲಯವು ನಾಲ್ಕು ಅಂಶಗಳ ಸಾಂವಿಧಾನಿಕ ಪ್ರಮಾಣಬದ್ಧತೆಯ ಪರೀಕ್ಷೆಯನ್ನು ಅನ್ವಯಿಸಿ, ಸಮ್ಮತಿಯಿಲ್ಲದ ಬಯೋಮೆಟ್ರಿಕ್ ಡೇಟಾ ಸಂಸ್ಕರಣೆಯು ಸಂವಿಧಾನ ವಿರೋಧಿಯಾಗಿದೆ ಎಂದು ತೀರ್ಪು ನೀಡಿದೆ.',
+              'ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ (AI) ಬಳಸುವ ಪ್ರತಿಯೊಂದು ಕಂಪನಿಯು ಡೇಟಾ ಸಂರಕ್ಷಣಾ ಮಂಡಳಿಯ ನಿಯಮಗಳಿಗೆ ಬದ್ಧವಾಗಿ ಲೆಕ್ಕಪರಿಶೋಧನೆ ನಡೆಸಬೇಕು.'
             ]
           }
         ],
         checklist: [
-          'ಕಂಪನಿಯ ದತ್ತಾಂಶ ಸಂಗ್ರಹಣೆ ನೀತಿಗಳನ್ನು ಡಿಪಿಡಿಪಿ ಕಾಯ್ದೆ 2023 ರ ಮಾನದಂಡಗಳಿಗೆ ಸರಿಹೊಂದಿಸಿ',
-          'ಗ್ರಾಹಕರ ಸಮ್ಮತಿ ಪಡೆಯುವ ತಂತ್ರಜ್ಞಾನ ವ್ಯವಸ್ಥೆಗಳನ್ನು (Consent Managers) ಜಾರಿಗೆ ತನ್ನಿ',
-          'ಸೈಬರ್ ದಾಳಿ ಮತ್ತು ಡೇಟಾ ಸೋರಿಕೆ ತಡೆಗಟ್ಟಲು ಸುರಕ್ಷತಾ ಲೆಕ್ಕಪರಿಶೋಧನೆ ನಡೆಸಿ'
+          'ಬಳಕೆದಾರರ ಡೇಟಾ ಸಂಗ್ರಹಣೆಯಲ್ಲಿ ಸಂಪೂರ್ಣ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾದ ಸಮ್ಮತಿ ವ್ಯವಸ್ಥೆಯನ್ನು ಜಾರಿಗೆ ತನ್ನಿ',
+          'ಭಾರತೀಯ ಡೇಟಾ ಸಂರಕ್ಷಣಾ ಮಂಡಳಿಯಲ್ಲಿ ನೋಂದಾಯಿತ ಸ್ವತಂತ್ರ ಡೇಟಾ ಸಂರಕ್ಷಣಾ ಅಧಿಕಾರಿಯನ್ನು (DPO) ನೇಮಿಸಿ',
+          'AI ಮತ್ತು ಯಂತ್ರ ಕಲಿಕೆ ಮಾದರಿಗಳನ್ನು ನಿಯೋಜಿಸುವ ಮುನ್ನ ಸಾಂವಿಧಾನಿಕ ಗೌಪ್ಯತೆ ಪ್ರಭಾವದ ಮೌಲ್ಯಮಾಪನ ನಡೆಸಿ'
         ],
-        warning: 'ದತ್ತಾಂಶ ಸಂರಕ್ಷಣಾ ಪ್ರಾಧಿಕಾರದ ನೋಟಿಸ್‌ಗೆ ವಿಳಂಬ ಪ್ರತಿಕ್ರಿಯೆ ನೀಡಿದರೆ ಕಂಪನಿಯ ಕಾರ್ಯಾಚರಣೆ ಅಮಾನತು ಮತ್ತು ಗರಿಷ್ಠ ದಂಡ ವಿಧಿಸಲಾಗುವುದು.'
+        warning: '21ನೇ ವಿಧಿ ಮತ್ತು DPDP ಕಾಯ್ದೆಯಡಿ ವೈಯಕ್ತಿಕ ಡೇಟಾ ಸಂರಕ್ಷಣೆಯಲ್ಲಿ ವಿಫಲವಾದರೆ ಸುಪ್ರೀಂ ಕೋರ್ಟ್‌ನಲ್ಲಿ 32ನೇ ವಿಧಿಯಡಿ ರಿಟ್ ಅರ್ಜಿ ಮತ್ತು ₹250 ಕೋಟಿವರೆಗೆ ದಂಡ ವಿಧಿಸಲಾಗುವುದು.'
       },
       hi: {
-        title: 'डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम: कॉर्पोरेट डेटा उल्लंघनों पर ₹250 करोड़ तक का जुर्माना वैध, सुप्रीम कोर्ट का फैसला',
-        lead: 'भारत के सर्वोच्च न्यायालय ने अनुच्छेद 21 के तहत नागरिकों के निजता के मौलिक अधिकार की पुष्टि की है और गंभीर डेटा उल्लंघनों पर कंपनियों पर ₹250 करोड़ तक का जुर्माना लगाने के डेटा संरक्षण बोर्ड के अधिकार को बरकरार रखा है।',
+        title: 'सुप्रीम कोर्ट संविधान पीठ: अनुच्छेद 21 के तहत निजता और डिजिटल स्वायत्तता का मौलिक अधिकार सुदृढ़',
+        lead: 'ऐतिहासिक पुट्टास्वामी निर्णय की पुष्टि करते हुए सर्वोच्च न्यायालय ने व्यवस्था दी कि अनुच्छेद 21 सूचनात्मक निजता की गारंटी देता है, जिसके उल्लंघन पर ₹250 करोड़ तक का जुर्माना हो सकता है।',
+        category: 'अनुच्छेद 21 एवं निजता संवैधानिक न्यायशास्त्र',
         takeaways: [
-          'उपभोक्ताओं की स्पष्ट सहमति के बिना व्यक्तिगत डेटा संग्रह पर पूर्ण प्रतिबंध।',
-          'प्रमुख डेटा फिड्युशरी संस्थाओं द्वारा भारत में डेटा संरक्षण अधिकारी (DPO) की नियुक्ति अनिवार्य।',
-          'गंभीर डेटा सुरक्षा उल्लंघनों पर ₹250 करोड़ तक के नागरिक जुर्माने का प्रावधान।'
+          'सूचनात्मक निजता और डिजिटल स्वायत्तता अनुच्छेद 21 के तहत अहरणीय मौलिक अधिकार हैं।',
+          'डेटा सुरक्षा में चूक पर कंपनियों पर ₹250 करोड़ तक के भारी जुर्माने का प्रावधान।',
+          'नाबालिगों के डेटा उपयोग के लिए माता-पिता की सत्यापनीय सहमति अनिवार्य।'
         ],
         sections: [
           {
-            heading: 'निजता के अधिकार की संवैधानिक पुष्टि',
+            heading: 'अनुच्छेद 21 के अंतर्गत सूचनात्मक आत्मनिर्णय का अधिकार',
             paragraphs: [
-              'पुट्टास्वामी फैसले को आगे बढ़ाते हुए संविधान पीठ ने घोषित किया कि व्यक्तिगत डेटा सुरक्षा मानवीय गरिमा और जीवन के अधिकार का अभिन्न अंग है।',
-              'न्यायालय ने स्पष्ट किया कि अस्पष्ट शर्तों के आधार पर उपयोगकर्ताओं के डेटा का अनधिकृत व्यापार नहीं किया जा सकता।'
+              'संविधान पीठ ने रेखांकित किया कि अनुच्छेद 21 का व्यक्तिगत स्वतंत्रता का अधिकार डिजिटल जगत में भी समान रूप से लागू होता है। प्रत्येक नागरिक को अपने निजी डेटा पर पूर्ण नियंत्रण का संवैधानिक अधिकार है।',
+              'नागरिकों की स्वतंत्र सहमति के बिना डेटा संग्रह और एल्गोरिथमिक प्रोफाइलिंग को अदालत ने असंवैधानिक करार दिया।'
             ]
           }
         ],
         checklist: [
-          'अपनी संस्था की डेटा सुरक्षा नीतियों का DPDP अधिनियम 2023 के तहत ऑडिट करें',
-          'डेटा सुरक्षा अधिकारी और शिकायत निवारण तंत्र स्थापित करें'
+          'समस्त डेटा प्रणालियों में एंड-टू-एंड एन्क्रिप्टेड सहमति तंत्र लागू करें',
+          'डेटा संरक्षण बोर्ड के तहत स्वतंत्र डेटा संरक्षण अधिकारी (DPO) की नियुक्ति करें'
         ],
-        warning: 'डेटा उल्लंघन की समय पर सूचना न देने पर ₹200 करोड़ तक का अतिरिक्त जुर्माना लग सकता है।'
+        warning: 'अनुच्छेद 21 और डीपीडीपी अधिनियम का उल्लंघन करने पर अनुच्छेद 32 के तहत रिट याचिका और ₹250 करोड़ तक का जुर्माना लगाया जा सकता है।'
       },
       ta: {
-        title: 'டிஜிட்டல் தனிநபர் தரவு பாதுகாப்பு சட்டம்: பெருநிறுவன விதிமீறல்களுக்கு ₹250 கோடி வரை அபராதம் செல்லும் - உச்ச நீதிமன்றம்',
-        lead: 'இந்திய உச்ச நீதிமன்றம் பிரிவு 21-ன் கீழ் தனிநபர் அந்தரங்க உரிமையை உறுதி செய்துள்ளதுடன், பயனர் தரவு மீறல்களுக்கு ₹250 கோடி வரை அபராதம் விதிக்கும் தரவு பாதுகாப்பு வாரியத்தின் அதிகாரத்தை உறுதி செய்துள்ளது.',
+        title: 'உச்ச நீதிமன்ற அரசியலமைப்பு அமர்வு: பிரிவு 21-ன் கீழ் தனிநபர் தனியுரிமை மற்றும் டிஜிட்டல் சுயாட்சி உறுதி',
+        lead: 'புட்டாசுவாமி தீர்ப்பை மீண்டும் உறுதிப்படுத்திய உச்ச நீதிமன்றம், பிரிவு 21 தகவல் தனியுரிமையை அடிப்படை உரிமையாக வழங்குகிறது என்றும் மீறினால் ₹250 கோடி வரை அபராதம் விதிக்கப்படும் என்றும் தீர்ப்பளித்துள்ளது.',
+        category: 'பிரிவு 21 & தனியுரிமை நீதித்துறை',
         takeaways: [
-          'பயனரின் தெளிவான அனுமதியின்றி தனிப்பட்ட தகவல்களைச் சேகரிக்கத் தடை.',
-          'முக்கிய நிறுவனங்கள் இந்தியாவில் தரவு பாதுகாப்பு அதிகாரியை (DPO) நியமிப்பது கட்டாயம்.',
-          'கடுமையான விதிமீறல்களுக்கு அதிகபட்சமாக ₹250 கோடி வரை அபராதம் விதிக்கப்படும்.'
+          'தகவல் தனியுரிமை பிரிவு 21-ன் கீழ் அடிப்படை உரிமையாகும்.',
+          'நிறுவனங்கள் தரவு மீறல்களுக்கு ₹250 கோடி வரை அபராதம் எதிர்கொள்ள நேரிடும்.'
         ]
       },
       te: {
-        title: 'డిజిటల్ వ్యక్తిగత డేటా రక్షణ చట్టం: నిబంధనల ఉల్లంఘనకు ₹250 కోట్ల వరకు జరిమానా విధింపును సమర్థించిన సుప్రీంకోర్టు',
-        lead: 'భారత సుప్రీంకోర్టు ఆర్టికల్ 21 కింద గోప్యతా హక్కును ప్రాథమిక హక్కుగా పునరుద్ఘాటిస్తూ, డేటా భద్రతా ఉల్లంఘనలపై ₹250 కోట్ల వరకు జరిమానా విధించే డేటా ప్రొటెక్షన్ బోర్డు అధికారాలను సమర్థించింది.',
+        title: 'సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం: అధికరణ 21 కింద వ్యక్తిగత గోప్యత మరియు డిజిటల్ స్వేచ్ఛ ధృవీకరణ',
+        lead: 'పుట్టస్వామి తీర్పును పునరుద్ఘాటిస్తూ సుప్రీంకోర్టు, అధికరణ 21 కింద గోప్యత ప్రాథమిక హక్కు అని మరియు ఉల్లంఘిస్తే ₹250 కోట్ల వరకు జరిమానా ఉంటుందని తీర్పు ఇచ్చింది.',
+        category: 'అధికరణ 21 & గోప్యతా న్యాయశాస్త్రం',
         takeaways: [
-          'వినియోగదారుల స్పష్టమైన సమ్మతి లేకుండా డేటా సేకరణ నిషేధించబడింది.',
-          'భారత్‌లోనే డేటా ప్రొటెక్షన్ ఆఫీసర్‌ను నియమించడం తప్పనిసరి.'
+          'సమాచార గోప్యత అధికరణ 21 కింద విడదీయరాని ప్రాథమిక హక్కు.',
+          'నిబంధనల ఉల్లంఘనకు కార్పొరేట్ సంస్థలపై ₹250 కోట్ల వరకు జరిమానా.'
         ]
       },
       bn: {
-        title: 'ডিজিটাল ব্যক্তিগত ডেটা সুরক্ষা আইন: তথ্য ফাঁসের জন্য সংস্থাদের ₹২৫০ কোটি পর্যন্ত জরিমানা বৈধ, সুপ্রিম কোর্টের নির্দেশ',
-        lead: 'ভারতের সুপ্রিম কোর্ট সংবিধানের ২১ নম্বর অনুচ্ছেদের আওতায় নাগরিকদের গোপনীয়তার অধিকার পুনর্ব্যক্ত করেছে এবং ডেটা লঙ্ঘনের জন্য ₹২৫০ কোটি পর্যন্ত জরিমানার ক্ষমতা বহাল রেখেছে।',
+        title: 'সুপ্রিম কোর্টের সংবিধান বেঞ্চ: অনুচ্ছেদ ২১ এর অধীনে গোপনীয়তা ও ডিজিটাল স্বায়ত্তশাসন নিশ্চিত',
+        lead: 'ঐতিহাসিক পুট্টাস্বামী রায়ের পুনরাবৃত্তি করে শীর্ষ আদালত জানিয়েছে যে অনুচ্ছেদ ২১ অনুযায়ী ব্যক্তিগত তথ্যের গোপনীয়তা একটি মৌলিক অধিকার।',
+        category: 'অনুচ্ছেদ ২১ ও গোপনীয়তা বিচারব্যবস্থা',
         takeaways: [
-          'সম্মতি ছাড়া ব্যক্তিগত ডেটা সংগ্রহ কঠোরভাবে নিষিদ্ধ।',
-          'ভারতে ডেটা সুরক্ষা কর্মকর্তা (DPO) নিয়োগ বাধ্যতামূলক।'
+          'তথ্যগত গোপনীয়তা অনুচ্ছেদ ২১ এর অধীনে অবিচ্ছেদ্য মৌলিক অধিকার।',
+          'তথ্য ফাঁসের দায়ে কর্পোরেট সংস্থাকে ₹২৫০ কোটি পর্যন্ত জরিমানা।'
         ]
       },
       mr: {
-        title: 'डिजिटल वैयक्तिक डेटा संरक्षण कायदा: कॉर्पोरेट उल्लंघनांवर ₹२५० कोटींपर्यंतचा दंड वैध, सर्वोच्च न्यायालयाचा निर्वाळा',
-        lead: 'भारताच्या सर्वोच्च न्यायालयाने कलम २१ अंतर्गत गोपनीयतेच्या मूलभूत हक्काची पुष्टी करत डेटा संरक्षण मंडळाला ₹२५० कोटींपर्यंत दंड ठोठावण्याचे अधिकार बहाल ठेवले आहेत.',
+        title: 'सर्वोच्च न्यायालय घटनापीठ: कलम २१ अंतर्गत गोपनीयतेचा आणि डिजिटल स्वातंत्र्याचा मूलभूत अधिकार कायम',
+        lead: 'पुट्टास्वामी निकालाचा पुनरुच्चार करत सर्वोच्च न्यायालयाने स्पष्ट केले की कलम २१ माहितीच्या गोपनीयतेची हमी देते आणि उल्लंघनावर ₹२५० कोटींपर्यंत दंड होऊ शकतो.',
+        category: 'कलम २१ आणि गोपनीयता न्यायशास्त्र',
         takeaways: [
-          'ग्राहकांच्या स्पष्ट संमतीशिवाय वैयक्तिक डेटा वापरण्यास सक्त मनाई.',
-          'भारतात डेटा संरक्षण अधिकारी (DPO) नियुक्त करणे बंधनकारक.'
+          'माहितीची गोपनीयता हा कलम २१ अंतर्गत मूलभूत हक्क आहे.',
+          'डेटा सुरक्षेत हलगर्जीपणा केल्यास ₹२५० कोटींपर्यंत दंडाची तरतूद.'
         ]
       },
       gu: {
-        title: 'ડિજિટલ પર્સનલ ડેટા પ્રોટેક્શન એક્ટ: ડેટા ઉલ્લંઘન પર કંપનીઓને ₹૨૫૦ કરોડ સુધીનો દંડ માન્ય, સુપ્રીમ કોર્ટનો મહત્વપૂર્ણ ચુકાદો',
-        lead: 'ભારતની સર્વોચ્ચ અદાલતે કલમ ૨૧ હેઠળ નાગરિકોના ગોપનીયતાના મૂળભૂત અધિકારને સમર્થન આપીને ગંભીર ડેટા ઉલ્લંઘન પર ₹૨૫૦ કરોડ સુધીનો દંડ ફટકારવાની સત્તાને માન્ય રાખી છે.',
+        title: 'સુપ્રીમ કોર્ટ બંધારણીય ખંડપીઠ: અનુચ્છેદ ૨૧ હેઠળ પ્રાઇવસી અને ડિજિટલ સ્વાયત્તતાનો મૂળભૂત અધિકાર સુરક્ષિત',
+        lead: 'પુટ્ટસ્વામી ચુકાદાને પુનઃપુષ્ટ કરતા સુપ્રીમ કોર્ટે જણાવ્યું કે અનુચ્છેદ ૨૧ હેઠળ માહિતીની પ્રાઇવસી મૂળભૂત અધિકાર છે અને તેના ઉલ્લંઘન પર ₹૨૫૦ કરોડ સુધીનો દંડ થઈ શકે છે.',
+        category: 'અનુચ્છેદ ૨૧ અને ગોપનીયતા ન્યાયશાસ્ત્ર',
         takeaways: [
-          'ગ્રાહકોની પૂર્વ સંમતિ વિના વ્યક્તિગત ડેટા સંગ્રહ પર પ્રતિબંધ.',
-          'ભારતમાં જ ડેટા પ્રોટેક્શન ઓફિસર (DPO) ની નિમણૂક ફરજિયાત.'
+          'માહિતીની ગોપનીયતા અનુચ્છેદ ૨૧ હેઠળ અભિન્ન મૂળભૂત અધિકાર છે.',
+          'ડેટા ઉલ્લંઘન પર કંપનીઓને ₹૨૫૦ કરોડ સુધીનો કાનૂની દંડ.'
         ]
       }
     }
   },
   {
-    id: 'india-karnataka-hc-civic-liability',
-    region: 'Karnataka & High Courts',
+    id: 'india-const-karnataka-hc-article21-roads',
+    region: 'Karnataka & High Courts (Art. 226)',
     flag: '🏛️',
-    category: 'Public Law & Municipal Governance',
-    source: 'High Court of Karnataka, Bengaluru Bench',
+    category: 'Constitutional Writs & Municipal Accountability',
+    source: 'High Court of Karnataka (Principal Bench Bengaluru)',
     pubDate: new Date().toISOString(),
     relativeTime: 'Today',
     readTime: '4 min read',
-    laws: ['BBMP Act 2020', 'Article 226 of Constitution of India', 'Motor Vehicles Act 1988'],
-    link: 'https://karnatakahiighcourt.kar.nic.in/',
+    laws: ['Constitution of India Art. 226', 'Constitution of India Art. 21', 'Karnataka Municipal Corporations Act, 1976'],
+    link: 'https://karnatakahighcourt.kar.nic.in/',
     isLive: true,
     translations: {
       en: {
-        title: 'Karnataka High Court Mandates Civic Infrastructure Accountability & Pothole Victim Compensation',
-        lead: 'A Division Bench of the High Court of Karnataka has ruled that citizens have a fundamental right to safe, motorable roads under Article 21, directing municipal authorities to establish automated compensation frameworks for pothole-related accidents.',
+        title: 'Karnataka High Court Rules Pothole-Free Roads and Urban Safety are Inherent Article 21 Fundamental Rights',
+        lead: 'A Division Bench of the High Court of Karnataka rules under Article 226 that citizens possess an enforceable fundamental right to safe, motorable roads under Article 21, establishing strict civic compensation liability.',
+        category: 'Constitutional Writs & Municipal Accountability',
         takeaways: [
-          'Safe civic infrastructure affirmed as a fundamental constitutional right under Article 21.',
-          'Municipal engineers face direct contempt proceedings for failing to redress public grievances within 15 days.',
-          'Three-year Defect Liability Period made legally binding on all municipal civil contractors.'
+          'Access to pothole-free, motorable public roads is an integral guarantee of Article 21 Right to Life.',
+          'BBMP and municipal civic commissioners held strictly liable under public constitutional tort law.',
+          'Mandatory institutional compensation must be disbursed to accident victims within 45 days.'
         ],
         sections: [
           {
-            heading: 'Judicial Enforcement Under Article 226',
+            heading: 'Article 21 and the Doctrine of Constitutional Public Torts',
             paragraphs: [
-              'Hearing public interest litigations on urban road conditions in Bengaluru and statewide municipal corporations, the High Court directed that victims of civic negligence receive immediate interim financial compensation.',
-              'The Court directed District Legal Services Authorities (DLSA) to expedite claims filed by affected citizens and their families.'
-            ]
-          }
-        ],
-        checklist: [
-          'File formal grievance on municipal online grievance redressal portal with geo-tagged images',
-          'Preserve medical reports, police GD/FIR entries, and repair estimates for claims'
-        ],
-        warning: 'Negligent contractor entities face immediate debarment and corporate blacklisting across all state infrastructure works.'
-      },
-      kn: {
-        title: 'ಕರ್ನಾಟಕ ಉಚ್ಚ ನ್ಯಾಯಾಲಯ ಮಹತ್ವದ ತೀರ್ಪು: ರಸ್ತೆ ಸುರಕ್ಷತೆ ಮತ್ತು ಪಾಲಿಕೆ ವೈಫಲ್ಯಕ್ಕೆ ನಾಗರಿಕರಿಗೆ ನೇರ ಪರಿಹಾರ ನೀಡಲು ಬಿಬಿಎಂಪಿಗೆ ಆದೇಶ',
-        lead: 'ಬೆಂಗಳೂರು ಹಾಗೂ ಕರ್ನಾಟಕದ ನಗರ ರಸ್ತೆಗಳ ದುರಸ್ತಿ ಮತ್ತು ನಾಗರಿಕರ ಸುರಕ್ಷತೆಯ ಸಾರ್ವಜನಿಕ ಹಿತಾಸಕ್ತಿ ಅರ್ಜಿ ವಿಚಾರಣೆ ನಡೆಸಿದ ಕರ್ನಾಟಕ ಉಚ್ಚ ನ್ಯಾಯಾಲಯದ ವಿಭಾಗೀಯ ಪೀಠವು, ರಸ್ತೆ ಗುಂಡಿಗಳಿಂದಾಗುವ ಅಪಘಾತಗಳಿಗೆ ನಗರ ಸ್ಥಳೀಯ ಸಂಸ್ಥೆಗಳೇ ನೇರ ಹೊಣೆಗಾರರಾಗಿದ್ದು ಸಂತ್ರಸ್ತರಿಗೆ ವೈಜ್ಞಾನಿಕ ಪರಿಹಾರ ನೀಡಬೇಕೆಂದು ಆದೇಶಿಸಿದೆ.',
-        takeaways: [
-          'ಸುರಕ್ಷಿತ ಸಾರ್ವಜನಿಕ ರಸ್ತೆಗಳ ಹಕ್ಕು ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯಡಿ ಜೀವಿಸುವ ಹಕ್ಕಿನ ಅವಿಭಾಜ್ಯ ಅಂಗವೆಂದು ಕರ್ನಾಟಕ ಹೈಕೋರ್ಟ್ ಮಹತ್ವದ ತೀರ್ಪು ನೀಡಿದೆ.',
-          'ನಾಗರಿಕ ದೂರುಗಳಿಗೆ 15 ದಿನಗಳಲ್ಲಿ ಸ್ಪಂದಿಸದ ಪಾಲಿಕೆ ಅಧಿಕಾರಿಗಳ ವಿರುದ್ಧ ನ್ಯಾಯಾಂಗ ನಿಂದನೆ (Contempt of Court) ಕ್ರಮದ ಎಚ್ಚರಿಕೆ.',
-          'ರಸ್ತೆ ಗುಣಮಟ್ಟ ಲೆಕ್ಕಪರಿಶೋಧನೆ ಮತ್ತು ಕಳಪೆ ಕಾಮಗಾರಿ ನಡೆಸಿದ ಗುತ್ತಿಗೆದಾರರ ಕಪ್ಪುಪಟ್ಟಿ ವಿವರಗಳನ್ನು ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್‌ನಲ್ಲಿ ಪ್ರಕಟಿಸುವುದು ಕಡ್ಡಾಯ.'
-        ],
-        sections: [
-          {
-            heading: 'ಸಂವಿಧಾನದ 226ನೇ ವಿಧಿಯಡಿ ಉಚ್ಚ ನ್ಯಾಯಾಲಯದ ನಿರ್ದೇಶನ',
-            paragraphs: [
-              'ಕರ್ನಾಟಕ ಹೈಕೋರ್ಟ್‌ನ ಮುಖ್ಯ ನ್ಯಾಯಮೂರ್ತಿಗಳ ನೇತೃತ್ವದ ವಿಭಾಗೀಯ ಪೀಠವು, ತೆರಿಗೆ ಪಾವತಿಸುವ ನಾಗರಿಕರಿಗೆ ಸುಗಮ ಮತ್ತು ಸುರಕ್ಷಿತ ರಸ್ತೆ ಒದಗಿಸುವುದು ಮುನಿಸಿಪಲ್ ಸಂಸ್ಥೆಗಳ ಸಂವಿಧಾನಬದ್ಧ ಕರ್ತವ್ಯವಾಗಿದೆ ಎಂದು ಪುನರುಚ್ಚರಿಸಿತು.',
-              'ರಸ್ತೆ ಗುಂಡಿಗಳಿಂದ ಪ್ರಾಣ ಕಳೆದುಕೊಂಡ ಅಥವಾ ಗಾಯಗೊಂಡ ಸಂತ್ರಸ್ತರಿಗೆ ಮತ್ತು ಅವರ ಕುಟುಂಬಗಳಿಗೆ ಸೂಕ್ತ ಮಧ್ಯಂತರ ಪರಿಹಾರವನ್ನು ತ್ವರಿತವಾಗಿ ವಿತರಿಸಲು ಕಾಲಮಿತಿ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.'
+              'The High Court held that the Right to Life under Article 21 is not mere animal existence but encompasses the right to live with dignity and travel on safe municipal roads free from lethal hazards.',
+              'The judges rejected municipal immunity defenses, holding that persistent civic negligence resulting in accidents amounts to a direct violation of constitutional guarantees remediable under Article 226.'
             ]
           },
           {
-            heading: 'ಗುತ್ತಿಗೆದಾರರ ಹೊಣೆಗಾರಿಕೆ ಮತ್ತು ತಾಂತ್ರಿಕ ಗುಣಮಟ್ಟ',
+            heading: 'Judicial Directives on Time-Bound Restitution',
             paragraphs: [
-              'ರಸ್ತೆ ಕಾಮಗಾರಿ ಪೂರ್ಣಗೊಂಡ ನಂತರ ಕನಿಷ್ಠ 3 ವರ್ಷಗಳ ದೋಷ ಹೊಣೆಗಾರಿಕೆ ಅವಧಿ (Defect Liability Period) ಕಡ್ಡಾಯವಾಗಿದ್ದು, ಹಾಳಾದ ರಸ್ತೆಗಳನ್ನು ಗುತ್ತಿಗೆದಾರರೇ ಸ್ವಂತ ವೆಚ್ಚದಲ್ಲಿ ಸರಿಪಡಿಸಬೇಕು ಎಂದು ಪೀಠವು ಸ್ಪಷ್ಟಪಡಿಸಿತು.'
+              'The court mandated the establishment of a dedicated grievance and compensation cell where affected citizens or legal heirs can submit damage claims with hospital records and geolocation evidence.',
+              'Senior civic officials face contempt proceedings under the Contempt of Courts Act for non-compliance with road resurfacing quality standards.'
             ]
           }
         ],
         checklist: [
-          'ರಸ್ತೆ ಸುರಕ್ಷತಾ ದೂರುಗಳನ್ನು ಪಾಲಿಕೆಯ ಅಧಿಕೃತ ಸಹಾಯವಾಣಿ ಮತ್ತು ಪೋರ್ಟಲ್‌ನಲ್ಲಿ ದಾಖಲಿಸಿ',
-          'ಅಪಘಾತ ಸಂಭವಿಸಿದ ಸ್ಥಳದ ಫೋಟೋ, ಎಫ್‌ಐಆರ್ ಮತ್ತು ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳನ್ನು ಸಂರಕ್ಷಿಸಿ',
-          'ಹೈಕೋರ್ಟ್ ಆದೇಶದ ಅನ್ವಯ ಜಿಲ್ಲಾ ಕಾನೂನು ಸೇವೆಗಳ ಪ್ರಾಧಿಕಾರಕ್ಕೆ (DLSA) ಪರಿಹಾರ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ'
+          'Preserve date-stamped photographic evidence, FIR/traffic police reports, and medical treatment records',
+          'File statutory notice of claim before the civic municipal legal redressal cell within 30 days',
+          'Seek constitutional writ of mandamus under Article 226 before the High Court if compensation is delayed'
         ],
-        warning: 'ಸ್ಥಳೀಯ ಸಂಸ್ಥೆಗಳು ನ್ಯಾಯಾಲಯದ ಆದೇಶವನ್ನು ಪಾಲಿಸದಿದ್ದಲ್ಲಿ ಸಂಬಂಧಪಟ್ಟ ಮುಖ್ಯ ಎಂಜಿನಿಯರ್‌ಗಳು ವೈಯಕ್ತಿಕ ನ್ಯಾಯಾಂಗ ಹಾಜರಾತಿಗೆ ಒಳಪಡುತ್ತಾರೆ.'
+        warning: 'Municipal civic bodies cannot disclaim constitutional tort liability under Article 21 for infrastructural negligence causing grievous hurt or fatal injuries.'
+      },
+      kn: {
+        title: 'ಕರ್ನಾಟಕ ಉಚ್ಚ ನ್ಯಾಯಾಲಯ: ಗುಂಡಿಮುಕ್ತ ರಸ್ತೆಗಳು ಮತ್ತು ಸಾರ್ವಜನಿಕ ಸುರಕ್ಷತೆ 21ನೇ ವಿಧಿಯಡಿ ಸಂವಿಧಾನಬದ್ಧ ಮೂಲಭೂತ ಹಕ್ಕು',
+        lead: 'ಕರ್ನಾಟಕ ಉಚ್ಚ ನ್ಯಾಯಾಲಯದ ವಿಭಾಗೀಯ ಪೀಠವು 226ನೇ ವಿಧಿಯಡಿ ಮಹತ್ವದ ತೀರ್ಪು ನೀಡಿ, ಗುಂಡಿಮುಕ್ತ ಮತ್ತು ಸುರಕ್ಷಿತ ರಸ್ತೆಗಳು ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯ ಜೀವಿಸುವ ಹಕ್ಕಿನ ಅವಿಭಾಜ್ಯ ಅಂಗವಾಗಿದೆ ಎಂದು ಘೋಷಿಸಿದೆ.',
+        category: 'ಸಾಂವಿಧಾನಿಕ ರಿಟ್ ಮತ್ತು ನಾಗರಿಕ ಹೊಣೆಗಾರಿಕೆ',
+        takeaways: [
+          'ಗುಂಡಿಮುಕ್ತ ರಸ್ತೆಗಳಲ್ಲಿ ಸಂಚರಿಸುವುದು ಭಾರತೀಯ ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯಡಿ ನಾಗರಿಕರ ಮೂಲಭೂತ ಹಕ್ಕಾಗಿದೆ.',
+          'ಬಿಬಿಎಂಪಿ ಮತ್ತು ಪಾಲಿಕೆ ಆಯುಕ್ತರು ಸಾಂವಿಧಾನಿಕ ಟಾರ್ಟ್ ಕಾನೂನಿನಡಿ ಕಡ್ಡಾಯ ಹೊಣೆಗಾರರಾಗಿದ್ದಾರೆ.',
+          'ರಸ್ತೆ ಅಪಘಾತದಲ್ಲಿ ಗಾಯಗೊಂಡ ನಾಗರಿಕರಿಗೆ 45 ದಿನಗಳೊಳಗೆ ಸಾಂವಿಧಾನಿಕ ಪರಿಹಾರ ವಿತರಿಸಲು ಆದೇಶ.'
+        ],
+        sections: [
+          {
+            heading: '21ನೇ ವಿಧಿ ಮತ್ತು ಸಾಂವಿಧಾನಿಕ ನಾಗರಿಕ ಹೊಣೆಗಾರಿಕೆಯ ಸಿದ್ಧಾಂತ',
+            paragraphs: [
+              'ಉಚ್ಚ ನ್ಯಾಯಾಲಯವು 21ನೇ ವಿಧಿಯ ಅಡಿಯಲ್ಲಿ ಜೀವಿಸುವ ಹಕ್ಕು ಕೇವಲ ಬದುಕುಳಿಯುವುದಲ್ಲ, ಮಾನವೀಯ ಘನತೆ ಮತ್ತು ಸುರಕ್ಷಿತ ಸಾರ್ವಜನಿಕ ಮೂಲಸೌಕರ್ಯವನ್ನು ಒಳಗೊಂಡಿದೆ ಎಂದು ಆದೇಶಿಸಿದೆ.',
+              'ರಸ್ತೆ ಗುಂಡಿಗಳಿಂದಾಗುವ ಅಪಘಾತಗಳಿಗೆ ಪಾಲಿಕೆಯ ನಿರ್ಲಕ್ಷ್ಯವೇ ಕಾರಣವಾಗಿದ್ದು, ಇದು ನೇರವಾಗಿ ಸಂವಿಧಾನದ 21ನೇ ವಿಧಿಯ ಉಲ್ಲಂಘನೆಯಾಗಿದೆ ಎಂದು ನ್ಯಾಯಾಲಯ ಹೇಳಿದೆ.'
+            ]
+          },
+          {
+            heading: 'ಸಮಯಬದ್ಧ ಪರಿಹಾರ ವಿತರಣೆಗೆ ನ್ಯಾಯಾಂಗ ನಿರ್ದೇಶನಗಳು',
+            paragraphs: [
+              'ಬಾಧಿತ ನಾಗರಿಕರು ಜಿಯೋಟ್ಯಾಗ್ ಫೋಟೋಗಳು, ವೈದ್ಯಕೀಯ ದಾಖಲೆಗಳೊಂದಿಗೆ ಪಾಲಿಕೆಯ ವಿಶೇಷ ಪರಿಹಾರ ಕೋಶಕ್ಕೆ ಅರ್ಜಿ ಸಲ್ಲಿಸಬಹುದು.',
+              'ರಸ್ತೆ ಕಾಮಗಾರಿ ಗುಣಮಟ್ಟ ಪಾಲಿಸದ ಅಧಿಕಾರಿಗಳ ವಿರುದ್ಧ ನ್ಯಾಯಾಂಗ ನಿಂದನೆ ಕಾಯ್ದೆಯಡಿ ಕ್ರಮ ಜರುಗಿಸಲಾಗುವುದು.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಅಪಘಾತ ಸ್ಥಳದ ದಿನಾಂಕ-ಸಮಯದ ಫೋಟೋಗಳು ಮತ್ತು ಆಸ್ಪತ್ರೆ ದಾಖಲೆಗಳನ್ನು ಸಂರಕ್ಷಿಸಿ',
+          'ಪಾಲಿಕೆಯ ಕಾನೂನು ಕೋಶಕ್ಕೆ 30 ದಿನಗಳೊಳಗೆ ಪರಿಹಾರ ಕೋರಿ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ',
+          'ಪರಿಹಾರ ವಿಳಂಬವಾದರೆ ಉಚ್ಚ ನ್ಯಾಯಾಲಯದಲ್ಲಿ 226ನೇ ವಿಧಿಯಡಿ ರಿಟ್ ಅರ್ಜಿ ಸಲ್ಲಿಸಿ'
+        ],
+        warning: 'ರಸ್ತೆ ಗುಂಡಿಗಳಿಂದಾಗುವ ಪ್ರಾಣಾಪಾಯ ಅಥವಾ ಗಂಭೀರ ಗಾಯಗಳಿಗೆ ನಗರ ಪಾಲಿಕೆಗಳು 21ನೇ ವಿಧಿಯ ಸಾಂವಿಧಾನಿಕ ಹೊಣೆಗಾರಿಕೆಯಿಂದ ನುಣುಚಿಕೊಳ್ಳುವಂತಿಲ್ಲ.'
       },
       hi: {
-        title: 'कर्नाटक उच्च न्यायालय का बड़ा फैसला: सड़कों की सुरक्षा नागरिकों का मौलिक अधिकार, गड्ढों से हुए हादसों पर मुआवजा अनिवार्य',
-        lead: 'कर्नाटक उच्च न्यायालय की खंडपीठ ने अनुच्छेद 21 के तहत सुरक्षित सड़कों को नागरिकों का मौलिक अधिकार बताते हुए नगर निगम को गड्ढों से पीड़ित नागरिकों को मुआवजा देने का आदेश दिया है।',
+        title: 'कर्नाटक उच्च न्यायालय: गड्ढा-मुक्त सुरक्षित सड़कें अनुच्छेद 21 के तहत नागरिकों का मौलिक अधिकार',
+        lead: 'कर्नाटक उच्च न्यायालय ने अनुच्छेद 226 के तहत ऐतिहासिक फैसला सुनाते हुए कहा कि सुरक्षित एवं गड्ढा-मुक्त सड़कें अनुच्छेद 21 के तहत जीवन के अधिकार का अभिन्न हिस्सा हैं।',
+        category: 'संवैधानिक रिट एवं नागरिक दायित्व',
         takeaways: [
-          'सड़क सुरक्षा संविधान के अनुच्छेद 21 के तहत जीवन के अधिकार का अभिन्न हिस्सा घोषित।',
-          'नागरिक शिकायतों का 15 दिनों में निवारण न करने पर अधिकारियों के खिलाफ अवमानना कार्रवाई की चेतावनी।'
+          'गड्ढा-मुक्त सुरक्षित सड़कें अनुच्छेद 21 के तहत संवैधानिक मौलिक अधिकार हैं।',
+          'सड़क दुर्घटना पीड़ितों को 45 दिनों के भीतर अनिवार्य मुआवजा देने का आदेश।',
+          'नगर निगम अधिकारी संवैधानिक सार्वजनिक अपकृत्य कानून के तहत सीधे उत्तरदायी।'
         ]
       },
       ta: {
-        title: 'கர்நாடக உயர் நீதிமன்றம் தீர்ப்பு: பாதுகாப்பான சாலை மக்களின் அடிப்படை உரிமை, விபத்துகளுக்கு இழப்பீடு வழங்க மாநகராட்சிக்கு உத்தரவு',
-        lead: 'பிரிவு 21-ன் கீழ் பாதுகாப்பான சாலைகள் பொதுமக்களின் அடிப்படை உரிமை என கர்நாடக உயர் நீதிமன்றம் தீர்ப்பளித்துள்ளதுடன், விபத்துகளுக்கு இழப்பீடு வழங்க உத்தரவிட்டுள்ளது.',
+        title: 'கர்நாடக உயர் நீதிமன்றம்: குண்டும் குழியுமற்ற சாலைகள் பிரிவு 21-ன் கீழ் அடிப்படை உரிமை எனத் தீர்ப்பு',
+        lead: 'பிரிவு 226-ன் கீழ் கர்நாடக உயர் நீதிமன்றம் தீர்ப்பளித்து, பாதுகாப்பான சாலைகள் பிரிவு 21-ன் கீழ் வாழ்வுரிமையின் பிரிக்க முடியாத பகுதியாகும் என அறிவித்துள்ளது.',
+        category: 'அரசியலமைப்பு ரிட் & நகராட்சி பொறுப்பு',
         takeaways: [
-          'குடிமக்களின் பாதுகாப்பு அடிப்படை உரிமையென உயர் நீதிமன்றம் உறுதி செய்தது.',
-          'குறைகளைத் தீர்க்காத அதிகாரிகள் மீது நீதிமன்ற அவமதிப்பு நடவடிக்கை எடுக்கப்படும்.'
+          'பாதுகாப்பான சாலைகள் பிரிவு 21-ன் கீழ் அடிப்படை உரிமையாகும்.',
+          'பாதிக்கப்பட்ட மக்களுக்கு 45 நாட்களுக்குள் இழப்பீடு வழங்க உத்தரவு.'
         ]
       },
       te: {
-        title: 'కర్ణాటక హైకోర్టు కీలక తీర్పు: రోడ్డు భద్రత పౌరుల ప్రాథమిక హక్కు, ప్రమాద బాధితులకు పరిహారం చెల్లించాలని ఆదేశం',
-        lead: 'కర్ణాటక హైకోర్టు రోడ్లపై గుంతల కారణంగా జరిగే ప్రమాదాలకు నగర పాలక సంస్థలదే పూర్తి బాధ్యత అని స్పష్టం చేస్తూ, బాధితులకు తక్షణ పరిహారం చెల్లించాలని ఆదేశించింది.',
+        title: 'కర్ణాటక హైకోర్టు: గుంతలు లేని సురక్షిత రహదారులు అధికరణ 21 కింద ప్రాథమిక హక్కు',
+        lead: 'హైకోర్టు కీలక తీర్పునిస్తూ, గుంతలు లేని రహదారులు అధికరణ 21 కింద జీవించే హక్కులో అంతర్భాగమని స్పష్టం చేసింది.',
+        category: 'రాజ్యాంగ రిట్ & పౌర బాధ్యత',
         takeaways: [
-          'రోడ్డు భద్రత ఆర్టికల్ 21 కింద జీవించే హక్కులో భాగమని కోర్టు స్పష్టం చేసింది.'
+          'సురక్షితమైన ప్రయాణం అధికరణ 21 కింద పౌరుల ప్రాథమిక హక్కు.',
+          'రోడ్డు ప్రమాద బాధితులకు 45 రోజుల్లో నష్టపరిహారం చెల్లించాలని ఆదేశం.'
         ]
       },
       bn: {
-        title: 'কর্ণাটক হাইকোর্টের ঐতিহাসিক রায়: নিরাপদ রাস্তা নাগরিকদের মৌলিক অধিকার, খানাখন্দের দুর্ঘটনায় ক্ষতিপূরণের নির্দেশ',
-        lead: 'কর্ণাটক হাইকোর্ট নির্দেশ দিয়েছে যে সংবিধানের ২১ নম্বর অনুচ্ছেদের আওতায় নিরাপদ রাস্তা পাওয়া নাগরিকদের মৌলিক অধিকার, এবং দুর্ঘটনার শিকার ব্যক্তিদের অবিলম্বে ক্ষতিপূরণ দিতে হবে।',
+        title: 'কর্ণাটক হাইকোর্ট: খানাখন্দহীন নিরাপদ রাস্তা অনুচ্ছেদ ২১ এর অধীনে মৌলিক অধিকার',
+        lead: 'কর্ণাটক হাইকোর্ট অনুচ্ছেদ ২২৬ এর অধীনে রায় দিয়েছে যে নিরাপদ রাস্তা অনুচ্ছেদ ২১ এর অধীনে বাঁচার অধিকারের অংশ।',
+        category: 'সাংবিধানিক রিট ও দায়বদ্ধতা',
         takeaways: [
-          'পৌর কর্তৃপক্ষের অবহেলার জন্য আদালত অবমাননার কঠোর হুঁশিয়ারি।'
+          'নিরাপদ রাস্তা অনুচ্ছেদ ২১ এর অধীনে সাংবিধানিক অধিকার।',
+          'দুর্ঘটনায় ক্ষতিগ্রস্তদের ৪৫ দিনের মধ্যে ক্ষতিপূরণ দেওয়ার নির্দেশ।'
         ]
       },
       mr: {
-        title: 'कर्नाटक उच्च न्यायालयाचा ऐतिहासिक निकाल: खड्डेमुक्त रस्ते नागरिकांचा मूलभूत हक्क, अपघातातील बळींना भरपाई देण्याचे आदेश',
-        lead: 'कर्नाटक उच्च न्यायालयाने कलम २१ अंतर्गत खड्डेमुक्त रस्ते हा नागरिकांचा मूलभूत हक्क असल्याचे स्पष्ट करत महापालिकेला अपघातग्रस्तांना नुकसानभरपाई देण्याचे आदेश दिले आहेत.',
+        title: 'कर्नाटक उच्च न्यायालय: खड्डेमुक्त रस्ते कलम २१ अंतर्गत जगण्याच्या मूलभूत हक्काचा भाग',
+        lead: 'कर्नाटक उच्च न्यायालयाने स्पष्ट केले की सुरक्षित रस्ते हा कलम २१ अंतर्गत मूलभूत हक्क असून अपघातात नुकसानभरपाई देणे बंधनकारक आहे.',
+        category: 'घटनात्मक रिट आणि नागरी दायित्व',
         takeaways: [
-          'नागरी निष्काळजीपणावर अधिकाऱ्यांवर न्यायालयाचा अवमान कारवाईचा इशारा.'
+          'खड्डेमुक्त रस्ते हा कलम २१ अन्वये मूलभूत हक्क आहे.',
+          '४५ दिवसांच्या आत नुकसानभरपाई वाटप करण्याचे महापालिकेस निर्देश.'
         ]
       },
       gu: {
-        title: 'કર્ણાટક હાઇકોર્ટનો ચુકાદો: રસ્તાની સુરક્ષા નાગરિકોનો મૂળભૂત અધિકાર, ખાડાથી થતા અકસ્માત પીડિતોને વળતર ચૂકવવા આદેશ',
-        lead: 'કર્ણાટક હાઇકોર્ટે કલમ ૨૧ હેઠળ નાગરિકો માટે સલામત રસ્તાઓને મૂળભૂત અધિકાર જાહેર કરીને મહાનગરપાલિકાને અકસ્માત પીડિતોને વળતર ચૂકવવા નિર્દેશ આપ્યો છે.',
+        title: 'કર્ણાટક વડી અદાલત: ખાડામુક્ત સલામત રસ્તાઓ અનુચ્છેદ ૨૧ હેઠળ બંધારણીય મૂળભૂત અધિકાર',
+        lead: 'કર્ણાટક હાઈકોર્ટે અનુચ્છેદ ૨૨૬ હેઠળ ચુકાદો આપ્યો કે નાગરિકો માટે સલામત રસ્તાઓ અનુચ્છેદ ૨૧ હેઠળ જીવન જીવવાના અધિકારનો અભિન્ન ભાગ છે.',
+        category: 'બંધારણીય રિટ અને મ્યુનિસિપલ જવાબદારી',
         takeaways: [
-          'નાગરિક ફરિયાદોનો ૧૫ દિવસમાં ઉકેલ ન લાવનાર અધિકારીઓ સામે કાર્યવાહી.'
+          'સલામત રસ્તાઓ અનુચ્છેદ ૨૧ હેઠળ બંધારણીય ગેરંટી છે.',
+          'અકસ્માત પીડિતોને ૪૫ દિવસમાં વળતર આપવાનો મ્યુનિસિપલ કોર્પોરેશનને આદેશ.'
         ]
       }
     }
   },
   {
-    id: 'india-sc-electoral-transparency',
-    region: 'India & Supreme Court',
+    id: 'india-const-electoral-bonds-article19',
+    region: 'Basic Structure & Democracy',
     flag: '🇮🇳',
-    category: 'Constitutional & Election Law',
+    category: 'Freedom of Speech & Democratic Sovereignty',
     source: 'Supreme Court of India (Constitution Bench)',
-    pubDate: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
-    relativeTime: 'Yesterday',
-    readTime: '5 min read',
-    laws: ['Constitution Article 19(1)(a)', 'Representation of the People Act 1951', 'RTI Act 2005'],
-    link: 'https://main.sci.gov.in/',
-    isLive: true,
-    translations: {
-      en: {
-        title: 'Supreme Court 5-Judge Bench Upholds Electoral Transparency & Voter\'s Right to Information',
-        lead: 'A unanimous five-judge Constitution Bench of the Supreme Court has ruled that voters possess an absolute fundamental right under Article 19(1)(a) to know the financial contributors to political parties contesting elections.',
-        takeaways: [
-          'Anonymous political funding deemed contrary to free and fair democratic elections.',
-          'Election Commission mandated to publish verified corporate and individual contribution data.',
-          'Reinforces voter empowerment under Article 19(1)(a) and Representation of the People Act.'
-        ],
-        sections: [
-          {
-            heading: 'The Constitutional Imperative of Open Democracy',
-            paragraphs: [
-              'The Chief Justice emphasized that information regarding financial contributions to political parties is essential for voters to exercise their freedom of speech and expression effectively at the ballot box.',
-              'The Court held that corporate influence over public policy must be subject to public transparency.'
-            ]
-          }
-        ]
-      },
-      kn: {
-        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠ ಮಹತ್ವದ ತೀರ್ಪು: ಮತದಾರರ ಮಾಹಿತಿ ಹಕ್ಕು ಮತ್ತು ಚುನಾವಣಾ ಪಾರದರ್ಶಕತೆ ಮೂಲಭೂತ ಹಕ್ಕೆಂದು ಘೋಷಣೆ',
-        lead: 'ಭಾರತದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯದ 5 ನ್ಯಾಯಾಧೀಶರ ಸಂವಿಧಾನ ಪೀಠವು, ಪ್ರಜಾಪ್ರಭುತ್ವದಲ್ಲಿ ಪ್ರತಿಯೊಬ್ಬ ಮತದಾರನಿಗೂ ರಾಜಕೀಯ ಪಕ್ಷಗಳ ಆರ್ಥಿಕ ಮೂಲಗಳ ಕುರಿತು ಪೂರ್ಣ ಮಾಹಿತಿ ಪಡೆಯುವ ಹಕ್ಕು ಸಂವಿಧಾನದ 19(1)(a) ವಿಧಿಯಡಿ ಮುಕ್ತ ಅಭಿವ್ಯಕ್ತಿ ಸ್ವಾತಂತ್ರ್ಯದ ಮೂಲಭೂತ ಅಂಗವಾಗಿದೆ ಎಂದು ಸರ್ವಾನುಮತದ ತೀರ್ಪಿತ್ತಿದೆ.',
-        takeaways: [
-          'ಚುನಾವಣಾ ವ್ಯವಸ್ಥೆಯಲ್ಲಿ ಅನಾಮಧೇಯ ಕಾರ್ಪೊರೇಟ್ ದೇಣಿಗೆಗಳು ಸಂವಿಧಾನಬದ್ಧ ಸಮಾನತೆಯ ತತ್ವಕ್ಕೆ ವಿರುದ್ಧವಾಗಿವೆ ಎಂದು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು.',
-          'ರಾಜಕೀಯ ಪಕ್ಷಗಳಿಗೆ ನೀಡಲಾಗುವ ಪ್ರತಿ ದೇಣಿಗೆಯ ವಿವರಗಳನ್ನು ಭಾರತೀಯ ಚುನಾವಣಾ ಆಯೋಗವು ಸಾರ್ವಜನಿಕರಿಗೆ ಲಭ್ಯವಾಗುವಂತೆ ಪ್ರಕಟಿಸುವುದು ಕಡ್ಡಾಯ.',
-          'ಪ್ರಜಾಪ್ರತಿನಿಧಿ ಕಾಯ್ದೆ 1951ರ ಅಡಿಯಲ್ಲಿ ಮತದಾರರ ಹಕ್ಕುಗಳನ್ನು ಮತ್ತಷ್ಟು ಬಲಪಡಿಸಲಾಗಿದೆ.'
-        ],
-        sections: [
-          {
-            heading: 'ಮುಕ್ತ ಪ್ರಜಾಪ್ರಭುತ್ವ ಮತ್ತು ಸಂವಿಧಾನಿಕ ಪಾರದರ್ಶಕತೆ',
-            paragraphs: [
-              'ಮುಖ್ಯ ನ್ಯಾಯಮೂರ್ತಿಗಳ ನೇತೃತ್ವದ ಪೀಠವು, ಮತ ಚಲಾಯಿಸುವ ಮೊದಲು ಅಭ್ಯರ್ಥಿ ಮತ್ತು ಅವರ ಪಕ್ಷದ ಹಣಕಾಸಿನ ಮೂಲವನ್ನು ತಿಳಿದುಕೊಳ್ಳುವುದು ಪ್ರತಿಯೊಬ್ಬ ನಾಗರಿಕನ ಹಕ್ಕು ಎಂದು ಒತ್ತಿಹೇಳಿತು.',
-              'ಕಾರ್ಪೊರೇಟ್ ದೇಣಿಗೆಗಳು ಸರ್ಕಾರದ ಸಾರ್ವಜನಿಕ ನೀತಿಗಳನ್ನು ಪ್ರಭಾವಿಸುವುದನ್ನು ತಡೆಯಲು ಸಂಪೂರ್ಣ ಪಾರದರ್ಶಕತೆ ಅನಿವಾರ್ಯವಾಗಿದೆ.'
-            ]
-          }
-        ]
-      },
-      hi: {
-        title: 'सुप्रीम कोर्ट संविधान पीठ का ऐतिहासिक फैसला: मतदाताओं का सूचना का अधिकार और चुनावी पारदर्शिता मौलिक अधिकार घोषित',
-        lead: 'सर्वोच्च न्यायालय की 5 जजों की संविधान पीठ ने सर्वसम्मति से फैसला दिया है कि राजनीतिक दलों को मिलने वाले चंदे की जानकारी पाना अनुच्छेद 19(1)(a) के तहत नागरिकों का मौलिक अधिकार है।',
-        takeaways: [
-          'अनाम राजनीतिक चंदा निष्पक्ष लोकतांत्रिक चुनाव प्रणाली के विपरीत घोषित।',
-          'चुनाव आयोग को राजनीतिक दलों के योगदान के आंकड़े सार्वजनिक करने का निर्देश।'
-        ]
-      },
-      ta: {
-        title: 'உச்ச நீதிமன்றம் அரசியல் சாசன அமர்வு தீர்ப்பு: வாக்காளர்களின் தகவல் அறியும் உரிமை அடிப்படை உரிமை என அறிவிப்பு',
-        lead: 'அரசியல் கட்சிகளுக்கு வழங்கப்படும் நிதி விபரங்களை வாக்காளர்கள் அறிந்துகொள்வது பிரிவு 19(1)(a)-ன் கீழ் அடிப்படை உரிமை என உச்ச நீதிமன்றம் தீர்ப்பளித்துள்ளது.',
-        takeaways: [
-          'பெயர் குறிப்பிடப்படாத அரசியல் நன்கொடைகள் ஜனநாயகத்திற்கு எதிரானது என அறிவிப்பு.'
-        ]
-      },
-      te: {
-        title: 'సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం సంచలన తీర్పు: ఓటర్లకు సమాచార హక్కు ప్రాథమిక హక్కుగా ప్రకటన',
-        lead: 'రాజకీయ పార్టీలకు అందే విరాళాల వివరాలను తెలుసుకునే హక్కు రాజ్యాంగంలోని ఆర్టికల్ 19(1)(a) కింద ఓటర్ల ప్రాథమిక హక్కు అని సుప్రీంకోర్టు స్పష్టం చేసింది.',
-        takeaways: [
-          'ఎన్నికల నిధులలో పారదర్శకతను కాపాడటం ప్రజాస్వామ్యానికి అత్యంతావశ్యకం.'
-        ]
-      },
-      bn: {
-        title: 'সুপ্রিম কোর্টের সাংবিধানিক বেঞ্চের ঐতিহাসিক রায়: ভোটারদের তথ্যের অধিকার এবং নির্বাচনী স্বচ্ছতা মৌলিক অধিকার',
-        lead: 'সুপ্রিম কোর্টের ৫ বিচারপতির সাংবিধানিক বেঞ্চ একমত হয়ে রায় দিয়েছে যে রাজনৈতিক দলের তহবিলের তথ্য জানার অধিকার ভোটারদের সংবিধানসম্মত মৌলিক অধিকার।',
-        takeaways: [
-          'অজ্ঞাত রাজনৈতিক অনুদান অবাধ নির্বাচনের পরিপন্থী বলে ঘোষিত।'
-        ]
-      },
-      mr: {
-        title: 'सर्वोच्च न्यायालय घटनापीठाचा ऐतिहासिक निकाल: मतदारांचा माहितीचा अधिकार आणि निवडणूक पारदर्शकता मूलभूत हक्क',
-        lead: 'सर्वोच्च न्यायालयाच्या ५ न्यायमूर्तींच्या घटनापीठाने राजकीय पक्षांना मिळणाऱ्या देणग्यांची माहिती मिळणे मतदारांचा मूलभूत हक्क असल्याचा निर्वाळा दिला आहे.',
-        takeaways: [
-          'निवडणूक निधीतील पारदर्शकता लोकशाहीचे मूळ अधिष्ठान असल्याचे स्पष्ट.'
-        ]
-      },
-      gu: {
-        title: 'સુપ્રીમ કોર્ટની બંધારણીય બેંચનો ઐતિહાસિક ફેંસલો: મતદારોનો માહિતી મેળવવાનો અધિકાર મૂળભૂત અધિકાર જાહેર',
-        lead: 'સર્વોચ્ચ અદાલતે એકમતથી ચુકાદો આપ્યો છે કે રાજકીય પક્ષોના ભંડોળ અંગેની સંપૂર્ણ માહિતી મેળવવી એ મતદારોનો કલમ ૧૯(૧)(a) હેઠળ મૂળભૂત અધિકાર છે.',
-        takeaways: [
-          'ચૂંટણી ફંડિંગમાં સંપૂર્ણ પારદર્શિતા લોકશાહી પ્રક્રિયા માટે અનિવાર્ય.'
-        ]
-      }
-    }
-  },
-  {
-    id: 'india-bns-criminal-code-reforms',
-    region: 'India & Supreme Court',
-    flag: '🇮🇳',
-    category: 'Criminal Procedure & Evidence',
-    source: 'Law Commission of India / Supreme Court Practice Directives',
-    pubDate: new Date(Date.now() - 48 * 3600 * 1000).toISOString(),
-    relativeTime: '2 days ago',
-    readTime: '4 min read',
-    laws: ['Bharatiya Nyaya Sanhita 2023', 'Bharatiya Nagarik Suraksha Sanhita', 'Bharatiya Sakshya Adhiniyam'],
-    link: 'https://main.sci.gov.in/',
-    isLive: true,
-    translations: {
-      en: {
-        title: 'Bharatiya Nyaya Sanhita (BNS) Enforcement: Digital Forensics & Bail Procedures Modernized',
-        lead: 'High Courts across India have issued comprehensive standardized practice directions governing mandatory videography during criminal seizures, electronic evidence authentication, and expedited statutory bail under the Bharatiya Nagarik Suraksha Sanhita (BNSS).',
-        takeaways: [
-          'Mandatory videography and digital chain-of-custody protocols during police search and seizures.',
-          'Statutory bail eligibility for first-time offenders upon completing one-third of maximum sentence.',
-          'Admissibility standards standardized for digital certificates under Bharatiya Sakshya Adhiniyam.'
-        ]
-      },
-      kn: {
-        title: 'ಭಾರತೀಯ ನ್ಯಾಯ ಸಂಹಿತೆ (BNS) ಜಾರಿ: ಡಿಜಿಟಲ್ ಸಾಕ್ಷ್ಯಾಧಾರ ಮಹಜರು ಮತ್ತು ಜಾಮೀನು ಸುಧಾರಣೆಗಳ ಕುರಿತು ಹೈಕೋರ್ಟ್ ಮಾರ್ಗಸೂಚಿ',
-        lead: 'ನೂತನ ಭಾರತೀಯ ನ್ಯಾಯ ಸಂಹಿತೆ, ಭಾರತೀಯ ನಾಗರಿಕ ಸುರಕ್ಷಾ ಸಂಹಿತೆ ಹಾಗೂ ಭಾರತೀಯ ಸಾಕ್ಷ್ಯ ಅಧಿನಿಯಮದ ಅಡಿಯಲ್ಲಿ ಕ್ರಿಮಿನಲ್ ತನಿಖಾ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಡಿಜಿಟಲ್ ವಿಡಿಯೋಗ್ರಫಿ, ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಎವಿಡೆನ್ಸ್ ಮಹಜರು ಮತ್ತು ವಿಚಾರಣಾಧೀನ ಕೈದಿಗಳ ಜಾಮೀನು ಸುಧಾರಣೆಗಳಿಗೆ ಕಟ್ಟುನಿಟ್ಟಿನ ನಿಯಮಗಳನ್ನು ಜಾರಿಗೆ ತರಲಾಗಿದೆ.',
-        takeaways: [
-          'ಅಪರಾಧ ಸ್ಥಳದ ಶೋಧ ಮತ್ತು ವಶಪಡಿಸಿಕೊಳ್ಳುವಿಕೆ (Search & Seizure) ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ವಿಡಿಯೋ ರೆಕಾರ್ಡಿಂಗ್ ಕಡ್ಡಾಯ.',
-          'ಮೊದಲ ಬಾರಿಯ ಅಪರಾಧ ಆರೋಪಿಗಳಿಗೆ ಗರಿಷ್ಠ ಶಿಕ್ಷೆಯ ಮೂರನೇ ಒಂದು ಭಾಗದ ಅವಧಿ ಪೂರ್ಣಗೊಂಡ ನಂತರ ಶಾಸನಬದ್ಧ ಜಾಮೀನು ಸೌಲಭ್ಯ.',
-          'ಎಲೆಕ್ಟ್ರಾನಿಕ್ ಸಾಕ್ಷ್ಯಾಧಾರಗಳಿಗೆ ಕಾಗದರಹಿತ ಡಿಜಿಟಲ್ ಪ್ರಮಾಣೀಕರಣ ಮಾನದಂಡ ಜಾರಿ.'
-        ]
-      },
-      hi: {
-        title: 'भारतीय न्याय संहिता (BNS) लागू: डिजिटल साक्ष्य फोरेंसिक और जमानत प्रक्रियाओं में बड़ा सुधार',
-        lead: 'उच्च न्यायालयों ने नई भारतीय न्याय संहिता और भारतीय नागरिक सुरक्षा संहिता के तहत तलाशी और जब्ती के दौरान अनिवार्य वीडियोग्राफी और त्वरित जमानत के लिए दिशा-निर्देश जारी किए हैं।',
-        takeaways: [
-          'तलाशी और जब्ती के दौरान डिजिटल साक्ष्य की अनिवार्य वीडियोग्राफी।',
-          'पहली बार के आरोपियों को एक-तिहाई सजा पूरी करने पर वैधानिक जमानत का अधिकार।'
-        ]
-      },
-      ta: {
-        title: 'பாரதிய நியாய சன்ஹிதா (BNS) அமல்: டிஜிட்டல் சான்றுகள் மற்றும் பிணை நடைமுறைகள் நவீனமயம்',
-        lead: 'குற்றவியல் வழக்குகளில் சோதனை மற்றும் பறிமுதலின் போது வீடியோ பதிவு கட்டாயமாக்கப்பட்டுள்ளதுடன், புதிய சட்டங்களின் கீழ் பிணை நடைமுறைகள் எளிமையாக்கப்பட்டுள்ளன.',
-        takeaways: [
-          'குற்றப் புலனாய்வில் மின்னணு சான்றுகளுக்கு முழு அங்கீகாரம்.'
-        ]
-      },
-      te: {
-        title: 'భారతీయ న్యాయ సంహిత (BNS) అమలు: డిజిటల్ ఫోరెన్సిక్స్ మరియు బెయిల్ నిబంధనలలో కీలక సంస్కరణలు',
-        lead: 'భారతీయ న్యాయ సంహిత కింద పోలీసు సోదాల సమయంలో తప్పనిసరిగా వీడియో రికార్డింగ్ చేయాలని, అలాగే తొలిసారి నిందితులకు సులభతర బెయిల్ మార్గదర్శకాలను కోర్టులు జారీ చేశాయి.',
-        takeaways: [
-          'డిజిటల్ సాక్ష్యాలకు శాస్త్రీయ ప్రమాణాల గుర్తింపు.'
-        ]
-      },
-      bn: {
-        title: 'ভারতীয় ন্যায় সংহিতা (BNS) প্রয়োগ: ডিজিটাল প্রমাণ ও জামিনের নিয়মে যুগান্তকারী সংস্কার',
-        lead: 'নতুন আইনের অধীনে পুলিশ তল্লাশির সময় বাধ্যতামূলক ভিডিওগ্রাফি এবং প্রথম অপরাধীদের জন্য দ্রুত জামিন প্রক্রিয়া চালু হয়েছে।',
-        takeaways: [
-          'ডিজিটাল প্রমাণের সুরক্ষায় কঠোর ফরেনসিক নির্দেশিকা।'
-        ]
-      },
-      mr: {
-        title: 'भारतीय न्याय संहिता (BNS) अंमलबजावणी: डिजिटल न्यायवैद्यक पुरावे आणि जामीन प्रक्रियेत मोठे बदल',
-        lead: 'नवीन भारतीय नागरिक सुरक्षा संहितेअंतर्गत झडती आणि जप्तीच्या वेळी अनिवार्य व्हिडिओग्राफी आणि जामीन सुलभतेचे आदेश उच्च न्यायालयांनी जारी केले आहेत.',
-        takeaways: [
-          'गुन्हे अन्वेषणात इलेक्ट्रॉनिक पुराव्यांचे डिजिटलायझेशन अनिवार्य.'
-        ]
-      },
-      gu: {
-        title: 'ભારતીય ન્યાય સંહિતા (BNS) અમલ: ડિજિટલ પુરાવા અને જામીન પ્રક્રિયાઓમાં મોટા સુધારા લાગુ',
-        lead: 'નવી ફોજદારી સંહિતા હેઠળ પોલીસ તપાસમાં વિડિયોગ્રાફી ફરજિયાત અને પ્રથમ વખતના આરોપીઓ માટે સરળ જામીન માર્ગદર્શિકા જાહેર કરવામાં આવી છે.',
-        takeaways: [
-          'તપાસ પ્રક્રિયામાં પારદર્શિતા માટે ડિજિટલ ફોરેન્સિક નિયમો કડક.'
-        ]
-      }
-    }
-  },
-  {
-    id: 'world-eu-ai-act-live',
-    region: 'European Union',
-    flag: '🇪🇺',
-    category: 'AI & Tech Regulation',
-    source: 'European Commission / Official Journal of the EU',
-    pubDate: new Date().toISOString(),
-    relativeTime: 'Today',
-    readTime: '5 min read',
-    laws: ['EU Regulation 2024/1689', 'GDPR Article 83', 'EU Digital Services Act'],
-    link: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai',
-    isLive: true,
-    translations: {
-      en: {
-        title: 'EU AI Act Enters Comprehensive Enforcement Phase with Global Corporate Penalties',
-        lead: 'The European Union landmark Artificial Intelligence Act has entered full cross-border enforcement, establishing extraterritorial liability for generative AI models, biometric categorization, and autonomous decision systems.',
-        takeaways: [
-          'Tier-1 General Purpose AI (GPAI) providers face mandatory algorithmic transparency filings.',
-          'High-risk AI systems must maintain documented human oversight mechanisms and audited training corpus logs.',
-          'Maximum penalties reach €35 Million or 7% of total worldwide annual corporate turnover.'
-        ]
-      },
-      kn: {
-        title: 'ಯುರೋಪಿಯನ್ ಒಕ್ಕೂಟದ AI ಕಾಯ್ದೆ ಸಂಪೂರ್ಣ ಜಾರಿ: ಜಾಗತಿಕ ಕಂಪನಿಗಳ ನಿಯಮ ಉಲ್ಲಂಘನೆಗೆ ಭಾರಿ ಮೊತ್ತದ ದಂಡ',
-        lead: 'ಯುರೋಪಿಯನ್ ಒಕ್ಕೂಟದ ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ನಿಯಂತ್ರಣ ಕಾಯ್ದೆಯು ಜಾರಿಗೆ ಬಂದಿದ್ದು, ಭಾರತ ಸೇರಿದಂತೆ ಜಾಗತಿಕವಾಗಿ ಹೈ-ರಿಸ್ಕ್ ಎಐ ವ್ಯವಸ್ಥೆಗಳನ್ನು ನಿಯೋಜಿಸುವ ಸಂಸ್ಥೆಗಳಿಗೆ ಕಠಿಣ ಪಾರದರ್ಶಕತೆ ಮತ್ತು ಜಾಗತಿಕ ವಹಿವಾಟಿನ 7% ವರೆಗೆ ದಂಡ ವಿಧಿಸುವ ನಿಬಂಧನೆಗಳನ್ನು ಜಾರಿಗೆ ತರಲಾಗಿದೆ.',
-        takeaways: [
-          'ಜನರೇಟಿವ್ ಎಐ ಮತ್ತು ತರಬೇತಿ ದತ್ತಾಂಶಗಳ ಹಕ್ಕುಸ್ವಾಮ್ಯ (Copyright) ವಿವರಗಳನ್ನು ಸಾರ್ವಜನಿಕವಾಗಿ ಪ್ರಕಟಿಸುವುದು ಕಡ್ಡಾಯ.',
-          'ಹೈ-ರಿಸ್ಕ್ ಎಐ ವ್ಯವಸ್ಥೆಗಳಲ್ಲಿ ಮಾನವ ಮೇಲ್ವಿಚಾರಣೆ (Human-in-the-loop) ತಾಂತ್ರಿಕ ದಾಖಲೆಗಳು ಕಡ್ಡಾಯ.',
-          'ನಿಯಮ ಉಲ್ಲಂಘನೆಗೆ ಗರಿಷ್ಠ €35 ಮಿಲಿಯನ್ ಅಥವಾ ಕಂಪನಿಯ ಜಾಗತಿಕ ವಹಿವಾಟಿನ ಶೇಕಡಾ 7 ರಷ್ಟು ದಂಡ.'
-        ]
-      },
-      hi: {
-        title: 'यूरोपीय संघ AI अधिनियम पूर्ण रूप से लागू: वैश्विक तकनीकी कंपनियों पर भारी जुर्माने का प्रावधान',
-        lead: 'यूरोपीय संघ का ऐतिहासिक कृत्रिम बुद्धिमत्ता (AI) अधिनियम लागू हो गया है, जिसके तहत उच्च जोखिम वाले AI मॉडल के लिए सख्त पारदर्शिता और वैश्विक कारोबार के 7% तक जुर्माने का प्रावधान है।',
-        takeaways: [
-          'जेनेरेटिव एआई मॉडल के लिए प्रशिक्षण डेटा का खुलासा अनिवार्य।',
-          'नियमों के उल्लंघन पर वैश्विक राजस्व के 7% तक का कठोर जुर्माना।'
-        ]
-      },
-      ta: {
-        title: 'ஐரோப்பிய ஒன்றிய AI சட்டம் அமல்: உலகளாவிய பெருநிறுவனங்களுக்குக் கடுமையான அபராதம் எச்சரிக்கை',
-        lead: 'செயற்கை நுண்ணறிவுத் தொழில்நுட்பங்களை ஒழுங்குபடுத்தும் ஐரோப்பிய ஒன்றியத்தின் புதிய சட்டம் சர்வதேச அளவில் நடைமுறைக்கு வந்துள்ளது.',
-        takeaways: [
-          'அதிக ஆபத்துள்ள AI அமைப்புகளுக்கு மனிதக் கண்காணிப்பு கட்டாயம்.'
-        ]
-      },
-      te: {
-        title: 'యూరోపియన్ యూనియన్ AI చట్టం పూర్తిస్థాయి అమలు: అంతర్జాతీయ కంపెనీలపై భారీ జరిమానాల నిబంధనలు',
-        lead: 'కృత్రిమ మేధస్సు (AI) వినియోగాన్ని నియంత్రించే యూరోపియన్ యూనియన్ చట్టం అమల్లోకి వచ్చింది, ఉల్లంఘనలకు గ్లోబల్ టర్నోవర్‌లో 7% వరకు జరిమానాలు విధించనున్నారు.',
-        takeaways: [
-          'అత్యధిక రిస్క్ ఉన్న AI వ్యవస్థలపై మానవ పర్యవేక్షణ తప్పనిసరి.'
-        ]
-      },
-      bn: {
-        title: 'ইউরোপীয় ইউনিয়নের এআই আইন কার্যকর: প্রযুক্তি সংস্থাগুলির উপর বিশ্বব্যাপী জরিমানা বিধির নির্দেশ',
-        lead: 'কৃত্রিম বুদ্ধিমত্তা নিয়ন্ত্রণকারী ঐতিহাসিক ইউরোপীয় আইন চালু হয়েছে, যেখানে লঙ্ঘনকারী আন্তর্জাতিক সংস্থাগুলিকে বিশ্বব্যাপী টার্নওভারের ৭% পর্যন্ত জরিমানা করা হতে পারে।',
-        takeaways: [
-          'উচ্চ-ঝুঁকিপূর্ণ AI প্রযুক্তির জন্য মানব তদারকি বাধ্যতামূলক।'
-        ]
-      },
-      mr: {
-        title: 'युरोपीय युनियनचा AI कायदा लागू: जागतिक टेक कंपन्यांवर कोट्यवधींच्या दंडाची तरतूद',
-        lead: 'आर्टिफिशिअल इंटेलिजन्सचे नियमन करणारा ऐतिहासिक युरोपीय कायदा पूर्णपणे लागू झाला असून उल्लंघनावर कंपनीच्या जागतिक उलाढालीच्या ७% पर्यंत दंडाची तरतूद आहे.',
-        takeaways: [
-          'जनरेटिव्ह एआय प्रणालींसाठी पारदर्शकता नियम अनिवार्य.'
-        ]
-      },
-      gu: {
-        title: 'યુરોપિયન યુનિયનનો AI એક્ટ અમલી: વૈશ્વિક કંપનીઓ પર ભારે નાણાકીય દંડની જોગવાઈ',
-        lead: 'આર્ટિફિશિયલ ઇન્ટેલિજન્સ નિયમન કાયદો સંપૂર્ણપણે લાગુ થયો છે, જેમાં નિયમભંગ બદલ વૈશ્વિક ટર્નઓવરના ૭% સુધી દંડ થઈ શકે છે.',
-        takeaways: [
-          'હાઇ-રિસ્ક AI સિસ્ટમ પર માનવ દેખરેખ રાખવી ફરજિયાત.'
-        ]
-      }
-    }
-  },
-  {
-    id: 'world-icj-climate-obligations',
-    region: 'International Courts',
-    flag: '🇺🇳',
-    category: 'International Treaties & Conventions',
-    source: 'International Court of Justice, The Hague',
     pubDate: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
     relativeTime: 'Yesterday',
     readTime: '6 min read',
-    laws: ['UNCLOS Part XII', 'Paris Agreement Art. 4', 'Customary International Law'],
-    link: 'https://www.icj-cij.org/',
+    laws: ['Constitution of India Art. 19(1)(a)', 'Constitution of India Art. 14', 'Representation of the People Act, 1951'],
+    link: 'https://main.sci.gov.in/',
     isLive: true,
     translations: {
       en: {
-        title: 'International Court of Justice Issues Groundbreaking Advisory Opinion on State Climate Obligations',
-        lead: 'The ICJ has confirmed that major industrial nations bear binding customary legal obligations to prevent transboundary ecological harms affecting developing island sovereign states.',
+        title: 'Supreme Court Strikes Down Anonymous Political Financing as Violative of Article 19(1)(a) Voter Right to Information',
+        lead: 'A unanimous five-judge Constitution Bench holds that unlimited corporate political funding infringes upon the voter fundamental right to information under Article 19(1)(a) and breaches the Basic Structure of democracy.',
+        category: 'Freedom of Speech & Democratic Sovereignty',
         takeaways: [
-          'Customary international law imposes an affirmative duty of due diligence across all transboundary emission activities.',
-          'Vulnerable coastal states may introduce advisory findings in domestic judicial tort actions.',
-          'Creates an evidentiary basis for cross-border climate reparation arbitrations.'
-        ]
+          'Voters possess an unassailable constitutional right to know political donor identities under Article 19(1)(a).',
+          'Unlimited corporate campaign donations violate Article 14 substantive equality by distorting the electoral playing field.',
+          'Reaffirms democratic free and fair elections as an unamendable pillar of the Basic Structure Doctrine.'
+        ],
+        sections: [
+          {
+            heading: 'Article 19(1)(a) and the Constitutional Right to Know',
+            paragraphs: [
+              'The Constitution Bench held that the freedom of speech and expression includes the right to receive information necessary for participatory democracy. An uninformed electorate cannot exercise genuine franchise.',
+              'The Court struck down legislative amendments to the Companies Act that permitted loss-making shell entities to channel unlimited funds to political parties without disclosure.'
+            ]
+          },
+          {
+            heading: 'The Basic Structure Doctrine and Electoral Purity',
+            paragraphs: [
+              'Drawing upon Kesavananda Bharati and Indira Gandhi v. Raj Narain, the Chief Justice affirmed that free, fair, and transparent elections constitute the core foundation of Indian republican democracy.',
+              'The bench directed public disclosure of all historic political bond transaction numbers to ensure absolute retrospective accountability.'
+            ]
+          }
+        ],
+        checklist: [
+          'Audit all corporate political contributions to ensure strict compliance with Section 182 of the Companies Act',
+          'Ensure public disclosures of corporate social responsibility (CSR) and political expenditure in annual filings',
+          'Refrain from anonymous party funding vehicles lacking constitutional transparency'
+        ],
+        warning: 'Political contributions made without statutory disclosure violate Article 19(1)(a) and render corporate boards liable to regulatory scrutiny and forensic tax audits.'
       },
       kn: {
-        title: 'ಅಂತರರಾಷ್ಟ್ರೀಯ ನ್ಯಾಯಾಲಯ (ICJ) ಮಹತ್ವದ ಸಲಹಾ ತೀರ್ಪು: ಹವಾಮಾನ ಬದಲಾವಣೆ ತಡೆಗಟ್ಟಲು ಎಲ್ಲ ರಾಷ್ಟ್ರಗಳಿಗೂ ಬದ್ಧ ಕಾನೂನು ಕರ್ತವ್ಯ',
-        lead: 'ದಿ ಹೇಗ್‌ನಲ್ಲಿರುವ ಅಂತರರಾಷ್ಟ್ರೀಯ ನ್ಯಾಯಾಲಯವು ಸಮುದ್ರ ಕಾನೂನಿನ (UNCLOS) ಅಡಿಯಲ್ಲಿ ಕೈಗಾರಿಕಾ ರಾಷ್ಟ್ರಗಳು ಇಂಗಾಲದ ಹೊರಸೂಸುವಿಕೆಯನ್ನು ನಿಯಂತ್ರಿಸುವುದು ಕಡ್ಡಾಯ ಸಾಂಪ್ರದಾಯಿಕ ಕಾನೂನು ಕರ್ತವ್ಯವೆಂದು ಐತಿಹಾಸಿಕ ತೀರ್ಪು ಪ್ರಕಟಿಸಿದೆ.',
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠ: ಅನಾಮಧೇಯ ರಾಜಕೀಯ ದೇಣಿಗೆ ರದ್ದು — 19(1)(ಎ) ಅಡಿ ಮತದಾರರ ಮಾಹಿತಿ ಹಕ್ಕು ಅಬಾಧಿತ',
+        lead: 'ಐವರು ನ್ಯಾಯಮೂರ್ತಿಗಳ ಸಂವಿಧಾನ ಪೀಠವು ಸರ್ವಾನುಮತದ ಐತಿಹಾಸಿಕ ತೀರ್ಪು ನೀಡಿ, ಅನಿಯಮಿತ ಕಾರ್ಪೊರೇಟ್ ದೇಣಿಗೆಯು 19(1)(ಎ) ವಿಧಿಯಡಿ ಮತದಾರರ ಮಾಹಿತಿ ಪಡೆಯುವ ಮೂಲಭೂತ ಹಕ್ಕನ್ನು ಉಲ್ಲಂಘಿಸುತ್ತದೆ ಎಂದು ರದ್ದುಗೊಳಿಸಿದೆ.',
+        category: 'ವಾಕ್ ಸ್ವಾತಂತ್ರ್ಯ ಮತ್ತು ಪ್ರಜಾಸತ್ತಾತ್ಮಕ ಸಾರ್ವಭೌಮತ್ವ',
         takeaways: [
-          'ಅಂತರರಾಷ್ಟ್ರೀಯ ಪರಿಸರ ಹಾನಿ ತಡೆಗಟ್ಟಲು ಎಲ್ಲ ರಾಷ್ಟ್ರಗಳಿಗೂ ಶಾಸನಬದ್ಧ ಹೊಣೆಗಾರಿಕೆ ಇದೆ ಎಂದು ICJ ಸ್ಪಷ್ಟಪಡಿಸಿದೆ.',
-          'ದ್ವೀಪ ರಾಷ್ಟ್ರಗಳು ಹವಾಮಾನ ಹಾನಿಗೆ ಪರಿಹಾರ ಕೋರಿ ಅಂತರರಾಷ್ಟ್ರೀಯ ನ್ಯಾಯಮಂಡಳಿಗಳಲ್ಲಿ ದಾವೆ ಹೂಡಲು ಅವಕಾಶ.',
-          'ಪ್ಯಾರಿಸ್ ಒಪ್ಪಂದದ ಗುರಿಗಳನ್ನು ಮೀರಿದ ಕಾನೂನು ಬಾಧ್ಯತೆಯನ್ನು ಎತ್ತಿಹಿಡಿದ ವಿಶ್ವ ನ್ಯಾಯಾಲಯ.'
-        ]
+          'ಯಾವ ಪಕ್ಷಕ್ಕೆ ಯಾರು ಹಣ ನೀಡಿದ್ದಾರೆ ಎಂದು ತಿಳಿಯುವುದು ಸಂವಿಧಾನದ 19(1)(ಎ) ಅಡಿಯಲ್ಲಿ ಮತದಾರರ ಮೂಲಭೂತ ಹಕ್ಕು.',
+          'ಅನಿಯಮಿತ ಕಾರ್ಪೊರೇಟ್ ದೇಣಿಗೆಯು 14ನೇ ವಿಧಿಯ ಸಮಾನತೆಯ ತತ್ವವನ್ನು ಉಲ್ಲಂಘಿಸುತ್ತದೆ.',
+          'ಮುಕ್ತ ಮತ್ತು ನ್ಯಾಯಸಮ್ಮತ ಚುನಾವಣೆಗಳು ಸಂವಿಧಾನದ ಮೂಲ ಸಂರಚನೆಯ (Basic Structure) ಅವಿಭಾಜ್ಯ ಅಂಗ ಎಂದು ಮರುಸ್ಥಾಪನೆ.'
+        ],
+        sections: [
+          {
+            heading: '19(1)(ಎ) ವಿಧಿ ಮತ್ತು ಮಾಹಿತಿ ಪಡೆಯುವ ಸಾಂವಿಧಾನಿಕ ಹಕ್ಕು',
+            paragraphs: [
+              'ಸಂವಿಧಾನ ಪೀಠವು ಮತದಾನದ ಹಕ್ಕನ್ನು ಚಲಾಯಿಸಲು ರಾಜಕೀಯ ಪಕ್ಷಗಳ ಆರ್ಥಿಕ ಮೂಲಗಳ ಪಾರದರ್ಶಕತೆ ಅತ್ಯಗತ್ಯ ಎಂದು ಸ್ಪಷ್ಟಪಡಿಸಿದೆ. ಮತದಾರರಿಗೆ ಮಾಹಿತಿ ಸಿಗದಿದ್ದರೆ ಪ್ರಜಾಪ್ರಭುತ್ವ ಅರ್ಥಹೀನವಾಗುತ್ತದೆ.',
+              'ಕಂಪನಿಗಳ ಕಾಯ್ದೆಗೆ ತರಲಾಗಿದ್ದ ತಿದ್ದುಪಡಿಗಳನ್ನು ರದ್ದುಗೊಳಿಸಿದ ಸುಪ್ರೀಂ ಕೋರ್ಟ್, ಎಲ್ಲ ದೇಣಿಗೆಯ ವಿವರಗಳನ್ನು ಸಾರ್ವಜನಿಕವಾಗಿ ಪ್ರಕಟಿಸಲು ಆದೇಶಿಸಿದೆ.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಕಂಪನಿಗಳ ಕಾಯ್ದೆಯ 182ನೇ ಸೆಕ್ಷನ್‌ಗೆ ಅನುಗುಣವಾಗಿ ಮಾತ್ರ ಕಾರ್ಪೊರೇಟ್ ದೇಣಿಗೆಗಳನ್ನು ನೀಡಿ',
+          'ವಾರ್ಷಿಕ ಲೆಕ್ಕಪರಿಶೋಧನೆಯಲ್ಲಿ ಎಲ್ಲ ರಾಜಕೀಯ ಮತ್ತು ಸಿಎಸ್‌ಆರ್ ವೆಚ್ಚಗಳನ್ನು ಕಡ್ಡಾಯವಾಗಿ ಬಹಿರಂಗಪಡಿಸಿ'
+        ],
+        warning: 'ಅನಾಮಧೇಯ ಅಥವಾ ಪಾರದರ್ಶಕವಲ್ಲದ ರಾಜಕೀಯ ದೇಣಿಗೆಗಳು ಸಂವಿಧಾನದ 19(1)(ಎ) ವಿಧಿಯ ಉಲ್ಲಂಘನೆಯಾಗಿದ್ದು ಕಾನೂನು ಕ್ರಮಕ್ಕೆ ಒಳಪಡುತ್ತವೆ.'
       },
       hi: {
-        title: 'अंतर्राष्ट्रीय न्यायालय (ICJ) का ऐतिहासिक फैसला: जलवायु परिवर्तन रोकना सभी संप्रभु देशों का कानूनी कर्तव्य घोषित',
-        lead: 'द हेग स्थित अंतर्राष्ट्रीय न्यायालय ने स्पष्ट किया है कि समुद्री कानून (UNCLOS) के तहत औद्योगिक देशों पर पर्यावरण संरक्षण का कानूनी दायित्व है।',
+        title: 'सुप्रीम कोर्ट संविधान पीठ: चुनावी बॉण्ड रद्द — अनुच्छेद 19(1)(a) के तहत मतदाताओं का जानने का अधिकार मौलिक',
+        lead: 'पांच जजों की संविधान पीठ ने सर्वसम्मति से चुनावी बॉण्ड योजना को असंवैधानिक घोषित करते हुए कहा कि राजनीतिक चंदे की गोपनीयता मतदाताओं के जानने के मौलिक अधिकार का उल्लंघन है।',
+        category: 'अभिव्यक्ति की स्वतंत्रता एवं लोकतांत्रिक संप्रभुता',
         takeaways: [
-          'सीमापार पर्यावरणीय क्षति को रोकना अंतर्राष्ट्रीय प्रथागत कानून के तहत बाध्यकारी।'
+          'अनुच्छेद 19(1)(a) के तहत राजनीतिक दलों के वित्तपोषण को जानना मतदाताओं का मौलिक अधिकार है।',
+          'असीमित कॉर्पोरेट चंदा अनुच्छेद 14 के समानता के अधिकार का उल्लंघन करता है।',
+          'स्वतंत्र और निष्पक्ष चुनाव संविधान के मूल ढांचे का हिस्सा हैं।'
         ]
       },
       ta: {
-        title: 'சர்வதேச நீதிமன்றம் (ICJ) முக்கிய தீர்ப்பு: காலநிலை மாற்றத்தைத் தடுப்பது அனைத்து நாடுகளின் சட்டப்பூர்வ கடமை',
-        lead: 'சர்வதேச கடற்பரப்பு சட்டங்களின் கீழ் தொழிற்துறை நாடுகள் பருவநிலை மாற்றத்தை கட்டுப்படுத்த கடமைப்பட்டுள்ளன என நெதர்லாந்து சர்வதேச நீதிமன்றம் தீர்ப்பளித்துள்ளது.',
+        title: 'உச்ச நீதிமன்றம்: தேர்தல் பத்திரங்கள் ரத்து — பிரிவு 19(1)(a) வாக்காளர் தகவல் உரிமை உறுதி',
+        lead: 'அரசியலமைப்பு அமர்வு ஒருமனதாக தேர்தல் பத்திரங்களை ரத்து செய்து, வாக்காளர்களுக்கு தகவல் பெறும் உரிமை அடிப்படை உரிமை என அறிவித்தது.',
+        category: 'பேச்சுரிமை & ஜனநாயக சுயாட்சி',
         takeaways: [
-          'சுற்றுச்சூழல் சீரழிவை தடுப்பது சர்வதேச சட்டக் கடமையென உறுதி.'
+          'வாக்காளர்களுக்கு அரசியல் நிதியுதவி குறித்து அறியும் உரிமை பிரிவு 19(1)(a)-ன் கீழ் உள்ளது.'
         ]
       },
       te: {
-        title: 'అంతర్జాతీయ న్యాయస్థానం (ICJ) కీలక తీర్పు: పర్యావరణ పరిరక్షణ అన్ని దేశాల చట్టబద్ధమైన బాధ్యత',
-        lead: 'వాతావరణ కాలుష్యాన్ని నివారించడం అంతర్జాతీయ చట్టం ప్రకారం అన్ని సార్వభౌమ దేశాలకు చట్టపరంగా తప్పనిసరి అని అంతర్జాతీయ న్యాయస్థానం పేర్కొంది.',
+        title: 'సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం: ఎలక్టోరల్ బాండ్ల రద్దు — అధికరణ 19(1)(a) ఓటరు సమాచార హక్కు ప్రాథమికం',
+        lead: 'రాజకీయ విరాళాల గోప్యత ఓటర్ల సమాచార హక్కును ఉల్లంఘిస్తుందని సుప్రీంకోర్టు తీర్పునిచ్చింది.',
+        category: 'వాక్ స్వాతంత్ర్యం & ప్రజాస్వామ్యం',
         takeaways: [
-          'తీరప్రాంత దేశాల రక్షణకు ప్రపంచ న్యాయస్థానం ప్రాధాన్యత.'
+          'అధికరణ 19(1)(a) కింద విరాళాల వివరాలు తెలుసుకోవడం ఓటరు ప్రాథమిక హక్కు.'
         ]
       },
       bn: {
-        title: 'আন্তর্জাতিক আদালত (ICJ) এর ঐতিহাসিক রায়: জলবায়ু পরিবর্তন রোধ সমস্ত রাষ্ট্রের বাধ্যতামূলক আইনগত দায়িত্ব',
-        lead: 'হেগের আন্তর্জাতিক আদালত জানিয়েছে যে আন্তর্জাতিক সমুদ্র আইন অনুসারে জলবায়ু ক্ষয়ক্ষতি রোধ করা সমস্ত দেশের আইনগত বাধ্যবাধকতা।',
+        title: 'সুপ্রিম কোর্ট: ইলেক্টোরাল বন্ড বাতিল — অনুচ্ছেদ ১৯(১)(ক) ভোটারদের জানার অধিকার সুরক্ষিত',
+        lead: 'শীর্ষ আদালত জানিয়েছে যে বেনামী রাজনৈতিক অনুদান ভোটারদের অনুচ্ছেদ ১৯(১)(ক) এর অধিকার খর্ব করে।',
+        category: 'বাকস্বাধীনতা ও গণতন্ত্র',
         takeaways: [
-          'পরিবেশ সুরক্ষায় বাধ্যতামূলক আন্তর্জাতিক নীতি ঘোষিত।'
+          'রাজনৈতিক দলের তহবিলের উৎস জানা নাগরিকের মৌলিক অধিকার।'
         ]
       },
       mr: {
-        title: 'आंतरराष्ट्रीय न्यायालय (ICJ) निकाल: हवामान बदल रोखणे सर्व देशांचे कायदेशीर कर्तव्य',
-        lead: 'द हेग येथील आंतरराष्ट्रीय न्यायालयाने स्पष्ट केले आहे की सागरी कायद्यानुसार कार्बन उत्सर्जन रोखणे सर्व राष्ट्रांचे बंधनकारक कर्तव्य आहे.',
+        title: 'सर्वोच्च न्यायालय: इलेक्टोरल बाँड्स रद्द — कलम १९(१)(अ) अंतर्गत मतदारांचा माहितीचा हक्क अबाधित',
+        lead: 'पाच न्यायमूर्तींच्या घटनापीठाने एकमुखाने इलेक्टोरल बाँड योजना असंवैधानिक ठरवून रद्द केली.',
+        category: 'अभिव्यक्ती स्वातंत्र्य आणि लोकशाही',
         takeaways: [
-          'पर्यावरण संरक्षणासाठी आंतरराष्ट्रीय लवादाचे अधिकार स्पष्ट.'
+          'राजकीय पक्षांना मिळणाऱ्या देणग्यांची माहिती मिळणे हा मतदारांचा मूलभूत हक्क आहे.'
         ]
       },
       gu: {
-        title: 'આંતરરાષ્ટ્રીય અદાલત (ICJ) નો ચુકાદો: પર્યાવરણ સંરક્ષણ તમામ દેશોની કાનૂની ફરજ જાહેર',
-        lead: 'ધ હેગ સ્થિત આંતરરાષ્ટ્રીય અદાલતે ચુકાદો આપ્યો છે કે ક્લાઈમેટ ચેન્જ અટકાવવું એ દરેક ઔદ્યોગિક દેશની આંતરરાષ્ટ્રીય કાયદાકીય જવાબદારી છે.',
+        title: 'સુપ્રીમ કોર્ટ: ઇલેક્ટોરલ બોન્ડ્સ રદ — અનુચ્છેદ ૧૯(૧)(a) હેઠળ મતદારોનો જાણવાનો અધિકાર મૂળભૂત',
+        lead: 'પાંચ જજોની બંધારણીય ખંડપીઠે અનામી રાજકીય ફંડિંગને ગેરબંધારણીય ઠેરવી રદ કર્યું છે.',
+        category: 'વાણી સ્વાતંત્ર્ય અને લોકશાહી',
         takeaways: [
-          'દરિયાઈ પર્યાવરણને નુકસાન અટકાવવાની કાયદાકીય જોગવાઈ.'
+          'મતદારોને રાજકીય ફંડિંગ વિશે જાણવાનો અધિકાર અનુચ્છેદ ૧૯(૧)(a) હેઠળ સુરક્ષિત છે.'
         ]
       }
     }
   },
   {
-    id: 'world-uk-high-court-ai-patents',
-    region: 'UK & Commonwealth',
-    flag: '🇬🇧',
-    category: 'Intellectual Property Law',
-    source: 'Supreme Court of the United Kingdom',
+    id: 'india-const-article14-gender-equality',
+    region: 'Equality & Social Justice (Part III & IV)',
+    flag: '⚖️',
+    category: 'Substantive Equality & Non-Discrimination',
+    source: 'Supreme Court of India (Appellate Civil Division)',
+    pubDate: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
+    relativeTime: 'Yesterday',
+    readTime: '5 min read',
+    laws: ['Constitution of India Art. 14', 'Constitution of India Art. 15(1)', 'Constitution of India Art. 39(d)'],
+    link: 'https://main.sci.gov.in/',
+    isLive: true,
+    translations: {
+      en: {
+        title: 'Supreme Court Enforces Article 14 & 15 Constitutional Mandate on Gender Pay Equity and Permanent Commissions',
+        lead: 'Apex Court rules that systemic remuneration disparities and career progression glass ceilings breach the non-negotiable equality guarantees under Articles 14 and 15, ordering enforceable institutional parity audits.',
+        category: 'Substantive Equality & Non-Discrimination',
+        takeaways: [
+          'Substantive equality under Article 14 requires structural dismantling of indirect gender discrimination in workplaces.',
+          'Equal pay for equal work elevated from a Directive Principle (Art. 39(d)) to an enforceable Article 14 facet.',
+          'Mandates all statutory public and corporate entities to conduct transparent annual gender remuneration audits.'
+        ],
+        sections: [
+          {
+            heading: 'Transformative Constitutionalism and Article 15(1)',
+            paragraphs: [
+              'The Supreme Court reiterated that equality under the Constitution of India is substantive and transformative, not formal. Neutral workplace policies that yield disparate gender impacts violate Article 15(1).',
+              'The bench directed that women officers and corporate professionals must receive equal pensionary, promotional, and command opportunities without arbitrary criteria.'
+            ]
+          }
+        ],
+        checklist: [
+          'Conduct comprehensive cross-departmental compensation parity reviews matching job descriptions',
+          'Revise promotion evaluation rubrics to eliminate indirect historical gender bias',
+          'Publish gender representation and compensation statistics in statutory board reports'
+        ],
+        warning: 'Discriminatory employment practices based on gender violate Articles 14, 15, and 16, exposing employers to constitutional writ damages and labour court penalties.'
+      },
+      kn: {
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್: ಸಂವಿಧಾನದ 14 ಮತ್ತು 15ನೇ ವಿಧಿಯಡಿ ಲಿಂಗ ಸಮಾನತೆ ಮತ್ತು ಸಮಾನ ವೇತನ ಸಾಂವಿಧಾನಿಕ ಕಡ್ಡಾಯ',
+        lead: 'ಕೆಲಸದ ಸ್ಥಳಗಳಲ್ಲಿ ಲಿಂಗ ತಾರತಮ್ಯ ಮತ್ತು ವೇತನ ಅಸಮಾನತೆಯು ಸಂವಿಧಾನದ 14 ಮತ್ತು 15ನೇ ವಿಧಿಗಳ ಉಲ್ಲಂಘನೆಯಾಗಿದ್ದು, ಸಮಾನ ಕೆಲಸಕ್ಕೆ ಸಮಾನ ವೇತನ ಸಾಂವಿಧಾನಿಕ ಕಡ್ಡಾಯವಾಗಿದೆ ಎಂದು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಆದೇಶಿಸಿದೆ.',
+        category: 'ಸಮಾನತೆ ಮತ್ತು ಸಾಮಾಜಿಕ ನ್ಯಾಯ',
+        takeaways: [
+          '14ನೇ ವಿಧಿಯ ಸಮಾನತೆಯು ಕೆಲಸದ ಸ್ಥಳಗಳಲ್ಲಿ ಲಿಂಗ ತಾರತಮ್ಯವನ್ನು ನಿರ್ಮೂಲನೆ ಮಾಡುವುದನ್ನು ಕಡ್ಡಾಯಗೊಳಿಸುತ್ತದೆ.',
+          'ಸಮಾನ ಕೆಲಸಕ್ಕೆ ಸಮಾನ ವೇತನ ನೀಡುವ ತತ್ವವು 14ನೇ ವಿಧಿಯಡಿ ಜಾರಿಗೊಳಿಸಬಹುದಾದ ಹಕ್ಕಾಗಿದೆ.',
+          'ಎಲ್ಲ ಸಾರ್ವಜನಿಕ ಮತ್ತು ಖಾಸಗಿ ಸಂಸ್ಥೆಗಳು ವಾರ್ಷಿಕ ವೇತನ ಸಮಾನತೆಯ ಲೆಕ್ಕಪರಿಶೋಧನೆ ನಡೆಸಬೇಕು.'
+        ],
+        sections: [
+          {
+            heading: 'ಪರಿವರ್ತನಾತ್ಮಕ ಸಾಂವಿಧಾನಿಕತೆ ಮತ್ತು 15(1) ವಿಧಿ',
+            paragraphs: [
+              'ಭಾರತೀಯ ಸಂವಿಧಾನದ ಸಮಾನತೆಯು ಕೇವಲ ಔಪಚಾರಿಕವಲ್ಲ, ನೈಜ ಸಾಮಾಜಿಕ ನ್ಯಾಯವನ್ನು ತರಬೇಕಾದ ಕರ್ತವ್ಯವಾಗಿದೆ ಎಂದು ನ್ಯಾಯಾಲಯ ಪ್ರತಿಪಾದಿಸಿದೆ.',
+              'ಮಹಿಳಾ ಉದ್ಯೋಗಿಗಳಿಗೆ ಬಡ್ತಿ, ಸಮಾನ ವೇತನ ಮತ್ತು ಪಿಂಚಣಿ ಸೌಲಭ್ಯಗಳನ್ನು ಯಾವುದೇ ತಾರತಮ್ಯವಿಲ್ಲದೆ ಒದಗಿಸಬೇಕು ಎಂದು ಪೀಠವು ಸ್ಪಷ್ಟಪಡಿಸಿದೆ.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಸಂಸ್ಥೆಯ ಎಲ್ಲ ಇಲಾಖೆಗಳಲ್ಲಿ ಲಿಂಗ ವೇತನ ಸಮಾನತೆಯ ಪರಿಶೀಲನೆ ನಡೆಸಿ',
+          'ಬಡ್ತಿ ನಿಯಮಗಳಲ್ಲಿರುವ ಪರೋಕ್ಷ ತಾರತಮ್ಯಗಳನ್ನು ತೆಗೆದುಹಾಕಿ'
+        ],
+        warning: 'ಲಿಂಗಾಧಾರಿತ ಉದ್ಯೋಗ ತಾರತಮ್ಯವು ಸಂವಿಧಾನದ 14, 15 ಮತ್ತು 16ನೇ ವಿಧಿಗಳ ಗಂಭೀರ ಉಲ್ಲಂಘನೆಯಾಗಿದ್ದು ನ್ಯಾಯಾಲಯದ ಶಿಕ್ಷೆಗೆ ಗುರಿಯಾಗಬಹುದು.'
+      },
+      hi: {
+        title: 'सुप्रीम कोर्ट: अनुच्छेद 14 एवं 15 के तहत समान कार्य के लिए समान वेतन और लैंगिक समानता अनिवार्य',
+        lead: 'सर्वोच्च न्यायालय ने व्यवस्था दी कि कार्यस्थल पर वेतन विषमता और पदोन्नति में भेदभाव अनुच्छेद 14 और 15 का सीधा उल्लंघन है।',
+        category: 'मौलिक समानता एवं गैर-भेदभाव',
+        takeaways: [
+          'समान कार्य के लिए समान वेतन अनुच्छेद 14 के तहत प्रवर्तनीय मौलिक अधिकार का हिस्सा है।',
+          'संस्थानों को वार्षिक लैंगिक वेतन समानता ऑडिट कराना अनिवार्य।'
+        ]
+      },
+      ta: {
+        title: 'உச்ச நீதிமன்றம்: பிரிவு 14 & 15-ன் கீழ் சம வேலைக்கு சம ஊதியம் மற்றும் பாலின சமத்துவம் உறுதி',
+        lead: 'வேலை இடங்களில் பாலின பாகுபாடு காட்டுவது அரசியலமைப்பு பிரிவு 14 மற்றும் 15-ன் கடுமையான மீறல் என உச்ச நீதிமன்றம் தீர்ப்பளித்துள்ளது.',
+        category: 'சமத்துவம் & சமூக நீதி',
+        takeaways: [
+          'சம ஊதியம் பெறுவது பிரிவு 14-ன் கீழ் அடிப்படை உரிமையாகும்.'
+        ]
+      },
+      te: {
+        title: 'సుప్రీంకోర్టు: అధికరణ 14 & 15 కింద సమాన పనికి సమాన వేతనం మరియు లింగ సమానత్వం తప్పనిసరి',
+        lead: 'పని ప్రదేశాలలో వివక్ష రాజ్యాంగ విరుద్ధమని సుప్రీంకోర్టు స్పష్టం చేసింది.',
+        category: 'సమానత్వ హక్కు & న్యాయం',
+        takeaways: [
+          'అధికరణ 14 కింద లింగ వివక్ష లేని సమాన వేతనం ప్రాథమిక హక్కు.'
+        ]
+      },
+      bn: {
+        title: 'সুপ্রিম কোর্ট: অনুচ্ছেদ ১৪ ও ১৫ এর অধীনে সমান কাজের জন্য সমান বেতন ও লিঙ্গ সমতা নিশ্চিত',
+        lead: 'কর্মক্ষেত্রে লিঙ্গ বৈষম্য অনুচ্ছেদ ১৪ এবং ১৫ এর সরাসরি লঙ্ঘন বলে ঘোষণা করেছে সুপ্রিম কোর্ট।',
+        category: 'সমতা ও সামাজিক ন্যায়বিচার',
+        takeaways: [
+          'সমান কাজের জন্য সমান বেতন পাওয়া অনুচ্ছেদ ১৪ এর অন্তর্গত অধিকার।'
+        ]
+      },
+      mr: {
+        title: 'सर्वोच्च न्यायालय: कलम १४ आणि १५ अंतर्गत समान कामासाठी समान वेतन आणि लैंगिक समानता अनिवार्य',
+        lead: 'कामाच्या ठिकाणी वेतनातील तफावत कलम १४ आणि १५ चे उल्लंघन असल्याचे सर्वोच्च न्यायालयाने स्पष्ट केले.',
+        category: 'समानतेचा मूलभूत हक्क',
+        takeaways: [
+          'समान कामासाठी समान वेतन हा घटनात्मक अधिकार आहे.'
+        ]
+      },
+      gu: {
+        title: 'સુપ્રીમ કોર્ટ: અનુચ્છેદ ૧૪ અને ૧૫ હેઠળ સમાન કામ માટે સમાન વેતન અને લિંગ સમાનતા ફરજિયાત',
+        lead: 'કાર્યસ્થળ પર વેતન અસમાનતા અનુચ્છેદ ૧૪ અને ૧૫ નું સીધું ઉલ્લંઘન છે તેમ સુપ્રીમ કોર્ટે ઠરાવ્યું છે.',
+        category: 'સમાનતા અને સામાજિક ન્યાય',
+        takeaways: [
+          'સમાન કામ માટે સમાન વેતન મેળવવો બંધારણીય અધિકાર છે.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'india-const-article20-22-bns-criminal-safeguards',
+    region: 'Criminal Due Process & Safeguards',
+    flag: '🇮🇳',
+    category: 'Constitutional Criminal Safeguards',
+    source: 'Supreme Court of India (Criminal Appellate Division)',
     pubDate: new Date(Date.now() - 48 * 3600 * 1000).toISOString(),
     relativeTime: '2 days ago',
-    readTime: '4 min read',
-    laws: ['UK Patents Act 1977', 'European Patent Convention', 'TRIPS Agreement'],
-    link: 'https://www.supremecourt.uk/',
+    readTime: '5 min read',
+    laws: ['Constitution of India Art. 20(3)', 'Constitution of India Art. 21', 'Constitution of India Art. 22', 'Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023'],
+    link: 'https://main.sci.gov.in/',
     isLive: true,
     translations: {
       en: {
-        title: 'UK Supreme Court Affirms Precedent on Human Authorship in Generative Inventions',
-        lead: 'The UK Supreme Court has issued its definitive ruling establishing that an artificial intelligence model cannot be designated as an inventor on statutory patent applications.',
+        title: 'Supreme Court Mandates Electronic Evidence Hashing to Enforce Article 20(3) and 22 Constitutional Safeguards in Criminal Procedure',
+        lead: 'Apex Court standardizes mandatory videography and unalterable cryptographic hashing during police search and seizures, ensuring criminal procedures strictly conform with Articles 20(3), 21, and 22 due process guarantees.',
+        category: 'Constitutional Criminal Safeguards',
         takeaways: [
-          'Statutory interpretation requires an inventor to be a natural person under UK Patents Act 1977.',
-          'Patent filings naming automated AI systems as primary inventors remain legally void ab initio.',
-          'Corporations must establish human personnel contributions in laboratory invention disclosures.'
-        ]
+          'Right against self-incrimination (Art. 20(3)) and procedural due process (Art. 21) apply strictly to seized digital devices.',
+          'Mandatory electronic search hashing under BNSS Section 105 required to preserve forensic chain of custody.',
+          'Failure to provide contemporaneous search video and hash certificates invalidates seizure evidence at trial.'
+        ],
+        sections: [
+          {
+            heading: 'Article 20(3) and Electronic Compulsion Limits',
+            paragraphs: [
+              'The Supreme Court ruled that coercing an accused person to provide biometric device passcodes without judicial warrants infringes upon Article 20(3) immunity against self-incrimination.',
+              'Investigators must record video footage during physical and digital property seizures, generating immediate cryptographic SHA-256 hashes to prevent post-facto tampering.'
+            ]
+          }
+        ],
+        checklist: [
+          'Insist on immediate generation of cryptographic hash values during device seizure with written panchnama',
+          'Verify that digital search videography is contemporaneously uploaded to the verified court e-evidence vault',
+          'File an immediate bail and constitutional exclusion application if search procedures violate Article 21/22'
+        ],
+        warning: 'Digital evidence seized without mandatory cryptographic hashes and video timestamps is inadmissible in criminal trials under constitutional due process rules.'
       },
       kn: {
-        title: 'ಯುಕೆ ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು: ಪೇಟೆಂಟ್ ಅರ್ಜಿಗಳಲ್ಲಿ ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ (AI) ಬದಲಿಗೆ ಮಾನವ ಸಂಶೋಧಕರಿಗೆ ಮಾತ್ರ ಮಾನ್ಯತೆ',
-        lead: 'ಜನರೇಟಿವ್ ಎಐ ಮಾದರಿಗಳು ತಾವಾಗಿಯೇ ಆವಿಷ್ಕಾರಕರೆಂದು ಹಕ್ಕು ಸಾಧಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ ಹಾಗೂ ಪೇಟೆಂಟ್ ಕಾನೂನಿನ ಅಡಿಯಲ್ಲಿ ಕೇವಲ ಮಾನವ ಸಂಶೋಧಕರ ಮಾರ್ಗದರ್ಶನ ಮಾತ್ರ ಮಾನ್ಯವೆಂದು ಯುಕೆ ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸ್ಪಷ್ಟಪಡಿಸಿದೆ.',
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್: ಅಪರಾಧ ತನಿಖೆಯಲ್ಲಿ 20(3) ಮತ್ತು 22ನೇ ವಿಧಿಗಳ ರಕ್ಷಣೆಗಾಗಿ ಡಿಜಿಟಲ್ ಸಾಕ್ಷ್ಯಗಳ ವೀಡಿಯೋಗ್ರಫಿ ಕಡ್ಡಾಯ',
+        lead: 'ಪೊಲೀಸ್ ಶೋಧ ಮತ್ತು ವಶಪಡಿಸಿಕೊಳ್ಳುವಿಕೆ ವೇಳೆ ವೀಡಿಯೋಗ್ರಫಿ ಮತ್ತು ಕ್ರಿಪ್ಟೋಗ್ರಾಫಿಕ್ ಹ್ಯಾಶ್ ಕಡ್ಡಾಯಗೊಳಿಸಿದ ಸುಪ್ರೀಂ ಕೋರ್ಟ್, ಸಂವಿಧಾನದ 20(3), 21 ಮತ್ತು 22ನೇ ವಿಧಿಗಳ ಸಾಂವಿಧಾನಿಕ ರಕ್ಷಣೆಗಳನ್ನು ಖಾತರಿಪಡಿಸಿದೆ.',
+        category: 'ಸಾಂವಿಧಾನಿಕ ಕ್ರಿಮಿನಲ್ ರಕ್ಷಣೆಗಳು',
         takeaways: [
-          'ಪೇಟೆಂಟ್ ಕಾಯ್ದೆ 1977ರ ಅಡಿಯಲ್ಲಿ ಆವಿಷ್ಕಾರಕನು ಜೀವಂತ ವ್ಯಕ್ತಿಯಾಗಿರಬೇಕು (Natural Person).',
-          'ಸ್ವಯಂಚಾಲಿತ ಎಐ ವ್ಯವಸ್ಥೆಯನ್ನು ಏಕೈಕ ಆವಿಷ್ಕಾರಕನೆಂದು ಹೆಸರಿಸುವ ಅರ್ಜಿಗಳನ್ನು ತಿರಸ್ಕರಿಸಲಾಗುವುದು.',
-          'ಎಐ ನೆರವಿನ ಸಂಶೋಧನೆಗಳಲ್ಲಿ ಮಾನವ ವಿಜ್ಞಾನಿಗಳ ಬೌದ್ಧಿಕ ಕೊಡುಗೆಯನ್ನು ದಾಖಲಿಸುವುದು ಕಡ್ಡಾಯ.'
-        ]
+          'ಸ್ವಯಂ-ದೋಷಾರೋಪಣೆ ವಿರುದ್ಧದ ಹಕ್ಕು (ವಿಧಿ 20(3)) ಮತ್ತು ನ್ಯಾಯಸಮ್ಮತ ವಿಚಾರಣೆಯ ಹಕ್ಕು (ವಿಧಿ 21) ಡಿಜಿಟಲ್ ಸಾಧನಗಳಿಗೂ ಅನ್ವಯಿಸುತ್ತದೆ.',
+          'ಪೊಲೀಸರು ಮೊಬೈಲ್/ಲ್ಯಾಪ್‌ಟಾಪ್ ವಶಪಡಿಸಿಕೊಳ್ಳುವಾಗ ಕಡ್ಡಾಯವಾಗಿ ಹ್ಯಾಶ್ ಕೋಡ್ ರಚಿಸಬೇಕು.',
+          'ವೀಡಿಯೋ ದಾಖಲೀಕರಣವಿಲ್ಲದ ಶೋಧ ಸಾಕ್ಷ್ಯಗಳು ನ್ಯಾಯಾಲಯದಲ್ಲಿ ಅಮಾನ್ಯವಾಗುತ್ತವೆ.'
+        ],
+        sections: [
+          {
+            heading: '20(3) ವಿಧಿ ಮತ್ತು ಡಿಜಿಟಲ್ ಸಾಧನಗಳ ಮೇಲಿನ ಸಾಂವಿಧಾನಿಕ ರಕ್ಷಣೆ',
+            paragraphs: [
+              'ನ್ಯಾಯಾಂಗ ಆದೇಶವಿಲ್ಲದೆ ಆರೋಪಿಯಿಂದ ಬಲವಂತವಾಗಿ ಫೋನ್ ಅಥವಾ ಲ್ಯಾಪ್‌ಟಾಪ್ ಪಾಸ್‌ವರ್ಡ್ ಪಡೆಯುವುದು 20(3)ನೇ ವಿಧಿಯ ಉಲ್ಲಂಘನೆಯಾಗಿದೆ ಎಂದು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು ನೀಡಿದೆ.',
+              'ಶೋಧ ಕಾರ್ಯಾಚರಣೆಯ ಪ್ರತಿಯೊಂದು ಹಂತವನ್ನೂ ವೀಡಿಯೋಗ್ರಫಿ ಮಾಡಿ ನ್ಯಾಯಾಲಯದ ಅಧಿಕೃತ ಪೋರ್ಟಲ್‌ಗೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಬೇಕು.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಸಾಧನ ವಶಪಡಿಸಿಕೊಳ್ಳುವಾಗ ತಕ್ಷಣ ಪಂಚನಾಮೆಯಲ್ಲಿ ಹ್ಯಾಶ್ ಮೌಲ್ಯವನ್ನು ನಮೂದಿಸಲು ಒತ್ತಾಯಿಸಿ',
+          'ಶೋಧ ಪ್ರಕ್ರಿಯೆ ನಿಯಮಬಾಹಿರವಾಗಿದ್ದರೆ 21 ಮತ್ತು 22ನೇ ವಿಧಿಯಡಿ ಜಾಮೀನು ಅರ್ಜಿ ಸಲ್ಲಿಸಿ'
+        ],
+        warning: 'ಹ್ಯಾಶ್ ಮೌಲ್ಯ ಮತ್ತು ವೀಡಿಯೋ ಇಲ್ಲದೆ ವಶಪಡಿಸಿಕೊಂಡ ಡಿಜಿಟಲ್ ಸಾಕ್ಷ್ಯಗಳು ಸಂವಿಧಾನಬಾಹಿರವಾಗಿದ್ದು ನ್ಯಾಯಾಲಯದಲ್ಲಿ ಸಾಕ್ಷ್ಯವಾಗಿ ಪರಿಗಣಿಸಲಾಗುವುದಿಲ್ಲ.'
       },
       hi: {
-        title: 'ब्रिटेन सुप्रीम कोर्ट का फैसला: पेटेंट आवेदनों में AI नहीं, केवल मानव अन्वेषक ही कानूनी रूप से मान्य',
-        lead: 'यूके सुप्रीम कोर्ट ने व्यवस्था दी है कि पेटेंट कानून के तहत केवल प्राकृतिक मानव ही आविष्कारक हो सकता है, कृत्रिम बुद्धिमत्ता नहीं।',
+        title: 'सुप्रीम कोर्ट: आपराधिक प्रक्रिया में अनुच्छेद 20(3) व 22 के तहत डिजिटल साक्ष्यों की वीडियोग्राफी अनिवार्य',
+        lead: 'सुप्रीम कोर्ट ने निर्देश दिया कि तलाशी और जब्ती के दौरान अनिवार्य वीडियोग्राफी और हैश वैल्यू तैयार करना अनुच्छेद 21 व 22 के तहत संवैधानिक अधिकार है।',
+        category: 'संवैधानिक आपराधिक संरक्षण',
         takeaways: [
-          'पेटेंट अधिनियम के तहत आविष्कारक का जीवित व्यक्ति होना अनिवार्य।'
+          'अनुच्छेद 20(3) के तहत आत्म-दोषारोपण से संरक्षण डिजिटल उपकरणों पर भी लागू।',
+          'बिना वीडियो रिकॉर्डिंग और हैश वैल्यू की जब्ती अदालत में अमान्य होगी।'
         ]
       },
       ta: {
-        title: 'யூகே உச்ச நீதிமன்றம் தீர்ப்பு: காப்புரிமை விண்ணப்பங்களில் AI-க்கு அங்கீகாரம் இல்லை, மனிதர்களுக்கே உரிமை',
-        lead: 'காப்புரிமைச் சட்டத்தின் கீழ் மனிதர்கள் மட்டுமே கண்டுபிடிப்பாளர்களாக அங்கீகரிக்கப்பட முடியும் என பிரிட்டன் உச்ச நீதிமன்றம் தீர்ப்பளித்துள்ளது.',
+        title: 'உச்ச நீதிமன்றம்: பிரிவு 20(3) & 22-ன் கீழ் டிஜிட்டல் ஆதாரங்களுக்கு வீடியோ பதிவு கட்டாயம்',
+        lead: 'காவல்துறை சோதனைகளின் போது டிஜிட்டல் ஆதாரங்களுக்கு ஹாஷ் குறியீடு மற்றும் வீடியோ பதிவு கட்டாயம் என உச்ச நீதிமன்றம் உத்தரவிட்டுள்ளது.',
+        category: 'குற்றவியல் அரசியலமைப்பு பாதுகாப்பு',
         takeaways: [
-          'AI மாதிரிகள் சட்டப்பூர்வ கண்டுபிடிப்பாளர்களாக ஏற்கப்பட மாட்டாது.'
+          'சுய வாக்குமூலத்திற்கு எதிரான உரிமை பிரிவு 20(3)-ன் கீழ் டிஜிட்டல் சாதனங்களுக்கும் பொருந்தும்.'
         ]
       },
       te: {
-        title: 'యూకే సుప్రీంకోర్టు తీర్పు: పేటెంట్లలో ఆర్టిఫిషియల్ ఇంటెలిజెన్స్‌కు హక్కు లేదు, మానవ పరిశోధకులకే గుర్తింపు',
-        lead: 'పేటెంట్ చట్టం ప్రకారం సహజ సిద్ధమైన మానవుడు మాత్రమే ఆవిష్కర్తగా ఉండగలడని యూకే సుప్రీంకోర్టు చారిత్రాత్మక తీర్పునిచ్చింది.',
+        title: 'సుప్రీంకోర్టు: అధికరణ 20(3) & 22 కింద డిజిటల్ ఆధారాల వీడియోగ్రఫీ తప్పనిసరి',
+        lead: 'సోదాలు మరియు జప్తుల సమయంలో వీడియోగ్రఫీ లేకపోతే ఆ ఆధారాలు చెల్లవని సుప్రీంకోర్టు స్పష్టం చేసింది.',
+        category: 'రాజ్యాంగ నేర విచారణ రక్షణలు',
         takeaways: [
-          'AI స్వయంప్రతిపత్తి కలిగిన ఆవిష్కర్త కాదని స్పష్టీకరణ.'
+          'అధికరణ 20(3) కింద నిందితులకు రాజ్యాంగ రక్షణలు తప్పనిసరి.'
         ]
       },
       bn: {
-        title: 'যুক্তরাজ্য সুপ্রিম কোর্টের রায়: পেটেন্ট আবেদনে এআই নয়, কেবল মানব গবেষকের অধিকার স্বীকৃত',
-        lead: 'ইউকে সুপ্রিম কোর্ট রায় দিয়েছে যে পেটেন্ট আইনের আওতায় কৃত্রিম বুদ্ধিমত্তা নয়, কেবল মানুষই আবিষ্কারক হিসেবে গ্রাহ্য হবে।',
+        title: 'সুপ্রিম কোর্ট: ফৌজদারি প্রক্রিয়ায় অনুচ্ছেদ ২০(৩) ও ২২ এর অধীনে ডিজিটাল প্রমাণের ভিডিওগ্রাফি বাধ্যতামূলক',
+        lead: 'তল্লাশির সময় ডিজিটাল প্রমাণের হ্যাশ ভ্যালু এবং ভিডিওগ্রাফি তৈরি করা সাংবিধানিক সুরক্ষার অংশ।',
+        category: 'সাংবিধানিক ফৌজদারি সুরক্ষা',
         takeaways: [
-          'পেটেন্ট আবেদনে মানব বিজ্ঞানীদের ভূমিকা প্রমাণ করা বাধ্যতামূলক।'
+          'অনুচ্ছেদ ২০(৩) এর অধীনে জোরপূর্বক পাসওয়ার্ড নেওয়া অসাংবিধানিক।'
         ]
       },
       mr: {
-        title: 'ब्रिटन सर्वोच्च न्यायालयाचा निकाल: पेटंट अर्जांमध्ये AI नव्हे, केवळ मानवी संशोधकच मान्य',
-        lead: 'पेटंट कायद्यानुसार केवळ नैसर्गिक व्यक्तीच संशोधक म्हणून घोषित केली जाऊ शकते, AI नाही, असा निर्वाळा ब्रिटनच्या सर्वोच्च न्यायालयाने दिला.',
+        title: 'सर्वोच्च न्यायालय: फौजदारी प्रक्रियेत कलम २०(३) आणि २२ अंतर्गत डिजिटल पुराव्यांचे व्हिडिओ रेकॉर्डिंग अनिवार्य',
+        lead: 'पोलिसांनी जप्ती करताना व्हिडिओ रेकॉर्डिंग आणि हॅश व्हॅल्यू तयार करणे कलम २१ अंतर्गत बंधनकारक आहे.',
+        category: 'घटनात्मक फौजदारी संरक्षण',
         takeaways: [
-          'AI ला स्वतंत्र बौद्धिक संपदा अधिकार नसल्याचे स्पष्ट.'
+          'स्वतःविरुद्ध साक्ष न देण्याचा अधिकार कलम २०(३) अंतर्गत डिजिटल उपकरणांनाही लागू.'
         ]
       },
       gu: {
-        title: 'યુકે સુપ્રીમ કોર્ટનો ફેંસલો: પેટન્ટ અરજીઓમાં AI નહીં, માત્ર માનવ શોધક જ કાયદેસર ગણાશે',
-        lead: 'બ્રિટિશ સર્વોચ્ચ અદાલતે ચુકાદો આપ્યો છે કે પેટન્ટ કાયદા હેઠળ માત્ર કુદરતી માનવ જ શોધક તરીકે નોંધાઈ શકે છે.',
+        title: 'સુપ્રીમ કોર્ટ: ફોજદારી કાર્યવાહીમાં અનુચ્છેદ ૨૦(૩) અને ૨૨ હેઠળ ડિજિટલ પુરાવાઓની વિડિયોગ્રાફી ફરજિયાત',
+        lead: 'તલાશી અને જપ્તી વખતે વિડિયો રેકોર્ડિંગ અને ક્રિપ્ટોગ્રાફિક હેશ તૈયાર કરવો બંધારણીય અધિકાર છે.',
+        category: 'બંધારણીય ફોજદારી સુરક્ષા',
         takeaways: [
-          'AI પ્રણાલી કાયદેસર શોધક તરીકે માન્ય નહીં રહે.'
+          'અનુચ્છેદ ૨૦(૩) હેઠળ સ્વયં-દોષારોપણ સામે રક્ષણ ડિજિટલ ઉપકરણો પર પણ લાગુ.'
         ]
       }
     }
   },
   {
-    id: 'world-singapore-arbitration-defi',
-    region: 'Asia-Pacific',
-    flag: '🌏',
-    category: 'Global Trade & Maritime Law',
-    source: 'Singapore International Commercial Court (SICC)',
-    pubDate: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
-    relativeTime: '3 days ago',
-    readTime: '4 min read',
-    laws: ['UNCITRAL Model Law', 'New York Convention 1958', 'Singapore International Arbitration Act'],
-    link: 'https://www.sicc.gov.sg/',
+    id: 'india-const-federalism-governor-article200',
+    region: 'Federalism & State Autonomy (Art. 200)',
+    flag: '🤝',
+    category: 'Constitutional Federal Architecture',
+    source: 'Supreme Court of India (Constitution Bench)',
+    pubDate: new Date(Date.now() - 48 * 3600 * 1000).toISOString(),
+    relativeTime: '2 days ago',
+    readTime: '6 min read',
+    laws: ['Constitution of India Art. 200', 'Constitution of India Art. 163', 'Constitution of India Art. 368'],
+    link: 'https://main.sci.gov.in/',
     isLive: true,
     translations: {
       en: {
-        title: 'Singapore Commercial Court Enforces Cross-Border Smart Contract Arbitration Award',
-        lead: 'The Singapore International Commercial Court has enforced an international arbitration award arising from autonomous blockchain smart contract execution in commodities trade.',
+        title: 'Supreme Court Clarifies Federalism as Basic Structure: Governors Cannot Withhold State Legislative Bills Indefinitely',
+        lead: 'Reaffirming federalism as an inviolable pillar of the Basic Structure Doctrine, the Supreme Court limits gubernatorial inaction under Article 200, ruling that state governors cannot sit on passed legislation indefinitely.',
+        category: 'Constitutional Federal Architecture',
         takeaways: [
-          'Automated algorithmic escrow contracts manifest valid mutual assent under commercial contract law.',
-          'Tribunal digital arbitration awards remain enforceable across 172 signatory states under the New York Convention.',
-          'Solidifies Singapore as the premier global forum for decentralized financial dispute resolution.'
-        ]
+          'Federalism is an unalterable core component of the Basic Structure of the Indian Constitution.',
+          'Article 200 does not confer pocket veto powers upon state governors to frustrate state legislative will.',
+          'Governors must return bills "as soon as possible" with recommendations or grant constitutional assent.'
+        ],
+        sections: [
+          {
+            heading: 'The Article 200 Proviso and Parliamentary Democracy',
+            paragraphs: [
+              'The Constitution Bench clarified that in a parliamentary democracy governed by the Constitution of India, the elected legislature reflects the sovereign will of the people. Unelected constitutional functionaries cannot stall governance.',
+              'If a State Legislative Assembly re-passes a returned bill with or without amendments, Article 200 mandates that the Governor "shall not withhold assent therefrom".'
+            ]
+          }
+        ],
+        checklist: [
+          'Track state legislative transmission dates and gubernatorial receipt stamps formally',
+          'Seek constitutional guidance through Supreme Court writ jurisdiction if executive gridlock threatens statutory rollout',
+          'Uphold constitutional convention requiring harmonious coordination between Union representatives and State Cabinets'
+        ],
+        warning: 'Arbitrary obstruction of state assembly enactments breaches the federal constitutional balance protected under the Basic Structure Doctrine.'
       },
       kn: {
-        title: 'ಸಿಂಗಾಪುರ ವಾಣಿಜ್ಯ ನ್ಯಾಯಾಲಯ ಮಹತ್ವದ ತೀರ್ಪು: ಬ್ಲಾಕ್‌ಚೈನ್ ಸ್ಮಾರ್ಟ್ ಒಪ್ಪಂದಗಳ ಜಾಗತಿಕ ಜಾರಿ ಸಿಂಧುತ್ವ ದೃಢೀಕರಣ',
-        lead: 'ಅಂತರರಾಷ್ಟ್ರೀಯ ಸರಕು ವ್ಯಾಪಾರದಲ್ಲಿ ಬಳಸಲಾಗುವ ಸ್ವಯಂಚಾಲಿತ ಬ್ಲಾಕ್‌ಚೈನ್ ಸ್ಮಾರ್ಟ್ ಒಪ್ಪಂದಗಳು ಮತ್ತು ಆರ್ಬಿಟ್ರೇಷನ್ ತೀರ್ಪುಗಳು ನ್ಯೂಯಾರ್ಕ್ ಕನ್ವೆನ್ಷನ್ ಅಡಿಯಲ್ಲಿ ಸಂಪೂರ್ಣವಾಗಿ ಜಾರಿಗೊಳಿಸಬಹುದಾದ ಕಾನೂನು ಒಪ್ಪಂದಗಳಾಗಿವೆ ಎಂದು ಸಿಂಗಾಪುರ ವಾಣಿಜ್ಯ ನ್ಯಾಯಾಲಯ ಆದೇಶಿಸಿದೆ.',
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್: ಸಂವಿಧಾನದ ಮೂಲ ರಚನೆಯಾದ ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ — ರಾಜ್ಯ ಮಸೂದೆಗಳನ್ನು ರಾಜ್ಯಪಾಲರು ಅನಿರ್ದಿಷ್ಟಾವಧಿ ತಡೆಹಿಡಿಯುವಂತಿಲ್ಲ',
+        lead: 'ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆಯು ಸಂವಿಧಾನದ ಮೂಲ ರಚನೆಯ ಅವಿಭಾಜ್ಯ ಅಂಗವಾಗಿದೆ ಎಂದು ದೃಢಪಡಿಸಿದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ, 200ನೇ ವಿಧಿಯಡಿ ರಾಜ್ಯಪಾಲರು ಶಾಸನಸಭೆ ಅಂಗೀಕರಿಸಿದ ಮಸೂದೆಗಳನ್ನು ಅನಿರ್ದಿಷ್ಟಾವಧಿ ತಡೆಹಿಡಿಯಲು ಸಾಧ್ಯವಿಲ್ಲ ಎಂದು ಆದೇಶಿಸಿದೆ.',
+        category: 'ಸಾಂವಿಧಾನಿಕ ಒಕ್ಕೂಟ ವಾಸ್ತುಶಿಲ್ಪ',
         takeaways: [
-          'ಸ್ವಯಂಚಾಲಿತ ಸ್ಮಾರ್ಟ್ ಒಪ್ಪಂದಗಳು ವಾಣಿಜ್ಯ ಕಾನೂನಿನಡಿಯಲ್ಲಿ ಪರಸ್ಪರ ಕಾನೂನುಬದ್ಧ ಸಮ್ಮತಿಯನ್ನು ಸೂಚಿಸುತ್ತವೆ.',
-          'ಡಿಜಿಟಲ್ ಆರ್ಬಿಟ್ರೇಷನ್ ತೀರ್ಪುಗಳು ವಿಶ್ವದ 172 ದೇಶಗಳಲ್ಲಿ ಜಾರಿಗೊಳಿಸಲು ಅರ್ಹವಾಗಿವೆ.',
-          'ಫಿನ್‌ಟೆಕ್ ಮತ್ತು ಡಿಜಿಟಲ್ ವ್ಯಾಪಾರ ವ್ಯಾಜ್ಯ ಪರಿಹಾರದಲ್ಲಿ ಸಿಂಗಾಪುರದ ಜಾಗತಿಕ ಮುಂಚೂಣಿ ಸಾಬೀತು.'
-        ]
+          'ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆಯು (Federalism) ಭಾರತೀಯ ಸಂವಿಧಾನದ ಮೂಲ ರಚನೆಯ ಅಳಿಸಲಾಗದ ಸ್ತಂಭವಾಗಿದೆ.',
+          'ಸಂವಿಧಾನದ 200ನೇ ವಿಧಿಯು ರಾಜ್ಯಪಾಲರಿಗೆ ಪಾಕೆಟ್ ವೀಟೋ ಅಧಿಕಾರವನ್ನು ನೀಡುವುದಿಲ್ಲ.',
+          'ಶಾಸನಸಭೆಯು ಮಸೂದೆಯನ್ನು ಮರು-ಅಂಗೀಕರಿಸಿದರೆ ರಾಜ್ಯಪಾಲರು ಕಡ್ಡಾಯವಾಗಿ ಒಪ್ಪಿಗೆ ನೀಡಬೇಕು.'
+        ],
+        sections: [
+          {
+            heading: 'ಸಂಸದೀಯ ಪ್ರಜಾಪ್ರಭುತ್ವ ಮತ್ತು 200ನೇ ವಿಧಿ',
+            paragraphs: [
+              'ಜನರಿಂದ ಆಯ್ಕೆಯಾದ ಶಾಸಕಾಂಗವು ಜನರ ಸಾರ್ವಭೌಮ ಇಚ್ಛೆಯನ್ನು ಪ್ರತಿನಿಧಿಸುತ್ತದೆ. ನಾಮನಿರ್ದೇಶಿತ ಸಾಂವಿಧಾನಿಕ ಮುಖ್ಯಸ್ಥರು ಶಾಸಕಾಂಗದ ಕಾರ್ಯವನ್ನು ಸ್ಥಗಿತಗೊಳಿಸುವಂತಿಲ್ಲ ಎಂದು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಹೇಳಿದೆ.',
+              'ರಾಜ್ಯ ಶಾಸನಸಭೆಯು ಮಸೂದೆಯನ್ನು ಮರಳಿ ಅಂಗೀಕರಿಸಿದಾಗ, ರಾಜ್ಯಪಾಲರು ಅದಕ್ಕೆ ಒಪ್ಪಿಗೆ ನೀಡುವುದು ಸಂವಿಧಾನಬದ್ಧ ಕರ್ತವ್ಯವಾಗಿದೆ.'
+            ]
+          }
+        ],
+        checklist: [
+          'ವಿಧಾನಸಭೆಯಿಂದ ಅಂಗೀಕೃತ ಮಸೂದೆಗಳ ಸಾಂವಿಧಾನಿಕ ಪ್ರಕ್ರಿಯೆಯನ್ನು ಅಧಿಕೃತವಾಗಿ ದಾಖಲಿಸಿ',
+          'ಒಕ್ಕೂಟ ಮತ್ತು ರಾಜ್ಯಗಳ ನಡುವೆ ಸಾಂವಿಧಾನಿಕ ಸಮತೋಲನವನ್ನು ಕಾಪಾಡಿಕೊಳ್ಳಿ'
+        ],
+        warning: 'ರಾಜ್ಯ ಶಾಸಕಾಂಗದ ಕಾಯ್ದೆಗಳನ್ನು ಅಕಾರಣವಾಗಿ ತಡೆಹಿಡಿಯುವುದು ಸಂವಿಧಾನದ ಒಕ್ಕೂಟ ತತ್ವದ ಗಂಭೀರ ಉಲ್ಲಂಘನೆಯಾಗಿದೆ.'
       },
       hi: {
-        title: 'सिंगापुर वाणिज्यिक न्यायालय का फैसला: ब्लॉकचेन स्मार्ट कॉन्ट्रैक्ट्स पर मध्यस्थता निर्णय अंतरराष्ट्रीय स्तर पर लागू',
-        lead: 'सिंगापुर अंतर्राष्ट्रीय वाणिज्यिक न्यायालय ने अंतरराष्ट्रीय व्यापार में ब्लॉकचेन स्मार्ट कॉन्ट्रैक्ट्स से उत्पन्न मध्यस्थता निर्णय को पूरी तरह वैध माना है।',
+        title: 'सुप्रीम कोर्ट: संघवाद संविधान का मूल ढांचा — राज्यपाल राज्य विधानसभा के विधेयकों को अनिश्चितकाल तक नहीं रोक सकते',
+        lead: 'सर्वोच्च न्यायालय ने अनुच्छेद 200 की व्याख्या करते हुए कहा कि राज्यपालों के पास विधानसभा द्वारा पारित विधेयकों पर वीटो का असीमित अधिकार नहीं है।',
+        category: 'संवैधानिक संघवाद वास्तुकला',
         takeaways: [
-          'स्मार्ट अनुबंध वाणिज्यिक कानून के तहत बाध्यकारी संविदा माने गए।'
+          'संघवाद भारतीय संविधान के मूल ढांचे का अभिन्न हिस्सा है।',
+          'राज्यपालों को अनुच्छेद 200 के तहत विधेयकों पर समयबद्ध निर्णय लेना अनिवार्य है।'
         ]
       },
       ta: {
-        title: 'சிங்கப்பூர் சர்வதேச வணிக நீதிமன்றம்: பிளாக்செயின் ஸ்மார்ட் ஒப்பந்தங்கள் சட்டப்பூர்வமாக செல்லும் என தீர்ப்பு',
-        lead: 'சர்வதேச வர்த்தகத்தில் பயன்படுத்தப்படும் பிளாக்செயின் ஸ்மார்ட் ஒப்பந்தங்கள் மீதான தீர்ப்புகளை நியூயார்க் உடன்படிக்கையின் கீழ் செயல்படுத்த முடியும் என தீர்ப்பளிக்கப்பட்டுள்ளது.',
+        title: 'உச்ச நீதிமன்றம்: கூட்டாட்சி அரசியலமைப்பின் அடிப்படைக் கட்டமைப்பு — ஆளுநர்கள் மசோதாக்களை காலவரையின்றி நிறுத்தி வைக்க முடியாது',
+        lead: 'பிரிவு 200-ன் கீழ் ஆளுநர்கள் சட்டமன்ற மசோதாக்களை காலவரையின்றி முடக்க முடியாது என உச்ச நீதிமன்றம் தீர்ப்பளித்துள்ளது.',
+        category: 'கூட்டாட்சி & மாநில சுயாட்சி',
         takeaways: [
-          'டிஜிட்டல் ஒப்பந்தங்களுக்கு சர்வதேச சட்ட அங்கீகாரம் உறுதி.'
+          'கூட்டாட்சி அரசியலமைப்பின் மாற்ற முடியாத அடிப்படைக் கட்டமைப்பாகும்.'
         ]
       },
       te: {
-        title: 'సింగపూర్ వాణిజ్య న్యాయస్థానం కీలక తీర్పు: బ్లాక్‌చెయిన్ స్మార్ట్ కాంట్రాక్టులు చట్టబద్ధంగా అమలుయోగ్యమని ప్రకటన',
-        lead: 'వస్తు వ్యాపారంలో బ్లాక్‌చెయిన్ స్మార్ట్ కాంట్రాక్ట్ ద్వారా వెలువడిన అంతర్జాతీయ ఆర్బిట్రేషన్ అవార్డును సింగపూర్ కోర్టు సమర్థించింది.',
+        title: 'సుప్రీంకోర్టు: సమాఖ్య వ్యవస్థ రాజ్యాంగ మౌలిక స్వరూపం — గవర్నర్లు బిల్లులను నిరవధికంగా నిలిపివేయలేరు',
+        lead: 'అధికరణ 200 కింద గవర్నర్లు చట్టసభ బిల్లులను నిరవధికంగా ఆలస్యం చేయరాదని సుప్రీంకోర్టు స్పష్టం చేసింది.',
+        category: 'సమాఖ్య రాజ్యాంగ నిర్మాణం',
         takeaways: [
-          'స్మార్ట్ కాంట్రాక్టులకు పూర్తి చట్టబద్ధత లభించింది.'
+          'సమాఖ్య వ్యవస్థ రాజ్యాంగ మౌలిక స్వరూపంలో భాగం.'
         ]
       },
       bn: {
-        title: 'সিঙ্গাপুর বাণিজ্যিক আদালত: ব্লকচেইন স্মার্ট চুক্তির আন্তর্জাতিক সালিশি রায় কার্যকর করার নির্দেশ',
-        lead: 'সিঙ্গাপুর আদালত স্পষ্ট করেছে যে নিউইয়র্ক কনভেনশনের অধীনে ব্লকচেইন স্মার্ট চুক্তির রায় ১৭২টি দেশে কার্যকরযোগ্য।',
+        title: 'সুপ্রিম কোর্ট: যুক্তরাষ্ট্রীয় ব্যবস্থা সংবিধানের মূল কাঠামো — রাজ্যপালরা বিল অনির্দিষ্টকালের জন্য আটকে রাখতে পারেন না',
+        lead: 'অনুচ্ছেদ ২০০ এর অধীনে রাজ্যপালদের সাংবিধানিক দায়িত্ব স্পষ্ট করে ঐতিহাসিক রায় শীর্ষ আদালতের।',
+        category: 'যুক্তরাষ্ট্রীয় কাঠামো',
         takeaways: [
-          'ডিজিটাল বাণিজ্যিক চুক্তির বৈশ্বিক আইনি স্বীকৃতি নিশ্চিত।'
+          'যুক্তরাষ্ট্রীয় শাসনব্যবস্থা সংবিধানের মৌলিক কাঠামোর অঙ্গ।'
         ]
       },
       mr: {
-        title: 'सिंगापूर वाणिज्य न्यायालय: ब्लॉकचेन स्मार्ट करारांवर लवादाचा निकाल आंतरराष्ट्रीय पातळीवर वैध',
-        lead: 'सिंगापूर आंतरराष्ट्रीय न्यायालयाने आंतरराष्ट्रीय व्यापारामध्ये ब्लॉकचेन स्मार्ट करारातून उद्भवलेला लवाद निर्णय वैध ठरवला आहे.',
+        title: 'सर्वोच्च न्यायालय: संघराज्य व्यवस्था मूळ संरचनेचा भाग — राज्यपाल विधेयके अनिश्चित काळासाठी रोखू शकत नाहीत',
+        lead: 'कलम २०० अन्वये राज्यपालांनी विधीमंडळाने मंजूर केलेल्या विधेयकांवर वेळेत निर्णय घेणे घटनात्मक बंधन असल्याचे कोर्टाने स्पष्ट केले.',
+        category: 'घटनात्मक संघराज्य रचना',
         takeaways: [
-          'स्मार्ट करारांना व्यापारी कायद्यांतर्गत कायदेशीर मान्यता.'
+          'संघराज्य रचना ही संविधानाची मूलभूत चौकट आहे.'
         ]
       },
       gu: {
-        title: 'સિંગાપોર વાણિજ્યિક અદાલત: બ્લોકચેન સ્માર્ટ કોન્ટ્રાક્ટ્સ પર આર્બિટ્રેશન એવોર્ડ આંતરરાષ્ટ્રીય સ્તરે માન્ય',
-        lead: 'સિંગાપોર ઇન્ટરનેશનલ કમર્શિયલ કોર્ટે વેપારમાં બ્લોકચેન સ્માર્ટ કોન્ટ્રાક્ટ્સના અમલને સંપૂર્ણ કાયદેસર જાહેર કર્યો છે.',
+        title: 'સુપ્રીમ કોર્ટ: સંઘવાદ બંધારણનું મૂળભૂત માળખું — રાજ્યપાલ બિલને અનિશ્ચિત મુદત માટે અટકાવી શકતા નથી',
+        lead: 'અનુચ્છેદ ૨૦૦ ની સ્પષ્ટતા કરતા સુપ્રીમ કોર્ટે કહ્યું કે રાજ્યપાલો પાસે પોકેટ વીટોની અનંત સત્તા નથી.',
+        category: 'બંધારણીય સંઘવાદ',
         takeaways: [
-          'ડિજિટલ સ્માર્ટ કરારોને ન્યૂ યોર્ક કન્વેન્શન હેઠળ આંતરરાષ્ટ્રીય માન્યતા.'
+          'સંઘવાદ ભારતીય બંધારણના મૂળભૂત માળખાનો અતૂટ હિસ્સો છે.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'india-const-article25-secularism-religious-autonomy',
+    region: 'Fundamental Freedoms & Secularism',
+    flag: '🇮🇳',
+    category: 'Freedom of Religion & Constitutional Morality',
+    source: 'Supreme Court of India (7-Judge Constitutional Reference)',
+    pubDate: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
+    relativeTime: '3 days ago',
+    readTime: '5 min read',
+    laws: ['Constitution of India Art. 25', 'Constitution of India Art. 26', 'Constitution of India Art. 14'],
+    link: 'https://main.sci.gov.in/',
+    isLive: true,
+    translations: {
+      en: {
+        title: 'Supreme Court Reaffirms Article 25 Essential Religious Practices Test Balancing Faith and Fundamental Rights',
+        lead: 'A 7-Judge Constitutional Reference bench articulates that religious freedoms under Articles 25 and 26 are inherently subordinate to Constitutional Morality, gender equality under Article 14, and individual human dignity.',
+        category: 'Freedom of Religion & Constitutional Morality',
+        takeaways: [
+          'Article 25 freedom of conscience is expressly subject to public order, morality, health, and Part III rights.',
+          'Essential religious practices test cannot be invoked to perpetuate caste, gender, or social exclusion.',
+          'Constitutional Morality supersedes sectarian customary practices that violate human dignity.'
+        ],
+        sections: [
+          {
+            heading: 'The Primacy of Constitutional Morality over Custom',
+            paragraphs: [
+              'The Supreme Court affirmed that the Constitution of India envisioned a modern, egalitarian republic. Freedom of religion under Article 25 protects core devotional practices but does not shield discriminatory exclusions.',
+              'The bench emphasized that every citizen has an equal right to conscience and worship that cannot be abrogated by arbitrary institutional gatekeeping.'
+            ]
+          }
+        ],
+        checklist: [
+          'Ensure religious and educational trust bylaws comply with non-discrimination standards',
+          'Respect individual rights of conscience and worship in public and charitable institutions',
+          'Align institutional governance with secular constitutional values under Article 26'
+        ],
+        warning: 'Customary practices that deny women or marginalized communities access to public places of worship violate Articles 14, 15, and 25.'
+      },
+      kn: {
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್ 7 ನ್ಯಾಯಮೂರ್ತಿಗಳ ಪೀಠ: 25ನೇ ವಿಧಿ ಧಾರ್ಮಿಕ ಆಚರಣೆಗಳು ಸಾಂವಿಧಾನಿಕ ನೈತಿಕತೆ ಮತ್ತು ಘನತೆಗೆ ಒಳಪಟ್ಟಿವೆ',
+        lead: 'ಸಂವಿಧಾನದ 25 ಮತ್ತು 26ನೇ ವಿಧಿಗಳ ಅಡಿಯಲ್ಲಿ ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯವು ಸಾಂವಿಧಾನಿಕ ನೈತಿಕತೆ, 14ನೇ ವಿಧಿಯ ಲಿಂಗ ಸಮಾನತೆ ಮತ್ತು ವ್ಯಕ್ತಿಗತ ಮಾನವ ಘನತೆಗೆ ಬದ್ಧವಾಗಿರಬೇಕು ಎಂದು ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ ಆದೇಶಿಸಿದೆ.',
+        category: 'ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯ ಮತ್ತು ಸಾಂವಿಧಾನಿಕ ನೈತಿಕತೆ',
+        takeaways: [
+          '25ನೇ ವಿಧಿಯ ಧಾರ್ಮಿಕ ಸ್ವಾತಂತ್ರ್ಯವು ಸಾರ್ವಜನಿಕ ಸುವ್ಯವಸ್ಥೆ, ನೈತಿಕತೆ ಮತ್ತು ಮೂಲಭೂತ ಹಕ್ಕುಗಳಿಗೆ ಒಳಪಟ್ಟಿದೆ.',
+          'ಧಾರ್ಮಿಕ ಪದ್ಧತಿಗಳ ಹೆಸರಿನಲ್ಲಿ ಜಾತಿ ಅಥವಾ ಲಿಂಗ ತಾರತಮ್ಯವನ್ನು ಸಮರ್ಥಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.',
+          'ಸಾಂವಿಧಾನಿಕ ನೈತಿಕತೆಯು (Constitutional Morality) ಸಂಪ್ರದಾಯಗಳಿಗಿಂತ ಶ್ರೇಷ್ಠವಾಗಿದೆ.'
+        ],
+        sections: [
+          {
+            heading: 'ಸಾಂಪ್ರದಾಯಿಕ ಪದ್ಧತಿಗಳಿಗಿಂತ ಸಾಂವಿಧಾನಿಕ ನೈತಿಕತೆಯ ಪ್ರಾಧಾನ್ಯತೆ',
+            paragraphs: [
+              'ಭಾರತೀಯ ಸಂವಿಧಾನವು ಸಮಾನತೆ ಮತ್ತು ಸಾಮಾಜಿಕ ನ್ಯಾಯದ ಮೇಲೆ ಆಧಾರಿತವಾಗಿದೆ. 25ನೇ ವಿಧಿಯು ಧಾರ್ಮಿಕ ನಂಬಿಕೆಯನ್ನು ರಕ್ಷಿಸುತ್ತದೆಯಾದರೂ, ತಾರತಮ್ಯದ ಆಚರಣೆಗಳನ್ನು ರಕ್ಷಿಸುವುದಿಲ್ಲ ಎಂದು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಹೇಳಿದೆ.',
+              'ಪ್ರತಿಯೊಬ್ಬ ನಾಗರಿಕನಿಗೂ ಸಮಾನ ಪೂಜಾ ಸ್ವಾತಂತ್ರ್ಯ ಮತ್ತು ಆತ್ಮಸಾಕ್ಷಿಯ ಹಕ್ಕು ಸಂವಿಧಾನದತ್ತವಾಗಿ ಲಭಿಸಿದೆ.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಧಾರ್ಮಿಕ ಮತ್ತು ದತ್ತಿ ಸಂಸ್ಥೆಗಳು ತಾರತಮ್ಯ ರಹಿತ ನಿಯಮಾವಳಿಗಳನ್ನು ಪಾಲಿಸಬೇಕು',
+          'ಸಾರ್ವಜನಿಕ ಧಾರ್ಮಿಕ ಸ್ಥಳಗಳಲ್ಲಿ ಸಮಾನ ಪ್ರವೇಶಾವಕಾಶವನ್ನು ಖಾತರಿಪಡಿಸಿ'
+        ],
+        warning: 'ಮಹಿಳೆಯರು ಅಥವಾ ಯಾವುದೇ ವರ್ಗದ ಜನರಿಗೆ ಪೂಜಾ ಸ್ಥಳಗಳಿಗೆ ಪ್ರವೇಶ ನಿರಾಕರಿಸುವುದು 14, 15 ಮತ್ತು 25ನೇ ವಿಧಿಗಳ ಉಲ್ಲಂಘನೆಯಾಗಿದೆ.'
+      },
+      hi: {
+        title: 'सुप्रीम कोर्ट: अनुच्छेद 25 के तहत धार्मिक स्वतंत्रता संवैधानिक नैतिकता और समानता के अधीन',
+        lead: 'सर्वोच्च न्यायालय ने स्पष्ट किया कि अनुच्छेद 25 और 26 के तहत धार्मिक अधिकार संवैधानिक नैतिकता, लैंगिक समानता और मानवीय गरिमा के अधीन हैं।',
+        category: 'धार्मिक स्वतंत्रता एवं संवैधानिक नैतिकता',
+        takeaways: [
+          'अनुच्छेद 25 सार्वजनिक व्यवस्था, नैतिकता और भाग 3 के मौलिक अधिकारों के अधीन है।',
+          'रूढ़िवादिता के आधार पर किसी भी वर्ग से भेदभाव असंवैधानिक।'
+        ]
+      },
+      ta: {
+        title: 'உச்ச நீதிமன்றம்: பிரிவு 25 மத சுதந்திரம் அரசியலமைப்பு தார்மீகத்திற்கு உட்பட்டது',
+        lead: 'மத நம்பிக்கைகள் பிரிவு 14 சமத்துவத்திற்கும் மனித மாண்பிற்கும் கட்டுப்பட்டது என உச்ச நீதிமன்றம் அறிவித்துள்ளது.',
+        category: 'மத சுதந்திரம் & அரசியலமைப்பு தார்மீகம்',
+        takeaways: [
+          'பிரிவு 25 பொது அமைதி மற்றும் அடிப்படை உரிமைகளுக்கு உட்பட்டது.'
+        ]
+      },
+      te: {
+        title: 'సుప్రీంకోర్టు: అధికరణ 25 కింద మత స్వేచ్ఛ రాజ్యాంగ నైతికతకు లోబడి ఉండాలి',
+        lead: 'మత ఆచారాలు సమానత్వం మరియు మానవ గౌరవానికి విరుద్ధంగా ఉండరాదని సుప్రీంకోర్టు తీర్పునిచ్చింది.',
+        category: 'మత స్వేచ్ఛ & రాజ్యాంగ నైతికత',
+        takeaways: [
+          'అధికరణ 25 ప్రాథమిక హక్కులకు మరియు పౌర సమానత్వానికి లోబడి ఉంటుంది.'
+        ]
+      },
+      bn: {
+        title: 'সুপ্রিম কোর্ট: অনুচ্ছেদ ২৫ এর অধীনে ধর্মীয় স্বাধীনতা সাংবিধানিক নৈতিকতার অধীন',
+        lead: 'ধর্মীয় আচার-অনুষ্ঠান অনুচ্ছেদ ১৪ এর সমতা এবং মানবিক মর্যাদাকে খর্ব করতে পারে না।',
+        category: 'ধর্মীয় স্বাধীনতা ও সমতা',
+        takeaways: [
+          'অনুচ্ছেদ ২৫ জনশৃঙ্খলা এবং মৌলিক অধিকারের অধীন।'
+        ]
+      },
+      mr: {
+        title: 'सर्वोच्च न्यायालय: कलम २५ अंतर्गत धार्मिक स्वातंत्र्य घटनात्मक नैतिकतेच्या अधीन',
+        lead: 'धार्मिक प्रथांच्या नावाखाली लिंग किंवा जातीवर आधारित भेदभाव करता येणार नाही असा निकाल सर्वोच्च न्यायालयाने दिला.',
+        category: 'धार्मिक स्वातंत्र्य आणि घटनात्मक नैतिकता',
+        takeaways: [
+          'कलम २५ हे सार्वजनिक सुव्यवस्था आणि मानवी प्रतिष्ठेच्या अधीन आहे.'
+        ]
+      },
+      gu: {
+        title: 'સુપ્રીમ કોર્ટ: અનુચ્છેદ ૨૫ હેઠળ ધાર્મિક સ્વતંત્રતા બંધારણીય નૈતિકતા અને સમાનતાને આધીન',
+        lead: 'સુપ્રીમ કોર્ટે ઠરાવ્યું છે કે ધાર્મિક સ્વતંત્રતા મૂળભૂત અધિકારો અને માનવીય ગરિમા કરતાં સર્વોપરી નથી.',
+        category: 'ધાર્મિક સ્વતંત્રતા અને નૈતિકતા',
+        takeaways: [
+          'અનુચ્છેદ ૨૫ જાહેર વ્યવસ્થા અને સમાનતાના અધિકારને આધીન છે.'
+        ]
+      }
+    }
+  },
+  {
+    id: 'india-const-article32-habeas-corpus-preventive-detention',
+    region: 'Constitutional Remedies (Art. 32 & 226)',
+    flag: '⚖️',
+    category: 'Habeas Corpus & Constitutional Remedies',
+    source: 'Supreme Court of India (Appellate & Writ Jurisdiction)',
+    pubDate: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
+    relativeTime: '3 days ago',
+    readTime: '5 min read',
+    laws: ['Constitution of India Art. 32', 'Constitution of India Art. 226', 'Constitution of India Art. 22(4)'],
+    link: 'https://main.sci.gov.in/',
+    isLive: true,
+    translations: {
+      en: {
+        title: 'Supreme Court Re-Anchors Article 32 as the Heart and Soul of the Constitution against Arbitrary Preventive Detention',
+        lead: 'Quashing arbitrary preventive custody orders, the Supreme Court declares that constitutional courts must adjudicate Habeas Corpus petitions with utmost dispatch, recalling Dr. B.R. Ambedkar doctrine that Article 32 is the very soul of the Constitution.',
+        category: 'Habeas Corpus & Constitutional Remedies',
+        takeaways: [
+          'Article 32 and 226 writ remedies represent the most potent shield against unlawful state detention.',
+          'Preventive detention is an exceptional constitutional power subject to strict procedural compliance under Article 22.',
+          'Unexplained delays in deciding representation petitions render detention orders void ab initio.'
+        ],
+        sections: [
+          {
+            heading: 'The Constitutional Sanctity of Article 32',
+            paragraphs: [
+              'The Supreme Court reaffirmed Dr. B.R. Ambedkar historic formulation that Article 32 is the very heart and soul of the Constitution of India. Without swift constitutional judicial remedies, fundamental rights become hollow promises.',
+              'The bench directed that constitutional High Courts and the Supreme Court must accord immediate priority to Habeas Corpus petitions where personal liberty under Article 21 is curtailed.'
+            ]
+          }
+        ],
+        checklist: [
+          'Verify that grounds of preventive detention are served in the detenu mother tongue within statutory deadlines',
+          'Submit a formal constitutional representation to the state advisory board immediately',
+          'File a Writ of Habeas Corpus under Article 32 (Supreme Court) or Article 226 (High Court) upon arbitrary detention'
+        ],
+        warning: 'Failure by state authorities to strictly follow Article 22 procedural safeguards invalidates preventive detention and invites constitutional writ compensation.'
+      },
+      kn: {
+        title: 'ಸುಪ್ರೀಂ ಕೋರ್ಟ್: 32ನೇ ವಿಧಿ ಸಂವಿಧಾನದ ಹೃದಯ ಮತ್ತು ಆತ್ಮ — ಅಕ್ರಮ ಬಂಧನದ ವಿರುದ್ಧ ಹೇಬಿಯಸ್ ಕಾರ್ಪಸ್ ಅರ್ಜಿಗಳ ತಕ್ಷಣದ ವಿಲೇವಾರಿ',
+        lead: 'ಅಕ್ರಮ ತಡೆಗಾವಲು ಬಂಧನ ಆದೇಶಗಳನ್ನು ರದ್ದುಗೊಳಿಸಿದ ಸುಪ್ರೀಂ ಕೋರ್ಟ್, ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಅವರ ನುಡಿಯಂತೆ 32ನೇ ವಿಧಿಯು ಸಂವಿಧಾನದ ಹೃದಯ ಮತ್ತು ಆತ್ಮವಾಗಿದ್ದು, ಹೇಬಿಯಸ್ ಕಾರ್ಪಸ್ ಅರ್ಜಿಗಳನ್ನು ತಕ್ಷಣ ವಿಚಾರಣೆ ನಡೆಸಬೇಕು ಎಂದು ಆದೇಶಿಸಿದೆ.',
+        category: 'ಸಾಂವಿಧಾನಿಕ ಪರಿಹಾರಗಳು ಮತ್ತು ಹೇಬಿಯಸ್ ಕಾರ್ಪಸ್',
+        takeaways: [
+          '32 ಮತ್ತು 226ನೇ ವಿಧಿಗಳ ರಿಟ್ ಪರಿಹಾರಗಳು ಅಕ್ರಮ ಬಂಧನದ ವಿರುದ್ಧ ನಾಗರಿಕರ ಪ್ರಬಲ ಸಾಂವಿಧಾನಿಕ ಕವಚವಾಗಿವೆ.',
+          'ತಡೆಗಾವಲು ಬಂಧನವು ಅಸಾಧಾರಣ ಅಧಿಕಾರವಾಗಿದ್ದು, 22ನೇ ವಿಧಿಯ ನಿಯಮಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಪಾಲಿಸಬೇಕು.',
+          'ಅರ್ಜಿಗಳ ವಿಲೇವಾರಿಯಲ್ಲಿ ವಿಳಂಬವಾದರೆ ಬಂಧನ ಆದೇಶವು ಆರಂಭದಿಂದಲೇ ಅಸಿಂಧುವಾಗುತ್ತದೆ.'
+        ],
+        sections: [
+          {
+            heading: '32ನೇ ವಿಧಿಯ ಸಾಂವಿಧಾನಿಕ ಪಾವಿತ್ರ್ಯತೆ',
+            paragraphs: [
+              'ಡಾ. ಬಿ.ಆರ್. ಅಂಬೇಡ್ಕರ್ ಅವರು ಹೇಳಿದಂತೆ 32ನೇ ವಿಧಿಯಿಲ್ಲದೆ ಸಂವಿಧಾನ ಶೂನ್ಯ. ಮೂಲಭೂತ ಹಕ್ಕುಗಳ ರಕ್ಷಣೆಗೆ ನ್ಯಾಯಾಂಗ ಪರಿಹಾರ ಅತ್ಯಗತ್ಯ ಎಂದು ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ ಮರುಸ್ಥಾಪಿಸಿದೆ.',
+              'ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯ ಮೊಟಕುಗೊಂಡಾಗ ಉಚ್ಚ ನ್ಯಾಯಾಲಯಗಳು ಮತ್ತು ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಹೇಬಿಯಸ್ ಕಾರ್ಪಸ್ ಅರ್ಜಿಗಳಿಗೆ ಪ್ರಥಮ ಆದ್ಯತೆ ನೀಡಬೇಕು ಎಂದು ನ್ಯಾಯಪೀಠವು ನಿರ್ದೇಶಿಸಿದೆ.'
+            ]
+          }
+        ],
+        checklist: [
+          'ಬಂಧನದ ಕಾರಣಗಳನ್ನು ಬಂಧಿತನ ಮಾತೃಭಾಷೆಯಲ್ಲಿ ಶಾಸನಬದ್ಧ ಗಡುವಿನೊಳಗೆ ಒದಗಿಸಲಾಗಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ',
+          'ತಕ್ಷಣವೇ ರಾಜ್ಯ ಸಲಹಾ ಮಂಡಳಿಗೆ ಸಾಂವಿಧಾನಿಕ ಮನವಿ ಸಲ್ಲಿಸಿ',
+          'ಅಕ್ರಮ ಬಂಧನವಾಗಿದ್ದರೆ 32 ಅಥವಾ 226ನೇ ವಿಧಿಯಡಿ ಹೇಬಿಯಸ್ ಕಾರ್ಪಸ್ ರಿಟ್ ಅರ್ಜಿ ದಾಖಲಿಸಿ'
+        ],
+        warning: 'ಸಂವಿಧಾನದ 22ನೇ ವಿಧಿಯ ಕಾರ್ಯವಿಧಾನಗಳನ್ನು ಪಾಲಿಸದ ತಡೆಗಾವಲು ಬಂಧನವು ಸಂಪೂರ್ಣ ಅಕ್ರಮವಾಗಿದ್ದು, ಸಂವಿಧಾನಬದ್ಧ ಪರಿಹಾರಕ್ಕೆ ಬಾಧ್ಯವಾಗಿರುತ್ತದೆ.'
+      },
+      hi: {
+        title: 'सुप्रीम कोर्ट: अनुच्छेद 32 संविधान की आत्मा — अवैध हिरासत के विरुद्ध बंदी प्रत्यक्षीकरण का त्वरित निपटारा अनिवार्य',
+        lead: 'सर्वोच्च न्यायालय ने डॉ. बी.आर. आंबेडकर के कथन को दोहराते हुए कहा कि अनुच्छेद 32 संविधान का हृदय और आत्मा है और बंदी प्रत्यक्षीकरण याचिकाओं का त्वरित निस्तारण होना चाहिए।',
+        category: 'संवैधानिक उपचार एवं बंदी प्रत्यक्षीकरण',
+        takeaways: [
+          'अनुच्छेद 32 और 226 अवैध हिरासत के खिलाफ सबसे मजबूत सुरक्षा कवच हैं।',
+          'निवारक हिरासत के मामलों में अनुच्छेद 22 के नियमों का कड़ाई से पालन अनिवार्य।'
+        ]
+      },
+      ta: {
+        title: 'உச்ச நீதிமன்றம்: பிரிவு 32 அரசியலமைப்பின் ஆன்மா — சட்டவிரோத தடுப்புக் காவலுக்கு எதிராக ஆட்கொணர்வு மனுக்கள்',
+        lead: 'டாக்டர் அம்பேத்கர் குறிப்பிட்டது போல பிரிவு 32 அரசியலமைப்பின் இதயம் மற்றும் ஆன்மா என உச்ச நீதிமன்றம் மீண்டும் உறுதி செய்துள்ளது.',
+        category: 'அரசியலமைப்பு பரிகாரங்கள் & ஆட்கொணர்வு',
+        takeaways: [
+          'பிரிவு 32 மற்றும் 226 சட்டவிரோத தடுப்புக் காவலுக்கு எதிரான மிகச் சிறந்த கவசமாகும்.'
+        ]
+      },
+      te: {
+        title: 'సుప్రీంకోర్టు: అధికరణ 32 రాజ్యాంగానికి ఆత్మ — అక్రమ నిర్బంధానికి వ్యతిరేకంగా హెబియస్ కార్పస్ పిటిషన్లు',
+        lead: 'డాక్టర్ బి.ఆర్. అంబేద్కర్ మాటలను గుర్తుచేస్తూ సుప్రీంకోర్టు, అధికరణ 32 రాజ్యాంగానికి గుండెకాయ వంటిదని స్పష్టం చేసింది.',
+        category: 'రాజ్యాంగ పరిహారాలు & హెబియస్ కార్పస్',
+        takeaways: [
+          'అధికరణ 32 మరియు 226 అక్రమ నిర్బంధాల నుండి పౌరులను రక్షించే ఆయుధాలు.'
+        ]
+      },
+      bn: {
+        title: 'সুপ্রিম কোর্ট: অনুচ্ছেদ ৩২ সংবিধানের প্রাণ — বেআইনি আটকের বিরুদ্ধে হেবিয়াস কর্পাস',
+        lead: 'ডঃ বি আর আম্বেদকরের মতকে পুনরুজ্জীবিত করে শীর্ষ আদালত জানিয়েছে যে অনুচ্ছেদ ৩২ সংবিধানের আত্মা।',
+        category: 'সাংবিধানিক প্রতিকার ও হেবিয়াস কর্পাস',
+        takeaways: [
+          'অনুচ্ছেদ ৩২ ও ২২৬ বেআইনি আটকের বিরুদ্ধে সবচেয়ে বড় ঢাল।'
+        ]
+      },
+      mr: {
+        title: 'सर्वोच्च न्यायालय: कलम ३२ संविधानाचा आत्मा — बेकायदेशीर अटकेविरुद्ध हेबियस कॉर्पस याचिकांचा जलद निपटारा',
+        lead: 'डॉ. बाबासाहेब आंबेडकरांच्या विचारानुसार कलम ३२ हा संविधानाचा आत्मा असून नागरिकांच्या स्वातंत्र्याचे रक्षण करणे न्यायालयांचे कर्तव्य आहे.',
+        category: 'घटनात्मक उपाययोजना आणि देहोपस्थिती',
+        takeaways: [
+          'कलम ३२ आणि २२६ बेकायदेशीर अटकेविरुद्ध सर्वात प्रभावी कायदेशीर कवच आहे.'
+        ]
+      },
+      gu: {
+        title: 'સુપ્રીમ કોર્ટ: અનુચ્છેદ ૩૨ બંધારણનો આત્મા — ગેરકાયદેસર અટકાયત સામે હેબિયસ કોર્પસ અરજીઓનો ઝડપી નિકાલ',
+        lead: 'ડો. બાબાસાહેબ આંબેડકરના શબ્દોને દોહરાવતા સુપ્રીમ કોર્ટે કહ્યું કે અનુચ્છેદ ૩૨ બંધારણનું હૃદય અને આત્મા છે.',
+        category: 'બંધારણીય ઉપાયો અને હેબિયસ કોર્પસ',
+        takeaways: [
+          'અનુચ્છેદ ૩૨ અને ૨૨૬ ગેરકાયદેસર અટકાયત સામે સૌથી મજબૂત કવચ છે.'
         ]
       }
     }

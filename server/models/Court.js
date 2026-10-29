@@ -18,8 +18,13 @@ class Court {
     const params = [];
 
     if (jurisdiction && jurisdiction !== 'All Jurisdictions') {
-      query += ' AND jurisdiction = ?';
-      params.push(jurisdiction);
+      if (jurisdiction === 'Small Courts' || jurisdiction === 'Small Causes & JMFC Courts' || jurisdiction === 'Taluka & Subordinate Courts' || jurisdiction === 'Taluka & JMFC') {
+        query += ' AND (jurisdiction = ? OR jurisdiction = ?)';
+        params.push('Taluka & Subordinate Courts', 'Small Causes & JMFC Courts');
+      } else {
+        query += ' AND jurisdiction = ?';
+        params.push(jurisdiction);
+      }
     }
 
     if (state && state !== 'All States') {
@@ -34,15 +39,28 @@ class Court {
 
     if (search && search.trim()) {
       const searchTerm = `%${search.trim()}%`;
-      query += ' AND (name LIKE ? OR code LIKE ? OR city LIKE ? OR state LIKE ? OR chiefJudge LIKE ? OR divisions LIKE ? OR overview LIKE ?)';
-      params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
+      query += ' AND (name LIKE ? OR code LIKE ? OR city LIKE ? OR state LIKE ? OR chiefJudge LIKE ? OR divisions LIKE ? OR overview LIKE ? OR address LIKE ?)';
+      params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
     query += ' ORDER BY id ASC LIMIT ? OFFSET ?';
     params.push(Number(limit), Number(offset));
 
     const stmt = db.prepare(query);
-    return stmt.all(...params);
+    const rows = stmt.all(...params);
+    return rows.map(Court.formatCourtMapData);
+  }
+
+  static formatCourtMapData(c) {
+    if (!c) return null;
+    const queryStr = encodeURIComponent(`${c.name}, ${c.address || ''}, ${c.city || ''}, ${c.state || ''} ${c.zipCode || ''}`);
+    return {
+      ...c,
+      latitude: Number(c.latitude) || 0,
+      longitude: Number(c.longitude) || 0,
+      mapUrl: c.mapUrl && c.mapUrl.trim() ? c.mapUrl : `https://www.google.com/maps/search/?api=1&query=${queryStr}`,
+      mapEmbedUrl: c.mapEmbedUrl && c.mapEmbedUrl.trim() ? c.mapEmbedUrl : `https://www.google.com/maps?q=${queryStr}&output=embed`
+    };
   }
 
   /**
@@ -88,7 +106,8 @@ class Court {
    */
   static findById(id) {
     const stmt = db.prepare('SELECT * FROM courts WHERE id = ?');
-    return stmt.get(Number(id)) || null;
+    const row = stmt.get(Number(id));
+    return row ? Court.formatCourtMapData(row) : null;
   }
 
   /**
@@ -96,7 +115,8 @@ class Court {
    */
   static findByCode(code) {
     const stmt = db.prepare('SELECT * FROM courts WHERE code = ?');
-    return stmt.get(code) || null;
+    const row = stmt.get(code);
+    return row ? Court.formatCourtMapData(row) : null;
   }
 
   /**

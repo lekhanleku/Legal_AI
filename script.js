@@ -6935,31 +6935,28 @@ function updateNewsUIStrings() {
 
   // Region pills localization
   const pAll = document.getElementById('pill-region-all');
-  if (pAll) pAll.textContent = ui.allRegions || '🌐 All Jurisdictions';
+  if (pAll) pAll.textContent = ui.allRegions || '🌐 All Constitutional Domains';
 
-  const pIndia = document.getElementById('pill-region-india');
-  if (pIndia) pIndia.textContent = ui.indiaRegion || '🇮🇳 India & Supreme Court';
+  const pFR = document.getElementById('pill-region-fr');
+  if (pFR) pFR.textContent = ui.fundamentalRights || '⚖️ Fundamental Rights (Part III)';
+
+  const pArt21 = document.getElementById('pill-region-art21');
+  if (pArt21) pArt21.textContent = ui.article21Privacy || '🛡️ Art. 21 & Personal Liberty';
 
   const pKar = document.getElementById('pill-region-karnataka');
-  if (pKar) pKar.textContent = ui.karnatakaRegion || '🏛️ Karnataka & High Courts';
+  if (pKar) pKar.textContent = ui.karnatakaHighCourt || '🏛️ Karnataka & High Courts (Art. 226)';
 
-  const pEu = document.getElementById('pill-region-eu');
-  if (pEu) pEu.textContent = ui.euRegion || '🇪🇺 European Union';
+  const pBasic = document.getElementById('pill-region-basic');
+  if (pBasic) pBasic.textContent = ui.basicStructure || '🇮🇳 Basic Structure & Democracy';
 
-  const pIntl = document.getElementById('pill-region-intl');
-  if (pIntl) pIntl.textContent = ui.intlCourts || '🇺🇳 International Courts (ICJ / ICC)';
+  const pEquality = document.getElementById('pill-region-equality');
+  if (pEquality) pEquality.textContent = ui.equalityJustice || '👥 Equality & Non-Discrimination (Art. 14-16)';
 
-  const pUk = document.getElementById('pill-region-uk');
-  if (pUk) pUk.textContent = ui.ukRegion || '🇬🇧 UK & Commonwealth';
+  const pFed = document.getElementById('pill-region-federalism');
+  if (pFed) pFed.textContent = ui.federalism || '🤝 Federalism & State Autonomy (Art. 200)';
 
-  const pAsia = document.getElementById('pill-region-asia');
-  if (pAsia) pAsia.textContent = ui.asiaRegion || '🌏 Asia-Pacific & Trade';
-
-  const pAmericas = document.getElementById('pill-region-americas');
-  if (pAmericas) pAmericas.textContent = ui.americasRegion || '🌎 Americas & Rights';
-
-  const pTech = document.getElementById('pill-region-tech');
-  if (pTech) pTech.textContent = ui.techRegion || '⚡ Global AI & Finance';
+  const pRemedies = document.getElementById('pill-region-remedies');
+  if (pRemedies) pRemedies.textContent = ui.constitutionalRemedies || '📜 Constitutional Writs (Art. 32 & 226)';
 }
 
 window.setNewsLanguage = function(langCode) {
@@ -7213,21 +7210,21 @@ async function fetchAndRenderWorldNews(forceFresh = false) {
       merged = [...baselineArticles];
     }
 
-    // Filter by Region
+    // Filter by Constitutional Region / Domain
     if (worldNewsFilters.region && worldNewsFilters.region !== 'All') {
       const r = worldNewsFilters.region.toLowerCase();
       merged = merged.filter(a => {
         const aReg = (a.region || '').toLowerCase();
         const aCat = (a.category || '').toLowerCase();
-        if (aReg.includes(r) || r.includes(aReg)) return true;
-        if (r.includes('india') && (aReg.includes('india') || aReg.includes('supreme court'))) return true;
-        if (r.includes('karnataka') && (aReg.includes('karnataka') || aReg.includes('high court'))) return true;
-        if (r.includes('eu') && aReg.includes('european')) return true;
-        if (r.includes('intl') && (aReg.includes('international') || aCat.includes('treaties'))) return true;
-        if (r.includes('uk') && aReg.includes('uk')) return true;
-        if (r.includes('asia') && aReg.includes('asia')) return true;
-        if (r.includes('americas') && aReg.includes('americas')) return true;
-        if (r.includes('tech') && (aReg.includes('tech') || aCat.includes('tech') || aReg.includes('ai') || aCat.includes('ai'))) return true;
+        const aId  = (a.id || '').toLowerCase();
+        if (aReg.includes(r) || r.includes(aReg) || aCat.includes(r)) return true;
+        if (r.includes('fundamental') && (aReg.includes('fundamental') || aCat.includes('privacy') || aReg.includes('part iii') || aCat.includes('freedom'))) return true;
+        if (r.includes('21') && (aReg.includes('21') || aCat.includes('21') || aId.includes('article21'))) return true;
+        if (r.includes('karnataka') && (aReg.includes('karnataka') || aId.includes('karnataka') || aReg.includes('high court'))) return true;
+        if (r.includes('basic') && (aReg.includes('basic structure') || aCat.includes('democracy') || aId.includes('bonds'))) return true;
+        if (r.includes('equality') && (aReg.includes('equality') || aCat.includes('equality') || aId.includes('equality') || aCat.includes('discrimination'))) return true;
+        if (r.includes('federalism') && (aReg.includes('federalism') || aCat.includes('federal') || aId.includes('governor') || aId.includes('federalism'))) return true;
+        if (r.includes('remedies') && (aReg.includes('remedies') || aCat.includes('habeas') || aId.includes('article32') || aReg.includes('writ'))) return true;
         return false;
       });
     }
@@ -7264,15 +7261,17 @@ async function fetchAndRenderWorldNews(forceFresh = false) {
       const r = worldNewsFilters.region.toLowerCase();
       filtered = filtered.filter(a => {
         const aReg = (a.region || '').toLowerCase();
-        if (r.includes('india') && (aReg.includes('india') || aReg.includes('supreme court'))) return true;
-        if (r.includes('karnataka') && aReg.includes('karnataka')) return true;
-        if (r.includes('eu') && aReg.includes('european')) return true;
-        if (r.includes('intl') && aReg.includes('international')) return true;
-        if (r.includes('uk') && aReg.includes('uk')) return true;
-        if (r.includes('asia') && aReg.includes('asia')) return true;
-        if (r.includes('americas') && aReg.includes('americas')) return true;
-        if (r.includes('tech') && (aReg.includes('tech') || aReg.includes('ai'))) return true;
-        return aReg.includes(r);
+        const aCat = (a.category || '').toLowerCase();
+        const aId  = (a.id || '').toLowerCase();
+        if (aReg.includes(r) || r.includes(aReg) || aCat.includes(r)) return true;
+        if (r.includes('fundamental') && (aReg.includes('fundamental') || aCat.includes('privacy') || aReg.includes('part iii') || aCat.includes('freedom'))) return true;
+        if (r.includes('21') && (aReg.includes('21') || aCat.includes('21') || aId.includes('article21'))) return true;
+        if (r.includes('karnataka') && (aReg.includes('karnataka') || aId.includes('karnataka') || aReg.includes('high court'))) return true;
+        if (r.includes('basic') && (aReg.includes('basic structure') || aCat.includes('democracy') || aId.includes('bonds'))) return true;
+        if (r.includes('equality') && (aReg.includes('equality') || aCat.includes('equality') || aId.includes('equality') || aCat.includes('discrimination'))) return true;
+        if (r.includes('federalism') && (aReg.includes('federalism') || aCat.includes('federal') || aId.includes('governor') || aId.includes('federalism'))) return true;
+        if (r.includes('remedies') && (aReg.includes('remedies') || aCat.includes('habeas') || aId.includes('article32') || aReg.includes('writ'))) return true;
+        return false;
       });
     }
 

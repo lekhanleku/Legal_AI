@@ -93,9 +93,19 @@ try {
       overview TEXT NOT NULL,
       badge TEXT DEFAULT '',
       isAvailable INTEGER DEFAULT 1,
+      latitude REAL DEFAULT 0,
+      longitude REAL DEFAULT 0,
+      mapUrl TEXT DEFAULT '',
+      mapEmbedUrl TEXT DEFAULT '',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+  // Ensure map columns exist on existing SQLite databases
+  try { db.prepare('ALTER TABLE courts ADD COLUMN latitude REAL DEFAULT 0').run(); } catch(e){}
+  try { db.prepare('ALTER TABLE courts ADD COLUMN longitude REAL DEFAULT 0').run(); } catch(e){}
+  try { db.prepare('ALTER TABLE courts ADD COLUMN mapUrl TEXT DEFAULT ""').run(); } catch(e){}
+  try { db.prepare('ALTER TABLE courts ADD COLUMN mapEmbedUrl TEXT DEFAULT ""').run(); } catch(e){}
 
   // Cleanup any legacy placeholder/non-Indian lawyers
   db.prepare(`
@@ -372,436 +382,57 @@ try {
     ) OR circuit LIKE '%Circuit%' OR state IN ('NY', 'CA', 'DE', 'TX', 'IL', 'FL', 'MA', 'DC')
   `).run();
 
-  // Seed Courts table with authoritative Indian apex courts, state high courts, tribunals & district courts
+  // Seed / Sync Courts table with authoritative Indian apex courts, state high courts, tribunals, district courts, small causes & taluka courts with map locations
+  const { INDIAN_COURTS } = require('./services/indianCourtsData');
   const checkCourt = db.prepare('SELECT id FROM courts WHERE code = ?');
+  const updateCourt = db.prepare(`
+    UPDATE courts SET
+      name = ?, jurisdiction = ?, level = ?, circuit = ?, city = ?, state = ?,
+      address = ?, zipCode = ?, phone = ?, website = ?, clerkHours = ?,
+      filingSystem = ?, chiefJudge = ?, divisions = ?, overview = ?, badge = ?,
+      isAvailable = ?, latitude = ?, longitude = ?, mapUrl = ?, mapEmbedUrl = ?
+    WHERE code = ?
+  `);
   const insertCourt = db.prepare(`
     INSERT INTO courts (
       name, code, jurisdiction, level, circuit, city, state,
       address, zipCode, phone, website, clerkHours, filingSystem,
-      chiefJudge, divisions, overview, badge, isAvailable
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      chiefJudge, divisions, overview, badge, isAvailable,
+      latitude, longitude, mapUrl, mapEmbedUrl
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
-  const seedCourts = [
-    [
-        "Supreme Court of India",
-        "SCI",
-        "Apex Supreme Court",
-        "Supreme",
-        "All India / Apex Judicial",
-        "New Delhi",
-        "Delhi",
-        "Tilak Marg, Mandi House",
-        "110001",
-        "+91 11 2338 8922",
-        "https://main.sci.gov.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "Supreme Court e-Filing Portal 2.0",
-        "Chief Justice of India",
-        "Constitutional Bench, Appellate Division, Public Interest Litigation (PIL), Special Leave Petitions (SLP), Review Benches",
-        "The highest judicial forum and final court of appeal under the Constitution of India. Possesses original jurisdiction under Article 32 for enforcement of fundamental rights, appellate jurisdiction, and advisory powers.",
-        "Apex Supreme Court of India",
-        1
-    ],
-    [
-        "High Court of Delhi",
-        "DHC",
-        "State High Court",
-        "High Court",
-        "National Capital Territory of Delhi",
-        "New Delhi",
-        "Delhi",
-        "Sher Shah Road, Near India Gate",
-        "110503",
-        "+91 11 4301 0101",
-        "https://delhihighcourt.nic.in",
-        "Mon - Fri: 10:00 AM - 4:30 PM IST",
-        "Delhi High Court e-Filing 3.0",
-        "Chief Justice of Delhi High Court",
-        "Intellectual Property Division (IPD), Commercial Division, Original Civil, Criminal Appellate, Writ Jurisdiction (Art 226)",
-        "Premier constitutional court of India's capital region. Features a world-class specialized Intellectual Property Division (IPD) and high-value original commercial civil jurisdiction.",
-        "Premier Capital High Court",
-        1
-    ],
-    [
-        "High Court of Judicature at Bombay",
-        "BHC",
-        "State High Court",
-        "High Court",
-        "Maharashtra & Goa (Benches at Nagpur, Aurangabad, Panaji)",
-        "Mumbai",
-        "Maharashtra",
-        "Dr. Kane Road, Fort",
-        "400032",
-        "+91 22 2267 2221",
-        "https://bombayhighcourt.nic.in",
-        "Mon - Fri: 10:30 AM - 4:30 PM IST",
-        "Bombay HC e-Filing & CIS Portal",
-        "Chief Justice of Bombay High Court",
-        "Commercial Appellate, Admiralty & Maritime, Original Side, Constitutional Writs, Company Appeals",
-        "One of India's oldest and most prestigious chartered High Courts, leading jurisprudence in corporate disputes, maritime/admiralty claims, media laws, and banking transactions.",
-        "Commercial & Admiralty Capital",
-        1
-    ],
-    [
-        "High Court at Calcutta",
-        "CHC",
-        "State High Court",
-        "High Court",
-        "West Bengal and Andaman & Nicobar Islands (Circuit Benches: Port Blair, Jalpaiguri)",
-        "Kolkata",
-        "West Bengal",
-        "3, Esplanade Row West",
-        "700001",
-        "+91 33 2248 2311",
-        "https://calcuttahighcourt.gov.in",
-        "Mon - Fri: 10:30 AM - 4:30 PM IST",
-        "Calcutta HC e-Courts Filing",
-        "Chief Justice of Calcutta High Court",
-        "Original Civil, Admiralty Jurisdiction, Constitutional Benches, Criminal Revisional, Commercial Division",
-        "The oldest High Court in India, established by Letters Patent in 1862. Commands revered authority across constitutional jurisprudence, intellectual property, and original civil suits.",
-        "Oldest Chartered High Court",
-        1
-    ],
-    [
-        "High Court of Judicature at Madras",
-        "MHC",
-        "State High Court",
-        "High Court",
-        "Tamil Nadu and Puducherry (Permanent Bench at Madurai)",
-        "Chennai",
-        "Tamil Nadu",
-        "High Court Building, George Town",
-        "600104",
-        "+91 44 2530 1349",
-        "https://hcmadras.tn.gov.in",
-        "Mon - Fri: 10:00 AM - 4:45 PM IST",
-        "Madras HC e-Filing Portal",
-        "Chief Justice of Madras High Court",
-        "Original Side Civil, Commercial Division, Constitutional Writs, Intellectual Property, Criminal Appellate",
-        "Chartered High Court with deep historical pedigree and second-largest court campus globally. Renowned for constitutional analysis, intellectual property enforcement, and commercial decisions.",
-        "Chartered Southern Apex",
-        1
-    ],
-    [
-        "High Court of Karnataka",
-        "KHC",
-        "State High Court",
-        "High Court",
-        "Karnataka (Benches at Dharwad & Kalaburagi)",
-        "Bengaluru",
-        "Karnataka",
-        "Attara Kacheri, Opp. Vidhana Soudha, Ambedkar Veedhi",
-        "560001",
-        "+91 80 2295 4864",
-        "https://karnatakahighcourt.kar.nic.in",
-        "Mon - Fri: 10:30 AM - 5:00 PM IST",
-        "Karnataka High Court e-Filing 3.0",
-        "Chief Justice of Karnataka High Court",
-        "Information Technology & Cyber Law, Commercial Division, Public Interest Benches, Arbitration Appeals, Labor Writs",
-        "Housed in the historic Attara Kacheri building opposite Vidhana Soudha. Foremost judicial center for technology, SaaS startup contracts, cyber law, aerospace, and commercial arbitration.",
-        "Silicon Valley Tech & Cyber Hub",
-        1
-    ],
-    [
-        "High Court of Judicature at Allahabad",
-        "AHC",
-        "State High Court",
-        "High Court",
-        "Uttar Pradesh (Permanent Bench at Lucknow)",
-        "Prayagraj",
-        "Uttar Pradesh",
-        "Nyayamarg, Cantonment",
-        "211017",
-        "+91 532 242 2335",
-        "https://allahabadhighcourt.in",
-        "Mon - Fri: 10:00 AM - 4:30 PM IST",
-        "Allahabad HC e-Filing CIS 3.2",
-        "Chief Justice of Allahabad High Court",
-        "Constitutional Writs, Land Reforms & Revenue, Criminal Appellate & Bail, Civil Revisional, Service Matters",
-        "The largest High Court in India by sanctioned judicial strength (160 judges), possessing extensive constitutional writ and criminal appellate jurisdiction over Uttar Pradesh.",
-        "Largest Judicial Bench in India",
-        1
-    ],
-    [
-        "High Court of Gujarat",
-        "GHC",
-        "State High Court",
-        "High Court",
-        "State of Gujarat",
-        "Ahmedabad",
-        "Gujarat",
-        "Sola, SG Highway",
-        "380060",
-        "+91 79 2766 4601",
-        "https://gujarathighcourt.nic.in",
-        "Mon - Fri: 10:30 AM - 5:00 PM IST",
-        "Gujarat HC e-Court Services Portal",
-        "Chief Justice of Gujarat High Court",
-        "Commercial & Corporate Division, Tax & Customs, Infrastructure Arbitration, Special Civil Applications, Criminal Appeals",
-        "Pioneer in virtual judicial proceedings and live streaming of courtroom proceedings in India. Renowned for expedited commercial dispute resolution and tax jurisprudence.",
-        "Digital Courtroom Pioneer",
-        1
-    ],
-    [
-        "High Court of Punjab and Haryana",
-        "PHHC",
-        "State High Court",
-        "High Court",
-        "Punjab, Haryana and Union Territory of Chandigarh",
-        "Chandigarh",
-        "Punjab & Haryana",
-        "Capitol Complex, Sector 1",
-        "160001",
-        "+91 172 274 0601",
-        "https://highcourtchd.gov.in",
-        "Mon - Fri: 10:00 AM - 4:30 PM IST",
-        "PHHC e-Filing Portal",
-        "Chief Justice of Punjab & Haryana High Court",
-        "Civil Writs, Agrarian & Land Acquisition, Criminal Defense, Service Law, Commercial Disputes",
-        "Situated in Le Corbusier's iconic UNESCO World Heritage Capitol Complex. Exercises jurisdiction over Punjab, Haryana, and Chandigarh across civil, agrarian, and constitutional disputes.",
-        "UNESCO Capitol Complex Bench",
-        1
-    ],
-    [
-        "High Court for the State of Telangana",
-        "THC",
-        "State High Court",
-        "High Court",
-        "State of Telangana",
-        "Hyderabad",
-        "Telangana",
-        "Near City College, Madina, High Court Road",
-        "500066",
-        "+91 40 2344 6344",
-        "https://tshc.gov.in",
-        "Mon - Fri: 10:30 AM - 4:30 PM IST",
-        "Telangana HC e-Courts Portal",
-        "Chief Justice of Telangana High Court",
-        "Pharma & Biotech IP, Commercial Division, IT Infrastructure, Constitutional Benches, Civil Appeals",
-        "Located along the Musi River in Hyderabad's historic precinct. Foremost court for India's pharmaceutical capital, biotechnology IP disputes, and cyber technology infrastructure contracts.",
-        "Pharma & Tech Judicial Center",
-        1
-    ],
-    [
-        "High Court of Kerala",
-        "KERHC",
-        "State High Court",
-        "High Court",
-        "State of Kerala and UT of Lakshadweep",
-        "Kochi",
-        "Kerala",
-        "Marine Drive, Ernakulam",
-        "682031",
-        "+91 484 256 2000",
-        "https://hckerala.gov.in",
-        "Mon - Fri: 10:00 AM - 4:30 PM IST",
-        "Kerala HC Paperless e-Filing 3.0",
-        "Chief Justice of Kerala High Court",
-        "Environmental Jurisprudence, Maritime & Shipping, Paperless Court Benches, Fundamental Rights Writs, Service Appeals",
-        "India's first fully paperless Smart Court with trailblazing environmental jurisprudence, maritime admiralty matters, and citizen-friendly digital justice initiatives.",
-        "First Paperless Smart Court",
-        1
-    ],
-    [
-        "National Company Law Appellate Tribunal",
-        "NCLAT",
-        "Specialized Tribunal",
-        "Appellate Tribunal",
-        "Principal Bench New Delhi (Chennai Bench for South India)",
-        "New Delhi",
-        "Delhi",
-        "3rd Floor, B-1 Wing, Pt. Deendayal Antyodaya Bhawan, CGO Complex, Lodhi Road",
-        "110003",
-        "+91 11 2430 6837",
-        "https://nclat.nic.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "e-NCLAT E-Filing System",
-        "Chairperson, NCLAT",
-        "Insolvency and Bankruptcy Code (IBC), Companies Act Appeals, Competition Commission of India (CCI) Appeals, Restructuring & Mergers",
-        "The apex specialized appellate authority for corporate insolvency resolution, corporate takeovers, competition law anti-trust appeals, and shareholder oppression petitions across India.",
-        "Apex Corporate & IBC Appellate Tribunal",
-        1
-    ],
-    [
-        "National Company Law Tribunal - Principal Bench",
-        "NCLT-DEL",
-        "Specialized Tribunal",
-        "Trial Tribunal",
-        "All-India / National Capital Bench",
-        "New Delhi",
-        "Delhi",
-        "Block-3, Ground Floor, CGO Complex, Lodhi Road",
-        "110003",
-        "+91 11 2436 3451",
-        "https://nclt.gov.in",
-        "Mon - Fri: 9:30 AM - 5:30 PM IST",
-        "NCLT e-Filing Portal 2.0",
-        "President, National Company Law Tribunal",
-        "Corporate Insolvency Resolution Process (CIRP), Liquidation, Mergers & Amalgamations, Oppression & Mismanagement",
-        "Principal adjudicating authority under the Insolvency and Bankruptcy Code (IBC), 2016 and Section 241/242 of the Companies Act, presiding over mega corporate debt restructuring.",
-        "Principal Corporate Tribunal",
-        1
-    ],
-    [
-        "National Green Tribunal - Principal Bench",
-        "NGT",
-        "Specialized Tribunal",
-        "Specialized Judicial Bench",
-        "Principal Bench New Delhi (Benches at Pune, Bhopal, Kolkata, Chennai)",
-        "New Delhi",
-        "Delhi",
-        "Faridkot House, Copernicus Marg",
-        "110001",
-        "+91 11 2304 3501",
-        "https://greentribunal.gov.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "NGT Electronic Filing Portal",
-        "Chairperson, National Green Tribunal",
-        "Environmental Impact Assessment, Forest Conservation, Pollution Control (Air & Water), Coastal Regulation Zone, Hazardous Waste",
-        "Specialized judicial body under the NGT Act 2010 for effective and expeditious disposal of cases relating to environmental protection, forest conservation, and climate restitution.",
-        "Environmental Justice Authority",
-        1
-    ],
-    [
-        "Income Tax Appellate Tribunal - Presidential Bench",
-        "ITAT",
-        "Specialized Tribunal",
-        "Appellate Tribunal",
-        "Presidential Bench Mumbai (63 Benches across 27 Indian cities)",
-        "Mumbai",
-        "Maharashtra",
-        "Old CGO Building, 4th Floor, 101 Maharshi Karve Road",
-        "400020",
-        "+91 22 2203 1478",
-        "https://itat.gov.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "ITAT e-Dwar Electronic Portal",
-        "President, Income Tax Appellate Tribunal",
-        "Direct Taxes, Transfer Pricing, Cross-Border Taxation, Corporate Surtax, Withholding Assessments",
-        "Referred to as the \"Mother of Tribunals\" in India (established 1941). Final fact-finding authority in income tax matters under the Income Tax Act, 1961.",
-        "Mother of Indian Tribunals",
-        1
-    ],
-    [
-        "Telecom Disputes Settlement and Appellate Tribunal",
-        "TDSAT",
-        "Specialized Tribunal",
-        "Appellate Tribunal",
-        "Pan-India Jurisdiction",
-        "New Delhi",
-        "Delhi",
-        "Room No. 478, 4th Floor, Hotel Samrat, Kautilya Marg, Chanakyapuri",
-        "110021",
-        "+91 11 2687 2362",
-        "https://tdsat.gov.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "TDSAT e-Filing Portal",
-        "Chairperson, TDSAT",
-        "Telecommunications, Spectrum Disputes, Broadcasting & Cable TV, Cyber & Airport Economic Regulatory Appeals",
-        "Adjudicates disputes among telecom service providers, TRAI regulatory challenges, broadcasting & OTT content transmission, and spectrum allocation conflicts.",
-        "Telecom & Broadcasting Tribunal",
-        1
-    ],
-    [
-        "National Consumer Disputes Redressal Commission",
-        "NCDRC",
-        "Specialized Tribunal",
-        "National Commission",
-        "Pan-India Consumer Jurisdiction",
-        "New Delhi",
-        "Delhi",
-        "Upbhokta Nyay Bhawan, 'F' Block, GPO Complex, INA",
-        "110023",
-        "+91 11 2460 8801",
-        "http://ncdrc.nic.in",
-        "Mon - Fri: 10:00 AM - 5:00 PM IST",
-        "e-Daakhil Consumer Portal",
-        "President, NCDRC",
-        "Real Estate Homebuyer Claims, Medical Negligence, Insurance Claim Repudiation, Defective Products, Class Action",
-        "Apex quasi-judicial commission under Consumer Protection Act 2019 hearing original claims exceeding ₹2 Crore and appeals against State Commissions across India.",
-        "Apex Consumer Protection Forum",
-        1
-    ],
-    [
-        "Tis Hazari District & Sessions Court",
-        "DEL-TIS",
-        "District & Sessions Court",
-        "Trial",
-        "Central & West District, Delhi",
-        "New Delhi",
-        "Delhi",
-        "Tis Hazari Courts Complex, Near St. Stephen's Hospital",
-        "110054",
-        "+91 11 2395 0911",
-        "https://delhidistrictcourts.nic.in",
-        "Mon - Sat: 10:00 AM - 4:30 PM IST (2nd/4th Sat Off)",
-        "e-Courts Services / CIS 3.2",
-        "Principal District & Sessions Judge",
-        "Motor Accident Claims Tribunal (MACT), Rent Control, Civil Judge Senior Division, Sessions & Criminal Trials, Family Court",
-        "One of Asia's largest district court complexes. Houses major civil, tenancy rent control, motor accident (MACT), and criminal trial courts for Central Delhi.",
-        "Asia's Largest District Complex",
-        1
-    ],
-    [
-        "Patiala House District Courts",
-        "DEL-PAT",
-        "District & Sessions Court",
-        "Trial",
-        "New Delhi District",
-        "New Delhi",
-        "Delhi",
-        "India Gate Circle, Purana Quila Road",
-        "110001",
-        "+91 11 2338 6806",
-        "https://newdelhi.dcourts.gov.in",
-        "Mon - Sat: 10:00 AM - 4:30 PM IST (2nd/4th Sat Off)",
-        "e-Courts CIS Digital System",
-        "Principal District & Sessions Judge (New Delhi)",
-        "CBI Special Courts, ED (PMLA) Special Courts, NIA Anti-Terrorism Trials, Commercial Court, NDPS & Sessions Division",
-        "Situated at the historic former palace of the Maharaja of Patiala near India Gate. Center for high-profile central agency trials (CBI, ED, NIA) and commercial claims.",
-        "National Capital Trial Center",
-        1
-    ],
-    [
-        "City Civil and Sessions Court, Mumbai",
-        "MUM-SES",
-        "District & Sessions Court",
-        "Trial",
-        "Greater Mumbai Judicial District",
-        "Mumbai",
-        "Maharashtra",
-        "Old Secretariate Building, Fort",
-        "400032",
-        "+91 22 2267 1140",
-        "https://districts.ecourts.gov.in/mumbai",
-        "Mon - Sat: 10:30 AM - 5:00 PM IST (2nd/4th Sat Off)",
-        "e-Courts Maharashtra Portal",
-        "Principal Judge, City Civil & Sessions Court",
-        "Sessions Trials, Commercial Courts, Special PMLA/CBI Courts, Matrimonial & Civil Division, Summary Suits",
-        "Principal trial court for the financial capital of Mumbai. Handles major civil trials, economic offences, commercial suits, and high-profile criminal sessions trials.",
-        "Financial Capital Trial Epicenter",
-        1
-    ]
-];
-
-  const seedCourtsTransaction = db.transaction((courts) => {
-    let count = 0;
-    for (const court of courts) {
-      const code = court[1];
-      const existing = checkCourt.get(code);
-      if (!existing) {
-        insertCourt.run(...court);
-        count++;
+  const syncCourtsTransaction = db.transaction((courts) => {
+    let inserted = 0;
+    let updated = 0;
+    for (const c of courts) {
+      const existing = checkCourt.get(c.code);
+      if (existing) {
+        updateCourt.run(
+          c.name, c.jurisdiction, c.level, c.circuit || '', c.city, c.state,
+          c.address, c.zipCode, c.phone, c.website, c.clerkHours,
+          c.filingSystem, c.chiefJudge, c.divisions, c.overview, c.badge || '',
+          c.isAvailable !== undefined ? c.isAvailable : 1,
+          c.latitude || 0, c.longitude || 0, c.mapUrl || '', c.mapEmbedUrl || '',
+          c.code
+        );
+        updated++;
+      } else {
+        insertCourt.run(
+          c.name, c.code, c.jurisdiction, c.level, c.circuit || '', c.city, c.state,
+          c.address, c.zipCode, c.phone, c.website, c.clerkHours,
+          c.filingSystem, c.chiefJudge, c.divisions, c.overview, c.badge || '',
+          c.isAvailable !== undefined ? c.isAvailable : 1,
+          c.latitude || 0, c.longitude || 0, c.mapUrl || '', c.mapEmbedUrl || ''
+        );
+        inserted++;
       }
     }
-    return count;
+    return { inserted, updated };
   });
 
-  const courtsInserted = seedCourtsTransaction(seedCourts);
-  if (courtsInserted > 0) {
-    console.log(`🏛️ Seeded ${courtsInserted} authoritative Indian courts into SQLite courts database.`);
-  }
+  const courtSyncResult = syncCourtsTransaction(INDIAN_COURTS);
+  console.log(`🏛️ Synchronized ${INDIAN_COURTS.length} Indian courts with Maps & Coordinates (Inserted: ${courtSyncResult.inserted}, Updated: ${courtSyncResult.updated}).`);
 
   console.log(`✅ SQLite Database connected & initialized: ${dbPath}`);
 } catch (err) {

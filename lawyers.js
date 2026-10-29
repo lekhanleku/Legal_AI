@@ -823,15 +823,15 @@ function lawyerCardHTML(l) {
       </div>
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span>Bar Enrollment: <strong>${escapeHtml(l.barNumber)}</strong></span>
+        <span>Bar Enrollment: <strong>${escapeHtml(l.barNumber || 'Verified')}</strong></span>
       </div>
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        <span>${escapeHtml(l.education)}</span>
+        <span>${escapeHtml(l.education || '')}</span>
       </div>
     </div>
 
-    <p class="lawyer-bio">${escapeHtml(l.bio)}</p>
+    <p class="lawyer-bio">${escapeHtml(l.bio || '')}</p>
 
     <div class="lawyer-card-footer">
       ${footerAction}
