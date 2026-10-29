@@ -8,6 +8,8 @@ class Lawyer {
     const {
       search = '',
       specialty = '',
+      court = '',
+      courtCode = '',
       maxFee = null,
       minRating = null,
       availability = '',
@@ -29,10 +31,16 @@ class Lawyer {
       params.push(specialty);
     }
 
+    const activeCourt = (court || courtCode || '').trim();
+    if (activeCourt && activeCourt !== 'All Courts' && activeCourt !== 'All') {
+      query += ' AND (courtCodes LIKE ? OR practicingCourts LIKE ? OR primaryCourt LIKE ?)';
+      params.push(`%${activeCourt}%`, `%${activeCourt}%`, `%${activeCourt}%`);
+    }
+
     if (search && search.trim()) {
       const searchTerm = `%${search.trim()}%`;
-      query += ' AND (name LIKE ? OR firmName LIKE ? OR bio LIKE ? OR city LIKE ? OR state LIKE ? OR barNumber LIKE ?)';
-      params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
+      query += ' AND (name LIKE ? OR firmName LIKE ? OR bio LIKE ? OR city LIKE ? OR state LIKE ? OR barNumber LIKE ? OR practicingCourts LIKE ? OR courtCodes LIKE ?)';
+      params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
     if (maxFee) {
@@ -50,6 +58,20 @@ class Lawyer {
 
     const stmt = db.prepare(query);
     return stmt.all(...params);
+  }
+
+  /**
+   * Find all lawyers practicing before a specific court
+   */
+  static findByCourtCode(courtCode) {
+    if (!courtCode) return [];
+    const stmt = db.prepare(`
+      SELECT * FROM lawyers 
+      WHERE courtCodes LIKE ? OR practicingCourts LIKE ?
+      ORDER BY isAvailable DESC, rating DESC, casesWon DESC
+    `);
+    const pattern = `%${courtCode}%`;
+    return stmt.all(pattern, pattern);
   }
 
   /**

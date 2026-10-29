@@ -847,7 +847,7 @@ router.get('/world-news', async (req, res) => {
     return res.json(liveData);
   } catch (err) {
     console.error('[routes/articles] Error fetching live world news:', err);
-    let list = [...WORLD_LEGAL_ARTICLES];
+    let list = (typeof liveNewsService.getBaselineArticles === 'function') ? liveNewsService.getBaselineArticles() : [...WORLD_LEGAL_ARTICLES];
     return res.json({
       success: true,
       count: list.length,
@@ -871,7 +871,8 @@ router.get('/world-news/:id', async (req, res) => {
     console.error('[routes/articles] Error retrieving article by id:', err);
   }
 
-  const fallback = WORLD_LEGAL_ARTICLES.find(a => a.id === id);
+  const baselineList = (typeof liveNewsService.getBaselineArticles === 'function') ? liveNewsService.getBaselineArticles() : WORLD_LEGAL_ARTICLES;
+  const fallback = baselineList.find(a => a.id === id) || WORLD_LEGAL_ARTICLES.find(a => a.id === id);
   if (!fallback) {
     return res.status(404).json({ success: false, message: 'World legal news article not found' });
   }

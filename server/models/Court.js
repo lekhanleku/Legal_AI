@@ -10,7 +10,7 @@ class Court {
       jurisdiction = '',
       state = '',
       filingSystem = '',
-      limit = 50,
+      limit = 150,
       offset = 0
     } = filters;
 
@@ -102,12 +102,88 @@ class Court {
   }
 
   /**
+   * Find advocates practicing before a specific court
+   */
+  static getPracticingLawyers(courtCode) {
+    if (!courtCode) return [];
+    try {
+      const stmt = db.prepare(`
+        SELECT id, name, title, specialty, barNumber, experienceYears, education,
+               firmName, city, state, hourlyRate, rating, reviewCount, languages,
+               casesWon, successRate, phone, email, avatarUrl, isAvailable,
+               courtCodes, practicingCourts, primaryCourt
+        FROM lawyers 
+        WHERE courtCodes LIKE ?
+        ORDER BY isAvailable DESC, rating DESC, casesWon DESC
+      `);
+      return stmt.all(`%${courtCode}%`);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /**
+   * Suggest lawyers associated with this court who specialize in the relevant legal area,
+   * complete with jurisdiction rules and statutory procedural authority.
+   */
+  static getSuggestedLawyers(courtIdOrCode, specialty = '') {
+    const court = isNaN(courtIdOrCode) ? Court.findByCode(courtIdOrCode) : (Court.findById(courtIdOrCode) || Court.findByCode(courtIdOrCode));
+    if (!court) return { court: null, suggestedLawyers: [], jurisdictionRule: null };
+
+    const { getJurisdictionRule } = require('../services/jurisdictionRules');
+    const jurisdictionRule = getJurisdictionRule(court, specialty);
+
+    let allLawyers = Court.getPracticingLawyers(court.code);
+    if (!allLawyers || allLawyers.length === 0) {
+      allLawyers = Court.getPracticingLawyers('SCI');
+    }
+
+    let filtered = [...allLawyers];
+    let isSpecialtyMatch = false;
+
+    if (specialty && specialty !== 'All Specialties' && specialty.trim()) {
+      const spec = specialty.trim().toLowerCase();
+      const exactMatches = allLawyers.filter(l => 
+        l.specialty && (l.specialty.toLowerCase() === spec || l.specialty.toLowerCase().includes(spec) || spec.includes(l.specialty.toLowerCase()))
+      );
+      if (exactMatches.length > 0) {
+        filtered = exactMatches;
+        isSpecialtyMatch = true;
+      }
+    }
+
+    const suggestedLawyers = filtered.map(l => {
+      const matchScore = isSpecialtyMatch ? 98 : 92;
+      const matchReason = isSpecialtyMatch
+        ? `Verified advocate enrolled before ${court.name} with ${l.experienceYears}+ years trial expertise in ${l.specialty} (${l.successRate}% courtroom win rate). Practice conforms to ${jurisdictionRule.governingActs}.`
+        : `Designated advocate practicing before ${court.name} with ${l.experienceYears}+ years courtroom experience in ${l.specialty}.`;
+
+      return {
+        ...l,
+        matchScore,
+        matchReason,
+        isJurisdictionMatch: isSpecialtyMatch
+      };
+    });
+
+    return {
+      court,
+      specialty: specialty || 'All Legal Areas',
+      jurisdictionRule,
+      suggestedLawyers
+    };
+  }
+
+  /**
    * Find court by primary key ID
    */
   static findById(id) {
     const stmt = db.prepare('SELECT * FROM courts WHERE id = ?');
     const row = stmt.get(Number(id));
-    return row ? Court.formatCourtMapData(row) : null;
+    if (!row) return null;
+    const formatted = Court.formatCourtMapData(row);
+    formatted.practicingLawyers = Court.getPracticingLawyers(row.code);
+    return formatted;
   }
 
   /**
@@ -116,7 +192,10 @@ class Court {
   static findByCode(code) {
     const stmt = db.prepare('SELECT * FROM courts WHERE code = ?');
     const row = stmt.get(code);
-    return row ? Court.formatCourtMapData(row) : null;
+    if (!row) return null;
+    const formatted = Court.formatCourtMapData(row);
+    formatted.practicingLawyers = Court.getPracticingLawyers(row.code);
+    return formatted;
   }
 
   /**

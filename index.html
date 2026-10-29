@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=2.6.3"/>
+  <link rel="stylesheet" href="style.css?v=2.7.0"/>
 </head>
 <body>
 
@@ -725,52 +725,126 @@
           <span class="tag-line"></span>
           <span class="tag-text">JUDICIAL DIRECTORY & JURISDICTIONS</span>
         </div>
-        <h2 class="section-title">Explore Authoritative Indian Courts &amp; Jurisdictions</h2>
-        <p class="section-subtitle">Authoritative directory of the Supreme Court of India, State High Courts, National Tribunals (NCLAT, NGT, ITAT, TDSAT, NCDRC), and District &amp; Sessions Courts with e-filing systems.</p>
+        <h2 class="section-title">Explore Indian Courts, District Courts &amp; Taluka JMFC Judicial Map</h2>
+        <p class="section-subtitle">Comprehensive nationwide directory covering India's Supreme Court, State High Courts, Specialized National Tribunals, District &amp; Sessions Courts across all 28 States and Union Territories, Small Causes Courts, and Subordinate Taluka &amp; JMFC Courts with exact GPS coordinates and interactive Google Maps.</p>
+      </div>
+
+      <!-- COURTS VIEW TOGGLE & MAP VIEW -->
+      <div class="courts-view-toggle-bar">
+        <div class="courts-view-toggle">
+          <button type="button" class="courts-toggle-btn active" id="tab-courts-cards">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Courts Directory Cards</span>
+          </button>
+          <button type="button" class="courts-toggle-btn" id="tab-courts-map">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+            <span>Interactive India Courts Map Explorer</span>
+            <span class="toggle-badge-gold">Live Map</span>
+          </button>
+        </div>
       </div>
 
       <!-- COURT CONTROLS & SEARCH -->
       <div class="court-controls">
         <div class="court-search-box">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="court-search-input" placeholder="Search court name, circuit, city, state, or judge..." />
+          <input type="text" id="court-search-input" placeholder="Search court name, taluka, city, state, pin code, or judge..." />
           <button id="court-search-clear" class="search-clear-btn hidden">&times;</button>
         </div>
 
         <div class="court-filters">
           <select id="court-jurisdiction-select" class="court-select">
-            <option value="All Jurisdictions">All Jurisdictions</option>
-            <option value="Apex Supreme Court">Supreme Court of India</option>
+            <option value="All Jurisdictions">All Jurisdictions (95+ Courts across India)</option>
+            <option value="Small Courts">Taluka &amp; Subordinate Courts (Small Courts)</option>
+            <option value="Small Causes &amp; JMFC Courts">Small Causes Courts</option>
+            <option value="District &amp; Sessions Court">District &amp; Sessions Courts (All States)</option>
             <option value="State High Court">State High Courts</option>
+            <option value="Apex Supreme Court">Supreme Court of India</option>
             <option value="Specialized Tribunal">National Tribunals &amp; Commissions</option>
-            <option value="District & Sessions Court">District &amp; Sessions Courts</option>
           </select>
 
           <select id="court-state-select" class="court-select">
-            <option value="All States">All Locations</option>
-            <option value="Delhi">Delhi (NCR)</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="West Bengal">West Bengal</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
-            <option value="Gujarat">Gujarat</option>
-            <option value="Punjab & Haryana">Punjab &amp; Haryana</option>
-            <option value="Telangana">Telangana</option>
-            <option value="Kerala">Kerala</option>
+            <option value="All States">All States &amp; Union Territories (All India)</option>
+            <option value="Andaman and Nicobar Islands">Andaman &amp; Nicobar Islands (Port Blair)</option>
+            <option value="Andhra Pradesh">Andhra Pradesh (Visakhapatnam &amp; Coastal)</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh (Yupia / Papum Pare)</option>
+            <option value="Assam">Assam (Guwahati &amp; Kamrup Metro)</option>
+            <option value="Bihar">Bihar (Patna District &amp; Civil Courts)</option>
+            <option value="Chandigarh">Chandigarh (Sector 43 District Complex)</option>
+            <option value="Chhattisgarh">Chhattisgarh (Raipur District &amp; Sessions)</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra &amp; Nagar Haveli and Daman &amp; Diu</option>
+            <option value="Delhi">Delhi (Tis Hazari, Patiala House, Saket, KKD, Rohini, Dwarka)</option>
+            <option value="Goa">Goa (North Goa &amp; Panaji Altinho)</option>
+            <option value="Gujarat">Gujarat (Ahmedabad, Vadodara &amp; Sanand)</option>
+            <option value="Haryana">Haryana (Gurugram &amp; NCR)</option>
+            <option value="Himachal Pradesh">Himachal Pradesh (Shimla Chakkar)</option>
+            <option value="Jammu and Kashmir">Jammu &amp; Kashmir (Srinagar &amp; Jammu)</option>
+            <option value="Jharkhand">Jharkhand (Ranchi Kutchery Road)</option>
+            <option value="Karnataka">Karnataka (Bengaluru, Mysuru, Hubballi &amp; Talukas)</option>
+            <option value="Kerala">Kerala (Ernakulam, Kochi &amp; Aluva)</option>
+            <option value="Ladakh">Ladakh (Leh District Court)</option>
+            <option value="Madhya Pradesh">Madhya Pradesh (Indore &amp; Bhopal)</option>
+            <option value="Maharashtra">Maharashtra (Mumbai, Pune, Thane &amp; Talukas)</option>
+            <option value="Manipur">Manipur (Imphal West Cheirap Court)</option>
+            <option value="Meghalaya">Meghalaya (East Khasi Hills &amp; Shillong)</option>
+            <option value="Mizoram">Mizoram (Aizawl District Court)</option>
+            <option value="Nagaland">Nagaland (Kohima District Court)</option>
+            <option value="Odisha">Odisha (Cuttack &amp; Bhubaneswar)</option>
+            <option value="Puducherry">Puducherry (White Town Combined Court)</option>
+            <option value="Punjab">Punjab (Ludhiana &amp; Amritsar)</option>
+            <option value="Rajasthan">Rajasthan (Jaipur, Jodhpur &amp; Sanganer)</option>
+            <option value="Sikkim">Sikkim (East Sikkim &amp; Gangtok Sichey)</option>
+            <option value="Tamil Nadu">Tamil Nadu (Chennai, Coimbatore &amp; Talukas)</option>
+            <option value="Telangana">Telangana (Hyderabad, Cyberabad &amp; Ranga Reddy)</option>
+            <option value="Tripura">Tripura (West Tripura &amp; Agartala)</option>
+            <option value="Uttar Pradesh">Uttar Pradesh (Noida, Greater Noida, Lucknow, Kanpur, Prayagraj)</option>
+            <option value="Uttarakhand">Uttarakhand (Dehradun Prince Chowk)</option>
+            <option value="West Bengal">West Bengal (Kolkata, Barasat &amp; 24 Parganas)</option>
           </select>
         </div>
       </div>
 
       <!-- COURT RESULTS HEADER & PILLS -->
       <div class="court-results-header">
-        <span id="court-count-badge" class="court-count-badge">Showing 20 Verified Courts</span>
+        <span id="court-count-badge" class="court-count-badge">Showing Verified Indian Courts</span>
         <div class="court-pills-row" id="court-pills-row">
           <button class="court-pill-chip active" data-jurisdiction="All Jurisdictions">All Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Apex Supreme Court">Supreme Court</button>
+          <button class="court-pill-chip" data-jurisdiction="Small Courts">Taluka &amp; JMFC Courts ⭐</button>
+          <button class="court-pill-chip" data-jurisdiction="Small Causes &amp; JMFC Courts">Small Causes Courts</button>
+          <button class="court-pill-chip" data-jurisdiction="District &amp; Sessions Court">District Courts</button>
           <button class="court-pill-chip" data-jurisdiction="State High Court">High Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Specialized Tribunal">National Tribunals</button>
-          <button class="court-pill-chip" data-jurisdiction="District & Sessions Court">District Courts</button>
+          <button class="court-pill-chip" data-jurisdiction="Apex Supreme Court">Supreme Court</button>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE INDIA COURTS MAP EXPLORER CONTAINER -->
+      <div class="courts-map-explorer-container hidden" id="courts-map-explorer-container">
+        <div class="map-explorer-header">
+          <div class="map-explorer-info">
+            <h3 class="map-explorer-title">🗺️ Interactive India Courts Geo-Locator &amp; Map</h3>
+            <p class="map-explorer-desc">Explore small courts, taluka magistrate complexes, and apex courts across India. Select any court to pin it on the live map with instant GPS directions and street details.</p>
+          </div>
+          <div class="map-explorer-quick-actions">
+            <select id="map-court-quick-select" class="court-select map-quick-select">
+              <option value="">⚡ Jump to Court on Map...</option>
+            </select>
+            <a href="#" target="_blank" rel="noopener" id="btn-open-explorer-map-ext" class="btn-court-map-action" style="padding: 10px 16px; font-weight: 600; text-decoration: none;">
+              🧭 Full Directions in Google Maps ↗
+            </a>
+          </div>
+        </div>
+        <div class="map-explorer-viewport-box">
+          <iframe id="courts-explorer-iframe" class="courts-explorer-iframe" src="https://www.google.com/maps?q=Supreme+Court+of+India,+Tilak+Marg,+New+Delhi&output=embed" title="India Courts Interactive Map Explorer" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="map-court-live-card" id="map-court-live-card">
+            <div class="map-card-badge" id="map-live-badge">Apex Supreme Court</div>
+            <h4 class="map-card-name" id="map-live-name">Supreme Court of India</h4>
+            <div class="map-card-loc" id="map-live-loc">📍 Tilak Marg, Mandi House, New Delhi 110001</div>
+            <div class="map-card-hours" id="map-live-hours">🕒 Mon - Fri: 10:00 AM - 5:00 PM IST</div>
+            <div class="map-card-btn-row">
+              <button type="button" class="btn-live-court-rules" id="btn-live-court-rules">📋 View Rules &amp; Bench Info</button>
+              <a href="https://www.google.com/maps/search/?api=1&query=Supreme+Court+of+India+Tilak+Marg+New+Delhi+110001" target="_blank" rel="noopener" class="btn-live-court-dir" id="btn-live-court-dir">🧭 Navigate (GPS)</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1266,6 +1340,15 @@
           </div>
         </div>
 
+        <!-- Practicing Courts & Jurisdictions -->
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">⚖️ Designated Courts &amp; Jurisdictions</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+            <span id="lawyer-modal-courts" style="color: var(--gold-light); font-weight: 500;">Supreme Court of India · High Court of Delhi</span>
+          </div>
+        </div>
+
         <!-- Education & Languages -->
         <div class="lawyer-modal-section">
           <h4 class="lawyer-msection-title">🎓 Education & Languages Spoken</h4>
@@ -1345,14 +1428,30 @@
         </div>
 
         <div class="court-modal-section">
-          <h4 class="court-msection-title">📍 Physical Address & Contact</h4>
+          <h4 class="court-msection-title">📍 Physical Address &amp; Contact</h4>
           <div class="court-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span id="court-modal-address">1 First Street NE, Washington, DC 20543</span>
+            <span id="court-modal-address">Court Complex Address</span>
           </div>
           <div class="court-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span id="court-modal-phone">(202) 479-3000</span>
+            <span id="court-modal-phone">+91 11 2338 8922</span>
+          </div>
+        </div>
+
+        <!-- COURT LIVE MAP CONTAINER -->
+        <div class="court-modal-section court-modal-map-section">
+          <div class="court-map-title-row">
+            <h4 class="court-msection-title">🗺️ Court Location &amp; Live Google Maps Directions</h4>
+            <a href="#" target="_blank" rel="noopener" id="court-modal-map-btn" class="court-map-open-btn">
+              <span>Open in Google Maps App ↗</span>
+            </a>
+          </div>
+          <div class="court-map-frame-box">
+            <iframe id="court-modal-map-iframe" class="court-map-iframe" src="" title="Court Live Location Map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="court-map-footer-coords">
+            <span id="court-modal-coords-label">📍 Pinpoint GPS Location &amp; Navigation Ready</span>
           </div>
         </div>
 
@@ -1364,6 +1463,55 @@
         <div class="court-modal-section">
           <h4 class="court-msection-title">📂 Primary Divisions & Dockets</h4>
           <div class="court-modal-divisions" id="court-modal-divisions"></div>
+        </div>
+
+        <!-- ADVOCATES PRACTICING IN THIS COURT -->
+        <div class="court-modal-section court-modal-lawyers-section" id="court-modal-lawyers-section">
+          <div class="court-lawyers-header-row">
+            <h4 class="court-msection-title">⚖️ Verified Advocates Practicing in this Court (<span id="court-modal-lawyers-count" style="color:var(--gold);">0</span>)</h4>
+            <a href="lawyers.html" class="court-view-all-lawyers-btn" id="court-modal-filter-lawyers-btn" target="_blank" title="View in Advocates Directory">
+              <span>View in Directory ↗</span>
+            </a>
+          </div>
+          <p class="court-lawyers-subtitle">Licensed Senior Counsel, Partners, and Trial Advocates enrolled before this jurisdiction's bar:</p>
+
+          <!-- LEGAL AREA / SPECIALTY FILTER ROW -->
+          <div class="court-specialty-filter-row">
+            <div class="court-specialty-filter-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Legal Area / Specialty:</span>
+            </div>
+            <select id="court-modal-specialty-select" class="court-modal-specialty-select" aria-label="Filter advocates by legal area">
+              <option value="All Specialties">All Legal Areas &amp; Practice Specialties</option>
+              <option value="Criminal Law">Criminal Law &amp; Bail Defense</option>
+              <option value="Corporate Law">Corporate, Commercial &amp; Contracts</option>
+              <option value="Real Estate Law">Real Estate, Land &amp; Property Law</option>
+              <option value="Civil Rights">Constitutional Law &amp; Writs</option>
+              <option value="Family Law">Family, Divorce &amp; Custody</option>
+              <option value="Intellectual Property">Intellectual Property &amp; Tech</option>
+              <option value="Employment Law">Employment &amp; Labor Rights</option>
+              <option value="Personal Injury">Personal Injury &amp; MACT Claims</option>
+              <option value="Tax Law">Taxation &amp; Revenue Appeals</option>
+            </select>
+          </div>
+
+          <!-- JURISDICTION & LEGAL RULES ADVISORY BANNER -->
+          <div class="court-jurisdiction-rule-banner" id="court-jurisdiction-rule-banner">
+            <div class="rule-banner-icon">⚖️</div>
+            <div class="rule-banner-content">
+              <div class="rule-banner-header">
+                <span class="rule-banner-tag">APPLICABLE JURISDICTION &amp; COURT RULES</span>
+                <h5 class="rule-banner-title" id="rule-banner-title">Court Jurisdiction &amp; Legal Rules</h5>
+              </div>
+              <div class="rule-banner-acts" id="rule-banner-acts">Governing Statute / Procedural Act</div>
+              <p class="rule-banner-desc" id="rule-banner-desc">Legal rules and procedural requirements governing this court.</p>
+              <div class="rule-banner-meta" id="rule-banner-meta">Procedural Requirements &amp; Appellate Hierarchy</div>
+            </div>
+          </div>
+
+          <div class="court-modal-lawyers-grid" id="court-modal-lawyers-grid">
+            <!-- Rendered dynamically -->
+          </div>
         </div>
       </div>
 
@@ -2027,7 +2175,8 @@
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toast-container"></div>
 
-  <script src="newsLanguages.js?v=2.6.3"></script>
-  <script src="script.js?v=2.6.3"></script>
+  <script src="indianCourts.js?v=2.7.0"></script>
+  <script src="newsLanguages.js?v=2.7.0"></script>
+  <script src="script.js?v=2.7.0"></script>
 </body>
 </html>

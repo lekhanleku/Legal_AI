@@ -24,7 +24,7 @@ const extractUser = (req) => {
 // @access  Public (Enhanced with user context if authenticated)
 router.post('/chat', async (req, res) => {
   try {
-    const { message } = req.body;
+    const { message, history } = req.body;
     if (!message || typeof message !== 'string' || !message.trim()) {
       return res.status(400).json({
         success: false,
@@ -35,11 +35,30 @@ router.post('/chat', async (req, res) => {
     const user = extractUser(req);
     const userId = user ? user.id : null;
 
+    // Resolve conversation history for multi-turn understanding
+    let conversationHistory = Array.isArray(history) ? history : [];
+    if (conversationHistory.length === 0 && userId) {
+      try {
+        const recentRows = db.prepare(`
+          SELECT role, message, category FROM ai_chats
+          WHERE userId = ?
+          ORDER BY id DESC LIMIT 6
+        `).all(userId);
+        conversationHistory = recentRows.reverse().map(r => ({
+          role: r.role === 'user' ? 'user' : 'assistant',
+          message: r.message,
+          content: r.message
+        }));
+      } catch (hErr) {
+        // history fetch is best effort
+      }
+    }
+
     // Process query through AI Service
     const aiResult = await processLegalQuery({
       prompt: message,
       user,
-      history: []
+      history: conversationHistory
     });
 
     // Persist conversation in SQLite
@@ -72,8 +91,8 @@ router.post('/chat', async (req, res) => {
       claimAttributions: aiResult.claimAttributions || null,
       calibratedJudgeEvaluation: aiResult.calibratedJudgeEvaluation || null,
       laypersonView: aiResult.laypersonView || null,
-      suggestedLawyer: aiResult.suggestedLawyer,
-      suggestedCourt: aiResult.suggestedCourt,
+      suggestedLawyer: aiResult.suggestedLawyer || null,
+      suggestedCourt: aiResult.suggestedCourt || null,
       timestamp: aiResult.timestamp,
       user: user ? { id: user.id, name: user.name } : null
     });

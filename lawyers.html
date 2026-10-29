@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=2.6.3"/>
+  <link rel="stylesheet" href="style.css?v=2.7.0"/>
 </head>
 <body class="directory-page-main">
 
@@ -16,19 +16,30 @@
        HEADER NAVBAR
        =================================== -->
   <header class="navbar" id="navbar">
-    <div class="nav-container">
-      <div class="nav-brand-group">
-        <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Toggle Navigation Menu" aria-expanded="false">
-          <span class="bar bar-1"></span>
-          <span class="bar bar-2"></span>
-          <span class="bar bar-3"></span>
+    <div class="nav-inner">
+      <div class="nav-left" id="nav-left">
+        <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Toggle Navigation Menu" aria-expanded="false" title="Menu">
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
+          <span class="menu-bar"></span>
         </button>
 
-        <a href="index.html" class="nav-logo" aria-label="LegalAI Home">
-          <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-          <span class="logo-text">Legal<span class="gold">AI</span></span>
+        <a href="index.html" class="logo" id="logo-link">
+          <div class="logo-icon">
+            <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+              <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#navLogoGrad)"/>
+              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="navLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                  <stop offset="0%" stop-color="#b8956a"/>
+                  <stop offset="100%" stop-color="#8b6914"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
         </a>
       </div>
 
@@ -49,7 +60,7 @@
           <span class="nav-bookings-text">My Consultations</span>
           <span class="nav-badge-count" id="badge-nav-bookings">0</span>
         </button>
-        <a href="user.html" class="nav-cta-btn" id="nav-auth-btn">Client Sign In</a>
+        <a href="user.html" class="btn-register" id="nav-auth-btn" style="padding: 9px 20px; font-size: 13px; text-decoration: none;">Client Portal</a>
       </div>
     </div>
   </header>
@@ -59,11 +70,22 @@
        =================================== -->
   <aside class="side-menu-drawer" id="side-menu-drawer" aria-hidden="true">
     <div class="side-menu-header">
-      <a href="index.html" class="side-menu-logo">
-        <svg class="logo-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-        <span class="logo-text">Legal<span class="gold">AI</span></span>
+      <a href="index.html" class="logo" style="gap: 10px;">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#drawerLogoGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="drawerLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
       </a>
       <button class="side-menu-close" id="side-menu-close" aria-label="Close Menu">&times;</button>
     </div>
@@ -191,13 +213,138 @@
           <option value="Healthcare Law">Healthcare & Pharma Regulation</option>
         </select>
 
+        <!-- Court / Jurisdiction Filter -->
+        <select id="lawyer-court-select" class="directory-select" aria-label="Filter by practicing court">
+          <option value="All Courts">All Indian Courts &amp; Benches</option>
+          <optgroup label="Apex Supreme Court">
+            <option value="SCI">Supreme Court of India (New Delhi)</option>
+          </optgroup>
+          <optgroup label="State High Courts">
+            <option value="DHC">High Court of Delhi (New Delhi)</option>
+            <option value="BHC">High Court of Judicature at Bombay (Mumbai)</option>
+            <option value="KHC">High Court of Karnataka (Bengaluru)</option>
+            <option value="MHC">High Court of Judicature at Madras (Chennai)</option>
+            <option value="CHC">High Court at Calcutta (Kolkata)</option>
+            <option value="GHC">High Court of Gujarat (Ahmedabad)</option>
+            <option value="AHC">High Court of Judicature at Allahabad</option>
+          </optgroup>
+          <optgroup label="Specialized National Tribunals">
+            <option value="NCLAT">National Company Law Appellate Tribunal (NCLAT)</option>
+            <option value="NCLT-DEL">National Company Law Tribunal (NCLT Principal Bench)</option>
+            <option value="NGT">National Green Tribunal (NGT)</option>
+            <option value="ITAT">Income Tax Appellate Tribunal (ITAT)</option>
+            <option value="TDSAT">Telecom Disputes Settlement &amp; Appellate Tribunal (TDSAT)</option>
+            <option value="NCDRC">National Consumer Disputes Redressal Commission (NCDRC)</option>
+          </optgroup>
+          <optgroup label="District &amp; Sessions Courts (All States &amp; UTs)">
+            <option value="AP-VIZ-DC">Visakhapatnam District &amp; Sessions Court (Andhra Pradesh)</option>
+            <option value="AR-YUP-DC">Papum Pare District Court, Yupia (Arunachal Pradesh)</option>
+            <option value="ASM-KAM-DC">Kamrup Metro District Court, Guwahati (Assam)</option>
+            <option value="BIH-PAT-DC">Patna District &amp; Sessions Court (Bihar)</option>
+            <option value="CG-RAI-DC">Raipur District &amp; Sessions Court (Chhattisgarh)</option>
+            <option value="GOA-PAN-DC">North Goa District Court, Panaji (Goa)</option>
+            <option value="GUJ-VAD-DC">Vadodara District &amp; Sessions Court (Gujarat)</option>
+            <option value="HAR-GUR-DC">Gurugram District &amp; Sessions Court (Haryana)</option>
+            <option value="HP-SHI-DC">Shimla District &amp; Sessions Court (Himachal Pradesh)</option>
+            <option value="JH-RAN-DC">Ranchi District &amp; Sessions Court (Jharkhand)</option>
+            <option value="KAR-BLR-CIV">City Civil &amp; Sessions Court, Bengaluru (Karnataka)</option>
+            <option value="KAR-MYS-DC">Mysuru District &amp; Sessions Court (Karnataka)</option>
+            <option value="KAR-RAM-JMFC">Ramanagara District Court (Karnataka)</option>
+            <option value="KER-ERN-DC">Ernakulam District &amp; Sessions Court, Kochi (Kerala)</option>
+            <option value="MP-IND-DC">Indore District &amp; Sessions Court (Madhya Pradesh)</option>
+            <option value="MP-BHO-DC">Bhopal District &amp; Sessions Court (Madhya Pradesh)</option>
+            <option value="MUM-SES">City Civil &amp; Sessions Court, Mumbai (Maharashtra)</option>
+            <option value="MH-PUN-DC">Pune District &amp; Sessions Court, Shivajinagar (Maharashtra)</option>
+            <option value="MN-IMP-DC">Imphal West District Court (Manipur)</option>
+            <option value="ML-SHI-DC">East Khasi Hills District Court, Shillong (Meghalaya)</option>
+            <option value="MZ-AIZ-DC">Aizawl District &amp; Sessions Court (Mizoram)</option>
+            <option value="NL-KOH-DC">Kohima District &amp; Sessions Court (Nagaland)</option>
+            <option value="OD-CUT-DC">Cuttack District &amp; Sessions Court (Odisha)</option>
+            <option value="OD-KHO-DC">Khordha District Court, Bhubaneswar (Odisha)</option>
+            <option value="PB-LUD-DC">Ludhiana District &amp; Sessions Court (Punjab)</option>
+            <option value="PB-AMR-DC">Amritsar District &amp; Sessions Court (Punjab)</option>
+            <option value="RJ-JAI-DC">Jaipur Metropolitan District Court (Rajasthan)</option>
+            <option value="RJ-JOD-DC">Jodhpur District &amp; Sessions Court (Rajasthan)</option>
+            <option value="SK-GAN-DC">East Sikkim District Court, Gangtok (Sikkim)</option>
+            <option value="TN-CHE-DC">Chennai Principal District &amp; Sessions Court (Tamil Nadu)</option>
+            <option value="TN-CBE-DC">Coimbatore District &amp; Sessions Court (Tamil Nadu)</option>
+            <option value="TG-HYD-DC">Hyderabad City Civil Court (Telangana)</option>
+            <option value="TG-RR-DC">Ranga Reddy District Court, LB Nagar (Telangana)</option>
+            <option value="TR-AGA-DC">West Tripura District Court, Agartala (Tripura)</option>
+            <option value="UP-GBN-DC">Gautam Buddha Nagar District Court, Surajpur (UP)</option>
+            <option value="UP-LKO-DC">Lucknow District &amp; Sessions Court (UP)</option>
+            <option value="UP-KNP-DC">Kanpur Nagar District Court (UP)</option>
+            <option value="UK-DEH-DC">Dehradun District &amp; Sessions Court (Uttarakhand)</option>
+            <option value="WB-CAL-DC">City Civil &amp; Sessions Court, Calcutta (West Bengal)</option>
+            <option value="WB-BAR-DC">North 24 Parganas District Court, Barasat (West Bengal)</option>
+            <option value="DEL-PAT">Patiala House District Courts (Delhi)</option>
+            <option value="DEL-TIS">Tis Hazari District &amp; Sessions Court (Delhi)</option>
+            <option value="DEL-SAK-DC">Saket District Courts Complex (Delhi)</option>
+            <option value="DEL-KKD-DC">Karkardooma District Courts Complex (Delhi)</option>
+            <option value="DEL-ROH-DC">Rohini District Courts Complex (Delhi)</option>
+            <option value="DEL-DWA-DC">Dwarka District Courts Complex (Delhi)</option>
+            <option value="JK-SGR-DC">Srinagar Principal District Court (J&amp;K)</option>
+            <option value="JK-JAM-DC">Jammu Principal District Court (J&amp;K)</option>
+            <option value="LA-LEH-DC">Leh District &amp; Sessions Court (Ladakh)</option>
+            <option value="CH-SEC43-DC">Chandigarh District Court, Sector 43</option>
+            <option value="PY-PUD-DC">Puducherry Combined Court &amp; Sessions</option>
+            <option value="AN-PB-DC">Port Blair District Court (Andaman &amp; Nicobar)</option>
+            <option value="DD-DAM-DC">Daman District &amp; Sessions Court (DNH &amp; DD)</option>
+          </optgroup>
+          <optgroup label="Small Causes Courts">
+            <option value="KAR-SCCH-BLR">Court of Small Causes, Bengaluru (SCCH)</option>
+            <option value="KAR-MAYO-BLR">Mayo Hall Court of Small Causes, Bengaluru</option>
+            <option value="MUM-SCCH-BOM">Court of Small Causes, Mumbai</option>
+            <option value="GUJ-SCCH-AHD">Court of Small Causes, Ahmedabad</option>
+            <option value="TN-SCCH-CHE">Court of Small Causes, Chennai</option>
+            <option value="WB-SCCH-KOL">Court of Small Causes &amp; Bankshall Court, Kolkata</option>
+            <option value="MH-PUN-JMFC">Shivajinagar Small Causes &amp; JMFC, Pune</option>
+          </optgroup>
+          <optgroup label="Taluka &amp; Subordinate Courts (JMFC)">
+            <option value="KAR-ANE-JMFC">Anekal JMFC Court (Bengaluru Rural)</option>
+            <option value="KAR-DEV-JMFC">Devanahalli JMFC Court (Bengaluru Rural)</option>
+            <option value="KAR-HOS-JMFC">Hoskote JMFC Court</option>
+            <option value="KAR-DOD-JMFC">Doddaballapura JMFC Court</option>
+            <option value="KAR-NEL-JMFC">Nelamangala JMFC Court</option>
+            <option value="KAR-CHN-JMFC">Channapatna JMFC Court</option>
+            <option value="KAR-KAN-JMFC">Kanakapura JMFC Court</option>
+            <option value="KAR-HUB-JMFC">Hubballi Civil Judge &amp; JMFC Court</option>
+            <option value="KAR-ALD-JMFC">Aland Taluk JMFC Court</option>
+            <option value="KAR-KUN-JMFC">Kundapura Senior Civil Court</option>
+            <option value="MH-ESP-CMM">Esplanade CMM Court, Mumbai</option>
+            <option value="MH-AND-MM">Andheri Metropolitan Magistrate Court</option>
+            <option value="MH-KUR-MM">Kurla Metropolitan Magistrate Court</option>
+            <option value="MH-THA-JMFC">Thane JMFC Court</option>
+            <option value="DEL-KKD-MM">Karkardooma Metropolitan Magistrate Court</option>
+            <option value="DEL-SAK-MM">Saket Metropolitan Magistrate Court</option>
+            <option value="TN-EGM-CMM">Egmore CMM Court, Chennai</option>
+            <option value="TN-TAM-JMFC">Tambaram Subordinate &amp; JMFC Court</option>
+            <option value="WB-SEA-MM">Sealdah MM Court, Kolkata</option>
+            <option value="WB-BID-ACJM">Bidhannagar (Salt Lake) ACJM Court</option>
+            <option value="UP-GZB-MOD">Modinagar Tehsil Court (Ghaziabad)</option>
+            <option value="GUJ-SAN-JMFC">Sanand Taluka JMFC Court</option>
+            <option value="TG-NAM-MM">Nampally Criminal Courts (Hyderabad)</option>
+            <option value="TG-KUK-JMFC">Kukatpally JMFC Court (Hyderabad)</option>
+            <option value="KL-ALU-JMFC">Aluva Munsiff &amp; JMFC Court (Kerala)</option>
+            <option value="RJ-SAN-JMFC">Sanganer Additional Civil &amp; JMFC Court (Jaipur)</option>
+          </optgroup>
+        </select>
+
         <!-- Location Filter -->
         <select id="lawyer-location-select" class="directory-select" aria-label="Filter by location">
-          <option value="All Locations">All Practice Locations</option>
-          <option value="New Delhi">New Delhi (NCR / Supreme Court)</option>
-          <option value="Mumbai">Mumbai (Maharashtra / Bombay HC)</option>
-          <option value="Bengaluru">Bengaluru (Karnataka HC)</option>
-          <option value="Chennai">Chennai (Madras HC)</option>
+          <option value="All Locations">All Practice Locations (All India)</option>
+          <option value="New Delhi">New Delhi (National Capital Region)</option>
+          <option value="Mumbai">Mumbai (Maharashtra)</option>
+          <option value="Bengaluru">Bengaluru (Karnataka)</option>
+          <option value="Chennai">Chennai (Tamil Nadu)</option>
+          <option value="Kolkata">Kolkata (West Bengal)</option>
+          <option value="Hyderabad">Hyderabad (Telangana)</option>
+          <option value="Ahmedabad">Ahmedabad (Gujarat)</option>
+          <option value="Jaipur">Jaipur (Rajasthan)</option>
+          <option value="Kochi">Kochi / Ernakulam (Kerala)</option>
+          <option value="Pune">Pune (Maharashtra)</option>
+          <option value="Greater Noida">Greater Noida / Lucknow (Uttar Pradesh)</option>
+          <option value="Chandigarh">Chandigarh (Punjab &amp; Haryana)</option>
         </select>
 
         <!-- Hourly Fee Filter -->
@@ -271,6 +418,20 @@
       <button class="pill-chip" data-specialty="Healthcare Law">Healthcare Law</button>
     </div>
 
+    <!-- JURISDICTION & LEGAL AREA ADVISORY BANNER (Shown when Court or Specialty is filtered) -->
+    <div class="court-jurisdiction-rule-banner hidden" id="directory-jurisdiction-rule-banner" style="margin-bottom: 24px;">
+      <div class="rule-banner-icon">⚖️</div>
+      <div class="rule-banner-content">
+        <div class="rule-banner-header">
+          <span class="rule-banner-tag">COURT JURISDICTION &amp; STATUTORY RULES</span>
+          <h5 class="rule-banner-title" id="dir-rule-banner-title">Jurisdiction &amp; Practice Rules</h5>
+        </div>
+        <div class="rule-banner-acts" id="dir-rule-banner-acts">Governing Indian Statute / Procedural Code</div>
+        <p class="rule-banner-desc" id="dir-rule-banner-desc">Legal rules and procedural requirements governing practice before this court in this specialty.</p>
+        <div class="rule-banner-meta" id="dir-rule-banner-meta">Prerequisites &amp; Appellate Hierarchy</div>
+      </div>
+    </div>
+
     <!-- DYNAMIC LAWYERS GRID -->
     <div class="lawyers-grid" id="lawyers-grid">
       <!-- Populated dynamically by lawyers.js -->
@@ -331,6 +492,14 @@
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
+          </div>
+        </div>
+
+        <div class="lawyer-modal-section">
+          <h4 class="lawyer-msection-title">⚖️ Practicing Courts &amp; Jurisdictions</h4>
+          <div class="lawyer-minfo-row">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+            <span id="lawyer-modal-courts" style="color:var(--gold-light); font-weight:500;">Supreme Court of India · High Court of Delhi</span>
           </div>
         </div>
 
@@ -487,11 +656,22 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-col brand-col">
-        <a href="index.html" class="footer-logo">
-          <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-          </svg>
-          <span class="logo-text">Legal<span class="gold">AI</span></span>
+        <a href="index.html" class="logo" style="gap: 10px; margin-bottom: 12px; display: inline-flex;">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+              <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#footerLogoGrad)"/>
+              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="footerLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                  <stop offset="0%" stop-color="#b8956a"/>
+                  <stop offset="100%" stop-color="#8b6914"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
         </a>
         <p class="footer-tagline">Elite human legal expertise combined with verified state bar credentials and intelligent AI legal workflows.</p>
       </div>
@@ -529,7 +709,8 @@
     </div>
   </footer>
 
-  <script src="lawyers.js?v=2.6.3"></script>
+  <script src="indianCourts.js?v=2.7.0"></script>
+  <script src="lawyers.js?v=2.7.0"></script>
 </body>
 </html>
 

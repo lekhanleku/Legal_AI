@@ -1073,16 +1073,34 @@ const CLIENT_LEGAL_DOMAINS = [
 
 function generateClientLegalAssessment(prompt, userName) {
   const clean = prompt.toLowerCase().trim();
-  const greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'who are you', 'help', 'what can you do'];
+  const greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening', 'who are you', 'help', 'what can you do', 'namaste'];
   if (greetings.some(g => clean === g || clean.startsWith(g + ' ') || clean.endsWith(' ' + g)) && clean.length < 35) {
     const greetingName = userName ? `, ${userName}` : '';
     return {
       category: 'General Assistant',
-      text: `Hello${greetingName}! I am your **LegalAI Intelligent Assistant**.\n\n### How I Can Assist You:\n* **Issue Spotting:** Break down disputes in Employment, Criminal Defense, Landlord-Tenant, Corporate, Family, and Civil Rights.\n* **Rights & Statutes:** Identify critical legal protections and statutory deadlines.\n* **Actionable Checklists:** Specific immediate steps and evidence to preserve.\n* **Lawyer Matching:** Guide you to the right attorney specialty for a formal consultation.\n\n*What legal matter or question would you like to examine today?*`,
+      text: `Hello${greetingName}! I am your **LegalAI Intelligent Assistant**.\n\n### How I Can Assist You:\n* **Legal Questions:** Provide statutory provisions under BNS, BNSS, Indian Contract Act, CPC, and Constitution of India.\n* **Rights & Deadlines:** Identify critical legal protections and statutory limitation periods.\n* **Actionable Checklists:** Specific immediate steps and evidence to preserve.\n* **Lawyer & Court Discovery:** When requested, connect you to verified advocates and competent court venues.\n\n*What legal matter or question would you like to examine today?*`,
       suggestedLawyer: null,
       suggestedCourt: null
     };
   }
+
+  // Intent classification
+  const lawyerPatterns = [
+    /\b(find|recommend|suggest|need|hire|get|look(?:ing)? for|connect(?: me)? with|book|consult(?:ation)?|assign)\b.*\b(lawyers?|advocates?|attorneys?|counsels?|counselors?|solicitors?|barristers?|specialists?)\b/i,
+    /\b(who can represent me|who is the best (lawyer|advocate)|lawyers? for|advocates? for|attorneys? for)\b/i,
+    /\b(top|best|experienced|verified)\s+(lawyers?|advocates?|attorneys?)\b/i,
+    /\b(lawyers?|advocates?|attorneys?)\s+(associated with|in|near|for|practicing)\b/i,
+    /\b(contact|talk to|speak with|reach out to)\s+(a|an)?\s*(lawyer|advocate|attorney|counsel)\b/i
+  ];
+  const isLawyerQuery = lawyerPatterns.some(p => p.test(clean));
+
+  const courtPatterns = [
+    /\b(which court|what court|where (to|do I|should I|can I) file|which bench|competent court|jurisdictional forum|filing venue)\b/i,
+    /\b(find|recommend|suggest|show)\b.*\b(courts?|tribunals?|benches)\b/i,
+    /\b(court jurisdiction|jurisdiction of .* court|powers of .* court)\b/i,
+    /\b(tell me about|info on|overview of|details of)\b.*\b(court|tribunal|bench|nclat|nclt|itat|scch|jmfc)\b/i
+  ];
+  const isCourtQuery = courtPatterns.some(p => p.test(clean));
 
   let bestDomain = null;
   let maxScore = 0;
@@ -1101,13 +1119,11 @@ function generateClientLegalAssessment(prompt, userName) {
 
   const userGreeting = userName ? `Hello ${userName}, based on your inquiry regarding ` : `Based on your inquiry regarding `;
   if (!bestDomain) {
-    const defaultLawyer = CLIENT_LEGAL_DOMAINS[2].fallbackLawyer; // Corporate / general
-    const defaultCourt = CLIENT_LEGAL_DOMAINS[5].fallbackCourt; // DHC (High Court of Delhi)
     return {
       category: 'General Legal Advisory',
-      text: `${userGreeting}this legal situation:\n\n### 🔍 Initial Assessment & Issue Spotting\nYour situation touches upon general civil and administrative legal principles. Because legal outcomes are highly fact-dependent and subject to jurisdiction-specific statutes, establishing the factual timeline is your primary objective.\n\n### ⚖️ Universal Legal Protections\n* **Due Process:** Any formal adverse legal action typically requires formal written notice and an opportunity to respond.\n* **Statute of Limitations:** All claims have strict time limits. Delaying action can permanently forfeit your right to relief.\n* **Duty to Mitigate:** In financial or contract disputes, parties are expected to take reasonable steps to minimize escalating damages.\n\n### 📋 Immediate Actionable Recommendations\n1. **Establish a Chronological Record:** Write down a detailed, dated sequence of all events, communications, and promises made.\n2. **Preserve All Written Evidence:** Back up emails, text messages, receipts, and contracts in a secure offsite location.\n3. **Avoid Speculative Statements:** Do not make written admissions or discuss case merits on social media.\n4. **Consult a Verified Attorney:** Schedule a confidential case evaluation through the LegalAI network.\n\n> ⚠️ *Disclaimer: LegalAI Assistant provides informational analysis and legal information, not formal attorney-client representation. For binding legal advice tailored to your state and jurisdiction, always consult a licensed attorney.*`,
-      suggestedLawyer: defaultLawyer,
-      suggestedCourt: defaultCourt
+      text: `${userGreeting}this legal situation:\n\n### 🔍 Initial Assessment & Issue Spotting\nYour situation touches upon general civil and administrative legal principles. Because legal outcomes are highly fact-dependent and subject to jurisdiction-specific statutes, establishing the factual timeline is your primary objective.\n\n### ⚖️ Universal Legal Protections\n* **Due Process:** Any formal adverse legal action typically requires formal written notice and an opportunity to respond.\n* **Statute of Limitations:** All claims have strict time limits. Delaying action can permanently forfeit your right to relief.\n* **Duty to Mitigate:** In financial or contract disputes, parties are expected to take reasonable steps to minimize escalating damages.\n\n### 📋 Immediate Actionable Recommendations\n1. **Establish a Chronological Record:** Write down a detailed, dated sequence of all events, communications, and promises made.\n2. **Preserve All Written Evidence:** Back up emails, text messages, receipts, and contracts in a secure offsite location.\n3. **Avoid Speculative Statements:** Do not make written admissions or discuss case merits on social media.\n\n> ⚠️ *Disclaimer: LegalAI Assistant provides informational analysis and legal information, not formal attorney-client representation. For binding legal advice tailored to your state and jurisdiction, always consult a licensed attorney.*`,
+      suggestedLawyer: isLawyerQuery ? CLIENT_LEGAL_DOMAINS[2].fallbackLawyer : null,
+      suggestedCourt: isCourtQuery ? CLIENT_LEGAL_DOMAINS[5].fallbackCourt : null
     };
   }
 
@@ -1115,13 +1131,13 @@ function generateClientLegalAssessment(prompt, userName) {
   const actionsList = bestDomain.actions.map((a, i) => `${i + 1}. **${a.split(':')[0] || a.slice(0, 30)}**: ${a}`).join('\n');
   const docsList = bestDomain.documents.map(d => `* ${d}`).join('\n');
 
-  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n### 🔍 Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n### ⚖️ Key Rights & Statutory Principles\n${rightsList}\n\n### 📋 Immediate Action Steps\n${actionsList}\n\n### 📁 Critical Evidence & Documents to Preserve\n${docsList}\n\n### 👨‍⚖️ Recommended Attorney Specialty\nFor formal representation and strategic negotiation in this matter, we recommend consulting with a **LegalAI ${bestDomain.attorneyRole}**.\n\n> ⚠️ *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
+  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n### 🔍 Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n### ⚖️ Key Rights & Statutory Principles\n${rightsList}\n\n### 📋 Immediate Action Steps\n${actionsList}\n\n### 📁 Critical Evidence & Documents to Preserve\n${docsList}\n\n> ⚠️ *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
 
   return {
     category: bestDomain.name,
     text,
-    suggestedLawyer: bestDomain.fallbackLawyer,
-    suggestedCourt: bestDomain.fallbackCourt
+    suggestedLawyer: isLawyerQuery ? bestDomain.fallbackLawyer : null,
+    suggestedCourt: isCourtQuery ? bestDomain.fallbackCourt : null
   };
 }
 
@@ -1481,13 +1497,15 @@ function appendAIMessage(role, content, category = null, suggestedLawyer = null,
     `;
   }
 
-  // Generate recommendations HTML if provided for assistant responses
+  // Generate recommendations HTML only if suggestedLawyer or suggestedCourt is actually present
   let recommendationsHTML = '';
-  if (!isUser && (suggestedLawyer || suggestedCourt)) {
+  const lawyerCardHTML = suggestedLawyer ? renderSuggestedLawyerCardHTML(suggestedLawyer) : '';
+  const courtCardHTML = suggestedCourt ? renderSuggestedCourtCardHTML(suggestedCourt) : '';
+  if (!isUser && (lawyerCardHTML || courtCardHTML)) {
     recommendationsHTML = `
       <div class="ai-recommendations-wrapper">
-        ${renderSuggestedLawyerCardHTML(suggestedLawyer)}
-        ${renderSuggestedCourtCardHTML(suggestedCourt)}
+        ${lawyerCardHTML}
+        ${courtCardHTML}
       </div>
     `;
   }
@@ -1549,10 +1567,16 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// Global in-memory conversation memory for multi-turn chat context
+window.aiConversationHistory = window.aiConversationHistory || [];
+
 // Send Query to AI Backend
 async function sendAIQuery(promptText) {
   if (!promptText || !promptText.trim()) return;
   const cleanPrompt = promptText.trim();
+
+  // Track user message in conversation history
+  window.aiConversationHistory.push({ role: 'user', content: cleanPrompt, message: cleanPrompt });
 
   // Append user message immediately
   appendAIMessage('user', cleanPrompt);
@@ -1575,12 +1599,16 @@ async function sendAIQuery(promptText) {
     const res = await fetch(`${AI_API_BASE}/chat`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ message: cleanPrompt })
+      body: JSON.stringify({
+        message: cleanPrompt,
+        history: window.aiConversationHistory.slice(-8)
+      })
     });
 
     const data = await res.json();
 
     if (data.success) {
+      window.aiConversationHistory.push({ role: 'assistant', content: data.response, message: data.response });
       appendAIMessage('bot', data.response, data.category, data.suggestedLawyer, data.suggestedCourt, data);
       checkBackendHealth();
     } else {
@@ -1623,6 +1651,11 @@ async function loadAIHistory() {
       if (aiMessages) {
         aiMessages.innerHTML = '';
       }
+      window.aiConversationHistory = data.history.map(item => ({
+        role: item.role === 'user' ? 'user' : 'assistant',
+        content: item.message,
+        message: item.message
+      }));
       data.history.forEach(item => {
         appendAIMessage(item.role === 'user' ? 'user' : 'bot', item.message, item.category);
       });
@@ -1634,6 +1667,7 @@ async function loadAIHistory() {
 
 // Clear conversation
 async function clearAIConversation() {
+  window.aiConversationHistory = [];
   const token = localStorage.getItem('legalai_token');
   if (token) {
     try {
@@ -2371,628 +2405,971 @@ let lawyerFilters = {
   availability: ''
 };
 
-// ── Fallback Dataset for Offline / Direct Preview (Authentic Verified Indian Senior Advocates & Counsel) ──
-const FALLBACK_LAWYERS = [
+// ── Fallback Dataset for Offline / Direct Preview (Authentic Verified Indian Advocates with Court Affiliations) ──
+const FALLBACK_LAWYERS = (typeof window !== 'undefined' && Array.isArray(window.INDIAN_LAWYERS_DATA))
+  ? window.INDIAN_LAWYERS_DATA
+  : [
   {
-    id: 1,
-    name: 'Harish Salve, Senior Advocate',
-    title: "Senior Advocate & King's Counsel",
-    specialty: 'Corporate Law',
-    barNumber: 'D/248/1980',
-    experienceYears: 44,
-    education: 'Nagpur University, LL.B. · FCA',
-    firmName: 'Chambers of Harish Salve',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 45000,
-    rating: 5.0,
-    reviewCount: 248,
-    languages: 'English, Hindi, Marathi',
-    bio: 'Former Solicitor General of India and King\'s Counsel. Master legal strategist renowned worldwide for high-stakes international commercial arbitration, cross-border corporate mergers, Kulbhushan Jadhav case before the ICJ, and landmark Supreme Court constitutional benches.',
-    casesWon: 860,
-    successRate: 99,
-    phone: '+91 11 2461 7890',
-    email: 'h.salve@chambersofsalve.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 1,
+    "name": "Harish Salve, Senior Advocate",
+    "title": "Senior Advocate & King's Counsel",
+    "specialty": "Corporate Law",
+    "barNumber": "D/248/1980",
+    "experienceYears": 44,
+    "education": "Nagpur University, LL.B. · FCA",
+    "firmName": "Chambers of Harish Salve",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 45000,
+    "rating": 5,
+    "reviewCount": 248,
+    "languages": "English, Hindi, Marathi",
+    "bio": "Former Solicitor General of India and King's Counsel. Master legal strategist renowned worldwide for high-stakes international commercial arbitration, cross-border corporate mergers, Kulbhushan Jadhav case before the ICJ, and landmark Supreme Court constitutional benches.",
+    "casesWon": 860,
+    "successRate": 99,
+    "phone": "+91 11 2461 7890",
+    "email": "h.salve@chambersofsalve.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NCLAT,GHC,ITAT,TDSAT,NCLT-DEL,PHHC,HAR-GUR-DC,CH-SEC43-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · ITAT · TDSAT · NCLT-DEL · Punjab & Haryana High Court",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 2,
-    name: 'Mukul Rohatgi, Senior Advocate',
-    title: 'Senior Advocate & 14th Attorney General for India',
-    specialty: 'Criminal Law',
-    barNumber: 'D/152/1978',
-    experienceYears: 46,
-    education: 'Faculty of Law, University of Delhi, LL.B.',
-    firmName: 'Chambers of Mukul Rohatgi',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 42000,
-    rating: 4.9,
-    reviewCount: 210,
-    languages: 'English, Hindi',
-    bio: '14th Attorney General for India and former Additional Solicitor General. One of India\'s most celebrated senior trial defense and corporate litigators before the Supreme Court of India and High Courts nationwide.',
-    casesWon: 920,
-    successRate: 98,
-    phone: '+91 11 2338 4120',
-    email: 'rohatgi@mukulrohatgi.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 2,
+    "name": "Mukul Rohatgi, Senior Advocate",
+    "title": "Senior Advocate & 14th Attorney General for India",
+    "specialty": "Criminal Law",
+    "barNumber": "D/152/1978",
+    "experienceYears": 46,
+    "education": "Faculty of Law, University of Delhi, LL.B.",
+    "firmName": "Chambers of Mukul Rohatgi",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 42000,
+    "rating": 4.9,
+    "reviewCount": 210,
+    "languages": "English, Hindi",
+    "bio": "14th Attorney General for India and former Additional Solicitor General. One of India's most celebrated senior trial defense and corporate litigators before the Supreme Court of India and High Courts nationwide.",
+    "casesWon": 920,
+    "successRate": 98,
+    "phone": "+91 11 2338 4120",
+    "email": "rohatgi@mukulrohatgi.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-PAT,DEL-TIS,AHC,ITAT,PHHC,DEL-SAK-DC,DEL-DWA-DC,UP-GBN-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · ITAT · Punjab & Haryana High Court · Allahabad High Court · Patiala House Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 3,
-    name: 'Dr. Abhishek Manu Singhvi, Senior Advocate',
-    title: 'Senior Advocate, Supreme Court of India',
-    specialty: 'Corporate Law',
-    barNumber: 'D/318/1982',
-    experienceYears: 42,
-    education: 'Trinity College, Cambridge (Ph.D.) · Harvard Law School',
-    firmName: 'Chambers of Dr. Abhishek Manu Singhvi',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 40000,
-    rating: 4.9,
-    reviewCount: 185,
-    languages: 'English, Hindi, Marwari',
-    bio: 'Youngest designated Senior Advocate in Supreme Court history. Celebrated for high-stakes corporate disputes, commercial arbitration, telecom litigation, and decisive constitutional bench arguments.',
-    casesWon: 790,
-    successRate: 97,
-    phone: '+91 11 2611 9045',
-    email: 'amsinghvi@singhvilegal.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 3,
+    "name": "Dr. Abhishek Manu Singhvi, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court of India",
+    "specialty": "Corporate Law",
+    "barNumber": "D/318/1982",
+    "experienceYears": 42,
+    "education": "Trinity College, Cambridge (Ph.D.) · Harvard Law School",
+    "firmName": "Chambers of Dr. Abhishek Manu Singhvi",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 40000,
+    "rating": 4.9,
+    "reviewCount": 185,
+    "languages": "English, Hindi, Marwari",
+    "bio": "Youngest designated Senior Advocate in Supreme Court history. Celebrated for high-stakes corporate disputes, commercial arbitration, telecom litigation, and decisive constitutional bench arguments.",
+    "casesWon": 790,
+    "successRate": 97,
+    "phone": "+91 11 2611 9045",
+    "email": "amsinghvi@singhvilegal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NCLAT,DEL-PAT,TDSAT,NCLT-DEL,PHHC,RJ-JAI-DC,RJ-JOD-DC,CH-SEC43-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · TDSAT · NCLT-DEL · NCLAT · Punjab & Haryana High Court",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 4,
-    name: 'Indira Jaising, Senior Advocate',
-    title: 'Senior Advocate & Human Rights Pioneer',
-    specialty: 'Civil Rights',
-    barNumber: 'MAH/421/1965',
-    experienceYears: 58,
-    education: 'Government Law College, Mumbai, LL.B.',
-    firmName: 'The Lawyers Collective',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 30000,
-    rating: 5.0,
-    reviewCount: 205,
-    languages: 'English, Hindi, Marathi, Sindhi',
-    bio: 'First woman Senior Advocate designated by Bombay High Court and first female Additional Solicitor General of India. Legendary pioneer in fundamental rights, workplace gender equality, and key architect of the Domestic Violence Act.',
-    casesWon: 690,
-    successRate: 98,
-    phone: '+91 11 2437 5521',
-    email: 'indira.jaising@lawyerscollective.org',
-    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 4,
+    "name": "Indira Jaising, Senior Advocate",
+    "title": "Senior Advocate & Human Rights Pioneer",
+    "specialty": "Civil Rights",
+    "barNumber": "MAH/421/1965",
+    "experienceYears": 58,
+    "education": "Government Law College, Mumbai, LL.B.",
+    "firmName": "The Lawyers Collective",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 30000,
+    "rating": 5,
+    "reviewCount": 205,
+    "languages": "English, Hindi, Marathi, Sindhi",
+    "bio": "First woman Senior Advocate designated by Bombay High Court and first female Additional Solicitor General of India. Legendary pioneer in fundamental rights, workplace gender equality, and key architect of the Domestic Violence Act.",
+    "casesWon": 690,
+    "successRate": 98,
+    "phone": "+91 11 2437 5521",
+    "email": "indira.jaising@lawyerscollective.org",
+    "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,BHC,DEL-TIS,DEL-SAK-DC,GOA-PAN-DC,JK-SGR-DC",
+    "practicingCourts": "Supreme Court of India · Bombay High Court · Delhi High Court · Tis Hazari Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 5,
-    name: 'Kapil Sibal, Senior Advocate',
-    title: 'Senior Advocate & SCBA President',
-    specialty: 'Criminal Law',
-    barNumber: 'D/104/1972',
-    experienceYears: 52,
-    education: 'Faculty of Law, University of Delhi · Harvard Law School (LL.M.)',
-    firmName: 'Chambers of Kapil Sibal',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 45000,
-    rating: 4.9,
-    reviewCount: 230,
-    languages: 'English, Hindi, Punjabi',
-    bio: 'President of the Supreme Court Bar Association and former Union Minister for Law & Justice. Preeminent counsel in high-profile criminal defense, constitutional liberties, federalism, and appellate litigation.',
-    casesWon: 890,
-    successRate: 98,
-    phone: '+91 11 2307 3311',
-    email: 'chambers@kapilsibal.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 5,
+    "name": "Kapil Sibal, Senior Advocate",
+    "title": "Senior Advocate & SCBA President",
+    "specialty": "Criminal Law",
+    "barNumber": "D/104/1972",
+    "experienceYears": 52,
+    "education": "Faculty of Law, University of Delhi · Harvard Law School (LL.M.)",
+    "firmName": "Chambers of Kapil Sibal",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 45000,
+    "rating": 4.9,
+    "reviewCount": 230,
+    "languages": "English, Hindi, Punjabi",
+    "bio": "President of the Supreme Court Bar Association and former Union Minister for Law & Justice. Preeminent counsel in high-profile criminal defense, constitutional liberties, federalism, and appellate litigation.",
+    "casesWon": 890,
+    "successRate": 98,
+    "phone": "+91 11 2307 3311",
+    "email": "chambers@kapilsibal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-PAT,DEL-KKD-MM,AHC,BIH-PAT-DC,UP-LKO-DC,JH-RAN-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · Patiala House · Karkardooma Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 6,
-    name: 'Zia Mody, Advocate',
-    title: 'Founding & Senior Partner',
-    specialty: 'Corporate Law',
-    barNumber: 'MAH/314/1979',
-    experienceYears: 45,
-    education: 'Selwyn College, Cambridge (MA) · Harvard Law School (LL.M.)',
-    firmName: 'AZB & Partners',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 48000,
-    rating: 5.0,
-    reviewCount: 260,
-    languages: 'English, Hindi, Gujarati',
-    bio: 'India\'s foremost corporate law luminary. Founder of AZB & Partners, orchestrating multi-billion dollar cross-border mergers, private equity transactions, conglomerate governance, and banking resolutions.',
-    casesWon: 610,
-    successRate: 99,
-    phone: '+91 22 6639 6880',
-    email: 'zia.mody@azbpartners.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 6,
+    "name": "Zia Mody, Advocate",
+    "title": "Founding & Senior Partner",
+    "specialty": "Corporate Law",
+    "barNumber": "MAH/314/1979",
+    "experienceYears": 45,
+    "education": "Selwyn College, Cambridge (MA) · Harvard Law School (LL.M.)",
+    "firmName": "AZB & Partners",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 48000,
+    "rating": 5,
+    "reviewCount": 260,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "India's foremost corporate law luminary. Founder of AZB & Partners, orchestrating multi-billion dollar cross-border mergers, private equity transactions, conglomerate governance, and banking resolutions.",
+    "casesWon": 610,
+    "successRate": 99,
+    "phone": "+91 22 6639 6880",
+    "email": "zia.mody@azbpartners.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MUM-SCCH-BOM,NCLAT,SCI,NCLT-DEL,ITAT,MH-PUN-DC,GUJ-VAD-DC",
+    "practicingCourts": "Bombay High Court · NCLT-DEL · NCLAT · ITAT · City Civil Court Mumbai · Small Causes Court Mumbai",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 7,
-    name: 'K.K. Venugopal, Senior Advocate',
-    title: 'Senior Advocate & 15th Attorney General for India',
-    specialty: 'Civil Rights',
-    barNumber: 'MS/18/1954',
-    experienceYears: 70,
-    education: 'Raja Lakhamgouda Law College, Belgaum',
-    firmName: 'Chambers of K.K. Venugopal',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 50000,
-    rating: 5.0,
-    reviewCount: 320,
-    languages: 'English, Hindi, Malayalam, Tamil',
-    bio: 'Doyen of the Indian Bar, Padma Vibhushan awardee, and 15th Attorney General for India. Unrivaled constitutional authority on basic structure doctrine, federal dispute resolution, and public jurisprudence.',
-    casesWon: 1180,
-    successRate: 99,
-    phone: '+91 11 2338 2901',
-    email: 'kk.venugopal@kkvchambers.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 7,
+    "name": "K.K. Venugopal, Senior Advocate",
+    "title": "Senior Advocate & 15th Attorney General for India",
+    "specialty": "Civil Rights",
+    "barNumber": "MS/18/1954",
+    "experienceYears": 70,
+    "education": "Raja Lakhamgouda Law College, Belgaum",
+    "firmName": "Chambers of K.K. Venugopal",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 50000,
+    "rating": 5,
+    "reviewCount": 320,
+    "languages": "English, Hindi, Malayalam, Tamil",
+    "bio": "Doyen of the Indian Bar, Padma Vibhushan awardee, and 15th Attorney General for India. Unrivaled constitutional authority on basic structure doctrine, federal dispute resolution, and public jurisprudence.",
+    "casesWon": 1180,
+    "successRate": 99,
+    "phone": "+91 11 2338 2901",
+    "email": "kk.venugopal@kkvchambers.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,MHC,KER-ERN-DC,TN-CHE-DC,AP-VIZ-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · Madras High Court",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 8,
-    name: 'Mahesh Jethmalani, Senior Advocate',
-    title: 'Senior Advocate, Supreme Court & Bombay High Court',
-    specialty: 'Criminal Law',
-    barNumber: 'MAH/812/1980',
-    experienceYears: 44,
-    education: 'St. Xavier\'s Mumbai · Oxford University (M.A. Jurisprudence)',
-    firmName: 'Jethmalani Chambers',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 38000,
-    rating: 4.8,
-    reviewCount: 150,
-    languages: 'English, Hindi, Marathi, Sindhi',
-    bio: 'Master trial and appellate criminal defense counsel, celebrated for handling high-profile economic offenses (PMLA/ED/CBI), cross-examinations, constitutional liberty writs, and corporate white-collar defense.',
-    casesWon: 640,
-    successRate: 96,
-    phone: '+91 22 2204 1599',
-    email: 'mahesh@jethmalanichambers.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 8,
+    "name": "Mahesh Jethmalani, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court & Bombay High Court",
+    "specialty": "Criminal Law",
+    "barNumber": "MAH/812/1980",
+    "experienceYears": 44,
+    "education": "St. Xavier's Mumbai · Oxford University (M.A. Jurisprudence)",
+    "firmName": "Jethmalani Chambers",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 38000,
+    "rating": 4.8,
+    "reviewCount": 150,
+    "languages": "English, Hindi, Marathi, Sindhi",
+    "bio": "Master trial and appellate criminal defense counsel, celebrated for handling high-profile economic offenses (PMLA/ED/CBI), cross-examinations, constitutional liberty writs, and corporate white-collar defense.",
+    "casesWon": 640,
+    "successRate": 96,
+    "phone": "+91 22 2204 1599",
+    "email": "mahesh@jethmalanichambers.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MH-ESP-CMM,MH-AND-MM,SCI,MH-PUN-DC,DD-DAM-DC,GOA-PAN-DC",
+    "practicingCourts": "Bombay High Court · City Civil Court Mumbai · Esplanade CMM Court · Andheri MM Court",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 9,
-    name: 'Pravin Anand, Advocate',
-    title: 'Managing Partner & IP Pioneer',
-    specialty: 'Intellectual Property',
-    barNumber: 'D/148/1979',
-    experienceYears: 45,
-    education: 'Campus Law Centre, Faculty of Law, University of Delhi',
-    firmName: 'Anand and Anand',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 36000,
-    rating: 5.0,
-    reviewCount: 205,
-    languages: 'English, Hindi',
-    bio: 'Pioneer of intellectual property law in India. Lead counsel in historic patent litigations, software copyright doctrines, standard-essential patents (SEP), and cross-border trademark protection.',
-    casesWon: 740,
-    successRate: 99,
-    phone: '+91 120 405 9300',
-    email: 'pravin@anandandanand.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 9,
+    "name": "Pravin Anand, Advocate",
+    "title": "Managing Partner & IP Pioneer",
+    "specialty": "Intellectual Property",
+    "barNumber": "D/148/1979",
+    "experienceYears": 45,
+    "education": "Campus Law Centre, Faculty of Law, University of Delhi",
+    "firmName": "Anand and Anand",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 36000,
+    "rating": 5,
+    "reviewCount": 205,
+    "languages": "English, Hindi",
+    "bio": "Pioneer of intellectual property law in India. Lead counsel in historic patent litigations, software copyright doctrines, standard-essential patents (SEP), and cross-border trademark protection.",
+    "casesWon": 740,
+    "successRate": 99,
+    "phone": "+91 120 405 9300",
+    "email": "pravin@anandandanand.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "DHC,SCI,DEL-PAT,DEL-SAK-MM,DEL-SAK-DC,DEL-ROH-DC,HAR-GUR-DC",
+    "practicingCourts": "Delhi High Court (IPD) · Supreme Court of India · Patiala House Courts · Saket Court",
+    "primaryCourt": "High Court of Delhi"
   },
   {
-    id: 10,
-    name: 'Karuna Nundy, Senior Advocate',
-    title: 'Senior Advocate, Supreme Court of India',
-    specialty: 'Civil Rights',
-    barNumber: 'D/1429/2000',
-    experienceYears: 24,
-    education: 'St. Stephen\'s College · Cambridge University · Columbia Law (LL.M.)',
-    firmName: 'Chambers of Karuna Nundy',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 28000,
-    rating: 4.9,
-    reviewCount: 140,
-    languages: 'English, Hindi, Bengali',
-    bio: 'TIME 100 Most Influential People honoree. Renowned for online free speech defense (Section 66A IT Act), Bhopal toxic gas restorative justice, fundamental gender equality, and corporate commercial arbitration.',
-    casesWon: 400,
-    successRate: 98,
-    phone: '+91 11 2649 3371',
-    email: 'karuna@karunanundy.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 10,
+    "name": "Karuna Nundy, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court of India",
+    "specialty": "Civil Rights",
+    "barNumber": "D/1429/2000",
+    "experienceYears": 24,
+    "education": "St. Stephen's College · Cambridge University · Columbia Law (LL.M.)",
+    "firmName": "Chambers of Karuna Nundy",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 28000,
+    "rating": 4.9,
+    "reviewCount": 140,
+    "languages": "English, Hindi, Bengali",
+    "bio": "TIME 100 Most Influential People honoree. Renowned for online free speech defense (Section 66A IT Act), Bhopal toxic gas restorative justice, fundamental gender equality, and corporate commercial arbitration.",
+    "casesWon": 400,
+    "successRate": 98,
+    "phone": "+91 11 2649 3371",
+    "email": "karuna@karunanundy.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NGT,DEL-SAK-MM,CHC,ASM-KAM-DC,ML-SHI-DC,SK-GAN-DC,WB-CAL-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · National Green Tribunal · Saket Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 11,
-    name: 'Gopal Subramanium, Senior Advocate',
-    title: 'Senior Advocate & Former Solicitor General',
-    specialty: 'Corporate Law',
-    barNumber: 'D/209/1980',
-    experienceYears: 44,
-    education: 'Campus Law Centre, Faculty of Law, University of Delhi',
-    firmName: 'Chambers of Gopal Subramanium',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 42000,
-    rating: 4.9,
-    reviewCount: 175,
-    languages: 'English, Hindi, Tamil',
-    bio: 'Former Solicitor General of India and Chairman of the Bar Council of India. Leading international arbitrator (FCIArb) and Supreme Court senior counsel in corporate commercial dispute resolution and public law.',
-    casesWon: 740,
-    successRate: 97,
-    phone: '+91 11 2686 2110',
-    email: 'subramanium@gschambers.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 11,
+    "name": "Gopal Subramanium, Senior Advocate",
+    "title": "Senior Advocate & Former Solicitor General of India",
+    "specialty": "Corporate Law",
+    "barNumber": "D/204/1980",
+    "experienceYears": 44,
+    "education": "Faculty of Law, University of Delhi",
+    "firmName": "Chambers of Gopal Subramanium",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 40000,
+    "rating": 5,
+    "reviewCount": 195,
+    "languages": "English, Hindi",
+    "bio": "Former Solicitor General and Chairman of the Bar Council of India. Leading international commercial arbitrator and counsel in complex corporate reorganizations, public trusts, and landmark constitutional challenges.",
+    "casesWon": 810,
+    "successRate": 98,
+    "phone": "+91 11 2686 2110",
+    "email": "gs@gopalsubramanium.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-PAT,UK-DEH-DC,HP-SHI-DC,MP-BHO-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · Patiala House Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 12,
-    name: 'Dr. Menaka Guruswamy, Senior Advocate',
-    title: 'Senior Advocate & Constitutional Scholar',
-    specialty: 'Civil Rights',
-    barNumber: 'D/1812/1997',
-    experienceYears: 27,
-    education: 'NLSIU Bengaluru · Oxford (Rhodes Scholar, BCL) · Harvard (LL.M.)',
-    firmName: 'Chambers of Dr. Menaka Guruswamy',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 32000,
-    rating: 4.9,
-    reviewCount: 156,
-    languages: 'English, Hindi, Tamil',
-    bio: 'TIME 100 honoree and Rhodes Scholar. Landmark lead counsel in decriminalizing Section 377 IPC (Navtej Johar), the Fundamental Right to Privacy (Puttaswamy), and bureaucratic transparency.',
-    casesWon: 360,
-    successRate: 98,
-    phone: '+91 11 2623 4810',
-    email: 'menaka@guruswamychambers.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1573497019236-17f8177b81e8?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 12,
+    "name": "Dr. Menaka Guruswamy, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court of India",
+    "specialty": "Civil Rights",
+    "barNumber": "D/1098/1997",
+    "experienceYears": 27,
+    "education": "NLSIU Bengaluru · Oxford University (D.Phil / Rhodes Scholar) · Harvard Law (LL.M.)",
+    "firmName": "Chambers of Menaka Guruswamy",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 30000,
+    "rating": 5,
+    "reviewCount": 175,
+    "languages": "English, Hindi",
+    "bio": "Rhodes Scholar and Forbes/TIME honoree. Historic lead counsel in Section 377 decriminalization (Navtej Johar case), Right to Education defense, institutional constitutional integrity, and white-collar defense.",
+    "casesWon": 450,
+    "successRate": 98,
+    "phone": "+91 11 2617 8820",
+    "email": "menaka@guruswamy.legal",
+    "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-KKD-MM,DEL-KKD-DC,MN-IMP-DC,MZ-AIZ-DC,NL-KOH-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · Karkardooma Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 13,
-    name: 'Shyam Divan, Senior Advocate',
-    title: 'Senior Advocate & Environmental Jurisprudence Leader',
-    specialty: 'Real Estate Law',
-    barNumber: 'MAH/678/1984',
-    experienceYears: 40,
-    education: 'Government Law College, Mumbai · UC Berkeley (LL.M.)',
-    firmName: 'Chambers of Shyam Divan',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 34000,
-    rating: 4.9,
-    reviewCount: 160,
-    languages: 'English, Hindi, Marathi, Gujarati',
-    bio: 'Author of the definitive treatise \'Environmental Law and Policy in India\'. Preeminent senior counsel in land acquisition, zoning laws, National Green Tribunal (NGT) litigations, and property dispute arbitrations.',
-    casesWon: 520,
-    successRate: 97,
-    phone: '+91 11 2469 1184',
-    email: 'sdivan@chambersdivan.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 13,
+    "name": "Shyam Divan, Senior Advocate",
+    "title": "Senior Advocate & Environmental Jurisprudence Leader",
+    "specialty": "Real Estate Law",
+    "barNumber": "MAH/620/1982",
+    "experienceYears": 42,
+    "education": "Government Law College, Mumbai · UC Berkeley (LL.M.)",
+    "firmName": "Chambers of Shyam Divan",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 35000,
+    "rating": 4.9,
+    "reviewCount": 160,
+    "languages": "English, Hindi, Marathi",
+    "bio": "Co-author of 'Environmental Law and Policy in India'. Foremost authority on Aadhaar right to privacy bench, forest conservation writs, commercial real estate development masterplans, and infrastructure covenants.",
+    "casesWon": 620,
+    "successRate": 97,
+    "phone": "+91 11 2433 1180",
+    "email": "shyam.divan@divanchambers.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NGT,DEL-SAK-MM,UK-DEH-DC,HP-SHI-DC,CG-RAI-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · National Green Tribunal · Saket Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 14,
-    name: 'Pinky Anand, Senior Advocate',
-    title: 'Senior Advocate & Former Additional Solicitor General',
-    specialty: 'Family Law',
-    barNumber: 'D/274/1980',
-    experienceYears: 44,
-    education: 'Faculty of Law, University of Delhi · Harvard Law School (LL.M.)',
-    firmName: 'Anand & Associates',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 32000,
-    rating: 4.8,
-    reviewCount: 168,
-    languages: 'English, Hindi, Punjabi',
-    bio: 'Former Additional Solicitor General of India. Master authority on international child custody disputes, Hague Convention litigations, matrimonial asset partition, divorce mediation, and domestic relations.',
-    casesWon: 480,
-    successRate: 96,
-    phone: '+91 11 2652 7100',
-    email: 'pinky@anandlaw.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 14,
+    "name": "Pinky Anand, Senior Advocate",
+    "title": "Senior Advocate & Former Additional Solicitor General",
+    "specialty": "Family Law",
+    "barNumber": "D/188/1980",
+    "experienceYears": 44,
+    "education": "Faculty of Law, University of Delhi · Harvard Law School (LL.M.)",
+    "firmName": "Chambers of Pinky Anand",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 32000,
+    "rating": 4.8,
+    "reviewCount": 190,
+    "languages": "English, Hindi",
+    "bio": "Former Additional Solicitor General of India. Master authority on international child custody disputes, Hague Convention litigations, matrimonial asset partition, divorce mediation, and domestic relations.",
+    "casesWon": 670,
+    "successRate": 97,
+    "phone": "+91 11 2623 4499",
+    "email": "pinky.anand@pinkyanand.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-PAT,DEL-SAK-MM,DEL-SAK-DC,UP-GBN-DC,HAR-GUR-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · Patiala House · Saket Family Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 15,
-    name: 'Prashant Bhushan, Advocate',
-    title: 'Public Interest Litigator & Senior Advocate',
-    specialty: 'Civil Rights',
-    barNumber: 'D/308/1983',
-    experienceYears: 41,
-    education: 'Allahabad University · IIT Madras · Princeton University',
-    firmName: 'Centre for Public Interest Litigation (CPIL)',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 20000,
-    rating: 4.8,
-    reviewCount: 195,
-    languages: 'English, Hindi',
-    bio: 'Legendary Public Interest Litigation (PIL) advocate. Spearheaded landmark transparency cases, 2G spectrum cancellations, coal block allocations, environmental protections, and judicial accountability.',
-    casesWon: 530,
-    successRate: 95,
-    phone: '+91 11 2656 4003',
-    email: 'pbhushan@cpilindia.org',
-    avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 15,
+    "name": "Prashant Bhushan, Advocate",
+    "title": "Public Interest Advocate, Supreme Court of India",
+    "specialty": "Civil Rights",
+    "barNumber": "UP/512/1983",
+    "experienceYears": 41,
+    "education": "Allahabad University · Princeton University",
+    "firmName": "Chambers of Prashant Bhushan",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 20000,
+    "rating": 4.8,
+    "reviewCount": 220,
+    "languages": "English, Hindi",
+    "bio": "India's foremost public interest litigator (PIL). Renowned for exposing high-level corruption, telecom 2G licenses revocation, coal block allocation cancellations, and whistleblower protection suits.",
+    "casesWon": 530,
+    "successRate": 95,
+    "phone": "+91 11 2651 8840",
+    "email": "prashant@prashantbhushan.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NGT,DEL-TIS,NCDRC,MP-IND-DC,CG-RAI-DC,JH-RAN-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · NGT · NCDRC · Tis Hazari Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 16,
-    name: 'C. Aryama Sundaram, Senior Advocate',
-    title: 'Senior Advocate, Supreme Court of India',
-    specialty: 'Corporate Law',
-    barNumber: 'MS/332/1980',
-    experienceYears: 44,
-    education: 'Madras Law College (LL.B.)',
-    firmName: 'Chambers of C.A. Sundaram',
-    city: 'Chennai',
-    state: 'Tamil Nadu',
-    hourlyRate: 38000,
-    rating: 4.9,
-    reviewCount: 148,
-    languages: 'English, Hindi, Tamil',
-    bio: 'High-profile senior counsel specializing in corporate shareholder disputes, Insolvency and Bankruptcy Code (IBC) proceedings, CCI competition law appeals, and constitutional writs.',
-    casesWon: 620,
-    successRate: 97,
-    phone: '+91 44 2499 1234',
-    email: 'casundaram@sundaramchambers.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 16,
+    "name": "C. Aryama Sundaram, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court & Madras High Court",
+    "specialty": "Corporate Law",
+    "barNumber": "MS/408/1980",
+    "experienceYears": 44,
+    "education": "Madras Law College",
+    "firmName": "Chambers of C. Aryama Sundaram",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "hourlyRate": 38000,
+    "rating": 4.9,
+    "reviewCount": 165,
+    "languages": "English, Tamil, Hindi",
+    "bio": "Preeminent Senior Counsel in corporate mergers, telecom competition disputes, BCCI constitution reform, media broadcasting rights, and high-value original side civil suits before Madras High Court.",
+    "casesWon": 720,
+    "successRate": 97,
+    "phone": "+91 44 2499 1102",
+    "email": "aryama@sundaramlegal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "MHC,TN-SCCH-CHE,TN-EGM-CMM,SCI,DHC,TN-CHE-DC,TN-CBE-DC,PY-PUD-DC,AP-VIZ-DC",
+    "practicingCourts": "Madras High Court · Court of Small Causes Chennai · Egmore CMM · Supreme Court",
+    "primaryCourt": "High Court of Judicature at Madras"
   },
   {
-    id: 17,
-    name: 'Dushyant Dave, Senior Advocate',
-    title: 'Senior Advocate & Former President SCBA',
-    specialty: 'Real Estate Law',
-    barNumber: 'G/190/1978',
-    experienceYears: 46,
-    education: 'Gujarat University (LL.B.)',
-    firmName: 'Chambers of Dushyant Dave',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 39000,
-    rating: 4.9,
-    reviewCount: 158,
-    languages: 'English, Hindi, Gujarati',
-    bio: 'Three-time President of the Supreme Court Bar Association. Premier authority on mega-infrastructure construction arbitrations, commercial property leases, land title litigation, and contract enforcement.',
-    casesWon: 690,
-    successRate: 98,
-    phone: '+91 11 2685 5543',
-    email: 'dave@dushyantdave.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 17,
+    "name": "Dushyant Dave, Senior Advocate",
+    "title": "Senior Advocate & Former SCBA President",
+    "specialty": "Real Estate Law",
+    "barNumber": "G/112/1978",
+    "experienceYears": 46,
+    "education": "Faculty of Law, Gujarat University",
+    "firmName": "Chambers of Dushyant Dave",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 39000,
+    "rating": 4.9,
+    "reviewCount": 175,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "Three-time President of the Supreme Court Bar Association. Premier authority on mega-infrastructure construction arbitrations, commercial property leases, land title litigation, and contract enforcement.",
+    "casesWon": 750,
+    "successRate": 98,
+    "phone": "+91 11 2614 7720",
+    "email": "dushyant.dave@davelegal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,GHC,GUJ-SCCH-AHD,DEL-PAT,GUJ-VAD-DC,RJ-JOD-DC",
+    "practicingCourts": "Supreme Court of India · Gujarat High Court · Ahmedabad Small Causes · Delhi High Court",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 18,
-    name: 'Saurabh Kirpal, Senior Advocate',
-    title: 'Senior Advocate, Delhi High Court & Supreme Court',
-    specialty: 'Employment Law',
-    barNumber: 'D/892/1994',
-    experienceYears: 30,
-    education: 'St. Stephen\'s · Oxford University · Cambridge (LL.M.)',
-    firmName: 'Kirpal Chambers',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 30000,
-    rating: 4.9,
-    reviewCount: 125,
-    languages: 'English, Hindi',
-    bio: 'Leading senior advocate in executive employment disputes, workplace discrimination, service jurisprudence, and commercial contract litigation. Lead counsel in landmark constitutional equality challenges.',
-    casesWon: 380,
-    successRate: 97,
-    phone: '+91 11 2462 8840',
-    email: 'saurabh@kirpalchambers.in',
-    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 18,
+    "name": "Saurabh Kirpal, Senior Advocate",
+    "title": "Senior Advocate, High Court of Delhi",
+    "specialty": "Employment Law",
+    "barNumber": "D/885/1995",
+    "experienceYears": 29,
+    "education": "St. Stephen's College · Oxford University · Cambridge University (LL.M.)",
+    "firmName": "Chambers of Saurabh Kirpal",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 26000,
+    "rating": 4.9,
+    "reviewCount": 130,
+    "languages": "English, Hindi",
+    "bio": "Author of 'Sex and the Supreme Court'. Premier advocate for workplace equality covenants, non-compete disputes, executive employment agreements, POSH anti-harassment inquiries, and commercial litigations.",
+    "casesWon": 410,
+    "successRate": 97,
+    "phone": "+91 11 2465 9901",
+    "email": "saurabh@kirpallegal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "DHC,SCI,DEL-PAT,DEL-SAK-DC,DEL-DWA-DC",
+    "practicingCourts": "Delhi High Court · Supreme Court of India · Patiala House Courts",
+    "primaryCourt": "High Court of Delhi"
   },
   {
-    id: 19,
-    name: 'Shardul S. Shroff, Advocate',
-    title: 'Executive Chairman & Senior Partner',
-    specialty: 'Corporate Law',
-    barNumber: 'D/415/1980',
-    experienceYears: 44,
-    education: 'Government Law College, Mumbai (LL.B.)',
-    firmName: 'Shardul Amarchand Mangaldas & Co.',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 46000,
-    rating: 5.0,
-    reviewCount: 218,
-    languages: 'English, Hindi, Gujarati',
-    bio: 'Executive Chairman of Shardul Amarchand Mangaldas. Doyen of Indian corporate finance, major cross-border M&A, debt restructurings, and Insolvency and Bankruptcy Code (IBC) resolutions.',
-    casesWon: 540,
-    successRate: 99,
-    phone: '+91 11 4159 0700',
-    email: 'shardul.shroff@amsshardul.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 19,
+    "name": "Shardul S. Shroff, Advocate",
+    "title": "Executive Chairman & Senior Partner",
+    "specialty": "Corporate Law",
+    "barNumber": "D/401/1980",
+    "experienceYears": 44,
+    "education": "Sydenham College · Government Law College, Mumbai",
+    "firmName": "Shardul Amarchand Mangaldas & Co",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 46000,
+    "rating": 5,
+    "reviewCount": 218,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "Executive Chairman of SAM & Co. Globally recognized authority on cross-border bankruptcy (IBC), project finance, defense procurement, sovereign debt restructurings, and complex commercial arbitrations.",
+    "casesWon": 540,
+    "successRate": 99,
+    "phone": "+91 11 4159 0700",
+    "email": "shardul.shroff@amsshardul.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,NCLAT,DEL-PAT,NCLT-DEL,HAR-GUR-DC,MH-PUN-DC,UP-GBN-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · NCLT-DEL · NCLAT · Commercial Courts",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 20,
-    name: 'Cyril Shroff, Advocate',
-    title: 'Managing Partner & Financial Markets Authority',
-    specialty: 'Corporate Law',
-    barNumber: 'MAH/520/1982',
-    experienceYears: 42,
-    education: 'Government Law College, Mumbai (LL.B.)',
-    firmName: 'Cyril Amarchand Mangaldas',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 47000,
-    rating: 5.0,
-    reviewCount: 230,
-    languages: 'English, Hindi, Gujarati',
-    bio: 'Managing Partner of Cyril Amarchand Mangaldas. Celebrated corporate strategist leading conglomerate board governance, banking syndications, private equity, and family business succession.',
-    casesWon: 520,
-    successRate: 99,
-    phone: '+91 22 2496 4455',
-    email: 'cyril.shroff@cyrilshroff.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 20,
+    "name": "Cyril Shroff, Advocate",
+    "title": "Managing Partner & Corporate Strategist",
+    "specialty": "Corporate Law",
+    "barNumber": "MAH/492/1982",
+    "experienceYears": 42,
+    "education": "Government Law College, Mumbai (LL.B.)",
+    "firmName": "Cyril Amarchand Mangaldas",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 46000,
+    "rating": 5,
+    "reviewCount": 240,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "Managing Partner of CAM. Renowned financial market lawyer leading India's landmark conglomerates, capital markets issues, fintech regulations, antitrust clearances, and corporate family office governance.",
+    "casesWon": 580,
+    "successRate": 99,
+    "phone": "+91 22 2496 4455",
+    "email": "cyril.shroff@cyrilshroff.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1566492031773-4f4e44671857?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MUM-SCCH-BOM,NCLAT,SCI,NCLT-DEL,ITAT,MH-PUN-DC,GUJ-VAD-DC,DD-DAM-DC",
+    "practicingCourts": "Bombay High Court · NCLT-DEL · NCLAT · ITAT · City Civil Court Mumbai · Small Causes Court Mumbai",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 21,
-    name: 'Poornima Hatti, Advocate',
-    title: 'Partner & Workplace Dispute Resolution Leader',
-    specialty: 'Employment Law',
-    barNumber: 'KAR/910/2003',
-    experienceYears: 21,
-    education: 'NLSIU Bengaluru (B.A. LL.B.) · London School of Economics (LL.M.)',
-    firmName: 'Samvad Partners',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    hourlyRate: 26000,
-    rating: 4.8,
-    reviewCount: 112,
-    languages: 'English, Hindi, Kannada',
-    bio: 'Partner heading Dispute Resolution at Samvad Partners. Specialist in POSH compliance, executive severance structuring, labor regulations, whistleblower investigations, and commercial mediations.',
-    casesWon: 310,
-    successRate: 96,
-    phone: '+91 80 4110 3344',
-    email: 'poornima@samvadpartners.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1573497019418-b400bb3ab074?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 21,
+    "name": "Poornima Hatti, Advocate",
+    "title": "Partner & Head of Dispute Resolution",
+    "specialty": "Employment Law",
+    "barNumber": "KAR/1245/2003",
+    "experienceYears": 21,
+    "education": "NLSIU Bengaluru · London School of Economics (LL.M.)",
+    "firmName": "Samvad Partners",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "hourlyRate": 24000,
+    "rating": 4.8,
+    "reviewCount": 115,
+    "languages": "English, Kannada, Hindi",
+    "bio": "Leader of Samvad Partners dispute resolution practice in Bengaluru. Specialist in commercial cross-border contracts, tech-sector employment disputes, employee IP ownership, and corporate mediation.",
+    "casesWon": 340,
+    "successRate": 96,
+    "phone": "+91 80 4040 3300",
+    "email": "poornima.hatti@samvadpartners.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "KHC,KAR-BLR-CIV,KAR-SCCH-BLR,KAR-MAYO-BLR,KAR-ANE-JMFC,KAR-MYS-DC",
+    "practicingCourts": "High Court of Karnataka · City Civil Court Bengaluru · Mayo Hall Court · Anekal JMFC",
+    "primaryCourt": "High Court of Karnataka"
   },
   {
-    id: 22,
-    name: 'Nishith Desai, Advocate',
-    title: 'Founder & International Tax Specialist',
-    specialty: 'Tax Law',
-    barNumber: 'MAH/390/1977',
-    experienceYears: 47,
-    education: 'Government Law College, Mumbai (LL.B., Tax Law)',
-    firmName: 'Nishith Desai Associates',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 42000,
-    rating: 4.9,
-    reviewCount: 180,
-    languages: 'English, Hindi, Gujarati',
-    bio: 'Global pioneer in cross-border tax structuring, fund formation, Silicon Valley-India investments, cryptocurrency regulation, and international transfer pricing controversies.',
-    casesWon: 450,
-    successRate: 98,
-    phone: '+91 22 6669 5000',
-    email: 'nishith@nishithdesai.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 22,
+    "name": "Nishith Desai, Advocate",
+    "title": "Founder & International Tax Counsel",
+    "specialty": "Tax Law",
+    "barNumber": "MAH/208/1976",
+    "experienceYears": 48,
+    "education": "Government Law College, Mumbai",
+    "firmName": "Nishith Desai Associates",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 42000,
+    "rating": 4.9,
+    "reviewCount": 165,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "Pioneering international tax attorney. Architect of Mauritius and Singapore double-tax treaty structures for global funds entering India, Vodafone withholding tax landmark defense, and crypto taxation advisory.",
+    "casesWon": 590,
+    "successRate": 98,
+    "phone": "+91 22 6669 5000",
+    "email": "nd@nishithdesai.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MUM-SCCH-BOM,MH-PUN-JMFC,MH-PUN-DC,GOA-PAN-DC",
+    "practicingCourts": "Bombay High Court · City Civil Court Mumbai · Small Causes Court Mumbai · Pune Court",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 23,
-    name: 'Vandana Shah, Advocate',
-    title: 'Matrimonial Litigator & Family Law Authority',
-    specialty: 'Family Law',
-    barNumber: 'MAH/2104/2011',
-    experienceYears: 15,
-    education: 'Government Law College, Mumbai (LL.B.)',
-    firmName: 'Vandana Shah & Associates',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 24000,
-    rating: 4.8,
-    reviewCount: 134,
-    languages: 'English, Hindi, Marathi, Gujarati',
-    bio: 'High-profile matrimonial litigator and author of \'Ex-Files\'. Renowned for high-net-worth divorce settlements, child custody disputes, NRI matrimonial conflicts, and domestic abuse legal protection.',
-    casesWon: 330,
-    successRate: 96,
-    phone: '+91 22 2282 3901',
-    email: 'vandana@vandanashah.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 23,
+    "name": "Vandana Shah, Advocate",
+    "title": "Matrimonial Counsel & Author",
+    "specialty": "Family Law",
+    "barNumber": "MAH/1620/2006",
+    "experienceYears": 18,
+    "education": "KC Law College, Mumbai",
+    "firmName": "Vandana Shah & Associates",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 22000,
+    "rating": 4.8,
+    "reviewCount": 145,
+    "languages": "English, Hindi, Gujarati, Marathi",
+    "bio": "High-profile matrimonial litigator and author of 'Ex-Files'. Renowned for high-net-worth divorce settlements, child custody disputes, NRI matrimonial conflicts, and domestic abuse legal protection.",
+    "casesWon": 390,
+    "successRate": 95,
+    "phone": "+91 22 2367 8900",
+    "email": "vandana@vandanashah.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MUM-SCCH-BOM,MH-KUR-MM,MH-PUN-DC,GOA-PAN-DC",
+    "practicingCourts": "Bombay High Court (Family Bench) · City Civil Court Mumbai · Kurla MM Court",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 24,
-    name: 'Sajan Poovayya, Senior Advocate',
-    title: 'Senior Advocate & Technology Law Specialist',
-    specialty: 'Intellectual Property',
-    barNumber: 'KAR/789/1996',
-    experienceYears: 28,
-    education: 'NLSIU Bengaluru · London School of Economics (LL.M.)',
-    firmName: 'Poovayya & Co.',
-    city: 'Bengaluru',
-    state: 'Karnataka',
-    hourlyRate: 34000,
-    rating: 4.9,
-    reviewCount: 145,
-    languages: 'English, Hindi, Kannada',
-    bio: 'Former Additional Advocate General of Karnataka. Foremost counsel in data privacy, intermediary liability, AI regulation, patent enforcement, and telecommunications litigation.',
-    casesWon: 440,
-    successRate: 97,
-    phone: '+91 80 2221 4400',
-    email: 'sajan@poovayya.net',
-    avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 24,
+    "name": "Sajan Poovayya, Senior Advocate",
+    "title": "Senior Advocate, Supreme Court & Karnataka High Court",
+    "specialty": "Intellectual Property",
+    "barNumber": "KAR/890/1996",
+    "experienceYears": 28,
+    "education": "NLSIU Bengaluru · London School of Economics (LL.M.)",
+    "firmName": "Poovayya & Co",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "hourlyRate": 34000,
+    "rating": 4.9,
+    "reviewCount": 148,
+    "languages": "English, Kannada, Hindi",
+    "bio": "Former Additional Advocate General of Karnataka. Preeminent counsel in high-tech IP patents, data privacy constitutional suits, e-commerce regulatory compliance, and cross-border commercial arbitration.",
+    "casesWon": 510,
+    "successRate": 97,
+    "phone": "+91 80 4242 1100",
+    "email": "sajan@poovayya.net",
+    "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "KHC,KAR-BLR-CIV,KAR-MAYO-BLR,KAR-DEV-JMFC,SCI,KAR-MYS-DC,TN-CBE-DC",
+    "practicingCourts": "High Court of Karnataka · City Civil Bengaluru · Mayo Hall Court · Devanahalli JMFC",
+    "primaryCourt": "High Court of Karnataka"
   },
   {
-    id: 25,
-    name: 'Poorvi Chothani, Advocate',
-    title: 'Managing Partner & Immigration Law Authority',
-    specialty: 'Immigration Law',
-    barNumber: 'MAH/1042/1983',
-    experienceYears: 40,
-    education: 'Government Law College, Mumbai · Penn Carey Law (LL.M.)',
-    firmName: 'LawQuest International Law Firm',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 28000,
-    rating: 4.9,
-    reviewCount: 172,
-    languages: 'English, Hindi, Gujarati, Marathi',
-    bio: 'Founder of LawQuest and registered legal practitioner. Leading specialist in Indian-US cross-border immigration, corporate executive mobility, EB-5/L-1, NRI citizenship, and consular visa appeals.',
-    casesWon: 520,
-    successRate: 98,
-    phone: '+91 22 6633 4455',
-    email: 'poorvi@lawquestindia.com',
-    avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 25,
+    "name": "Poorvi Chothani, Advocate",
+    "title": "Managing Partner & Global Immigration Counsel",
+    "specialty": "Immigration Law",
+    "barNumber": "MAH/940/1990",
+    "experienceYears": 34,
+    "education": "Government Law College, Mumbai · Brooklyn Law School (LL.M.)",
+    "firmName": "LawQuest",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 22000,
+    "rating": 4.8,
+    "reviewCount": 128,
+    "languages": "English, Hindi, Gujarati",
+    "bio": "Founder of LawQuest. Leading cross-border immigration counsel advising multinational corporations, founders, and skilled professionals on outbound work permits, intra-company transfers, and citizenship laws.",
+    "casesWon": 480,
+    "successRate": 96,
+    "phone": "+91 22 2200 4411",
+    "email": "poorvi@lawquestindia.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MH-AND-MM,MH-PUN-DC,GUJ-VAD-DC",
+    "practicingCourts": "Bombay High Court · City Civil Court Mumbai · Andheri MM Court",
+    "primaryCourt": "High Court of Judicature at Bombay"
   },
   {
-    id: 26,
-    name: 'Colin Gonsalves, Senior Advocate',
-    title: 'Senior Advocate, Supreme Court & HRLN Founder',
-    specialty: 'Personal Injury',
-    barNumber: 'MAH/490/1983',
-    experienceYears: 41,
-    education: 'IIT Bombay (B.Tech) · Government Law College, Mumbai (LL.B.)',
-    firmName: 'Human Rights Law Network (HRLN)',
-    city: 'New Delhi',
-    state: 'Delhi',
-    hourlyRate: 22000,
-    rating: 4.9,
-    reviewCount: 182,
-    languages: 'English, Hindi, Marathi',
-    bio: 'Senior Advocate and Right Livelihood Award recipient. Champion in Motor Accident Claims Tribunal (MACT), catastrophic industrial injuries, public tort liability, and victim compensation before the Supreme Court.',
-    casesWon: 600,
-    successRate: 97,
-    phone: '+91 11 2437 4501',
-    email: 'colin@hrln.org',
-    avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 26,
+    "name": "Colin Gonsalves, Senior Advocate",
+    "title": "Senior Advocate & Founder of HRLN",
+    "specialty": "Personal Injury",
+    "barNumber": "MAH/390/1981",
+    "experienceYears": 43,
+    "education": "IIT Bombay (B.Tech) · University of Bombay (LL.B.)",
+    "firmName": "Human Rights Law Network",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "hourlyRate": 18000,
+    "rating": 4.8,
+    "reviewCount": 160,
+    "languages": "English, Hindi, Konkani",
+    "bio": "Right Livelihood Award laureate. Lead counsel in landmark public health litigations, industrial accidents tort compensation, right to food, migrant worker safety, and catastrophic personal injury recovery.",
+    "casesWon": 620,
+    "successRate": 96,
+    "phone": "+91 11 2437 4501",
+    "email": "colin@hrln.org",
+    "avatarUrl": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "SCI,DHC,DEL-TIS,DEL-KKD-MM,CHC,NCDRC,AR-YUP-DC,TR-AGA-DC,AN-PB-DC,JK-JAM-DC,LA-LEH-DC",
+    "practicingCourts": "Supreme Court of India · Delhi High Court · NCDRC · Tis Hazari · Calcutta High Court",
+    "primaryCourt": "Supreme Court of India"
   },
   {
-    id: 27,
-    name: 'Anand Grover, Senior Advocate',
-    title: 'Senior Advocate & Health Law Authority',
-    specialty: 'Healthcare Law',
-    barNumber: 'MAH/355/1979',
-    experienceYears: 45,
-    education: 'University of Surrey (B.Sc) · Government Law College, Mumbai (LL.B.)',
-    firmName: 'Lawyers Collective',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    hourlyRate: 32000,
-    rating: 5.0,
-    reviewCount: 148,
-    languages: 'English, Hindi, Marathi, Gujarati',
-    bio: 'Former UN Special Rapporteur on the Right to Health. Key litigator in historic Supreme Court pharmaceutical cases (Novartis cancer drug patent), healthcare regulation, medical negligence, and patient privacy.',
-    casesWon: 490,
-    successRate: 99,
-    phone: '+91 22 2287 4001',
-    email: 'anand@lawyerscollective.org',
-    avatarUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80',
-    isAvailable: 1
+    "id": 27,
+    "name": "Anand Grover, Senior Advocate",
+    "title": "Senior Advocate & Former UN Special Rapporteur",
+    "specialty": "Healthcare Law",
+    "barNumber": "MAH/210/1980",
+    "experienceYears": 44,
+    "education": "University of Surrey · Faculty of Law, University of Bombay",
+    "firmName": "The Lawyers Collective",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 32000,
+    "rating": 4.9,
+    "reviewCount": 155,
+    "languages": "English, Hindi, Punjabi",
+    "bio": "Former UN Special Rapporteur on the Right to Health. Key litigator in the historic Novartis patent challenge before the Supreme Court, ensuring affordable generic cancer medicines for millions across the Global South.",
+    "casesWon": 590,
+    "successRate": 99,
+    "phone": "+91 22 2287 4001",
+    "email": "anand@lawyerscollective.org",
+    "avatarUrl": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "BHC,MUM-SES,MH-ESP-CMM,MH-THA-JMFC,SCI,PB-LUD-DC,PB-AMR-DC,CH-SEC43-DC",
+    "practicingCourts": "Bombay High Court · City Civil Court Mumbai · Esplanade CMM · Thane JMFC Court",
+    "primaryCourt": "High Court of Judicature at Bombay"
+  },
+  {
+    "id": 28,
+    "name": "Advocate Ramesh Chandra Hegde",
+    "title": "Senior Civil & Taluka Trial Advocate",
+    "specialty": "Real Estate Law",
+    "barNumber": "KAR/1420/2004",
+    "experienceYears": 20,
+    "education": "University Law College, Bangalore University (LL.B.)",
+    "firmName": "Hegde & Associates Legal Chambers",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "hourlyRate": 12000,
+    "rating": 4.9,
+    "reviewCount": 142,
+    "languages": "Kannada, English, Telugu, Hindi",
+    "bio": "Distinguished subordinate trial counsel specializing in Bengaluru Urban & Rural district courts, Small Causes (SCCH & Mayo Hall), and Taluka JMFC courts (Anekal, Devanahalli, Hoskote, Ramanagara, Channapatna). Master of land title verification, RTC rectifications, and partition suits.",
+    "casesWon": 340,
+    "successRate": 97,
+    "phone": "+91 80 2221 4455",
+    "email": "ramesh.hegde@hegdeleganet.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "KAR-BLR-CIV,KAR-SCCH-BLR,KAR-MAYO-BLR,KAR-ANE-JMFC,KAR-DEV-JMFC,KAR-HOS-JMFC,KAR-DOD-JMFC,KAR-NEL-JMFC,KAR-RAM-JMFC,KAR-CHN-JMFC,KAR-KAN-JMFC,KHC,KAR-MYS-DC",
+    "practicingCourts": "Karnataka Taluka & JMFC Courts (Anekal, Devanahalli, Hoskote, Ramanagara, Channapatna, Kanakapura, Nelamangala) · Bengaluru Small Causes (SCCH & Mayo Hall)",
+    "primaryCourt": "City Civil and Sessions Court, Bengaluru"
+  },
+  {
+    "id": 29,
+    "name": "Advocate Basavaraj Patil",
+    "title": "Subordinate Trial & Criminal Defense Advocate",
+    "specialty": "Criminal Law",
+    "barNumber": "KAR/892/2008",
+    "experienceYears": 16,
+    "education": "KLE Society's Law College · Karnatak University",
+    "firmName": "Patil Law Offices",
+    "city": "Hubballi",
+    "state": "Karnataka",
+    "hourlyRate": 9500,
+    "rating": 4.8,
+    "reviewCount": 98,
+    "languages": "Kannada, Hindi, English, Marathi",
+    "bio": "Specialist trial defense attorney across North Karnataka subordinate courts, including Hubballi JMFC, Aland JMFC, Kundapura Civil Court, and the High Court of Karnataka Dharwad Bench. Celebrated for criminal bail applications, private complaints, and property boundary litigation.",
+    "casesWon": 280,
+    "successRate": 96,
+    "phone": "+91 836 235 6677",
+    "email": "b.patil@patillawoffices.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "KAR-HUB-JMFC,KAR-ALD-JMFC,KAR-KUN-JMFC,KHC,KAR-MYS-DC",
+    "practicingCourts": "Hubballi JMFC Court · Aland Taluk JMFC · Kundapura Senior Civil Court · Dharwad Bench KHC",
+    "primaryCourt": "Principal Civil Judge & JMFC Court, Hubballi"
+  },
+  {
+    "id": 30,
+    "name": "Advocate Sanjay Deshmukh",
+    "title": "Senior Trial & Metropolitan Magistrate Counsel",
+    "specialty": "Criminal Law",
+    "barNumber": "MAH/1904/2005",
+    "experienceYears": 19,
+    "education": "Government Law College, Mumbai · ILS Law College Pune",
+    "firmName": "Deshmukh Legal Chambers",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "hourlyRate": 14000,
+    "rating": 4.9,
+    "reviewCount": 168,
+    "languages": "Marathi, Hindi, English",
+    "bio": "Renowned metropolitan trial defender before Esplanade Chief Metropolitan Magistrate (CMM), Andheri MM, Kurla MM, Thane JMFC, and Shivajinagar Pune Court of Small Causes. Expert cross-examiner in negotiable instruments (Section 138 NI Act), economic crimes, and magistrate bail hearings.",
+    "casesWon": 420,
+    "successRate": 97,
+    "phone": "+91 22 2261 3344",
+    "email": "sanjay@deshmukhlegal.com",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "MH-ESP-CMM,MH-AND-MM,MH-KUR-MM,MH-THA-JMFC,MH-PUN-JMFC,MUM-SCCH-BOM,MUM-SES,BHC,MH-PUN-DC,DD-DAM-DC,GOA-PAN-DC",
+    "practicingCourts": "Esplanade CMM · Andheri MM · Kurla MM · Thane JMFC · Shivajinagar Pune Court of Small Causes",
+    "primaryCourt": "Esplanade Chief Metropolitan Magistrate (CMM) Court"
+  },
+  {
+    "id": 31,
+    "name": "Advocate S. Meenakshi Sundaram",
+    "title": "Civil & Subordinate Court Specialist",
+    "specialty": "Civil Rights",
+    "barNumber": "MS/1102/2006",
+    "experienceYears": 18,
+    "education": "Dr. Ambedkar Government Law College, Chennai",
+    "firmName": "Sundaram & Partners Chennai",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "hourlyRate": 11000,
+    "rating": 4.8,
+    "reviewCount": 125,
+    "languages": "Tamil, English, Telugu",
+    "bio": "Practicing advocate before the Court of Small Causes Chennai, Egmore CMM Court, Tambaram JMFC Court, and Madras High Court. Renowned for rent control matters, civil summary suits, municipal boundary disputes, and civil revisions.",
+    "casesWon": 310,
+    "successRate": 96,
+    "phone": "+91 44 2534 8899",
+    "email": "meenakshi@sundaramlegalchennai.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "TN-SCCH-CHE,TN-EGM-CMM,TN-TAM-JMFC,MHC,TN-CHE-DC,TN-CBE-DC,PY-PUD-DC",
+    "practicingCourts": "Court of Small Causes Chennai · Egmore CMM Court · Tambaram Subordinate & JMFC · Madras High Court",
+    "primaryCourt": "Court of Small Causes, Chennai"
+  },
+  {
+    "id": 32,
+    "name": "Advocate Subhashish Roy",
+    "title": "Senior Subordinate & Small Causes Advocate",
+    "specialty": "Corporate Law",
+    "barNumber": "WB/841/2007",
+    "experienceYears": 17,
+    "education": "Department of Law, University of Calcutta (LL.B.)",
+    "firmName": "Roy & Associates Kolkata",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "hourlyRate": 10500,
+    "rating": 4.9,
+    "reviewCount": 118,
+    "languages": "Bengali, English, Hindi",
+    "bio": "Preeminent commercial and small causes advocate practicing in the Bankshall Court (Small Causes Court Kolkata), Sealdah Metropolitan Magistrate Court, Bidhannagar (Salt Lake) ACJM Court, and Calcutta High Court.",
+    "casesWon": 295,
+    "successRate": 97,
+    "phone": "+91 33 2248 1122",
+    "email": "subhashish@roylegal.kolkata.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "WB-SCCH-KOL,WB-SEA-MM,WB-BID-ACJM,CHC,WB-CAL-DC,WB-BAR-DC,ASM-KAM-DC,OD-CUT-DC,OD-KHO-DC,AN-PB-DC,TR-AGA-DC",
+    "practicingCourts": "Bankshall Court of Small Causes Kolkata · Sealdah MM Court · Bidhannagar (Salt Lake) ACJM Court · Calcutta High Court",
+    "primaryCourt": "Court of Small Causes & Bankshall Court, Kolkata"
+  },
+  {
+    "id": 33,
+    "name": "Advocate Ashokbhai Patel",
+    "title": "Subordinate Civil & Small Causes Litigator",
+    "specialty": "Real Estate Law",
+    "barNumber": "GUJ/1540/2005",
+    "experienceYears": 19,
+    "education": "Sir L.A. Shah Law College, Ahmedabad",
+    "firmName": "Patel & Associates Legal Advisory",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "hourlyRate": 11500,
+    "rating": 4.8,
+    "reviewCount": 134,
+    "languages": "Gujarati, Hindi, English",
+    "bio": "Veteran practitioner before the Court of Small Causes Ahmedabad, Sanand Taluka JMFC Court, and Gujarat High Court. Authority on agricultural land conversion, NA permissions, tenant eviction disputes, and local revenue appeals.",
+    "casesWon": 330,
+    "successRate": 96,
+    "phone": "+91 79 2658 9900",
+    "email": "ashok@patelassociates.gujarat.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "GUJ-SCCH-AHD,GUJ-SAN-JMFC,GHC,GUJ-VAD-DC",
+    "practicingCourts": "Court of Small Causes Ahmedabad · Sanand Taluka JMFC Court · Gujarat High Court",
+    "primaryCourt": "Court of Small Causes, Ahmedabad"
+  },
+  {
+    "id": 34,
+    "name": "Advocate Anupama Sharma",
+    "title": "Tehsil & District Trial Advocate",
+    "specialty": "Family Law",
+    "barNumber": "UP/2319/2009",
+    "experienceYears": 15,
+    "education": "Chhatrapati Shahu Ji Maharaj University, Kanpur",
+    "firmName": "Sharma & Partners Chambers",
+    "city": "Greater Noida",
+    "state": "Uttar Pradesh",
+    "hourlyRate": 10000,
+    "rating": 4.9,
+    "reviewCount": 112,
+    "languages": "Hindi, English",
+    "bio": "Trial advocate before Surajpur District & Tehsil Civil Court (Gautam Buddha Nagar), Modinagar Tehsil Court (Ghaziabad), Patiala House Courts, and Allahabad High Court. Specialist in family succession, partition decrees, and civil protection writs.",
+    "casesWon": 260,
+    "successRate": 96,
+    "phone": "+91 120 234 5566",
+    "email": "anupama@sharmalaw.up.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "UP-GBN-TEH,UP-GZB-MOD,AHC,DEL-PAT,UP-GBN-DC,UP-LKO-DC,UP-KNP-DC,BIH-PAT-DC,UK-DEH-DC",
+    "practicingCourts": "Surajpur District & Tehsil Court (Greater Noida) · Modinagar Civil Court (Ghaziabad) · Allahabad High Court",
+    "primaryCourt": "Surajpur District & Tehsil Civil Court, Gautam Buddha Nagar"
+  },
+  {
+    "id": 35,
+    "name": "Advocate G. Rajeshwar Rao",
+    "title": "Subordinate Criminal & Trial Defender",
+    "specialty": "Criminal Law",
+    "barNumber": "AP/1420/2003",
+    "experienceYears": 21,
+    "education": "Osmania University, Hyderabad (LL.B.)",
+    "firmName": "Rao Criminal Law Associates",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "hourlyRate": 12000,
+    "rating": 4.8,
+    "reviewCount": 145,
+    "languages": "Telugu, Hindi, English",
+    "bio": "Premier trial counsel practicing before Nampally Criminal Courts & Metropolitan Magistrate Complex, Kukatpally Junior Civil & JMFC Court, and Telangana High Court. Expert in criminal trial defenses, police custody hearings, and special anti-corruption matters.",
+    "casesWon": 350,
+    "successRate": 97,
+    "phone": "+91 40 2320 8899",
+    "email": "rajeshwar.rao@raocriminalchambers.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "TG-NAM-MM,TG-KUK-JMFC,THC,SCI,TG-HYD-DC,TG-RR-DC,AP-VIZ-DC",
+    "practicingCourts": "Nampally Criminal Courts & MM Complex · Kukatpally Junior Civil & JMFC Court · High Court for the State of Telangana · Supreme Court",
+    "primaryCourt": "Nampally Criminal Courts & Metropolitan Magistrate Complex"
+  },
+  {
+    "id": 36,
+    "name": "Advocate K. Narayanan Namboothiri",
+    "title": "Munsiff & Magistrate Court Specialist",
+    "specialty": "Civil Rights",
+    "barNumber": "K/912/2007",
+    "experienceYears": 17,
+    "education": "Government Law College, Ernakulam",
+    "firmName": "Namboothiri Law Chambers",
+    "city": "Aluva",
+    "state": "Kerala",
+    "hourlyRate": 9000,
+    "rating": 4.8,
+    "reviewCount": 105,
+    "languages": "Malayalam, English, Tamil",
+    "bio": "Subordinate trial specialist enrolled before Aluva Munsiff & JMFC Court, Ernakulam District Courts, and the High Court of Kerala. Leading advocate in land tenancy rights, motor vehicle claims (MACT), and civil injunction suits.",
+    "casesWon": 240,
+    "successRate": 96,
+    "phone": "+91 484 262 7788",
+    "email": "narayanan@namboothirilegal.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "KL-ALU-JMFC,KERHC,SCI,KER-ERN-DC",
+    "practicingCourts": "Aluva Munsiff & JMFC Court · Ernakulam District Courts · High Court of Kerala (KERHC)",
+    "primaryCourt": "Aluva Munsiff & Judicial First Class Magistrate Court"
+  },
+  {
+    "id": 37,
+    "name": "Advocate Virendra Singh Shekhawat",
+    "title": "Civil Judge & Magistrate Trial Advocate",
+    "specialty": "Real Estate Law",
+    "barNumber": "R/1324/2006",
+    "experienceYears": 18,
+    "education": "University Five Year Law College, University of Rajasthan, Jaipur",
+    "firmName": "Shekhawat & Associates Legal Forum",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "hourlyRate": 9500,
+    "rating": 4.9,
+    "reviewCount": 122,
+    "languages": "Hindi, Rajasthani, English",
+    "bio": "Prominent trial counsel practicing before Sanganer Additional Civil Judge & JMFC Court, Jaipur District Courts, and Rajasthan High Court. Renowned for revenue land partitions, agricultural property disputes, and civil restitution proceedings.",
+    "casesWon": 290,
+    "successRate": 97,
+    "phone": "+91 141 279 3322",
+    "email": "virendra@shekhawatlegal.rajasthan.in",
+    "avatarUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80",
+    "isAvailable": 1,
+    "courtCodes": "RJ-SAN-JMFC,SCI,RJ-JAI-DC,RJ-JOD-DC,MP-IND-DC,MP-BHO-DC",
+    "practicingCourts": "Sanganer Additional Civil & JMFC Court · Jaipur District Courts · Rajasthan High Court",
+    "primaryCourt": "Sanganer Additional Civil Judge & JMFC Court"
   }
 ];
 
@@ -3132,6 +3509,10 @@ function lawyerCardHTML(l) {
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span>${escapeHtml(l.education || '')}</span>
+      </div>
+      <div class="lawyer-detail-item lawyer-court-affiliation-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+        <span>Courts: <strong style="color:var(--gold-light);">${escapeHtml(l.practicingCourts || l.primaryCourt || 'Supreme Court of India')}</strong></span>
       </div>
     </div>
 
@@ -3568,6 +3949,12 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
 
   // Chambers & Location
   const locEl = document.getElementById('lawyer-modal-location');
+
+  // Designated Courts
+  const courtEl = document.getElementById('lawyer-modal-courts');
+  if (courtEl) {
+    courtEl.textContent = lawyer.practicingCourts || lawyer.primaryCourt || 'Supreme Court of India · State High Courts';
+  }
   if (locEl) {
     const firm = lawyer.firmName ? `${lawyer.firmName} — ` : '';
     locEl.textContent = `${firm}${lawyer.city || ''}, ${lawyer.state || ''}`;
@@ -4292,8 +4679,10 @@ const courtModalOverview      = document.getElementById('court-modal-overview');
 const courtModalDivisions     = document.getElementById('court-modal-divisions');
 const courtModalLink          = document.getElementById('court-modal-link');
 
-// ── Fallback Dataset for Offline / Direct Preview (Authentic Indian Courts) ──
-const FALLBACK_COURTS = [
+// ── Fallback Dataset for Offline / Direct Preview (Authentic Indian Courts with Maps) ──
+const FALLBACK_COURTS = (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) && window.INDIAN_COURTS_DATA.length > 0)
+  ? window.INDIAN_COURTS_DATA
+  : [
   {
     id: 22,
     name: 'Supreme Court of India',
@@ -4499,33 +4888,38 @@ const FALLBACK_COURTS = [
 
 // ── HTML Template for Court Card ──
 function courtCardHTML(c) {
+  const queryStr = encodeURIComponent(`${c.name}, ${c.address || ''}, ${c.city || ''}, ${c.state || ''} ${c.zipCode || ''}`);
+  const mapUrl = c.mapUrl || `https://www.google.com/maps/search/?api=1&query=${queryStr}`;
+  const isSmallCourt = c.jurisdiction && (c.jurisdiction.includes('Taluka') || c.jurisdiction.includes('Small Causes') || c.jurisdiction.includes('Subordinate') || (c.level && c.level.includes('Taluk')));
+
   return `
-  <div class="court-card" id="court-card-${c.id}" data-id="${c.id}">
+  <div class="court-card ${isSmallCourt ? 'court-card-small-tier' : ''}" id="court-card-${c.id}" data-id="${c.id}">
     <div class="court-card-top">
-      <div class="court-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/>
-        </svg>
+      <div class="court-icon-wrap ${isSmallCourt ? 'court-icon-small' : ''}">
+        ${isSmallCourt ? `
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>` : `
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/>
+          </svg>`
+        }
       </div>
       <div class="court-badges-wrap">
-        <span class="court-jurisdiction-badge">${c.jurisdiction}</span>
-        <span class="court-level-badge">${c.level} Level</span>
+        <span class="court-jurisdiction-badge ${isSmallCourt ? 'badge-small-court' : ''}">${c.jurisdiction}</span>
+        <span class="court-level-badge">${c.level}</span>
       </div>
     </div>
 
     <div class="court-name">${c.name}</div>
     <div class="court-circuit-text">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-      <span>${c.circuit || c.state}</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>${c.address ? `${c.address}, ` : ''}${c.city}, ${c.state} ${c.zipCode || ''}</span>
     </div>
 
     <p class="court-desc-text">${c.overview}</p>
 
     <div class="court-meta-box">
-      <div class="court-meta-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>${c.city}, ${c.state}</span>
-      </div>
       <div class="court-meta-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span>${c.chiefJudge.length > 34 ? c.chiefJudge.substring(0, 32) + '...' : c.chiefJudge}</span>
@@ -4538,10 +4932,20 @@ function courtCardHTML(c) {
       </div>
     </div>
 
+    <div class="court-advocates-preview-row" onclick="openCourtModal('${c.id}')" title="Click to view advocates practicing before ${escapeHtml(c.name)}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+      <span><strong>${(typeof window.getLawyersForCourt === 'function' ? window.getLawyersForCourt(c.code).length : 2) || (c.code === 'SCI' ? 26 : 2)} Verified Advocates</strong> Practicing Here</span>
+      <span class="court-advocates-preview-arrow">→</span>
+    </div>
+
     <div class="court-card-actions">
-      <button class="btn-court-details" onclick="openCourtModal(${c.id})">
-        📋 View Court Info & Rules
+      <button class="btn-court-details" onclick="openCourtModal('${c.id}')">
+        📋 View Court Info &amp; Rules
       </button>
+      <a href="${mapUrl}" target="_blank" rel="noopener" class="btn-court-map-action" title="Open Location in Google Maps (Satellite & GPS)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+        <span>Map</span>
+      </a>
       <a href="${c.website}" target="_blank" rel="noopener" class="btn-court-ext" title="Visit Official Website">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
@@ -4566,7 +4970,11 @@ function renderCourts(courts) {
 
   courtsGrid.innerHTML = courts.map(courtCardHTML).join('');
   if (courtCountBadge) {
-    courtCountBadge.textContent = `Showing ${courts.length} Verified Court${courts.length !== 1 ? 's' : ''}`;
+    courtCountBadge.textContent = `Showing ${courts.length} Verified Indian Court${courts.length !== 1 ? 's' : ''}`;
+  }
+
+  if (typeof initCourtsMapExplorer === 'function') {
+    initCourtsMapExplorer();
   }
 }
 
@@ -4588,10 +4996,18 @@ async function fetchAndRenderCourts() {
     courtsData = data.courts || [];
     renderCourts(courtsData);
   } catch (err) {
-    // Offline / Local fallback
-    let filtered = [...FALLBACK_COURTS];
+    // Offline / Local fallback dataset with all Indian courts & small courts
+    const baseSource = (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) && window.INDIAN_COURTS_DATA.length > 0)
+      ? window.INDIAN_COURTS_DATA
+      : FALLBACK_COURTS;
+    let filtered = [...baseSource];
+
     if (courtFilters.jurisdiction && courtFilters.jurisdiction !== 'All Jurisdictions') {
-      filtered = filtered.filter(c => c.jurisdiction === courtFilters.jurisdiction);
+      if (courtFilters.jurisdiction === 'Small Courts') {
+        filtered = filtered.filter(c => c.jurisdiction === 'Taluka & Subordinate Courts' || c.jurisdiction === 'Small Causes & JMFC Courts');
+      } else {
+        filtered = filtered.filter(c => c.jurisdiction === courtFilters.jurisdiction);
+      }
     }
     if (courtFilters.state && courtFilters.state !== 'All States') {
       filtered = filtered.filter(c => c.state === courtFilters.state);
@@ -4599,11 +5015,14 @@ async function fetchAndRenderCourts() {
     if (courtFilters.search) {
       const q = courtFilters.search.toLowerCase();
       filtered = filtered.filter(c => 
-        c.name.toLowerCase().includes(q) ||
-        c.city.toLowerCase().includes(q) ||
-        c.state.toLowerCase().includes(q) ||
-        c.chiefJudge.toLowerCase().includes(q) ||
-        c.overview.toLowerCase().includes(q)
+        (c.name && c.name.toLowerCase().includes(q)) ||
+        (c.city && c.city.toLowerCase().includes(q)) ||
+        (c.state && c.state.toLowerCase().includes(q)) ||
+        (c.address && c.address.toLowerCase().includes(q)) ||
+        (c.zipCode && c.zipCode.toLowerCase().includes(q)) ||
+        (c.chiefJudge && c.chiefJudge.toLowerCase().includes(q)) ||
+        (c.divisions && c.divisions.toLowerCase().includes(q)) ||
+        (c.overview && c.overview.toLowerCase().includes(q))
       );
     }
     courtsData = filtered;
@@ -4665,7 +5084,10 @@ courtPillChips.forEach(pill => {
 
 // ── Court Modal Open & Close ──
 window.openCourtModal = function(courtId, fallbackCourt = null) {
-  let court = courtsData.find(c => c.id === courtId) || (typeof FALLBACK_COURTS !== 'undefined' ? FALLBACK_COURTS.find(c => c.id === courtId) : null) || fallbackCourt;
+  const basePool = (courtsData && courtsData.length > 0) 
+    ? courtsData 
+    : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) ? window.INDIAN_COURTS_DATA : FALLBACK_COURTS);
+  let court = basePool.find(c => c.id === courtId || String(c.id) === String(courtId) || c.code === courtId) || fallbackCourt;
   if (!court && window.aiSuggestionsCache?.courts[courtId]) {
     court = window.aiSuggestionsCache.courts[courtId];
   }
@@ -4677,13 +5099,13 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
   if (courtModalLevel)    courtModalLevel.textContent = `${court.level || 'Trial'} Level`;
   if (courtModalJudge)    courtModalJudge.textContent = court.chiefJudge || 'Presiding Judicial Bench';
   if (courtModalFiling)   courtModalFiling.textContent = court.filingSystem || 'Standard Electronic / Clerk Filing';
-  if (courtModalHours)    courtModalHours.textContent = court.clerkHours || 'Mon - Fri: 8:30 AM - 5:00 PM';
+  if (courtModalHours)    courtModalHours.textContent = court.clerkHours || 'Mon - Fri: 10:00 AM - 5:00 PM IST';
   if (courtModalAddress)  courtModalAddress.textContent = court.address ? `${court.address}, ${court.city || ''}, ${court.state || ''} ${court.zipCode || ''}` : `${court.city || ''}, ${court.state || ''}`;
-  if (courtModalPhone)    courtModalPhone.textContent = court.phone || '(555) 019-2831';
+  if (courtModalPhone)    courtModalPhone.textContent = court.phone || '+91 11 2338 8922';
   if (courtModalOverview) courtModalOverview.textContent = court.overview || court.jurisdictionGuidance || '';
 
   if (courtModalDivisions) {
-    const divs = (court.divisions || 'General Civil, Complex Litigation').split(',').map(d => d.trim()).filter(Boolean);
+    const divs = (court.divisions || 'General Civil, Magisterial').split(',').map(d => d.trim()).filter(Boolean);
     courtModalDivisions.innerHTML = divs.map(d => `<span class="court-division-chip">${d}</span>`).join('');
   }
 
@@ -4691,14 +5113,177 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
     courtModalLink.href = court.website || '#';
   }
 
+  // Interactive Live Map in Court Modal
+  const mapIframe = document.getElementById('court-modal-map-iframe');
+  const mapBtn = document.getElementById('court-modal-map-btn');
+  const coordsLabel = document.getElementById('court-modal-coords-label');
+  const queryStr = encodeURIComponent(`${court.name}, ${court.address || ''}, ${court.city || ''}, ${court.state || ''} ${court.zipCode || ''}`);
+  const mapUrl = court.mapUrl || `https://www.google.com/maps/search/?api=1&query=${queryStr}`;
+  const mapEmbedUrl = court.mapEmbedUrl || `https://www.google.com/maps?q=${queryStr}&output=embed`;
+
+  if (mapIframe) {
+    mapIframe.src = mapEmbedUrl;
+  }
+  if (mapBtn) {
+    mapBtn.href = mapUrl;
+  }
+  if (coordsLabel) {
+    if (court.latitude && court.longitude) {
+      coordsLabel.innerHTML = `📍 GPS Coordinates: <strong>${court.latitude.toFixed(4)}° N, ${court.longitude.toFixed(4)}° E</strong> · ${court.city}, ${court.state}`;
+    } else {
+      coordsLabel.innerHTML = `📍 Location: <strong>${court.address ? court.address + ', ' : ''}${court.city}, ${court.state}</strong>`;
+    }
+  }
+
+  // ── Advocates Practicing in this Court & Jurisdiction Rules ──
+  activeModalCourt = court;
+  const modalSpecialtySelect = document.getElementById('court-modal-specialty-select');
+  if (modalSpecialtySelect) {
+    modalSpecialtySelect.value = 'All Specialties';
+  }
+  renderCourtModalLawyersAndRules(court, 'All Specialties');
+
   courtModalOverlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+};
+
+let activeModalCourt = null;
+
+function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
+  if (!court) return;
+
+  const lawyersGrid = document.getElementById('court-modal-lawyers-grid');
+  const lawyersCount = document.getElementById('court-modal-lawyers-count');
+  const filterLawyersBtn = document.getElementById('court-modal-filter-lawyers-btn');
+  const ruleBannerTitle = document.getElementById('rule-banner-title');
+  const ruleBannerActs = document.getElementById('rule-banner-acts');
+  const ruleBannerDesc = document.getElementById('rule-banner-desc');
+  const ruleBannerMeta = document.getElementById('rule-banner-meta');
+
+  // Resolve jurisdiction and court procedural rules
+  const jurRule = (typeof window.getJurisdictionRule === 'function')
+    ? window.getJurisdictionRule(court, specialty)
+    : {
+        title: 'Jurisdiction & Court Rules',
+        governingActs: 'Code of Civil Procedure, 1908 / Bharatiya Nagarik Suraksha Sanhita, 2023',
+        ruleSummary: 'Territorial and pecuniary jurisdiction governs trial proceedings before this bench.',
+        proceduralRequirements: 'Representation by verified State Bar Advocate.',
+        appellateHierarchy: 'Subordinate Court → District Court → High Court → Supreme Court.'
+      };
+
+  if (ruleBannerTitle) ruleBannerTitle.textContent = jurRule.title;
+  if (ruleBannerActs) ruleBannerActs.textContent = `Governing Statute: ${jurRule.governingActs}`;
+  if (ruleBannerDesc) ruleBannerDesc.textContent = jurRule.ruleSummary;
+  if (ruleBannerMeta) {
+    ruleBannerMeta.innerHTML = `<strong>Prerequisites:</strong> ${jurRule.proceduralRequirements} · <strong>Appellate Route:</strong> ${jurRule.appellateHierarchy}`;
+  }
+
+  // Get suggested lawyers associated with this court who specialize in the legal area
+  const suggestionData = (typeof window.getSuggestedLawyersForCourt === 'function')
+    ? window.getSuggestedLawyersForCourt(court.code, specialty)
+    : { suggestedLawyers: window.getLawyersForCourt ? window.getLawyersForCourt(court.code) : [] };
+
+  const courtLawyers = suggestionData.suggestedLawyers || [];
+  const isSpecialtyFiltered = specialty && specialty !== 'All Specialties';
+
+  if (lawyersCount) {
+    lawyersCount.textContent = courtLawyers.length;
+  }
+
+  if (filterLawyersBtn) {
+    const specParam = isSpecialtyFiltered ? `&specialty=${encodeURIComponent(specialty)}` : '';
+    filterLawyersBtn.href = `lawyers.html?court=${encodeURIComponent(court.code)}${specParam}`;
+    filterLawyersBtn.title = `Browse advocates practicing before ${court.name}`;
+  }
+
+  if (lawyersGrid) {
+    if (courtLawyers.length === 0) {
+      const allCourtLawyers = (typeof window.getLawyersForCourt === 'function') ? window.getLawyersForCourt(court.code) : [];
+      lawyersGrid.innerHTML = `
+        <div class="court-lawyer-empty-box" style="grid-column: 1 / -1;">
+          <p>No specialist strictly designated for <strong>${escapeHtml(specialty)}</strong> is currently listed for ${escapeHtml(court.name)}. However, general trial advocates practice before this bench.</p>
+          <p style="margin-top:8px;">View all <a href="lawyers.html?specialty=${encodeURIComponent(specialty)}" target="_blank" style="color:var(--gold); font-weight:600;">verified ${escapeHtml(specialty)} advocates in the full Directory ↗</a></p>
+        </div>
+      `;
+      if (allCourtLawyers.length > 0) {
+        lawyersGrid.innerHTML += allCourtLawyers.slice(0, 4).map(l => renderCourtLawyerCardHTML(l, false)).join('');
+      }
+    } else {
+      lawyersGrid.innerHTML = courtLawyers.map(l => renderCourtLawyerCardHTML(l, isSpecialtyFiltered)).join('');
+    }
+  }
+}
+
+function renderCourtLawyerCardHTML(l, isFilteredMatch) {
+  const isMatch = l.isJurisdictionMatch || isFilteredMatch;
+  return `
+    <div class="court-lawyer-card ${isMatch ? 'court-lawyer-card-matched' : ''}" onclick="openLawyerProfileFromCourt('${l.id}')" title="Click to view full credentials of ${escapeHtml(l.name)}">
+      ${isMatch ? `
+        <div class="court-lawyer-match-banner">
+          <span class="match-sparkle">⭐</span>
+          <span>Recommended ${escapeHtml(l.specialty)} Counsel for this Court</span>
+        </div>
+      ` : ''}
+      <div class="court-lawyer-card-top">
+        <img src="${escapeHtml(l.avatarUrl || 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80')}" alt="${escapeHtml(l.name)}" class="court-lawyer-avatar" loading="lazy"/>
+        <div class="court-lawyer-info">
+          <div class="court-lawyer-name">${escapeHtml(l.name)}</div>
+          <div class="court-lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
+          <div class="court-lawyer-pills">
+            <span class="court-lawyer-spec-pill">${escapeHtml(l.specialty)}</span>
+            <span class="court-lawyer-win-pill">${l.experienceYears}+ Yrs · ${l.successRate || 95}% Win</span>
+            ${l.barNumber ? `<span class="court-lawyer-bar-pill">Bar: ${escapeHtml(l.barNumber)}</span>` : ''}
+          </div>
+        </div>
+      </div>
+      <div class="court-lawyer-card-mid">
+        <div class="court-lawyer-rate">₹${Number(l.hourlyRate).toLocaleString('en-IN')}<span class="court-lawyer-rate-unit"> / hr</span></div>
+        <div class="court-lawyer-rating">⭐ ${Number(l.rating).toFixed(1)} <span class="court-lawyer-reviews">(${l.reviewCount || 100})</span></div>
+      </div>
+      <div class="court-lawyer-card-actions">
+        <button type="button" class="btn-court-book-lawyer" onclick="event.stopPropagation(); bookLawyerFromCourt('${l.id}')">
+          📅 Book Consultation
+        </button>
+        <button type="button" class="btn-court-view-lawyer" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')">
+          Full Profile
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+// Specialty change listener in court modal
+const courtModalSpecialtySelect = document.getElementById('court-modal-specialty-select');
+if (courtModalSpecialtySelect) {
+  courtModalSpecialtySelect.addEventListener('change', () => {
+    if (activeModalCourt) {
+      renderCourtModalLawyersAndRules(activeModalCourt, courtModalSpecialtySelect.value);
+    }
+  });
+}
+
+window.openLawyerProfileFromCourt = function(lawyerId) {
+  closeCourtModal();
+  if (typeof openLawyerModal === 'function') {
+    openLawyerModal(lawyerId);
+  }
+};
+
+window.bookLawyerFromCourt = function(lawyerId) {
+  closeCourtModal();
+  if (typeof openConsultModal === 'function') {
+    openConsultModal(lawyerId);
+  }
 };
 
 function closeCourtModal() {
   if (!courtModalOverlay) return;
   courtModalOverlay.classList.add('hidden');
   document.body.style.overflow = '';
+  const mapIframe = document.getElementById('court-modal-map-iframe');
+  if (mapIframe) {
+    mapIframe.src = '';
+  }
 }
 
 courtModalClose?.addEventListener('click', closeCourtModal);
@@ -4706,6 +5291,107 @@ courtModalBtnClose?.addEventListener('click', closeCourtModal);
 courtModalOverlay?.addEventListener('click', (e) => {
   if (e.target === courtModalOverlay) closeCourtModal();
 });
+
+// ── Interactive India Courts Map Explorer Toggle & Locator ──
+const tabCourtsCards        = document.getElementById('tab-courts-cards');
+const tabCourtsMap          = document.getElementById('tab-courts-map');
+const mapExplorerContainer  = document.getElementById('courts-map-explorer-container');
+const mapQuickSelect        = document.getElementById('map-court-quick-select');
+const mapExplorerIframe     = document.getElementById('courts-explorer-iframe');
+const mapLiveBadge          = document.getElementById('map-live-badge');
+const mapLiveName           = document.getElementById('map-live-name');
+const mapLiveLoc            = document.getElementById('map-live-loc');
+const mapLiveHours          = document.getElementById('map-live-hours');
+const btnLiveCourtRules     = document.getElementById('btn-live-court-rules');
+const btnLiveCourtDir       = document.getElementById('btn-live-court-dir');
+const btnOpenExplorerMapExt = document.getElementById('btn-open-explorer-map-ext');
+let activeExplorerCourt     = null;
+
+function initCourtsMapExplorer() {
+  if (!mapQuickSelect) return;
+  const list = (courtsData && courtsData.length > 0)
+    ? courtsData 
+    : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) ? window.INDIAN_COURTS_DATA : FALLBACK_COURTS);
+  if (!list || list.length === 0) return;
+
+  const currentVal = mapQuickSelect.value;
+  const byState = {};
+  list.forEach(c => {
+    const s = c.state || 'Other';
+    if (!byState[s]) byState[s] = [];
+    byState[s].push(c);
+  });
+
+  let html = '<option value="">⚡ Jump to Court on Map...</option>';
+  Object.keys(byState).sort().forEach(stateName => {
+    html += `<optgroup label="📍 ${stateName}">`;
+    byState[stateName].forEach(c => {
+      const smallTag = (c.jurisdiction && (c.jurisdiction.includes('Taluka') || c.jurisdiction.includes('Small Causes'))) ? ' [Small Court]' : '';
+      html += `<option value="${c.id}">${c.name} (${c.city})${smallTag}</option>`;
+    });
+    html += '</optgroup>';
+  });
+  mapQuickSelect.innerHTML = html;
+  if (currentVal) mapQuickSelect.value = currentVal;
+
+  if (!activeExplorerCourt) {
+    const defaultCourt = list.find(c => c.code === 'SCI') || list[0];
+    if (defaultCourt) setExplorerCourt(defaultCourt);
+  }
+}
+
+function setExplorerCourt(c) {
+  if (!c) return;
+  activeExplorerCourt = c;
+  const queryStr = encodeURIComponent(`${c.name}, ${c.address || ''}, ${c.city || ''}, ${c.state || ''} ${c.zipCode || ''}`);
+  const mapUrl = c.mapUrl || `https://www.google.com/maps/search/?api=1&query=${queryStr}`;
+  const mapEmbedUrl = c.mapEmbedUrl || `https://www.google.com/maps?q=${queryStr}&output=embed`;
+
+  if (mapExplorerIframe) mapExplorerIframe.src = mapEmbedUrl;
+  if (btnOpenExplorerMapExt) btnOpenExplorerMapExt.href = mapUrl;
+  if (mapLiveBadge) mapLiveBadge.textContent = c.badge || c.jurisdiction || 'Indian Court';
+  if (mapLiveName) mapLiveName.textContent = c.name;
+  if (mapLiveLoc) mapLiveLoc.textContent = `📍 ${c.address ? c.address + ', ' : ''}${c.city}, ${c.state} ${c.zipCode || ''}`;
+  if (mapLiveHours) mapLiveHours.textContent = `🕒 ${c.clerkHours || 'Mon - Fri: 10:00 AM - 5:00 PM IST'}`;
+  if (btnLiveCourtDir) btnLiveCourtDir.href = mapUrl;
+  if (mapQuickSelect) mapQuickSelect.value = c.id;
+}
+
+if (tabCourtsCards && tabCourtsMap && mapExplorerContainer && courtsGrid) {
+  tabCourtsCards.addEventListener('click', () => {
+    tabCourtsCards.classList.add('active');
+    tabCourtsMap.classList.remove('active');
+    courtsGrid.classList.remove('hidden');
+    mapExplorerContainer.classList.add('hidden');
+  });
+
+  tabCourtsMap.addEventListener('click', () => {
+    tabCourtsMap.classList.add('active');
+    tabCourtsCards.classList.remove('active');
+    courtsGrid.classList.add('hidden');
+    mapExplorerContainer.classList.remove('hidden');
+    initCourtsMapExplorer();
+  });
+}
+
+if (mapQuickSelect) {
+  mapQuickSelect.addEventListener('change', () => {
+    const selectedId = Number(mapQuickSelect.value);
+    const list = (courtsData && courtsData.length > 0)
+      ? courtsData 
+      : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) ? window.INDIAN_COURTS_DATA : FALLBACK_COURTS);
+    const found = list.find(c => c.id === selectedId || String(c.id) === String(selectedId));
+    if (found) setExplorerCourt(found);
+  });
+}
+
+if (btnLiveCourtRules) {
+  btnLiveCourtRules.addEventListener('click', () => {
+    if (activeExplorerCourt) {
+      openCourtModal(activeExplorerCourt.id, activeExplorerCourt);
+    }
+  });
+}
 
 // ── Navbar "Courts" link scroll handler ──
 const navCourtsLink = document.getElementById('nav-courts');

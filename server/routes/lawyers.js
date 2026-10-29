@@ -3,12 +3,12 @@ const router = express.Router();
 const Lawyer = require('../models/Lawyer');
 
 // @route   GET /api/lawyers
-// @desc    Search and filter lawyers by specialty, keyword, rate, or rating
+// @desc    Search and filter lawyers by specialty, court, keyword, rate, or rating
 // @access  Public
 router.get('/', (req, res) => {
   try {
-    const { search, specialty, maxFee, minRating, availability, limit, offset } = req.query;
-    const lawyers = Lawyer.findAll({ search, specialty, maxFee, minRating, availability, limit, offset });
+    const { search, specialty, court, courtCode, maxFee, minRating, availability, limit, offset } = req.query;
+    const lawyers = Lawyer.findAll({ search, specialty, court, courtCode, maxFee, minRating, availability, limit, offset });
     const stats = Lawyer.getStats();
 
     return res.json({
