@@ -291,11 +291,13 @@ class Lawyer {
       INSERT INTO lawyers (
         name, title, specialty, barNumber, experienceYears, education, firmName,
         city, state, hourlyRate, rating, reviewCount, languages, bio, casesWon,
-        successRate, phone, email, avatarUrl, isAvailable
+        successRate, phone, email, avatarUrl, isAvailable,
+        courtCodes, practicingCourts, primaryCourt
       ) VALUES (
         ?, ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?, ?, ?, ?,
-        ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?,
+        ?, ?, ?
       )
     `);
 
@@ -319,7 +321,10 @@ class Lawyer {
       data.phone,
       data.email,
       data.avatarUrl || '',
-      data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1
+      data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1,
+      data.courtCodes || '',
+      data.practicingCourts || '',
+      data.primaryCourt || ''
     );
 
     const created = Lawyer.findById(result.lastInsertRowid);
@@ -341,7 +346,7 @@ class Lawyer {
       'name', 'title', 'specialty', 'barNumber', 'experienceYears', 'education',
       'firmName', 'city', 'state', 'hourlyRate', 'rating', 'reviewCount',
       'languages', 'bio', 'casesWon', 'successRate', 'phone', 'email',
-      'avatarUrl', 'isAvailable'
+      'avatarUrl', 'isAvailable', 'courtCodes', 'practicingCourts', 'primaryCourt'
     ];
 
     for (const key of allowed) {

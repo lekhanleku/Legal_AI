@@ -206,33 +206,37 @@ class Court {
       INSERT INTO courts (
         name, code, jurisdiction, level, circuit, city, state, address,
         zipCode, phone, website, clerkHours, filingSystem, chiefJudge,
-        divisions, overview, badge, isAvailable
+        divisions, overview, badge, isAvailable, latitude, longitude, mapUrl, mapEmbedUrl
       ) VALUES (
         ?, ?, ?, ?, ?, ?, ?, ?,
         ?, ?, ?, ?, ?, ?,
-        ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?
       )
     `);
 
     const result = stmt.run(
       data.name,
       data.code,
-      data.jurisdiction || 'Federal District',
+      data.jurisdiction || 'District & Sessions Court',
       data.level || 'Trial',
       data.circuit || '',
       data.city,
       data.state,
       data.address,
       data.zipCode || '',
-      data.phone,
-      data.website,
-      data.clerkHours || '8:30 AM - 5:00 PM',
-      data.filingSystem || 'CM/ECF',
-      data.chiefJudge || 'Chief Judge Presiding',
-      data.divisions || 'Civil, Criminal',
+      data.phone || '+91 11 0000 0000',
+      data.website || 'https://districts.ecourts.gov.in',
+      data.clerkHours || 'Mon - Fri: 10:00 AM - 5:00 PM IST',
+      data.filingSystem || 'e-Courts Services / CIS',
+      data.chiefJudge || 'Principal District Judge Presiding',
+      data.divisions || 'Civil, Criminal, Sessions',
       data.overview || 'Authoritative judicial forum and trial venue.',
       data.badge || '',
-      data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1
+      data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1,
+      Number(data.latitude) || 0,
+      Number(data.longitude) || 0,
+      data.mapUrl || '',
+      data.mapEmbedUrl || ''
     );
 
     const created = Court.findById(result.lastInsertRowid);
@@ -253,7 +257,8 @@ class Court {
     const allowed = [
       'name', 'code', 'jurisdiction', 'level', 'circuit', 'city', 'state',
       'address', 'zipCode', 'phone', 'website', 'clerkHours', 'filingSystem',
-      'chiefJudge', 'divisions', 'overview', 'badge', 'isAvailable'
+      'chiefJudge', 'divisions', 'overview', 'badge', 'isAvailable',
+      'latitude', 'longitude', 'mapUrl', 'mapEmbedUrl'
     ];
 
     for (const key of allowed) {

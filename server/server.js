@@ -68,6 +68,14 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
   console.log(`🚀 LegalAI Server running on http://localhost:${PORT}`);
+  
+  // Start Live File Watcher for real-time court & lawyer database synchronization
+  try {
+    const { startLiveWatcher } = require('./services/liveDataWatcher');
+    startLiveWatcher();
+  } catch (wErr) {
+    console.warn('⚠️ Could not initialize live watcher:', wErr.message);
+  }
 });
 
 server.on('error', (err) => {
