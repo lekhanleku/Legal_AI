@@ -2,9 +2,15 @@
    LEGALAI — DEDICATED LAWYERS DIRECTORY ENGINE (lawyers.js)
    ================================================================ */
 
-const SERVER_ORIGIN = (window.location.origin && window.location.origin.startsWith('http'))
-  ? window.location.origin
-  : 'http://localhost:5000';
+const SERVER_ORIGIN = (function() {
+  if (window.location.protocol === 'file:') return 'http://localhost:5000';
+  if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port !== '5000') {
+    return 'http://localhost:5000';
+  }
+  return (window.location.origin && window.location.origin.startsWith('http'))
+    ? window.location.origin
+    : 'http://localhost:5000';
+})();
 
 const LAWYERS_API = `${SERVER_ORIGIN}/api/lawyers`;
 

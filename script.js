@@ -222,10 +222,16 @@ document.head.appendChild(style);
 
 // ── AUTH SYSTEM & SQLITE REST API INTEGRATION ──
 
-// Dynamic Server Origin Detection (handles localhost:5000, 127.0.0.1:5000, custom ports, or static local files)
-const SERVER_ORIGIN = (window.location.protocol === 'http:' || window.location.protocol === 'https:')
-  ? window.location.origin
-  : 'http://localhost:5000';
+// Dynamic Server Origin Detection (handles localhost:5000, 127.0.0.1:5000, Live Server on 5500, custom ports, or static local files)
+const SERVER_ORIGIN = (function() {
+  if (window.location.protocol === 'file:') return 'http://localhost:5000';
+  if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port !== '5000') {
+    return 'http://localhost:5000';
+  }
+  return (window.location.protocol === 'http:' || window.location.protocol === 'https:')
+    ? window.location.origin
+    : 'http://localhost:5000';
+})();
 
 const API_BASE_URL = `${SERVER_ORIGIN}/api/auth`;
 

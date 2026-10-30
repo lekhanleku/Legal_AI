@@ -322,7 +322,12 @@ class Lawyer {
       data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1
     );
 
-    return Lawyer.findById(result.lastInsertRowid);
+    const created = Lawyer.findById(result.lastInsertRowid);
+    try {
+      const { syncLawyersDataset } = require('../services/datasetSyncService');
+      syncLawyersDataset(db);
+    } catch (e) {}
+    return created;
   }
 
   /**
@@ -352,6 +357,10 @@ class Lawyer {
     params.push(Number(id));
 
     db.prepare(sql).run(...params);
+    try {
+      const { syncLawyersDataset } = require('../services/datasetSyncService');
+      syncLawyersDataset(db);
+    } catch (e) {}
     return Lawyer.findById(id);
   }
 
@@ -361,6 +370,10 @@ class Lawyer {
   static delete(id) {
     const stmt = db.prepare('DELETE FROM lawyers WHERE id = ?');
     const res = stmt.run(Number(id));
+    try {
+      const { syncLawyersDataset } = require('../services/datasetSyncService');
+      syncLawyersDataset(db);
+    } catch (e) {}
     return res.changes > 0;
   }
 

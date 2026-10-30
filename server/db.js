@@ -247,6 +247,15 @@ try {
   const courtSyncResult = syncCourtsTransaction(INDIAN_COURTS);
   console.log(`🏛️ Synchronized ${INDIAN_COURTS.length} Indian courts with Maps & Coordinates (Inserted: ${courtSyncResult.inserted}, Updated: ${courtSyncResult.updated}).`);
 
+  // Auto-sync dataset files (datasets/ and ml/dataset/)
+  try {
+    const { syncAllDatasets } = require('./services/datasetSyncService');
+    const syncRes = syncAllDatasets(db);
+    console.log(`📊 Synchronized dataset files: ${syncRes.courts.count} courts, ${syncRes.lawyers.count} advocates.`);
+  } catch (dErr) {
+    console.warn('⚠️ Dataset sync warning:', dErr.message);
+  }
+
   console.log(`✅ SQLite Database connected & initialized: ${dbPath}`);
 } catch (err) {
   console.error(`❌ SQLite Connection Error: ${err.message}`);

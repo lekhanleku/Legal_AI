@@ -235,7 +235,12 @@ class Court {
       data.isAvailable !== undefined ? (data.isAvailable ? 1 : 0) : 1
     );
 
-    return Court.findById(result.lastInsertRowid);
+    const created = Court.findById(result.lastInsertRowid);
+    try {
+      const { syncCourtsDataset } = require('../services/datasetSyncService');
+      syncCourtsDataset(db);
+    } catch (e) {}
+    return created;
   }
 
   /**
@@ -264,6 +269,10 @@ class Court {
     params.push(Number(id));
 
     db.prepare(sql).run(...params);
+    try {
+      const { syncCourtsDataset } = require('../services/datasetSyncService');
+      syncCourtsDataset(db);
+    } catch (e) {}
     return Court.findById(id);
   }
 
@@ -273,6 +282,10 @@ class Court {
   static delete(id) {
     const stmt = db.prepare('DELETE FROM courts WHERE id = ?');
     const res = stmt.run(Number(id));
+    try {
+      const { syncCourtsDataset } = require('../services/datasetSyncService');
+      syncCourtsDataset(db);
+    } catch (e) {}
     return res.changes > 0;
   }
 
