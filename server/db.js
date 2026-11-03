@@ -18,6 +18,7 @@ try {
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
+      phone TEXT DEFAULT '',
       role TEXT DEFAULT 'user',
       isVerified INTEGER DEFAULT 0,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,

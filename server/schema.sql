@@ -143,3 +143,4 @@ CREATE TABLE IF NOT EXISTS consultations (
 CREATE INDEX IF NOT EXISTS idx_consultations_lawyer ON consultations(lawyerId);
 CREATE INDEX IF NOT EXISTS idx_consultations_user ON consultations(userId);
 CREATE INDEX IF NOT EXISTS idx_consultations_status ON consultations(status);
+

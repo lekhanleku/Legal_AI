@@ -1096,3 +1096,192 @@ body {
   .portal-toolbar { flex-direction: column; align-items: stretch; }
   .portal-search-box { max-width: 100%; }
 }
+
+
+/* ================================================================
+   LEGALAI PORTAL — LIGHT THEME OVERRIDES
+   ================================================================ */
+[data-theme="light"] {
+  --bg-deep: #f1f5f9;
+  --bg-base: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-elevated: #e2e8f0;
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  
+  --border: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.12);
+  --border-gold: rgba(184, 149, 106, 0.4);
+
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px var(--border);
+}
+
+[data-theme="light"] .portal-nav {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .portal-brand-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-brand-sub {
+  color: #64748b;
+}
+
+[data-theme="light"] .portal-nav-link {
+  color: #334155;
+}
+
+[data-theme="light"] .portal-nav-link:hover,
+[data-theme="light"] .portal-nav-link.active {
+  color: var(--gold-dark);
+  background: rgba(184, 149, 106, 0.1);
+}
+
+[data-theme="light"] .portal-user-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-user-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .portal-nav-item {
+  color: #475569;
+}
+
+[data-theme="light"] .portal-nav-item:hover,
+[data-theme="light"] .portal-nav-item.active {
+  background: #f1f5f9;
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .portal-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .portal-card-header {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .portal-card-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .portal-stat-value {
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-table th {
+  background: #f8fafc;
+  color: #334155;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .portal-table td {
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-table tr:hover td {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .user-chip-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .user-chip-role {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .user-profile-chip {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .user-profile-chip:hover {
+  background: #f8fafc;
+  border-color: var(--gold-primary);
+}
+
+[data-theme="light"] .portal-access-gate {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .access-gate-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .access-gate-desc {
+  color: #475569;
+}
+
+[data-theme="light"] .portal-form-input,
+[data-theme="light"] .portal-select {
+  background: #ffffff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .portal-form-input::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .portal-form-input:focus,
+[data-theme="light"] .portal-select:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(184, 149, 106, 0.15);
+}
+
+[data-theme="light"] .portal-hero-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .portal-hero-desc {
+  color: #475569;
+}
+
+[data-theme="light"] .portal-menu-btn {
+  background: #ffffff;
+  border-color: #cbd5e1;
+}
+
+[data-theme="light"] .portal-menu-btn .menu-bar {
+  background: #334155;
+}
+
+[data-theme="light"] .portal-system-status {
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+[data-theme="light"] .side-menu-ai-card {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}

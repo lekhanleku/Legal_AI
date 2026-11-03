@@ -7,6 +7,13 @@
   <meta name="description" content="Manage your booked attorney consultations, review case action checklists, and track LegalAI statutory research sessions."/>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="portal.css"/>
+  <script>
+    (function(){
+      var t = localStorage.getItem('legalai_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <script src="theme.js"></script>
 </head>
 <body>
 
@@ -45,6 +52,17 @@
       </nav>
 
       <div class="portal-user-menu" id="portal-user-menu">
+        <!-- THEME TOGGLE BUTTON -->
+        <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark / Light Theme" title="Switch Theme">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb">
+              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <svg class="theme-icon theme-icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </span>
+          </span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
+
         <div class="user-profile-chip" id="user-header-chip" title="Click to view profile settings">
           <div class="user-avatar-circle" id="user-header-avatar">U</div>
           <div class="user-chip-info">
@@ -74,9 +92,20 @@
         </div>
         <span class="side-menu-title">Client <span class="logo-accent">Portal</span></span>
       </div>
-      <button class="side-menu-close" id="portal-side-close" aria-label="Close navigation menu" title="Close menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" class="theme-toggle-btn" aria-label="Toggle Dark / Light Theme" title="Switch Theme" style="padding: 5px 10px; font-size: 11px;">
+          <span class="theme-toggle-track" style="width: 28px; height: 16px;">
+            <span class="theme-toggle-thumb" style="width: 12px; height: 12px;">
+              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <svg class="theme-icon theme-icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </span>
+          </span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
+        <button class="side-menu-close" id="portal-side-close" aria-label="Close navigation menu" title="Close menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
     </div>
 
     <!-- CLIENT QUICK STATUS CARD -->
