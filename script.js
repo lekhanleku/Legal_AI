@@ -1342,8 +1342,8 @@ function renderSuggestedCourtCardHTML(court) {
           View Court Details
         </button>
         ${court.website ? `
-          <a class="ai-btn-secondary" href="${court.website}" target="_blank" rel="noopener noreferrer">
-            Official Portal ↗
+          <a class="ai-btn-secondary" href="${court.website}">
+            Official Portal
           </a>
         ` : ''}
       </div>
@@ -1373,8 +1373,7 @@ window.handleAICourtDetails = function(courtId) {
 };
 
 window.scrollToLawyerProfile = function(lawyerName, lawyerId) {
-  // Open advocate directly in a new tab as requested (never scrolls down)
-  window.open('lawyers.html?lawyer=' + encodeURIComponent(lawyerId), '_blank', 'noopener,noreferrer');
+  window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
 // Append Chat Message with Rich Research RAG Cards & Metadata
@@ -3455,29 +3454,29 @@ function lawyerCardHTML(l) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
             Cancel Booking
           </button>
-          <a href="lawyers.html?lawyer=${l.id}" target="_blank" rel="noopener noreferrer" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="Open advocate in new tab">
+          <a href="lawyers.html?lawyer=${l.id}" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Full Details ↗
+            Full Details
           </a>
         </div>
       </div>
     `
     : `
       ${consultBtn}
-      <a href="lawyers.html?lawyer=${l.id}" target="_blank" rel="noopener noreferrer" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="Open advocate in new tab">
+      <a href="lawyers.html?lawyer=${l.id}" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        Full Details ↗
+        Full Details
       </a>
     `;
 
   return `
   <div class="lawyer-card ${isAvail ? 'card-available' : 'card-booked'}" id="lawyer-card-${l.id}" data-id="${l.id}" onclick="handleLawyerCardClick(event, '${l.id}')" title="Click to view full details of ${escapeHtml(l.name)}">
     <div class="lawyer-card-header">
-      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); window.open('lawyers.html?lawyer=' + encodeURIComponent('${l.id}'), '_blank', 'noopener,noreferrer');" title="Click to view advocate in new tab">
+      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent('${l.id}');" title="Click to view advocate details">
         ${avatarEl}
       </div>
       <div class="lawyer-header-info">
-        <div class="lawyer-name" onclick="event.stopPropagation(); window.open('lawyers.html?lawyer=' + encodeURIComponent('${l.id}'), '_blank', 'noopener,noreferrer');" title="Click to view advocate in new tab">${escapeHtml(l.name)} ↗</div>
+        <div class="lawyer-name" onclick="event.stopPropagation(); window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent('${l.id}');" title="Click to view advocate details">${escapeHtml(l.name)}</div>
         <div class="lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
         <div class="lawyer-badges">
           <span class="badge-verified"> Bar Verified</span>
@@ -3847,8 +3846,8 @@ window.handleLawyerCardClick = function(event, lawyerId) {
   if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input')) {
     return;
   }
-  // Open advocate in new tab as requested
-  window.open('lawyers.html?lawyer=' + encodeURIComponent(lawyerId), '_blank', 'noopener,noreferrer');
+  // Navigate to advocate profile in same tab
+  window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
 window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
@@ -4299,7 +4298,7 @@ const navLawyersLink = document.getElementById('nav-lawyers');
 if (navLawyersLink) {
   navLawyersLink.addEventListener('click', (e) => {
     e.preventDefault();
-    window.open('lawyers.html', '_blank', 'noopener,noreferrer');
+    window.location.href = 'lawyers.html';
   });
 }
 
@@ -4344,8 +4343,7 @@ window.closeBookingsModal = function() {
 };
 
 window.scrollToLawyers = function() {
-  // Opens in new tab, never scrolls down
-  window.open('lawyers.html', '_blank', 'noopener,noreferrer');
+  window.location.href = 'lawyers.html';
 };
 
 if (bookingsModalClose) {
@@ -5042,11 +5040,11 @@ function courtCardHTML(c) {
       <button class="btn-court-details" onclick="openCourtModal('${c.id}')">
          View Court Info &amp; Rules
       </button>
-      <a href="${mapUrl}" target="_blank" rel="noopener" class="btn-court-map-action" title="Open Location in Google Maps (Satellite & GPS)">
+      <a href="${mapUrl}" class="btn-court-map-action" title="Open Location in Google Maps (Satellite & GPS)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
         <span>Map</span>
       </a>
-      <a href="${c.website}" target="_blank" rel="noopener" class="btn-court-ext" title="Visit Official Website">
+      <a href="${c.website}" class="btn-court-ext" title="Visit Official Website">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
@@ -5302,7 +5300,7 @@ function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
       lawyersGrid.innerHTML = `
         <div class="court-lawyer-empty-box" style="grid-column: 1 / -1;">
           <p>No specialist strictly designated for <strong>${escapeHtml(specialty)}</strong> is currently listed for ${escapeHtml(court.name)}. However, general trial advocates practice before this bench.</p>
-          <p style="margin-top:8px;">View all <a href="lawyers.html?specialty=${encodeURIComponent(specialty)}" target="_blank" style="color:var(--gold); font-weight:600;">verified ${escapeHtml(specialty)} advocates in the full Directory ↗</a></p>
+          <p style="margin-top:8px;">View all <a href="lawyers.html?specialty=${encodeURIComponent(specialty)}" style="color:var(--gold); font-weight:600;">verified ${escapeHtml(specialty)} advocates in the full Directory</a></p>
         </div>
       `;
       if (allCourtLawyers.length > 0) {
@@ -5767,7 +5765,7 @@ function openPracticeModal(areaKey) {
   document.getElementById('pa-cta-btn').onclick = () => {
     closePracticeModal();
     const spec = specialtyMap[areaKey] || 'All Specialties';
-    window.open('lawyers.html?specialty=' + encodeURIComponent(spec), '_blank', 'noopener,noreferrer');
+    window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
   };
 
   overlay.classList.remove('hidden');
@@ -6927,7 +6925,7 @@ document.addEventListener('DOMContentLoaded', () => {
           specialtySelect.dispatchEvent(new Event('change'));
         }
         const spec = specialtyMap[practiceAreaKey] || 'All Specialties';
-        window.open('lawyers.html?specialty=' + encodeURIComponent(spec), '_blank', 'noopener,noreferrer');
+        window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
       };
     }
 
@@ -7797,7 +7795,7 @@ function worldNewsCardHTML(raw) {
   ).join('');
 
   return `
-    <article class="world-news-card" id="world-card-${a.id}" onclick="if(!event.target.closest('button') && !event.target.closest('a')){ window.open('${articleLink}', '_blank', 'noopener,noreferrer'); }" style="cursor:pointer;" title="Click to open Court News in New Tab ↗">
+    <article class="world-news-card" id="world-card-${a.id}" onclick="if(!event.target.closest('button') && !event.target.closest('a')){ window.location.href = '${articleLink}'; }" style="cursor:pointer;" title="Click to view Court News">
       <div class="world-card-top">
         <div class="world-card-meta">
           <span class="world-region-badge">${escapeHtml(a.region)}</span>
@@ -7807,8 +7805,8 @@ function worldNewsCardHTML(raw) {
       </div>
 
       <h3 class="world-card-title">
-        <a href="${articleLink}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" title="Open Court News in New Tab ↗">
-          ${escapeHtml(a.title)} ↗
+        <a href="${articleLink}" style="color:inherit; text-decoration:none;" title="View Court News">
+          ${escapeHtml(a.title)}
         </a>
       </h3>
 
@@ -7821,15 +7819,15 @@ function worldNewsCardHTML(raw) {
           <span class="world-source-name">${escapeHtml(a.source)}</span>
         </div>
         <div class="world-card-actions">
-          <a href="${articleLink}" target="_blank" rel="noopener noreferrer" class="world-read-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Open Court News in New Tab ↗">
-            <span>${escapeHtml(ui.readDispatch || 'Read Dispatch')} ↗</span>
+          <a href="${articleLink}" class="world-read-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="View Court News">
+            <span>${escapeHtml(ui.readDispatch || 'Read Dispatch')}</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
           <button class="world-ai-btn" onclick="event.stopPropagation(); window.askAIAboutWorldNews('${escapeHtml(a.title).replace(/'/g, "\\'")}', '${escapeHtml(a.description || a.lead || '').replace(/'/g, "\\'")}')" title="Analyze with LegalAI">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
             <span>${escapeHtml(ui.askAi || 'Ask AI')}</span>
           </button>
-          <a href="${articleLink}" target="_blank" rel="noopener noreferrer" class="world-source-link-btn" title="Open Original Publisher / Source ↗">
+          <a href="${articleLink}" class="world-source-link-btn" title="View Source">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
         </div>
@@ -7862,8 +7860,8 @@ function renderFeaturedWorldNews(raw) {
       </div>
 
       <h2 class="world-featured-title">
-        <a href="${leadLink}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" title="Open Court News in New Tab ↗">
-          ${escapeHtml(lead.title)} ↗
+        <a href="${leadLink}" style="color:inherit; text-decoration:none;" title="View Court News">
+          ${escapeHtml(lead.title)}
         </a>
       </h2>
 
@@ -7884,17 +7882,17 @@ function renderFeaturedWorldNews(raw) {
           <span>Jurisdictional Authority: <strong>${escapeHtml(lead.source)}</strong></span>
         </div>
         <div class="world-featured-btns">
-          <a href="${leadLink}" target="_blank" rel="noopener noreferrer" class="btn-read-featured" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Open Court News in New Tab ↗">
-            <span>${escapeHtml(ui.readFull || 'Read Full Legal Analysis')} ↗</span>
+          <a href="${leadLink}" class="btn-read-featured" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="View Court News">
+            <span>${escapeHtml(ui.readFull || 'Read Full Legal Analysis')}</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
           <button class="btn-ai-featured" onclick="window.askAIAboutWorldNews('${escapeHtml(lead.title).replace(/'/g, "\\'")}', '${escapeHtml(lead.lead || lead.description || '').replace(/'/g, "\\'")}')">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
             <span>${escapeHtml(ui.analyzeAi || 'Analyze with LegalAI')}</span>
           </button>
-          <a href="${leadLink}" target="_blank" rel="noopener noreferrer" class="btn-official-source" title="Open Official Tribunal / Authority Registry">
+          <a href="${leadLink}" class="btn-official-source" title="Official Authority Registry">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            <span>${escapeHtml(ui.officialSource || 'Official Registry ↗')}</span>
+            <span>${escapeHtml(ui.officialSource || 'Official Registry')}</span>
           </a>
         </div>
       </div>
@@ -7909,8 +7907,8 @@ function updateTickerContent(articles) {
     const a = getLocalized(raw);
     const itemLink = (a.link && a.link !== '#') ? a.link : 'https://www.sci.gov.in/';
     return `
-      <a href="${itemLink}" target="_blank" rel="noopener noreferrer" class="ticker-item" style="cursor:pointer; color:inherit; text-decoration:none;" title="Click to open Court News in new tab">
-        <strong>${escapeHtml(a.source || a.region)}</strong>: ${escapeHtml(a.title)} ↗
+      <a href="${itemLink}" class="ticker-item" style="cursor:pointer; color:inherit; text-decoration:none;" title="Click to view Court News">
+        <strong>${escapeHtml(a.source || a.region)}</strong>: ${escapeHtml(a.title)}
       </a>
       <span class="ticker-divider">·</span>
     `;

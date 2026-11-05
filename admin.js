@@ -555,7 +555,7 @@ async function loadAdminCourts(search = '', jurisdiction = 'all') {
         <td style="font-size:0.8rem; font-family:monospace; color:#dfb77c;">${escapeHtml(c.filingSystem || 'CM/ECF')}</td>
         <td style="font-size:0.78rem;">
           <div>${escapeHtml(c.phone || '')}</div>
-          ${c.website ? `<a href="${escapeHtml(c.website)}" target="_blank" rel="noreferrer" style="color:#7dd3fc; text-decoration:none; font-size:0.74rem;">Website ↗</a>` : ''}
+          ${c.website ? `<a href="${escapeHtml(c.website)}" style="color:#7dd3fc; text-decoration:none; font-size:0.74rem;">Website</a>` : ''}
         </td>
         <td>
           <button type="button" class="portal-filter-btn" style="padding:3px 8px; font-size:0.75rem;" onclick="toggleCourtAvail(${c.id}, ${c.isAvailable ? 0 : 1})">
