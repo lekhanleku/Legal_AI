@@ -95,13 +95,13 @@
                 <span>Search by practice area, experience &amp; state bar (Opens in New Tab ↗)</span>
               </div>
             </a>
-            <a href="index.html#courts" target="_blank" rel="noopener noreferrer" class="nav-dropdown-item" title="Open Courts Directory in New Tab">
+            <a href="#" onclick="openCourtModal('sci'); return false;" class="nav-dropdown-item" title="Open Courts Directory &amp; Map">
               <div class="dropdown-item-icon-box">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg>
               </div>
               <div class="dropdown-item-text">
                 <strong>India Courts &amp; Maps Directory</strong>
-                <span>Apex, High, District &amp; JMFC courts with GPS navigation (Opens in New Tab ↗)</span>
+                <span>Apex, High, District &amp; JMFC courts with GPS navigation</span>
               </div>
             </a>
           </div>
@@ -128,7 +128,7 @@
                 <span>Simple guides explaining your rights and legal steps</span>
               </div>
             </a>
-            <a href="index.html#world-news" target="_blank" rel="noopener noreferrer" class="nav-dropdown-item" id="menu-court-news" title="Open Court News Wire in New Tab">
+            <a href="#" class="nav-dropdown-item" id="menu-court-news" onclick="openArticlesModal(); return false;" title="Court News Wire">
               <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
               <div class="dropdown-item-text">
                 <strong>Court News Wire</strong>
@@ -314,31 +314,31 @@
             <span class="side-link-sub">Search practice domains &amp; bar certifications</span>
           </div>
         </a>
-        <a href="index.html#courts" target="_blank" rel="noopener noreferrer" class="side-menu-link" data-nav="courts">
+        <a href="#" onclick="openCourtModal('sci'); closeSideMenu(); return false;" class="side-menu-link">
           <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></span>
           <div class="side-link-content">
-            <span class="side-link-title">India Courts &amp; Maps Directory ↗</span>
+            <span class="side-link-title">India Courts &amp; Maps</span>
             <span class="side-link-sub">Apex, High, District &amp; Taluka JMFC courts with maps</span>
           </div>
         </a>
-        <a href="#practice-areas" class="side-menu-link" data-nav="areas">
+        <a href="#" onclick="openPracticeModal('criminal'); closeSideMenu(); return false;" class="side-menu-link">
           <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Practice Areas</span>
             <span class="side-link-sub">Civil, Criminal, Family &amp; Corporate</span>
           </div>
         </a>
-        <a href="#" class="side-menu-link" id="side-link-articles">
+        <a href="#" class="side-menu-link" id="side-link-articles" onclick="openArticlesModal(); closeSideMenu(); return false;">
           <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Legal Guides &amp; Rights</span>
             <span class="side-link-sub">Know your rights in simple words</span>
           </div>
         </a>
-        <a href="index.html#world-news" target="_blank" rel="noopener noreferrer" class="side-menu-link" data-nav="news" title="Open Court News Wire in New Tab">
+        <a href="#" onclick="openArticlesModal(); closeSideMenu(); return false;" class="side-menu-link" title="Court News Wire">
           <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <div class="side-link-content">
-            <span class="side-link-title">Court News Wire ↗</span>
+            <span class="side-link-title">Court News Wire</span>
             <span class="side-link-sub">Supreme Court &amp; High Court rulings</span>
           </div>
         </a>
@@ -484,128 +484,6 @@
     </div>
   </section>
 
-  <!-- WHY CHOOSE US -->
-  <section class="why-us" id="why-us">
-    <div class="why-us-inner">
-      <div class="why-left" id="why-left">
-        <span class="section-tag">WHY CHOOSE US</span>
-        <h2 class="why-title">Why You Need the<br/>Top Lawyers in<br/>Your Corner</h2>
-        <a href="lawyers.html" target="_blank" rel="noopener noreferrer" class="why-cta" id="why-cta-btn" title="Open Advocates Directory in New Tab">
-          View Advocates Directory ↗
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-      </div>
-      <div class="why-center" id="why-center">
-        <p class="drop-cap">We are a legal and AI-powered platform of professional thinkers, strategists, digital innovators, designers and problem solvers — everyone gets a mention. Our sense of curiosity brings brands to life, gets them talking, and makes sure they're heard.</p>
-        <p>Our team of dedicated attorneys brings unmatched expertise and compassionate advocacy to every case. We combine human expertise with AI precision for results that matter.</p>
-      </div>
-      <div class="why-right" id="why-right">
-        <div class="feature-card" id="feature-1">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div>
-            <h4>Expert Defense</h4>
-            <p>Unmatched legal expertise protecting your rights at every step.</p>
-          </div>
-        </div>
-        <div class="feature-card" id="feature-2">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <div>
-            <h4>AI-Powered Research</h4>
-            <p>Cutting-edge technology to analyze cases faster and smarter.</p>
-          </div>
-        </div>
-        <div class="feature-card" id="feature-3">
-          <div class="feature-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div>
-            <h4>Dedicated Team</h4>
-            <p>A full team of specialists committed to your success.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRACTICE AREAS -->
-  <section class="practice-areas" id="practice-areas">
-    <div class="practice-inner">
-      <div class="section-header">
-        <span class="section-tag light">PRACTICE AREAS</span>
-        <h2 class="section-title light">Areas of Legal Expertise</h2>
-      </div>
-      <div class="areas-grid" id="areas-grid">
-        <div class="area-card" id="area-1" role="button" tabindex="0" onclick="openPracticeModal('criminal');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-          </div>
-          <h3>Criminal Law</h3>
-          <p>Defending your rights with strategic and experienced criminal defense.</p>
-          <a href="#" class="area-link" data-area="criminal" onclick="event.stopPropagation(); openPracticeModal('criminal'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-2" role="button" tabindex="0" onclick="openPracticeModal('family');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <h3>Family Law</h3>
-          <p>Compassionate guidance through divorce, custody, and family matters.</p>
-          <a href="#" class="area-link" data-area="family" onclick="event.stopPropagation(); openPracticeModal('family'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-3" role="button" tabindex="0" onclick="openPracticeModal('corporate');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-          </div>
-          <h3>Corporate Law</h3>
-          <p>Expert legal counsel for businesses of all sizes and industries.</p>
-          <a href="#" class="area-link" data-area="corporate" onclick="event.stopPropagation(); openPracticeModal('corporate'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-4" role="button" tabindex="0" onclick="openPracticeModal('civil');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3>Civil Rights</h3>
-          <p>Fighting for equality, justice, and your fundamental civil liberties.</p>
-          <a href="#" class="area-link" data-area="civil" onclick="event.stopPropagation(); openPracticeModal('civil'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-5" role="button" tabindex="0" onclick="openPracticeModal('employment');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-          <h3>Employment Law</h3>
-          <p>Protecting workers and employers across all workplace legal disputes.</p>
-          <a href="#" class="area-link" data-area="employment" onclick="event.stopPropagation(); openPracticeModal('employment'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-6" role="button" tabindex="0" onclick="openPracticeModal('injury');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 12.5l3 3 8-8"/><circle cx="12" cy="12" r="10"/></svg>
-          </div>
-          <h3>Personal Injury</h3>
-          <p>Maximum compensation for accident victims and negligence claims.</p>
-          <a href="#" class="area-link" data-area="injury" onclick="event.stopPropagation(); openPracticeModal('injury'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-7" role="button" tabindex="0" onclick="openPracticeModal('immigration');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </div>
-          <h3>Immigration Law</h3>
-          <p>Navigating visas, green cards, citizenship, and deportation defense.</p>
-          <a href="#" class="area-link" data-area="immigration" onclick="event.stopPropagation(); openPracticeModal('immigration'); return false;">Learn More</a>
-        </div>
-        <div class="area-card" id="area-8" role="button" tabindex="0" onclick="openPracticeModal('ip');">
-          <div class="area-icon">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          </div>
-          <h3>Intellectual Property</h3>
-          <p>Securing patents, trademarks, and copyrights for your innovations.</p>
-          <a href="#" class="area-link" data-area="ip" onclick="event.stopPropagation(); openPracticeModal('ip'); return false;">Learn More</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- PRACTICE AREA DETAIL MODAL -->
   <div class="pa-modal-overlay hidden" id="pa-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pa-modal-title">
@@ -645,400 +523,6 @@
     </div>
   </div>
 
-  <!-- FEATURED ATTORNEYS & DIRECTORY SECTION -->
-  <section class="attorneys-section" id="lawyers">
-    <div class="attorneys-inner">
-      <div class="section-header center">
-        <span class="section-tag">VERIFIED LEGAL NETWORK</span>
-        <h2 class="section-title">Consult Top Verified Indian Advocates</h2>
-        <p class="section-subtitle">Connect with elite Indian senior advocates and partners by practice specialty, experience, and verified Bar Council credentials.</p>
-      </div>
-
-      <!-- AVAILABLE VS BOOKED TOGGLE TABS -->
-      <div class="lawyers-view-toggle">
-        <button type="button" class="lawyers-toggle-btn active" id="tab-available-lawyers">
-          <span class="status-pulse-dot"></span>
-          <span>Available Advocates</span>
-          <span class="toggle-badge" id="badge-avail-count">27</span>
-        </button>
-        <button type="button" class="lawyers-toggle-btn" id="tab-booked-lawyers" onclick="openBookingsModal(); return false;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          <span>My Booked Consultations</span>
-          <span class="toggle-badge booked-badge" id="badge-booked-count">0</span>
-        </button>
-        <a href="lawyers.html" target="_blank" rel="noopener noreferrer" class="lawyers-toggle-btn lawyers-fullpage-link" title="Open Complete 27 Advocates Directory Page in New Tab" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          <span>All 27 Advocates Directory ↗</span>
-        </a>
-      </div>
-
-      <!-- FILTER & SEARCH BAR -->
-      <div class="lawyer-controls">
-        <div class="lawyer-search-box">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="lawyer-search-input" placeholder="Search advocate name, city, firm, or Bar Council enrollment number..." />
-          <button id="lawyer-search-clear" class="search-clear-btn hidden">&times;</button>
-        </div>
-
-        <div class="lawyer-filters">
-          <select id="lawyer-avail-select" class="lawyer-select">
-            <option value="">All Availability</option>
-            <option value="available">Available for Consult</option>
-            <option value="booked">Booked / In Hearing</option>
-          </select>
-
-          <select id="lawyer-specialty-select" class="lawyer-select">
-            <option value="All Specialties">All Practice Specialties</option>
-            <option value="Corporate Law">Corporate Law</option>
-            <option value="Criminal Law">Criminal Law</option>
-            <option value="Intellectual Property">Intellectual Property</option>
-            <option value="Family Law">Family Law</option>
-            <option value="Employment Law">Employment Law</option>
-            <option value="Immigration Law">Immigration Law</option>
-            <option value="Real Estate Law">Real Estate Law</option>
-            <option value="Civil Rights">Civil Rights</option>
-            <option value="Personal Injury">Personal Injury</option>
-            <option value="Healthcare Law">Healthcare Law</option>
-            <option value="Tax Law">Tax Law</option>
-          </select>
-
-          <select id="lawyer-rate-select" class="lawyer-select">
-            <option value="">Any Hourly Rate</option>
-            <option value="25000">Under ₹25,000 / hr</option>
-            <option value="35000">Under ₹35,000 / hr</option>
-            <option value="45000">Under ₹45,000 / hr</option>
-            <option value="55000">Under ₹55,000 / hr</option>
-          </select>
-
-          <select id="lawyer-rating-select" class="lawyer-select">
-            <option value="">Any Rating</option>
-            <option value="4.8">4.8+ ⭐ Star Rating</option>
-            <option value="4.9">4.9+ ⭐ Star Rating</option>
-            <option value="5.0">5.0 ⭐ Top Rated Only</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- SEARCH STATS BADGE BAR -->
-      <div class="lawyer-results-header">
-        <span id="lawyer-count-badge" class="lawyer-count-badge">Showing 27 Verified Advocates</span>
-        <div class="lawyer-pills-row" id="lawyer-specialty-pills">
-          <button class="pill-chip active" data-specialty="All Specialties">All</button>
-          <button class="pill-chip" data-specialty="Corporate Law">Corporate</button>
-          <button class="pill-chip" data-specialty="Criminal Law">Criminal</button>
-          <button class="pill-chip" data-specialty="Intellectual Property">IP Law</button>
-          <button class="pill-chip" data-specialty="Family Law">Family</button>
-          <button class="pill-chip" data-specialty="Employment Law">Employment</button>
-          <button class="pill-chip" data-specialty="Immigration Law">Immigration</button>
-          <button class="pill-chip" data-specialty="Real Estate Law">Real Estate</button>
-          <button class="pill-chip" data-specialty="Civil Rights">Civil Rights</button>
-          <button class="pill-chip" data-specialty="Personal Injury">Injury</button>
-          <button class="pill-chip" data-specialty="Healthcare Law">Healthcare</button>
-          <button class="pill-chip" data-specialty="Tax Law">Tax</button>
-        </div>
-      </div>
-
-      <!-- LAWYER GRID -->
-      <div class="lawyers-grid" id="lawyers-grid">
-        <!-- Dynamic Cards rendered via JS -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================
-       COURT DIRECTORY & JURISDICTIONS SECTION
-       =================================== -->
-  <section class="courts-section" id="courts">
-    <div class="container">
-      <div class="section-header">
-        <div class="tag">
-          <span class="tag-line"></span>
-          <span class="tag-text">JUDICIAL DIRECTORY & JURISDICTIONS</span>
-        </div>
-        <h2 class="section-title">Explore Indian Courts, District Courts &amp; Taluka JMFC Judicial Map</h2>
-        <p class="section-subtitle">Comprehensive nationwide directory covering India's Supreme Court, State High Courts, Specialized National Tribunals, District &amp; Sessions Courts across all 28 States and Union Territories, Small Causes Courts, and Subordinate Taluka &amp; JMFC Courts with exact GPS coordinates and interactive Google Maps.</p>
-      </div>
-
-      <!-- COURTS VIEW TOGGLE & MAP VIEW -->
-      <div class="courts-view-toggle-bar">
-        <div class="courts-view-toggle">
-          <button type="button" class="courts-toggle-btn active" id="tab-courts-cards">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            <span>Courts Directory Cards</span>
-          </button>
-          <button type="button" class="courts-toggle-btn" id="tab-courts-map">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-            <span>Interactive India Courts Map Explorer</span>
-            <span class="toggle-badge-gold">Live Map</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- COURT CONTROLS & SEARCH -->
-      <div class="court-controls">
-        <div class="court-search-box">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="court-search-input" placeholder="Search court name, taluka, city, state, pin code, or judge..." />
-          <button id="court-search-clear" class="search-clear-btn hidden">&times;</button>
-        </div>
-
-        <div class="court-filters">
-          <select id="court-jurisdiction-select" class="court-select">
-            <option value="All Jurisdictions">All Jurisdictions (95+ Courts across India)</option>
-            <option value="Small Courts">Taluka &amp; Subordinate Courts (Small Courts)</option>
-            <option value="Small Causes &amp; JMFC Courts">Small Causes Courts</option>
-            <option value="District &amp; Sessions Court">District &amp; Sessions Courts (All States)</option>
-            <option value="State High Court">State High Courts</option>
-            <option value="Apex Supreme Court">Supreme Court of India</option>
-            <option value="Specialized Tribunal">National Tribunals &amp; Commissions</option>
-          </select>
-
-          <select id="court-state-select" class="court-select">
-            <option value="All States">All States &amp; Union Territories (All India)</option>
-            <option value="Andaman and Nicobar Islands">Andaman &amp; Nicobar Islands (Port Blair)</option>
-            <option value="Andhra Pradesh">Andhra Pradesh (Visakhapatnam &amp; Coastal)</option>
-            <option value="Arunachal Pradesh">Arunachal Pradesh (Yupia / Papum Pare)</option>
-            <option value="Assam">Assam (Guwahati &amp; Kamrup Metro)</option>
-            <option value="Bihar">Bihar (Patna District &amp; Civil Courts)</option>
-            <option value="Chandigarh">Chandigarh (Sector 43 District Complex)</option>
-            <option value="Chhattisgarh">Chhattisgarh (Raipur District &amp; Sessions)</option>
-            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra &amp; Nagar Haveli and Daman &amp; Diu</option>
-            <option value="Delhi">Delhi (Tis Hazari, Patiala House, Saket, KKD, Rohini, Dwarka)</option>
-            <option value="Goa">Goa (North Goa &amp; Panaji Altinho)</option>
-            <option value="Gujarat">Gujarat (Ahmedabad, Vadodara &amp; Sanand)</option>
-            <option value="Haryana">Haryana (Gurugram &amp; NCR)</option>
-            <option value="Himachal Pradesh">Himachal Pradesh (Shimla Chakkar)</option>
-            <option value="Jammu and Kashmir">Jammu &amp; Kashmir (Srinagar &amp; Jammu)</option>
-            <option value="Jharkhand">Jharkhand (Ranchi Kutchery Road)</option>
-            <option value="Karnataka">Karnataka (Bengaluru, Mysuru, Hubballi &amp; Talukas)</option>
-            <option value="Kerala">Kerala (Ernakulam, Kochi &amp; Aluva)</option>
-            <option value="Ladakh">Ladakh (Leh District Court)</option>
-            <option value="Madhya Pradesh">Madhya Pradesh (Indore &amp; Bhopal)</option>
-            <option value="Maharashtra">Maharashtra (Mumbai, Pune, Thane &amp; Talukas)</option>
-            <option value="Manipur">Manipur (Imphal West Cheirap Court)</option>
-            <option value="Meghalaya">Meghalaya (East Khasi Hills &amp; Shillong)</option>
-            <option value="Mizoram">Mizoram (Aizawl District Court)</option>
-            <option value="Nagaland">Nagaland (Kohima District Court)</option>
-            <option value="Odisha">Odisha (Cuttack &amp; Bhubaneswar)</option>
-            <option value="Puducherry">Puducherry (White Town Combined Court)</option>
-            <option value="Punjab">Punjab (Ludhiana &amp; Amritsar)</option>
-            <option value="Rajasthan">Rajasthan (Jaipur, Jodhpur &amp; Sanganer)</option>
-            <option value="Sikkim">Sikkim (East Sikkim &amp; Gangtok Sichey)</option>
-            <option value="Tamil Nadu">Tamil Nadu (Chennai, Coimbatore &amp; Talukas)</option>
-            <option value="Telangana">Telangana (Hyderabad, Cyberabad &amp; Ranga Reddy)</option>
-            <option value="Tripura">Tripura (West Tripura &amp; Agartala)</option>
-            <option value="Uttar Pradesh">Uttar Pradesh (Noida, Greater Noida, Lucknow, Kanpur, Prayagraj)</option>
-            <option value="Uttarakhand">Uttarakhand (Dehradun Prince Chowk)</option>
-            <option value="West Bengal">West Bengal (Kolkata, Barasat &amp; 24 Parganas)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- COURT RESULTS HEADER & PILLS -->
-      <div class="court-results-header">
-        <span id="court-count-badge" class="court-count-badge">Showing Verified Indian Courts</span>
-        <div class="court-pills-row" id="court-pills-row">
-          <button class="court-pill-chip active" data-jurisdiction="All Jurisdictions">All Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Small Courts">Taluka &amp; JMFC Courts ⭐</button>
-          <button class="court-pill-chip" data-jurisdiction="Small Causes &amp; JMFC Courts">Small Causes Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="District &amp; Sessions Court">District Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="State High Court">High Courts</button>
-          <button class="court-pill-chip" data-jurisdiction="Apex Supreme Court">Supreme Court</button>
-        </div>
-      </div>
-
-      <!-- INTERACTIVE INDIA COURTS MAP EXPLORER CONTAINER -->
-      <div class="courts-map-explorer-container hidden" id="courts-map-explorer-container">
-        <div class="map-explorer-header">
-          <div class="map-explorer-info">
-            <h3 class="map-explorer-title">Interactive India Courts Geo-Locator &amp; Map</h3>
-            <p class="map-explorer-desc">Explore small courts, taluka magistrate complexes, and apex courts across India. Select any court to pin it on the live map with instant GPS directions and street details.</p>
-          </div>
-          <div class="map-explorer-quick-actions">
-            <select id="map-court-quick-select" class="court-select map-quick-select">
-              <option value="">Jump to Court on Map...</option>
-            </select>
-            <a href="#" target="_blank" rel="noopener" id="btn-open-explorer-map-ext" class="btn-court-map-action" style="padding: 10px 16px; font-weight: 600; text-decoration: none;">
-              Full Directions in Google Maps ↗
-            </a>
-          </div>
-        </div>
-        <div class="map-explorer-viewport-box">
-          <iframe id="courts-explorer-iframe" class="courts-explorer-iframe" src="https://www.google.com/maps?q=Supreme+Court+of+India,+Tilak+Marg,+New+Delhi&output=embed" title="India Courts Interactive Map Explorer" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
-          <div class="map-court-live-card" id="map-court-live-card">
-            <div class="map-card-badge" id="map-live-badge">Apex Supreme Court</div>
-            <h4 class="map-card-name" id="map-live-name">Supreme Court of India</h4>
-            <div class="map-card-loc" id="map-live-loc">Tilak Marg, Mandi House, New Delhi 110001</div>
-            <div class="map-card-hours" id="map-live-hours">Mon - Fri: 10:00 AM - 5:00 PM IST</div>
-            <div class="map-card-btn-row">
-              <button type="button" class="btn-live-court-rules" id="btn-live-court-rules">View Rules &amp; Bench Info</button>
-              <a href="https://www.google.com/maps/search/?api=1&query=Supreme+Court+of+India+Tilak+Marg+New+Delhi+110001" target="_blank" rel="noopener" class="btn-live-court-dir" id="btn-live-court-dir">Navigate (GPS)</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- COURTS GRID -->
-      <div class="courts-grid" id="courts-grid">
-        <!-- Dynamic Cards rendered via JS -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================================
-       WORLD LEGAL NEWS & INTERNATIONAL LAW SECTION
-       =================================== -->
-  <section class="world-news-section" id="world-news">
-    <div class="world-news-inner">
-      <!-- SECTION HEADER -->
-      <div class="section-header center">
-        <span class="section-tag">CONSTITUTION OF INDIA &amp; APEX COURT DISPATCHES</span>
-        <h2 class="section-title">Indian Constitutional Law &amp; Supreme Court News Wire</h2>
-        <p class="section-subtitle">Real-time dispatches on the Constitution of India, Supreme Court Constitution Benches, Fundamental Rights (Part III), Article 21 &amp; Privacy, Karnataka &amp; State High Court Writs (Art. 226), and Constitutional Jurisprudence.</p>
-      </div>
-
-      <!-- NEWS LANGUAGE SELECTION BAR (INDIAN & GLOBAL LANGUAGES) -->
-      <div class="news-lang-bar" id="news-lang-bar">
-        <div class="news-lang-label">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span id="news-lang-label-text">Read In:</span>
-        </div>
-        <div class="news-lang-pills" id="news-lang-pills">
-          <button type="button" class="news-lang-btn active" data-lang="en"> English</button>
-          <button type="button" class="news-lang-btn" data-lang="kn"> ಕನ್ನಡ (Kannada)</button>
-          <button type="button" class="news-lang-btn" data-lang="hi"> हिन्दी (Hindi)</button>
-          <button type="button" class="news-lang-btn" data-lang="ta"> தமிழ் (Tamil)</button>
-          <button type="button" class="news-lang-btn" data-lang="te"> తెలుగు (Telugu)</button>
-          <button type="button" class="news-lang-btn" data-lang="bn"> বাংলা (Bengali)</button>
-          <button type="button" class="news-lang-btn" data-lang="mr"> मराठी (Marathi)</button>
-          <button type="button" class="news-lang-btn" data-lang="gu"> ગુજરાતી (Gujarati)</button>
-        </div>
-      </div>
-
-      <!-- LIVE GLOBAL WIRE TICKER -->
-      <div class="world-ticker-bar" id="world-ticker-bar">
-        <div class="world-ticker-badge">
-          <span class="status-pulse-dot"></span>
-          <span id="world-ticker-badge-text">CONSTITUTIONAL WIRE</span>
-        </div>
-        <div class="world-ticker-content" id="world-ticker-content">
-          <span class="ticker-item">🇮🇳 <strong>Supreme Court Constitution Bench</strong>: Expands Article 21 Privacy to mandate Zero-Knowledge digital autonomy &amp; ₹250 Cr penalties</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item"><strong>Karnataka High Court</strong>: Declares safe, pothole-free roads an enforceable Article 21 fundamental right under Article 226</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item">🇮🇳 <strong>Constitution Bench</strong>: Declares political financing transparency an inalienable Article 19(1)(a) voter fundamental right</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item"><strong>Supreme Court</strong>: Enforces Article 14 &amp; 15 constitutional mandate for gender pay equity &amp; non-discrimination</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item"><strong>Federalism Ruling</strong>: Governors cannot withhold state assembly legislative bills indefinitely under Article 200</span>
-          <span class="ticker-divider">·</span>
-          <span class="ticker-item"><strong>Article 32 Precedent</strong>: Re-anchors Dr. B.R. Ambedkar doctrine that Habeas Corpus petitions are the heart &amp; soul of the Constitution</span>
-        </div>
-      </div>
-
-      <!-- CONTROLS & FILTER BAR -->
-      <div class="world-news-controls">
-        <div class="world-search-box">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="world-search-input" placeholder="Search Indian Constitution articles, Supreme Court verdicts, fundamental rights..." />
-          <button id="world-search-clear" class="search-clear-btn hidden">&times;</button>
-        </div>
-
-        <div class="world-status-group">
-          <div class="world-live-badge">
-            <span class="articles-live-dot"></span>
-            <span id="world-feed-status">Constitutional Wire Active</span>
-          </div>
-          <button class="world-refresh-btn" id="world-refresh-btn" title="Refresh Constitutional Dispatches">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            <span id="world-refresh-text">Refresh</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- REGION PILL FILTERS -->
-      <div class="world-region-pills" id="world-region-pills">
-        <button class="world-pill-chip active" data-region="All" id="pill-region-all">All Constitutional Domains</button>
-        <button class="world-pill-chip" data-region="Fundamental Rights" id="pill-region-fr">Fundamental Rights (Part III)</button>
-        <button class="world-pill-chip" data-region="Article 21 & Privacy" id="pill-region-art21">Art. 21 &amp; Personal Liberty</button>
-        <button class="world-pill-chip" data-region="Karnataka & High Courts" id="pill-region-karnataka">Karnataka &amp; High Courts (Art. 226)</button>
-        <button class="world-pill-chip" data-region="Basic Structure & Democracy" id="pill-region-basic">🇮🇳 Basic Structure &amp; Democracy</button>
-        <button class="world-pill-chip" data-region="Equality & Social Justice" id="pill-region-equality">Equality &amp; Non-Discrimination (Art. 14-16)</button>
-        <button class="world-pill-chip" data-region="Federalism & Powers" id="pill-region-federalism">Federalism &amp; State Autonomy (Art. 200)</button>
-        <button class="world-pill-chip" data-region="Constitutional Remedies" id="pill-region-remedies">Constitutional Writs (Art. 32 &amp; 226)</button>
-      </div>
-
-      <!-- FEATURED LEAD DISPATCH (HERO) -->
-      <div class="world-featured-wrapper" id="world-featured-wrapper">
-        <!-- Rendered dynamically via script.js -->
-      </div>
-
-      <!-- WORLD NEWS GRID -->
-      <div class="world-news-grid" id="world-news-grid">
-        <!-- Rendered dynamically via script.js -->
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer" id="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="logo footer-logo">
-          <div class="logo-icon">
-            <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-              <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#logoGrad2)"/>
-              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
-              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
-              <defs>
-                <linearGradient id="logoGrad2" x1="0" y1="0" x2="40" y2="40">
-                  <stop offset="0%" stop-color="#b8956a"/>
-                  <stop offset="100%" stop-color="#8b6914"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
-        </div>
-        <p class="footer-desc">Justice powered by intelligence. Combining legal expertise with AI for unmatched results.</p>
-        <div class="footer-socials" style="display: flex; gap: 12px; margin-top: 16px;">
-          <a href="#" class="social-icon" aria-label="Facebook">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="Twitter">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
-          </a>
-          <a href="#" class="social-icon" aria-label="LinkedIn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer-links">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#hero">Home</a></li>
-          <li><a href="user.html">Client Case Portal</a></li>
-          <li><a href="admin.html">Admin Command Suite</a></li>
-          <li><a href="#" id="footer-ai-link">AI Assistant</a></li>
-          <li><a href="lawyers.html" target="_blank" rel="noopener noreferrer">Advocates Directory ↗</a></li>
-          <li><a href="lawyers.html" target="_blank" rel="noopener noreferrer">Senior Advocates ↗</a></li>
-          <li><a href="index.html#courts" target="_blank" rel="noopener noreferrer">Courts Directory ↗</a></li>
-          <li><a href="index.html#world-news" target="_blank" rel="noopener noreferrer">Court News Wire ↗</a></li>
-          <li><a href="index.html#practice-areas" target="_blank" rel="noopener noreferrer">Practice Articles ↗</a></li>
-        </ul>
-      </div>
-      <div class="footer-contact">
-        <h4>Contact</h4>
-        <p>Los Angeles, CA 90001</p>
-        <p>+1 (213) 555-0121</p>
-        <p>contact@legalai.com</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>2026 LegalAI. All rights reserved.</p>
-    </div>
-  </footer>
 
   <!-- AUTH MODAL OVERLAY -->
   <div class="auth-modal-overlay hidden" id="auth-modal-overlay">

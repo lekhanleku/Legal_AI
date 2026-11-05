@@ -57,6 +57,7 @@ function closeSideMenu() {
   if (legacyHamburger) legacyHamburger.classList.remove('open');
   document.body.style.overflow = '';
 }
+window.closeSideMenu = closeSideMenu;
 
 function toggleSideMenu() {
   const isOpen = sideMenuDrawer?.classList.contains('open');
@@ -1717,6 +1718,17 @@ navAiLink?.addEventListener('click', (e) => {
 ctaConsultBtn?.addEventListener('click', (e) => {
   e.preventDefault();
   openAIDrawer();
+});
+
+// Hero "Learn More" CTA
+const ctaLearnBtn = document.getElementById('cta-learn');
+ctaLearnBtn?.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (typeof openArticlesModal === 'function') {
+    openArticlesModal();
+  } else if (typeof openAIDrawer === 'function') {
+    openAIDrawer();
+  }
 });
 
 // Topic Chips Click Handlers
