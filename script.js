@@ -261,7 +261,7 @@ function showToast(message, type = 'info', action = null) {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   
-  const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+  const icon = type === 'success' ? '' : type === 'error' ? '' : 'ℹ';
   const actionBtnHtml = action && action.label ? `<button class="toast-action-btn" type="button">${action.label}</button>` : '';
 
   toast.innerHTML = `
@@ -401,7 +401,7 @@ function setLoggedInState(user) {
   if (userNameEl) userNameEl.textContent = user.name;
   if (dropdownName) dropdownName.textContent = user.name;
   if (dropdownEmail) dropdownEmail.textContent = user.email || 'user@legalai.com';
-  if (dropdownRole) dropdownRole.textContent = user.role === 'admin' ? '👑 Master Administrator' : 'Verified Client';
+  if (dropdownRole) dropdownRole.textContent = user.role === 'admin' ? ' Master Administrator' : 'Verified Client';
 
   loggedOutView?.classList.add('hidden');
   loggedInView?.classList.remove('hidden');
@@ -578,6 +578,24 @@ btnLogout?.addEventListener('click', () => {
 
 // Initialize session check on load
 initSession();
+
+// Auto-resume consultation booking if returning authenticated from login/register
+function checkPendingConsultationResume() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const resumeId = urlParams.get('bookLawyerId');
+  const token = localStorage.getItem('legalai_token');
+  if (resumeId && token) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    try { sessionStorage.removeItem('pending_consult_lawyer'); } catch (_) {}
+    setTimeout(() => {
+      if (typeof window.openConsultModal === 'function') {
+        window.openConsultModal(resumeId);
+        showToast('Resuming your consultation booking...', 'info');
+      }
+    }, 450);
+  }
+}
+checkPendingConsultationResume();
 
 // ===================================
 // LEGALAI ASSISTANT (FRONTEND CLIENT)
@@ -1127,7 +1145,7 @@ function generateClientLegalAssessment(prompt, userName) {
   if (!bestDomain) {
     return {
       category: 'General Legal Advisory',
-      text: `${userGreeting}this legal situation:\n\n### 🔍 Initial Assessment & Issue Spotting\nYour situation touches upon general civil and administrative legal principles. Because legal outcomes are highly fact-dependent and subject to jurisdiction-specific statutes, establishing the factual timeline is your primary objective.\n\n### ⚖️ Universal Legal Protections\n* **Due Process:** Any formal adverse legal action typically requires formal written notice and an opportunity to respond.\n* **Statute of Limitations:** All claims have strict time limits. Delaying action can permanently forfeit your right to relief.\n* **Duty to Mitigate:** In financial or contract disputes, parties are expected to take reasonable steps to minimize escalating damages.\n\n### 📋 Immediate Actionable Recommendations\n1. **Establish a Chronological Record:** Write down a detailed, dated sequence of all events, communications, and promises made.\n2. **Preserve All Written Evidence:** Back up emails, text messages, receipts, and contracts in a secure offsite location.\n3. **Avoid Speculative Statements:** Do not make written admissions or discuss case merits on social media.\n\n> ⚠️ *Disclaimer: LegalAI Assistant provides informational analysis and legal information, not formal attorney-client representation. For binding legal advice tailored to your state and jurisdiction, always consult a licensed attorney.*`,
+      text: `${userGreeting}this legal situation:\n\n###  Initial Assessment & Issue Spotting\nYour situation touches upon general civil and administrative legal principles. Because legal outcomes are highly fact-dependent and subject to jurisdiction-specific statutes, establishing the factual timeline is your primary objective.\n\n###  Universal Legal Protections\n* **Due Process:** Any formal adverse legal action typically requires formal written notice and an opportunity to respond.\n* **Statute of Limitations:** All claims have strict time limits. Delaying action can permanently forfeit your right to relief.\n* **Duty to Mitigate:** In financial or contract disputes, parties are expected to take reasonable steps to minimize escalating damages.\n\n###  Immediate Actionable Recommendations\n1. **Establish a Chronological Record:** Write down a detailed, dated sequence of all events, communications, and promises made.\n2. **Preserve All Written Evidence:** Back up emails, text messages, receipts, and contracts in a secure offsite location.\n3. **Avoid Speculative Statements:** Do not make written admissions or discuss case merits on social media.\n\n>  *Disclaimer: LegalAI Assistant provides informational analysis and legal information, not formal attorney-client representation. For binding legal advice tailored to your state and jurisdiction, always consult a licensed attorney.*`,
       suggestedLawyer: isLawyerQuery ? CLIENT_LEGAL_DOMAINS[2].fallbackLawyer : null,
       suggestedCourt: isCourtQuery ? CLIENT_LEGAL_DOMAINS[5].fallbackCourt : null
     };
@@ -1137,7 +1155,7 @@ function generateClientLegalAssessment(prompt, userName) {
   const actionsList = bestDomain.actions.map((a, i) => `${i + 1}. **${a.split(':')[0] || a.slice(0, 30)}**: ${a}`).join('\n');
   const docsList = bestDomain.documents.map(d => `* ${d}`).join('\n');
 
-  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n### 🔍 Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n### ⚖️ Key Rights & Statutory Principles\n${rightsList}\n\n### 📋 Immediate Action Steps\n${actionsList}\n\n### 📁 Critical Evidence & Documents to Preserve\n${docsList}\n\n> ⚠️ *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
+  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n###  Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n###  Key Rights & Statutory Principles\n${rightsList}\n\n###  Immediate Action Steps\n${actionsList}\n\n###  Critical Evidence & Documents to Preserve\n${docsList}\n\n>  *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
 
   return {
     category: bestDomain.name,
@@ -1249,10 +1267,10 @@ function renderSuggestedLawyerCardHTML(lawyer) {
           <div class="ai-card-avatar-fallback">${initials}</div>
         `}
         <div class="ai-card-details">
-          <h4 class="ai-card-name">${escapeHtml(lawyer.name)} <span class="ai-card-verified-badge" title="State Bar Verified Advocate">✓ Verified</span></h4>
+          <h4 class="ai-card-name">${escapeHtml(lawyer.name)} <span class="ai-card-verified-badge" title="State Bar Verified Advocate"> Verified</span></h4>
           <div class="ai-card-specialty">${escapeHtml(lawyer.specialty || 'General Counsel')} · ${lawyer.experienceYears || 10}+ Yrs Experience</div>
           <div class="ai-card-meta-row">
-            <span class="ai-card-rating">★ ${ratingVal} <span class="ai-card-reviews">${reviewsText}</span></span>
+            <span class="ai-card-rating"> ${ratingVal} <span class="ai-card-reviews">${reviewsText}</span></span>
             <span class="ai-card-rate">${rateText}</span>
           </div>
         </div>
@@ -1301,7 +1319,7 @@ function renderSuggestedCourtCardHTML(court) {
           <div class="ai-court-jurisdiction">${escapeHtml(court.circuit || court.state || 'General')} · ${escapeHtml(court.jurisdiction || 'Judicial District')}</div>
           <div class="ai-court-filing">
             <span class="ai-filing-pill">${escapeHtml(filing)}</span>
-            ${locText ? `<span class="ai-loc-text">📍 ${escapeHtml(locText)}</span>` : ''}
+            ${locText ? `<span class="ai-loc-text"> ${escapeHtml(locText)}</span>` : ''}
           </div>
         </div>
       </div>
@@ -1431,7 +1449,7 @@ function appendAIMessage(role, content, category = null, suggestedLawyer = null,
     const label = route === 'DIRECT' ? 'Direct Legal Knowledge' : (route === 'RETRIEVE_MORE' ? 'Deep Statutory Graph RAG' : 'Standard Hybrid RAG');
     routingHTML = `
       <div class="ai-routing-pill ${routeClass}" title="${escapeHtml(ragData.routing.explanation || '')}">
-        <span>⚡ Route: ${label}</span> · <span>Complexity: ${complexityPercent}%</span>
+        <span> Route: ${label}</span> · <span>Complexity: ${complexityPercent}%</span>
       </div>
     `;
   }
@@ -1442,7 +1460,7 @@ function appendAIMessage(role, content, category = null, suggestedLawyer = null,
     const trans = ragData.temporalValidity.applicable_transitions[0];
     versionAlertHTML = `
       <div class="ai-version-banner">
-        <div class="ai-version-banner-icon">⚖️</div>
+        <div class="ai-version-banner-icon"></div>
         <div class="ai-version-banner-body">
           <h5>Statutory Version Alert (In Force: ${trans.effective_date})</h5>
           <p>This matter involves <strong>${trans.old_act} ${trans.old_section}</strong> which was superseded on 1 July 2024 by <strong>${trans.new_act} ${trans.new_section}</strong>. ${escapeHtml(trans.notes || '')}</p>
@@ -1475,15 +1493,15 @@ function appendAIMessage(role, content, category = null, suggestedLawyer = null,
       <div class="ai-claims-summary-card">
         <div class="ai-claims-header">
           <div class="ai-claims-title">
-            <span>🔍 Claim Attribution (ALCE Framework)</span>
+            <span> Claim Attribution (ALCE Framework)</span>
             <span class="ai-claims-badge ${prec >= 80 ? 'success' : 'warning'}">${prec}% Grounded</span>
           </div>
           <button type="button" class="ai-action-btn" style="width:auto; padding:3px 8px; font-size:0.72rem; color:#dfb77c;" onclick="openRagLabModal('tab-attribution');">Inspect Citations ↗</button>
         </div>
         <div style="font-size:0.75rem; color:#94a3b8; display:flex; gap:12px; flex-wrap:wrap;">
-          <span style="color:#10b981;">✓ Supported Claims: ${tax.SUPPORTED || 0}</span>
-          <span style="color:#f59e0b;">⚠️ Qualified Preconditions: ${tax.MISSING_CONDITION || 0}</span>
-          <span style="color:#ef4444;">❌ Wrong Citations: ${tax.WRONG_CITATION || 0}</span>
+          <span style="color:#10b981;"> Supported Claims: ${tax.SUPPORTED || 0}</span>
+          <span style="color:#f59e0b;"> Qualified Preconditions: ${tax.MISSING_CONDITION || 0}</span>
+          <span style="color:#ef4444;"> Wrong Citations: ${tax.WRONG_CITATION || 0}</span>
         </div>
       </div>
     `;
@@ -1552,7 +1570,7 @@ window.toggleMsgView = function(msgId, mode) {
     btnExpert?.classList.remove('active');
     btnLayperson?.classList.add('active');
 
-    let plainContent = `### 💡 Layperson Plain-Language Summary\n${store.laypersonText || 'Plain summary not available.'}\n\n### 📋 What You Should Do First:\n`;
+    let plainContent = `###  Layperson Plain-Language Summary\n${store.laypersonText || 'Plain summary not available.'}\n\n###  What You Should Do First:\n`;
     store.plainActions.forEach((act, i) => {
       plainContent += `* **Step ${i + 1}:** ${act}\n`;
     });
@@ -1618,7 +1636,7 @@ async function sendAIQuery(promptText) {
       appendAIMessage('bot', data.response, data.category, data.suggestedLawyer, data.suggestedCourt, data);
       checkBackendHealth();
     } else {
-      appendAIMessage('bot', `⚠️ I encountered an issue analyzing your query: ${data.message || 'Please try again.'}`);
+      appendAIMessage('bot', ` I encountered an issue analyzing your query: ${data.message || 'Please try again.'}`);
     }
   } catch (err) {
     // Server is unreachable: trigger health check update and provide immediate offline fallback
@@ -1633,7 +1651,7 @@ async function sendAIQuery(promptText) {
     }
 
     const fallback = generateClientLegalAssessment(cleanPrompt, currentUserName);
-    const offlineAlert = `\n\n> 💡 **Notice:** The backend server on port 5000 is currently offline. You received this response from the built-in offline engine. To save chats to your SQLite profile and book consultations, launch **run.bat** in your project folder.`;
+    const offlineAlert = `\n\n>  **Notice:** The backend server on port 5000 is currently offline. You received this response from the built-in offline engine. To save chats to your SQLite profile and book consultations, launch **run.bat** in your project folder.`;
     appendAIMessage('bot', fallback.text + offlineAlert, fallback.category, fallback.suggestedLawyer, fallback.suggestedCourt);
   } finally {
     aiTyping?.classList.add('hidden');
@@ -1914,7 +1932,7 @@ window.runRouterTest = async function() {
         <div style="background:#0d1017; border-radius:8px; padding:12px; border:1px solid rgba(255,255,255,0.06);">
           <div style="font-size:0.75rem; font-weight:700; color:#dfb77c; text-transform:uppercase; margin-bottom:6px;">HyPA Decomposed Sub-Queries (Rule + Precondition + Exception):</div>
           <div style="display:flex; flex-direction:column; gap:6px;">
-            ${routing.subqueries.map((sq, i) => `<div style="font-size:0.82rem; color:#e2e8f0; background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:6px;">🔹 <strong>Sub-Query ${i + 1}:</strong> ${escapeHtml(sq)}</div>`).join('')}
+            ${routing.subqueries.map((sq, i) => `<div style="font-size:0.82rem; color:#e2e8f0; background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:6px;"> <strong>Sub-Query ${i + 1}:</strong> ${escapeHtml(sq)}</div>`).join('')}
           </div>
         </div>
       ` : ''}
@@ -1951,7 +1969,7 @@ window.runChunkerComparison = async function() {
           Slices legal texts purely by word or character counts. Causes severe legal hallucination when an article's substantive rule is separated into Chunk A and its mandatory proviso/exception is pushed into Chunk B.
         </p>
         <div style="background:#0d1017; border-radius:8px; padding:12px; font-size:0.8rem; border:1px solid rgba(239,68,68,0.2);">
-          <div style="color:#f87171; font-weight:700; margin-bottom:4px;">❌ Severed Exceptions in Corpus: ${fixed.severed_exception_cases || 4} Instances</div>
+          <div style="color:#f87171; font-weight:700; margin-bottom:4px;"> Severed Exceptions in Corpus: ${fixed.severed_exception_cases || 4} Instances</div>
           <div style="color:#94a3b8;">Average Structural Integrity: <strong>0.68 / 1.00</strong></div>
           <div style="color:#fca5a5; margin-top:6px; font-size:0.75rem;">Example: "Tenant may withhold rent" chunk indexed WITHOUT its attached 14-day written notice and escrow proviso!</div>
         </div>
@@ -1963,10 +1981,10 @@ window.runChunkerComparison = async function() {
           <span class="rag-badge-success">Severed: ${struct.severed_percentage} (Zero Loss)</span>
         </div>
         <p style="font-size:0.82rem; color:#94a3b8; line-height:1.45; margin-bottom:12px;">
-          Parses statutory syntax: <code>Act ➔ Chapter ➔ Section (§) ➔ Paragraph ➔ Clause / Proviso</code>. Detects <em>"Provided that"</em> and <em>"Exception:"</em> triggers and permanently binds them to the parent rule chunk.
+          Parses statutory syntax: <code>Act  Chapter  Section (§)  Paragraph  Clause / Proviso</code>. Detects <em>"Provided that"</em> and <em>"Exception:"</em> triggers and permanently binds them to the parent rule chunk.
         </p>
         <div style="background:#0d1017; border-radius:8px; padding:12px; font-size:0.8rem; border:1px solid rgba(16,185,129,0.2);">
-          <div style="color:#34d399; font-weight:700; margin-bottom:4px;">✓ Severed Exceptions: 0 (100% Structural Cohesion)</div>
+          <div style="color:#34d399; font-weight:700; margin-bottom:4px;"> Severed Exceptions: 0 (100% Structural Cohesion)</div>
           <div style="color:#94a3b8;">Average Structural Integrity: <strong>1.00 / 1.00</strong></div>
           <div style="color:#a7f3d0; margin-top:6px; font-size:0.75rem;">Result: Citations always retrieve the full operational rule along with all prerequisite statutory conditions.</div>
         </div>
@@ -2091,7 +2109,7 @@ window.queryKnowledgeGraph = async function() {
               <div style="display:flex; flex-direction:column; gap:6px;">
                 ${c.mandatory_preconditions.map((p, idx) => `
                   <div style="background:#0d1017; border-left:3px solid #38bdf8; padding:8px 12px; border-radius:0 6px 6px 0; font-size:0.83rem; color:#e2e8f0;">
-                    ✓ <strong>Condition ${idx + 1}:</strong> ${escapeHtml(p.condition)}
+                     <strong>Condition ${idx + 1}:</strong> ${escapeHtml(p.condition)}
                   </div>
                 `).join('')}
               </div>
@@ -2105,7 +2123,7 @@ window.queryKnowledgeGraph = async function() {
                 <div style="display:flex; flex-direction:column; gap:6px;">
                   ${c.statutory_exceptions.map((e, idx) => `
                     <div style="background:#0d1017; border-left:3px solid #f59e0b; padding:8px 12px; border-radius:0 6px 6px 0; font-size:0.83rem; color:#fef3c7;">
-                      ⚠️ <strong>Exception ${idx + 1}:</strong> ${escapeHtml(e.exception)}
+                       <strong>Exception ${idx + 1}:</strong> ${escapeHtml(e.exception)}
                     </div>
                   `).join('')}
                 </div>
@@ -2383,7 +2401,7 @@ window.loadBiasAudit = async function() {
               `).join('')}
             </div>
             <div style="font-size:0.78rem; color:#86efac; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); padding:8px 10px; border-radius:6px;">
-              ✓ Simpson Diversity Index: <strong>${report.jurisdiction_diversity?.simpson_diversity_index || '0.64'}</strong> (High Multi-Country Coverage)
+               Simpson Diversity Index: <strong>${report.jurisdiction_diversity?.simpson_diversity_index || '0.64'}</strong> (High Multi-Country Coverage)
             </div>
           </div>
         </div>
@@ -3404,7 +3422,7 @@ function renderStars(rating) {
   const full  = Math.floor(rating);
   const half  = rating % 1 >= 0.5;
   const empty = 5 - full - (half ? 1 : 0);
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  return ''.repeat(full) + (half ? '½' : '') + ''.repeat(empty);
 }
 
 function getInitials(name) {
@@ -3423,10 +3441,10 @@ function lawyerCardHTML(l) {
 
   const consultBtn = isAvail
     ? `<button class="btn-consult" data-lawyer-id="${l.id}" onclick="event.stopPropagation(); openConsultModal('${l.id}')">
-        📅 Book Consultation
+         Book Consultation
       </button>`
     : `<button class="btn-consult btn-waitlist" data-lawyer-id="${l.id}" onclick="event.stopPropagation(); openConsultModal('${l.id}')">
-        ⏳ Join Waitlist / Inquire
+         Join Waitlist / Inquire
       </button>`;
 
   // Check if current user has an active, confirmed booking for this attorney
@@ -3446,32 +3464,32 @@ function lawyerCardHTML(l) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
             Cancel Booking
           </button>
-          <button class="btn-profile" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" title="View complete credentials, biography & bar registration">
+          <a href="lawyers.html?lawyer=${l.id}" target="_blank" rel="noopener noreferrer" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="Open advocate in new tab">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            Full Details
-          </button>
+            Full Details ↗
+          </a>
         </div>
       </div>
     `
     : `
       ${consultBtn}
-      <button class="btn-profile" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" title="View complete credentials, biography & bar registration">
+      <a href="lawyers.html?lawyer=${l.id}" target="_blank" rel="noopener noreferrer" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="Open advocate in new tab">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        Full Details
-      </button>
+        Full Details ↗
+      </a>
     `;
 
   return `
   <div class="lawyer-card ${isAvail ? 'card-available' : 'card-booked'}" id="lawyer-card-${l.id}" data-id="${l.id}" onclick="handleLawyerCardClick(event, '${l.id}')" title="Click to view full details of ${escapeHtml(l.name)}">
     <div class="lawyer-card-header">
-      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" title="Click to view full advocate profile">
+      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); window.open('lawyers.html?lawyer=' + encodeURIComponent('${l.id}'), '_blank', 'noopener,noreferrer');" title="Click to view advocate in new tab">
         ${avatarEl}
       </div>
       <div class="lawyer-header-info">
-        <div class="lawyer-name" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" title="Click to view advocate profile">${escapeHtml(l.name)}</div>
+        <div class="lawyer-name" onclick="event.stopPropagation(); window.open('lawyers.html?lawyer=' + encodeURIComponent('${l.id}'), '_blank', 'noopener,noreferrer');" title="Click to view advocate in new tab">${escapeHtml(l.name)} ↗</div>
         <div class="lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
         <div class="lawyer-badges">
-          <span class="badge-verified">✓ Bar Verified</span>
+          <span class="badge-verified"> Bar Verified</span>
           <span class="badge-specialty" onclick="event.stopPropagation(); openLawyerModal('${l.id}')">${escapeHtml(l.specialty)}</span>
           ${availBadge}
         </div>
@@ -3834,11 +3852,12 @@ const lawyerCopyBtnText   = document.getElementById('lawyer-copy-btn-text');
 let currentModalLawyer = null;
 
 window.handleLawyerCardClick = function(event, lawyerId) {
-  // Prevent modal opening when clicking interactive elements like buttons, inputs, or links
+  // Prevent when clicking interactive elements like buttons, inputs, or links
   if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input')) {
     return;
   }
-  openLawyerModal(lawyerId);
+  // Open advocate in new tab as requested
+  window.open('lawyers.html?lawyer=' + encodeURIComponent(lawyerId), '_blank', 'noopener,noreferrer');
 };
 
 window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
@@ -3948,7 +3967,7 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
   if (successEl) successEl.textContent = `${lawyer.successRate || 95}%`;
 
   const ratingEl = document.getElementById('lawyer-modal-rating');
-  if (ratingEl) ratingEl.textContent = `★ ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
+  if (ratingEl) ratingEl.textContent = ` ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
 
   const rateEl = document.getElementById('lawyer-modal-rate');
   if (rateEl) rateEl.textContent = `₹${Number(lawyer.hourlyRate || 5000).toLocaleString('en-IN')} / hr`;
@@ -4028,8 +4047,8 @@ Consultation Fee: ₹${Number(currentModalLawyer.hourlyRate).toLocaleString('en-
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = '✓ Copied!';
-      showToast('✓ Advocate credentials & contact details copied to clipboard!', 'success');
+      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = ' Copied!';
+      showToast(' Advocate credentials & contact details copied to clipboard!', 'success');
       setTimeout(() => {
         if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = 'Copy Advocate Details';
       }, 2500);
@@ -4060,17 +4079,57 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ── Consultation Modal ──
+// ── Consultation Modal (Authentication Mandatory) ──
 window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
-  let lawyer = lawyersData.find(l => l.id === lawyerId) || fallbackLawyer;
-  if (!lawyer && window.aiSuggestionsCache?.lawyers[lawyerId]) {
+  let lawyer = lawyersData.find(l => String(l.id) === String(lawyerId)) || fallbackLawyer;
+  if (!lawyer && window.aiSuggestionsCache?.lawyers && window.aiSuggestionsCache.lawyers[lawyerId]) {
     lawyer = window.aiSuggestionsCache.lawyers[lawyerId];
   }
+  if (!lawyer && typeof FALLBACK_LAWYERS !== 'undefined') {
+    lawyer = FALLBACK_LAWYERS.find(l => String(l.id) === String(lawyerId));
+  }
+
+  // 1. Mandatory Login/Registration Check
+  const token = localStorage.getItem('legalai_token');
+  const cachedUserStr = localStorage.getItem('legalai_user');
+  const isAuth = !!(token && cachedUserStr);
+
+  if (!isAuth) {
+    // Preserve selected lawyer details for auto-resumption after login/register
+    const pendingData = {
+      lawyerId: lawyer ? lawyer.id : lawyerId,
+      lawyerName: lawyer ? lawyer.name : 'Advocate',
+      lawyerSpecialty: lawyer ? lawyer.specialty : '',
+      lawyerRate: lawyer ? lawyer.hourlyRate : '',
+      sourcePage: 'index.html'
+    };
+    try {
+      sessionStorage.setItem('pending_consult_lawyer', JSON.stringify(pendingData));
+    } catch (_) {}
+
+    showToast('Please log in or register to book a lawyer consultation.', 'info');
+    setTimeout(() => {
+      window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(pendingData.lawyerId)}&lawyerName=${encodeURIComponent(pendingData.lawyerName)}`;
+    }, 300);
+    return;
+  }
+
   if (!lawyer || !consultOverlay) return;
 
   consultLawyerId.value = lawyer.id;
   consultModalTitle.textContent = `Book — ${lawyer.name}`;
   consultAttySubtitle.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate).toLocaleString('en-IN')}/hr`;
+
+  // Pre-fill authenticated user information
+  try {
+    const user = JSON.parse(cachedUserStr);
+    const nameInput = document.getElementById('consult-name');
+    const emailInput = document.getElementById('consult-email');
+    const phoneInput = document.getElementById('consult-phone');
+    if (nameInput && !nameInput.value) nameInput.value = user.name || '';
+    if (emailInput && !emailInput.value) emailInput.value = user.email || '';
+    if (phoneInput && user.phone && !phoneInput.value) phoneInput.value = user.phone;
+  } catch (_) {}
 
   // Set min date to today
   const today = new Date().toISOString().split('T')[0];
@@ -4132,12 +4191,30 @@ if (consultPhoneInput) {
   });
 }
 
-// ── Consult Form Submission ──
+// ── Consult Form Submission (With Auth Header & Expiration Handling) ──
 if (consultForm) {
   consultForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem('legalai_token');
     const lawyerId = consultLawyerId.value;
+
+    // Check auth again
+    if (!token) {
+      showToast('Please log in or register to book a lawyer consultation.', 'error');
+      try {
+        sessionStorage.setItem('pending_consult_lawyer', JSON.stringify({
+          lawyerId,
+          lawyerName: consultModalTitle.textContent.replace('Book — ', ''),
+          sourcePage: 'index.html'
+        }));
+      } catch (_) {}
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(lawyerId)}`;
+      }, 400);
+      return;
+    }
+
     const clientName    = document.getElementById('consult-name').value.trim();
     const clientEmail   = document.getElementById('consult-email').value.trim();
     const clientPhone   = document.getElementById('consult-phone').value.trim();
@@ -4152,7 +4229,7 @@ if (consultForm) {
     // Validate phone number
     const phoneCheck = validatePhoneNumber(clientPhone);
     if (!phoneCheck.valid) {
-      showToast(`⚠️ ${phoneCheck.message}`, 'error');
+      showToast(` ${phoneCheck.message}`, 'error');
       showConsultPhoneError(phoneCheck.message);
       if (consultPhoneInput) consultPhoneInput.focus();
       return;
@@ -4167,16 +4244,39 @@ if (consultForm) {
     try {
       const resp = await fetch(`${LAWYERS_API}/${lawyerId}/consult`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ clientName, clientEmail, clientPhone, preferredDate, caseSummary })
       });
       const data = await resp.json();
 
+      if (resp.status === 401) {
+        // Session expired or invalid
+        localStorage.removeItem('legalai_token');
+        localStorage.removeItem('legalai_user');
+        setLoggedInState(null);
+        showToast(data.message || 'Session expired. Please log in again to complete your booking.', 'error');
+        try {
+          sessionStorage.setItem('pending_consult_lawyer', JSON.stringify({
+            lawyerId,
+            lawyerName: consultModalTitle.textContent.replace('Book — ', ''),
+            sourcePage: 'index.html'
+          }));
+        } catch (_) {}
+        setTimeout(() => {
+          window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(lawyerId)}`;
+        }, 1200);
+        return;
+      }
+
       if (data.success) {
         closeConsultModal();
-        const bookedId = data.consultation?.id;
+        try { sessionStorage.removeItem('pending_consult_lawyer'); } catch (_) {}
+        const bookedId = data.bookingId || data.consultation?.id;
         showToast(
-          `✅ Consultation booked with ${data.lawyer.name}!`,
+          ` Consultation #${bookedId || ''} booked with ${data.lawyer?.name || 'Advocate'}!`,
           'success',
           bookedId ? {
             label: 'Cancel Booking',
@@ -4322,7 +4422,7 @@ function updateFloatingBookingPill() {
 
   const latest = activeBookings[0];
   if (sub) {
-    sub.textContent = `${latest.lawyerName || 'Attorney'} · 📅 ${latest.preferredDate || 'Upcoming'}`;
+    sub.textContent = `${latest.lawyerName || 'Attorney'} ·  ${latest.preferredDate || 'Upcoming'}`;
   }
   if (cancelBtn) {
     cancelBtn.onclick = () => cancelConsultationBooking(latest.id, true);
@@ -4455,7 +4555,7 @@ function renderBookingsList(bookings) {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               <div>
                 <span class="info-label">Session Date</span>
-                <span class="info-val highlight-date">📅 ${b.preferredDate || 'To be determined'}</span>
+                <span class="info-val highlight-date"> ${b.preferredDate || 'To be determined'}</span>
               </div>
             </div>
 
@@ -4946,7 +5046,7 @@ function courtCardHTML(c) {
 
     <div class="court-card-actions">
       <button class="btn-court-details" onclick="openCourtModal('${c.id}')">
-        📋 View Court Info &amp; Rules
+         View Court Info &amp; Rules
       </button>
       <a href="${mapUrl}" target="_blank" rel="noopener" class="btn-court-map-action" title="Open Location in Google Maps (Satellite & GPS)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
@@ -5135,9 +5235,9 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
   }
   if (coordsLabel) {
     if (court.latitude && court.longitude) {
-      coordsLabel.innerHTML = `📍 GPS Coordinates: <strong>${court.latitude.toFixed(4)}° N, ${court.longitude.toFixed(4)}° E</strong> · ${court.city}, ${court.state}`;
+      coordsLabel.innerHTML = ` GPS Coordinates: <strong>${court.latitude.toFixed(4)}° N, ${court.longitude.toFixed(4)}° E</strong> · ${court.city}, ${court.state}`;
     } else {
-      coordsLabel.innerHTML = `📍 Location: <strong>${court.address ? court.address + ', ' : ''}${court.city}, ${court.state}</strong>`;
+      coordsLabel.innerHTML = ` Location: <strong>${court.address ? court.address + ', ' : ''}${court.city}, ${court.state}</strong>`;
     }
   }
 
@@ -5248,7 +5348,7 @@ function renderCourtLawyerCardHTML(l, isFilteredMatch) {
       </div>
       <div class="court-lawyer-card-actions">
         <button type="button" class="btn-court-book-lawyer" onclick="event.stopPropagation(); bookLawyerFromCourt('${l.id}')">
-          📅 Book Consultation
+           Book Consultation
         </button>
         <button type="button" class="btn-court-view-lawyer" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')">
           Full Profile
@@ -5328,9 +5428,9 @@ function initCourtsMapExplorer() {
     byState[s].push(c);
   });
 
-  let html = '<option value="">⚡ Jump to Court on Map...</option>';
+  let html = '<option value=""> Jump to Court on Map...</option>';
   Object.keys(byState).sort().forEach(stateName => {
-    html += `<optgroup label="📍 ${stateName}">`;
+    html += `<optgroup label=" ${stateName}">`;
     byState[stateName].forEach(c => {
       const smallTag = (c.jurisdiction && (c.jurisdiction.includes('Taluka') || c.jurisdiction.includes('Small Causes'))) ? ' [Small Court]' : '';
       html += `<option value="${c.id}">${c.name} (${c.city})${smallTag}</option>`;
@@ -5357,8 +5457,8 @@ function setExplorerCourt(c) {
   if (btnOpenExplorerMapExt) btnOpenExplorerMapExt.href = mapUrl;
   if (mapLiveBadge) mapLiveBadge.textContent = c.badge || c.jurisdiction || 'Indian Court';
   if (mapLiveName) mapLiveName.textContent = c.name;
-  if (mapLiveLoc) mapLiveLoc.textContent = `📍 ${c.address ? c.address + ', ' : ''}${c.city}, ${c.state} ${c.zipCode || ''}`;
-  if (mapLiveHours) mapLiveHours.textContent = `🕒 ${c.clerkHours || 'Mon - Fri: 10:00 AM - 5:00 PM IST'}`;
+  if (mapLiveLoc) mapLiveLoc.textContent = ` ${c.address ? c.address + ', ' : ''}${c.city}, ${c.state} ${c.zipCode || ''}`;
+  if (mapLiveHours) mapLiveHours.textContent = ` ${c.clerkHours || 'Mon - Fri: 10:00 AM - 5:00 PM IST'}`;
   if (btnLiveCourtDir) btnLiveCourtDir.href = mapUrl;
   if (mapQuickSelect) mapQuickSelect.value = c.id;
 }
@@ -5827,7 +5927,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (silent) {
-          showToast('📰 Articles refreshed with latest legal news', 'info');
+          showToast(' Articles refreshed with latest legal news', 'info');
         }
       } else {
         setArticleLiveStatus('offline', 'Curated content active');
@@ -5868,7 +5968,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Criminal Law',
-        icon: '🛡️',
+        icon: '',
         readTime: '4 min read',
         practiceArea: 'criminal',
         link: '#',
@@ -5934,7 +6034,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Real Estate Law',
-        icon: '🏠',
+        icon: '',
         readTime: '5 min read',
         practiceArea: 'real-estate',
         link: '#',
@@ -5992,7 +6092,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Employment Law',
-        icon: '👔',
+        icon: '',
         readTime: '6 min read',
         practiceArea: 'employment',
         link: '#',
@@ -6050,7 +6150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Contract Law',
-        icon: '📝',
+        icon: '',
         readTime: '5 min read',
         practiceArea: 'corporate',
         link: '#',
@@ -6108,7 +6208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Family Law',
-        icon: '👨‍👩‍👧',
+        icon: '‍‍',
         readTime: '6 min read',
         practiceArea: 'family',
         link: '#',
@@ -6166,7 +6266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Corporate Law',
-        icon: '💼',
+        icon: '',
         readTime: '5 min read',
         practiceArea: 'corporate',
         link: '#',
@@ -6224,7 +6324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Personal Injury',
-        icon: '⚕️',
+        icon: '',
         readTime: '5 min read',
         practiceArea: 'injury',
         link: '#',
@@ -6285,7 +6385,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Civil Rights',
-        icon: '⚖️',
+        icon: '',
         readTime: '6 min read',
         practiceArea: 'civil',
         link: '#',
@@ -6343,7 +6443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Supreme Court',
-        icon: '🏛️',
+        icon: '',
         readTime: '6 min read',
         practiceArea: 'civil',
         link: '#',
@@ -6401,7 +6501,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: null,
         source: 'LegalAI Editorial',
         category: 'Legal News',
-        icon: '📋',
+        icon: '',
         readTime: '5 min read',
         practiceArea: 'immigration',
         link: '#',
@@ -6523,7 +6623,7 @@ document.addEventListener('DOMContentLoaded', () => {
     articlesGrid.innerHTML = filtered.map((article, i) => {
       const imgHtml = article.image
         ? `<div class="article-card-img" style="background-image:url('${article.image}')"><div class="article-img-overlay"></div></div>`
-        : `<div class="article-card-img no-img"><span>${article.icon || '📰'}</span></div>`;
+        : `<div class="article-card-img no-img"><span>${article.icon || ''}</span></div>`;
 
       const catColor = getCategoryColor(article.category);
 
@@ -6532,7 +6632,7 @@ document.addEventListener('DOMContentLoaded', () => {
              style="animation-delay:${i * 0.04}s" data-article-index="${i}">
           ${imgHtml}
           <div class="article-card-body">
-            <div class="article-card-cat" style="--cat-color:${catColor}">${article.icon || '📋'} ${escapeHtml(article.category || 'Legal')}</div>
+            <div class="article-card-cat" style="--cat-color:${catColor}">${article.icon || ''} ${escapeHtml(article.category || 'Legal')}</div>
             <h4 class="article-card-title">${escapeHtml(article.title)}</h4>
             <p class="article-card-desc">${escapeHtml(article.description || '')}</p>
             <div class="article-card-meta">
@@ -6752,12 +6852,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate Reader
     const catColor = getCategoryColor(article.category);
     if (readerCatBadge) {
-      readerCatBadge.textContent = `${article.icon || '⚖️'} ${localized.category || article.category || 'Legal'}`;
+      readerCatBadge.textContent = `${article.icon || ''} ${localized.category || article.category || 'Legal'}`;
       readerCatBadge.style.borderColor = catColor;
       readerCatBadge.style.color = catColor;
     }
 
-    if (readerReadTime) readerReadTime.textContent = `⏱️ ${article.readTime || '4 min read'}`;
+    if (readerReadTime) readerReadTime.textContent = ` ${article.readTime || '4 min read'}`;
     if (readerSourceBadge) readerSourceBadge.textContent = article.source || 'LegalAI Editorial';
     if (readerPubDate) readerPubDate.textContent = timeAgo(article.pubDate);
     if (readerTitle) readerTitle.textContent = localized.title || article.title;
@@ -6914,7 +7014,7 @@ document.addEventListener('DOMContentLoaded', () => {
       aiInput.focus();
     }
 
-    showToast('💬 Ask LegalAI about this article', 'info');
+    showToast(' Ask LegalAI about this article', 'info');
   };
 
   // ── RESILIENT ACTIVE ARTICLE RESOLVER ──
@@ -7044,7 +7144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (speechQueueIndex >= speechSentenceQueue.length) {
       window.stopArticleSpeech();
-      showToast('✅ Finished reading article', 'success');
+      showToast(' Finished reading article', 'success');
       return;
     }
 
@@ -7100,19 +7200,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e && e.preventDefault) e.preventDefault();
 
     if (!('speechSynthesis' in window)) {
-      showToast('⚠️ Speech synthesis is not supported on this browser', 'warning');
+      showToast(' Speech synthesis is not supported on this browser', 'warning');
       return;
     }
 
     if (isSpeaking) {
       window.stopArticleSpeech();
-      showToast('⏹️ Audio narration stopped', 'info');
+      showToast(' Audio narration stopped', 'info');
       return;
     }
 
     const raw = getActiveArticle();
     if (!raw) {
-      showToast('⚠️ No article text found to read aloud', 'warning');
+      showToast(' No article text found to read aloud', 'warning');
       return;
     }
 
@@ -7180,7 +7280,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {}
     }, 9000);
 
-    showToast('🔊 Audio narration started', 'info');
+    showToast(' Audio narration started', 'info');
 
     // 60ms delay to let Chromium flush internal IPC speech buffer
     setTimeout(() => {
@@ -7201,7 +7301,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
       if (eq) eq.classList.remove('paused');
       if (pauseText) pauseText.textContent = 'Pause';
-      showToast('▶️ Resumed narration', 'info');
+      showToast('▶ Resumed narration', 'info');
     } else {
       isSpeechPaused = true;
       try {
@@ -7209,7 +7309,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {}
       if (eq) eq.classList.add('paused');
       if (pauseText) pauseText.textContent = 'Resume';
-      showToast('⏸️ Narration paused', 'info');
+      showToast(' Narration paused', 'info');
     }
   };
 
@@ -7278,7 +7378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const article = getActiveArticle();
     if (!article) {
-      showToast('⚠️ No article loaded to save', 'warning');
+      showToast(' No article loaded to save', 'warning');
       return;
     }
 
@@ -7304,7 +7404,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('legalai_bookmarks', JSON.stringify(bookmarks));
       if (btn) btn.classList.add('active');
       if (textEl) textEl.textContent = 'Saved';
-      showToast('🔖 Article saved to bookmarks!', 'success');
+      showToast(' Article saved to bookmarks!', 'success');
     } else {
       bookmarks.splice(index, 1);
       localStorage.setItem('legalai_bookmarks', JSON.stringify(bookmarks));
@@ -7330,7 +7430,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const article = getActiveArticle();
     if (!article) {
-      showToast('⚠️ No article loaded to share', 'warning');
+      showToast(' No article loaded to share', 'warning');
       return;
     }
 
@@ -7348,7 +7448,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
       try {
         await navigator.share(shareData);
-        showToast('✅ Article shared successfully', 'success');
+        showToast(' Article shared successfully', 'success');
         return;
       } catch (err) {
         if (err.name === 'AbortError') return;
@@ -7371,7 +7471,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (copied) {
-      showToast('📋 Article link copied to clipboard!', 'success');
+      showToast(' Article link copied to clipboard!', 'success');
       triggerShareFeedback();
     } else {
       window.prompt('Copy article link:', shareUrl);
@@ -7627,28 +7727,28 @@ function updateNewsUIStrings() {
 
   // Region pills localization
   const pAll = document.getElementById('pill-region-all');
-  if (pAll) pAll.textContent = ui.allRegions || '🌐 All Constitutional Domains';
+  if (pAll) pAll.textContent = ui.allRegions || ' All Constitutional Domains';
 
   const pFR = document.getElementById('pill-region-fr');
-  if (pFR) pFR.textContent = ui.fundamentalRights || '⚖️ Fundamental Rights (Part III)';
+  if (pFR) pFR.textContent = ui.fundamentalRights || ' Fundamental Rights (Part III)';
 
   const pArt21 = document.getElementById('pill-region-art21');
-  if (pArt21) pArt21.textContent = ui.article21Privacy || '🛡️ Art. 21 & Personal Liberty';
+  if (pArt21) pArt21.textContent = ui.article21Privacy || ' Art. 21 & Personal Liberty';
 
   const pKar = document.getElementById('pill-region-karnataka');
-  if (pKar) pKar.textContent = ui.karnatakaHighCourt || '🏛️ Karnataka & High Courts (Art. 226)';
+  if (pKar) pKar.textContent = ui.karnatakaHighCourt || ' Karnataka & High Courts (Art. 226)';
 
   const pBasic = document.getElementById('pill-region-basic');
   if (pBasic) pBasic.textContent = ui.basicStructure || '🇮🇳 Basic Structure & Democracy';
 
   const pEquality = document.getElementById('pill-region-equality');
-  if (pEquality) pEquality.textContent = ui.equalityJustice || '👥 Equality & Non-Discrimination (Art. 14-16)';
+  if (pEquality) pEquality.textContent = ui.equalityJustice || ' Equality & Non-Discrimination (Art. 14-16)';
 
   const pFed = document.getElementById('pill-region-federalism');
-  if (pFed) pFed.textContent = ui.federalism || '🤝 Federalism & State Autonomy (Art. 200)';
+  if (pFed) pFed.textContent = ui.federalism || ' Federalism & State Autonomy (Art. 200)';
 
   const pRemedies = document.getElementById('pill-region-remedies');
-  if (pRemedies) pRemedies.textContent = ui.constitutionalRemedies || '📜 Constitutional Writs (Art. 32 & 226)';
+  if (pRemedies) pRemedies.textContent = ui.constitutionalRemedies || ' Constitutional Writs (Art. 32 & 226)';
 }
 
 window.setNewsLanguage = function(langCode) {
@@ -7704,22 +7804,26 @@ const navWorldNews         = document.getElementById('nav-world-news');
 function worldNewsCardHTML(raw) {
   const a = getLocalized(raw);
   const ui = getActiveUIStrings();
-  const flag = a.flag || '🌐';
+  const articleLink = (a.link && a.link !== '#') ? a.link : 'https://www.sci.gov.in/';
   const lawsChips = (a.laws || []).slice(0, 2).map(law => 
     `<span class="world-law-tag">${escapeHtml(law)}</span>`
   ).join('');
 
   return `
-    <article class="world-news-card" id="world-card-${a.id}">
+    <article class="world-news-card" id="world-card-${a.id}" onclick="if(!event.target.closest('button') && !event.target.closest('a')){ window.open('${articleLink}', '_blank', 'noopener,noreferrer'); }" style="cursor:pointer;" title="Click to open Court News in New Tab ↗">
       <div class="world-card-top">
         <div class="world-card-meta">
-          <span class="world-region-badge">${flag} ${escapeHtml(a.region)}</span>
+          <span class="world-region-badge">${escapeHtml(a.region)}</span>
           <span class="world-cat-badge">${escapeHtml(a.category)}</span>
         </div>
-        <span class="world-card-time">⏱️ ${a.readTime || '4 min'} · ${escapeHtml(a.relativeTime || 'Today')}</span>
+        <span class="world-card-time">${a.readTime || '4 min'} · ${escapeHtml(a.relativeTime || 'Today')}</span>
       </div>
 
-      <h3 class="world-card-title" onclick="window.openArticleReader('${a.id}')">${escapeHtml(a.title)}</h3>
+      <h3 class="world-card-title">
+        <a href="${articleLink}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" title="Open Court News in New Tab ↗">
+          ${escapeHtml(a.title)} ↗
+        </a>
+      </h3>
 
       <p class="world-card-desc">${escapeHtml(a.description || a.lead || '')}</p>
 
@@ -7727,23 +7831,20 @@ function worldNewsCardHTML(raw) {
 
       <div class="world-card-footer">
         <div class="world-source-info">
-          <span class="world-source-icon">🏛️</span>
           <span class="world-source-name">${escapeHtml(a.source)}</span>
         </div>
         <div class="world-card-actions">
-          <button class="world-read-btn" onclick="window.openArticleReader('${a.id}')">
-            <span>${escapeHtml(ui.readDispatch || 'Read Dispatch')}</span>
+          <a href="${articleLink}" target="_blank" rel="noopener noreferrer" class="world-read-btn" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Open Court News in New Tab ↗">
+            <span>${escapeHtml(ui.readDispatch || 'Read Dispatch')} ↗</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
-          <button class="world-ai-btn" onclick="window.askAIAboutWorldNews('${escapeHtml(a.title).replace(/'/g, "\\'")}', '${escapeHtml(a.description || a.lead || '').replace(/'/g, "\\'")}')" title="Analyze with LegalAI">
+          </a>
+          <button class="world-ai-btn" onclick="event.stopPropagation(); window.askAIAboutWorldNews('${escapeHtml(a.title).replace(/'/g, "\\'")}', '${escapeHtml(a.description || a.lead || '').replace(/'/g, "\\'")}')" title="Analyze with LegalAI">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
             <span>${escapeHtml(ui.askAi || 'Ask AI')}</span>
           </button>
-          ${a.link && a.link !== '#' ? `
-            <a href="${a.link}" target="_blank" rel="noopener noreferrer" class="world-source-link-btn" title="Open Original Publisher / Source ↗">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            </a>
-          ` : ''}
+          <a href="${articleLink}" target="_blank" rel="noopener noreferrer" class="world-source-link-btn" title="Open Original Publisher / Source ↗">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
     </article>
@@ -7758,8 +7859,8 @@ function renderFeaturedWorldNews(raw) {
   }
   const lead = getLocalized(raw);
   const ui = getActiveUIStrings();
+  const leadLink = (lead.link && lead.link !== '#') ? lead.link : 'https://www.sci.gov.in/';
 
-  const flag = lead.flag || '🌐';
   const lawsChips = (lead.laws || []).map(law => 
     `<span class="world-law-tag highlight">${escapeHtml(law)}</span>`
   ).join('');
@@ -7767,14 +7868,16 @@ function renderFeaturedWorldNews(raw) {
   worldFeaturedWrapper.innerHTML = `
     <div class="world-featured-card">
       <div class="world-featured-badge-row">
-        <span class="featured-lead-tag">${escapeHtml(ui.topDispatch || '🌟 TOP LEGAL DISPATCH')}</span>
-        <span class="world-region-badge large">${flag} ${escapeHtml(lead.region)}</span>
+        <span class="featured-lead-tag">${escapeHtml(ui.topDispatch || 'TOP LEGAL DISPATCH')}</span>
+        <span class="world-region-badge large">${escapeHtml(lead.region)}</span>
         <span class="world-cat-badge large">${escapeHtml(lead.category)}</span>
-        <span class="world-timestamp">⏱️ ${lead.readTime || '5 min read'} · ${lead.relativeTime ? `Updated ${lead.relativeTime}` : 'Updated Today'}</span>
+        <span class="world-timestamp">${lead.readTime || '5 min read'} · ${lead.relativeTime ? `Updated ${lead.relativeTime}` : 'Updated Today'}</span>
       </div>
 
-      <h2 class="world-featured-title" onclick="window.openArticleReader('${lead.id}')">
-        ${escapeHtml(lead.title)}
+      <h2 class="world-featured-title">
+        <a href="${leadLink}" target="_blank" rel="noopener noreferrer" style="color:inherit; text-decoration:none;" title="Open Court News in New Tab ↗">
+          ${escapeHtml(lead.title)} ↗
+        </a>
       </h2>
 
       <p class="world-featured-lead">
@@ -7794,20 +7897,18 @@ function renderFeaturedWorldNews(raw) {
           <span>Jurisdictional Authority: <strong>${escapeHtml(lead.source)}</strong></span>
         </div>
         <div class="world-featured-btns">
-          <button class="btn-read-featured" onclick="window.openArticleReader('${lead.id}')">
-            <span>${escapeHtml(ui.readFull || 'Read Full Legal Analysis')}</span>
+          <a href="${leadLink}" target="_blank" rel="noopener noreferrer" class="btn-read-featured" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;" title="Open Court News in New Tab ↗">
+            <span>${escapeHtml(ui.readFull || 'Read Full Legal Analysis')} ↗</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </button>
+          </a>
           <button class="btn-ai-featured" onclick="window.askAIAboutWorldNews('${escapeHtml(lead.title).replace(/'/g, "\\'")}', '${escapeHtml(lead.lead || lead.description || '').replace(/'/g, "\\'")}')">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
             <span>${escapeHtml(ui.analyzeAi || 'Analyze with LegalAI')}</span>
           </button>
-          ${lead.link && lead.link !== '#' ? `
-            <a href="${lead.link}" target="_blank" rel="noopener noreferrer" class="btn-official-source" title="Open Official Tribunal / Authority Registry">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              <span>${escapeHtml(ui.officialSource || 'Official Registry ↗')}</span>
-            </a>
-          ` : ''}
+          <a href="${leadLink}" target="_blank" rel="noopener noreferrer" class="btn-official-source" title="Open Official Tribunal / Authority Registry">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span>${escapeHtml(ui.officialSource || 'Official Registry ↗')}</span>
+          </a>
         </div>
       </div>
     </div>
@@ -7819,10 +7920,11 @@ function updateTickerContent(articles) {
   if (!tickerContainer || !articles || articles.length === 0) return;
   tickerContainer.innerHTML = articles.slice(0, 10).map(raw => {
     const a = getLocalized(raw);
+    const itemLink = (a.link && a.link !== '#') ? a.link : 'https://www.sci.gov.in/';
     return `
-      <span class="ticker-item" style="cursor:pointer;" onclick="window.openArticleReader('${a.id}')" title="Click to read full dispatch">
-        ${a.flag || '🌐'} <strong>${escapeHtml(a.source || a.region)}</strong>: ${escapeHtml(a.title)}
-      </span>
+      <a href="${itemLink}" target="_blank" rel="noopener noreferrer" class="ticker-item" style="cursor:pointer; color:inherit; text-decoration:none;" title="Click to open Court News in new tab">
+        <strong>${escapeHtml(a.source || a.region)}</strong>: ${escapeHtml(a.title)} ↗
+      </a>
       <span class="ticker-divider">·</span>
     `;
   }).join('');

@@ -10,25 +10,25 @@ const LEGAL_RSS_FEEDS = [
     name: 'SCOTUSblog',
     url: 'https://www.scotusblog.com/feed/',
     category: 'Supreme Court',
-    icon: '⚖️'
+    icon: ''
   },
   {
     name: 'ABA Journal',
     url: 'https://www.abajournal.com/rss/most_read/',
     category: 'Legal Industry',
-    icon: '📰'
+    icon: ''
   },
   {
     name: 'Law360',
     url: 'https://www.law360.com/rss',
     category: 'Case Law',
-    icon: '🏛️'
+    icon: ''
   },
   {
     name: 'FindLaw Legal News',
     url: 'https://feeds.findlaw.com/FindLawLegalNews',
     category: 'Legal News',
-    icon: '📋'
+    icon: ''
   }
 ];
 
@@ -116,7 +116,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Criminal Law',
-    icon: '🛡️',
+    icon: '',
     readTime: '4 min read',
     practiceArea: 'criminal'
   },
@@ -129,7 +129,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Real Estate Law',
-    icon: '🏠',
+    icon: '',
     readTime: '5 min read',
     practiceArea: 'real-estate'
   },
@@ -142,7 +142,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Employment Law',
-    icon: '👔',
+    icon: '',
     readTime: '6 min read',
     practiceArea: 'employment'
   },
@@ -155,7 +155,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Contract Law',
-    icon: '📝',
+    icon: '',
     readTime: '5 min read',
     practiceArea: 'corporate'
   },
@@ -168,7 +168,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Family Law',
-    icon: '👨‍👩‍👧',
+    icon: '‍‍',
     readTime: '6 min read',
     practiceArea: 'family'
   },
@@ -181,7 +181,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Corporate Law',
-    icon: '💼',
+    icon: '',
     readTime: '5 min read',
     practiceArea: 'corporate'
   },
@@ -194,7 +194,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Personal Injury',
-    icon: '⚕️',
+    icon: '',
     readTime: '5 min read',
     practiceArea: 'injury'
   },
@@ -207,7 +207,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Civil Rights',
-    icon: '⚖️',
+    icon: '',
     readTime: '6 min read',
     practiceArea: 'civil'
   },
@@ -220,7 +220,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Supreme Court',
-    icon: '🏛️',
+    icon: '',
     readTime: '6 min read',
     practiceArea: 'civil'
   },
@@ -233,7 +233,7 @@ const FALLBACK_ARTICLES = [
     image: null,
     source: 'LegalAI Editorial',
     category: 'Legal News',
-    icon: '📋',
+    icon: '',
     readTime: '5 min read',
     practiceArea: 'immigration'
   }
@@ -338,7 +338,7 @@ const WORLD_LEGAL_FEEDS = [
     name: 'Jurist Global Legal News',
     url: 'https://www.jurist.org/news/feed/',
     region: 'International',
-    icon: '🌐'
+    icon: ''
   },
   {
     name: 'Law Society Gazette UK',
@@ -515,7 +515,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-sicc-smart-contracts',
     title: 'Singapore International Commercial Court Enforces Cross-Border Smart Contract Escrow',
     region: 'Asia-Pacific',
-    flag: '🌏',
+    flag: '',
     category: 'Commercial Arbitration & Fintech',
     source: 'Singapore International Commercial Court (SICC)',
     pubDate: '2026-03-02T08:45:00.000Z',
@@ -595,7 +595,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-fatf-digital-assets-travel-rule',
     title: 'FATF Mandates Real-Time Global Travel Rule for International Digital Asset Transfers',
     region: 'Global Tech & Finance',
-    flag: '🌐',
+    flag: '',
     category: 'Financial Regulatory Law',
     source: 'Financial Action Task Force (FATF) Paris',
     pubDate: '2026-02-25T10:00:00.000Z',
@@ -715,7 +715,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-cptpp-rcep-isds-arbitration',
     title: 'Asia-Pacific Trade Tribunals Harmonize Investor-State Dispute Settlement (ISDS) Protocols',
     region: 'Asia-Pacific',
-    flag: '🌏',
+    flag: '',
     category: 'International Trade & Investment',
     source: 'ICSID / Permanent Court of Arbitration (PCA)',
     pubDate: '2026-02-14T09:30:00.000Z',
@@ -755,7 +755,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-iachr-resource-concessions',
     title: 'Inter-American Court Establishes Binding Free, Prior, and Informed Consent Standard',
     region: 'Americas',
-    flag: '🌎',
+    flag: '',
     category: 'Human Rights & Environmental Law',
     source: 'Inter-American Court of Human Rights (IACHR) San José',
     pubDate: '2026-02-10T15:20:00.000Z',
@@ -795,7 +795,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-wto-appellate-carbon-tariffs',
     title: 'WTO Dispute Settlement Panel Delivers First Ruling on National Carbon Border Tariffs',
     region: 'International Trade',
-    flag: '🌐',
+    flag: '',
     category: 'World Trade Law & Environment',
     source: 'World Trade Organization (WTO) Geneva',
     pubDate: '2026-02-05T11:00:00.000Z',

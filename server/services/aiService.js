@@ -896,6 +896,7 @@ const TOPIC_ALIASES = [
   { match: /\b(article\s+21|right\s+to\s+privacy|personal\s+liberty|maneka\s+gandhi|puttaswamy)\b/i, id: 'statute_const_21_liberty' }
 ];
 
+//Retrival and Scoring algorithm
 function retrieveLegalSources(query, topK = 3) {
   initLegalCorpus();
   const rawQuery = (query || '').trim();
@@ -980,7 +981,7 @@ function synthesizeLegalAnswer(query, retrievedItem, domain, userName) {
     return {
       category: 'Unverified Legal Query',
       isUnavailable: true,
-      text: `${userGreeting}your inquiry:\n\n### ℹ️ Legal Information Notice\nI am specialized in statutory provisions, procedural codes, and verified court practice. I do not have verified statutory or precedent records concerning **"${query}"** in my legal knowledge base.\n\nTo prevent generating ungrounded or speculative legal information, I only provide verified analyses grounded in enacted codes (such as BNS 2023, BNSS 2023, CPC 1908, Indian Contract Act 1872, or Constitution of India) and verified case law.\n\nIf you have a question regarding criminal defense, landlord-tenant disputes, contracts, corporate law, matrimonial disputes, or civil rights, please specify the relevant statute or legal issue.`
+      text: `${userGreeting}your inquiry:\n\n### ℹ Legal Information Notice\nI am specialized in statutory provisions, procedural codes, and verified court practice. I do not have verified statutory or precedent records concerning **"${query}"** in my legal knowledge base.\n\nTo prevent generating ungrounded or speculative legal information, I only provide verified analyses grounded in enacted codes (such as BNS 2023, BNSS 2023, CPC 1908, Indian Contract Act 1872, or Constitution of India) and verified case law.\n\nIf you have a question regarding criminal defense, landlord-tenant disputes, contracts, corporate law, matrimonial disputes, or civil rights, please specify the relevant statute or legal issue.`
     };
   }
 
@@ -993,31 +994,31 @@ function synthesizeLegalAnswer(query, retrievedItem, domain, userName) {
   let precondHTML = '';
   const preconds = item?.preconditions || domain?.rights || [];
   if (preconds && preconds.length > 0) {
-    precondHTML = `\n\n### ⚖️ Essential Legal Preconditions & Statutory Requirements\n` + preconds.map(p => `* **${p.split(':')[0] || 'Condition'}:** ${p}`).join('\n');
+    precondHTML = `\n\n###  Essential Legal Preconditions & Statutory Requirements\n` + preconds.map(p => `* **${p.split(':')[0] || 'Condition'}:** ${p}`).join('\n');
   }
 
   // Exceptions
   let exceptionsHTML = '';
   const exceptions = item?.exceptions || [];
   if (exceptions && exceptions.length > 0) {
-    exceptionsHTML = `\n\n### ⚠️ Statutory Exceptions, Provisos & Defenses\n` + exceptions.map(e => `* **Exception:** ${e}`).join('\n');
+    exceptionsHTML = `\n\n###  Statutory Exceptions, Provisos & Defenses\n` + exceptions.map(e => `* **Exception:** ${e}`).join('\n');
   }
 
   // Action Steps
   let actionsHTML = '';
   const actions = item?.action_checklist || domain?.actions || [];
   if (actions && actions.length > 0) {
-    actionsHTML = `\n\n### 📋 Immediate Practical Next Steps\n` + actions.map((a, i) => `${i + 1}. **${a.split(':')[0] || 'Step ' + (i + 1)}**: ${a}`).join('\n');
+    actionsHTML = `\n\n###  Immediate Practical Next Steps\n` + actions.map((a, i) => `${i + 1}. **${a.split(':')[0] || 'Step ' + (i + 1)}**: ${a}`).join('\n');
   }
 
   // Supersedes / Transition Notice if present
   let transitionHTML = '';
   if (item?.supersedes) {
     const s = item.supersedes;
-    transitionHTML = `\n\n> 🔄 **Statutory Code Transition:** ${s.old_act} ${s.old_section} was superseded on ${item.effective_date || '1 July 2024'} by **${item.citation}**. ${s.transition_note || ''}`;
+    transitionHTML = `\n\n>  **Statutory Code Transition:** ${s.old_act} ${s.old_section} was superseded on ${item.effective_date || '1 July 2024'} by **${item.citation}**. ${s.transition_note || ''}`;
   }
 
-  const text = `${userGreeting}**${citation}**:\n\n### 🔍 Direct Legal Answer & Statutory Principle\n${mainRule}${transitionHTML}${precondHTML}${exceptionsHTML}${actionsHTML}\n\n> ⚠️ *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not constitute formal attorney-client representation. Consult a licensed advocate before initiating formal legal proceedings.*`;
+  const text = `${userGreeting}**${citation}**:\n\n###  Direct Legal Answer & Statutory Principle\n${mainRule}${transitionHTML}${precondHTML}${exceptionsHTML}${actionsHTML}\n\n>  *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not constitute formal attorney-client representation. Consult a licensed advocate before initiating formal legal proceedings.*`;
 
   return {
     category: cat,
@@ -1234,8 +1235,8 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
   if (intent.type === 'LAWYER_QUERY') {
     const { suggestedLawyer } = getBestLawyerAndCourt(domain, cleanPrompt);
     const lawyerInfo = suggestedLawyer
-      ? `### 👨‍⚖️ Recommended Verified Advocate\nBased on your requirement in **${suggestedLawyer.specialty}**, we recommend consulting **${suggestedLawyer.name}** (${suggestedLawyer.title}).\n\n* **Bar Registration:** ${suggestedLawyer.barNumber}\n* **Chambers:** ${suggestedLawyer.firmName} (${suggestedLawyer.city}, ${suggestedLawyer.state})\n* **Experience:** ${suggestedLawyer.experienceYears}+ years with a verified ${suggestedLawyer.successRate}% courtroom win rate.\n* **Match Justification:** ${suggestedLawyer.matchReason}\n\nYou can book a direct consultation or view full bar credentials using the card below.`
-      : `### 👨‍⚖️ Advocate Directory Guidance\nWe recommend engaging a verified advocate specializing in **${domain ? domain.specialty : 'this practice area'}**. You can browse all verified bar council advocates on our dedicated Find Lawyers page.`;
+      ? `### ‍ Recommended Verified Advocate\nBased on your requirement in **${suggestedLawyer.specialty}**, we recommend consulting **${suggestedLawyer.name}** (${suggestedLawyer.title}).\n\n* **Bar Registration:** ${suggestedLawyer.barNumber}\n* **Chambers:** ${suggestedLawyer.firmName} (${suggestedLawyer.city}, ${suggestedLawyer.state})\n* **Experience:** ${suggestedLawyer.experienceYears}+ years with a verified ${suggestedLawyer.successRate}% courtroom win rate.\n* **Match Justification:** ${suggestedLawyer.matchReason}\n\nYou can book a direct consultation or view full bar credentials using the card below.`
+      : `### ‍ Advocate Directory Guidance\nWe recommend engaging a verified advocate specializing in **${domain ? domain.specialty : 'this practice area'}**. You can browse all verified bar council advocates on our dedicated Find Lawyers page.`;
 
     return {
       text: lawyerInfo,
@@ -1251,8 +1252,8 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
   if (intent.type === 'COURT_QUERY') {
     const { suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
     const courtInfo = suggestedCourt
-      ? `### 🏛️ Competent Court & Jurisdictional Venue\nFor matters involving **${domain ? domain.name : 'this dispute'}**, the competent judicial forum is **${suggestedCourt.name}**.\n\n* **Court Level:** ${suggestedCourt.level || suggestedCourt.jurisdiction}\n* **Territorial Forum:** ${suggestedCourt.city}, ${suggestedCourt.state}\n* **Statutory Guidance:** ${suggestedCourt.jurisdictionGuidance}\n* **E-Filing Portal:** ${suggestedCourt.filingSystem || 'State e-Courts portal'}\n\nYou can inspect court profile, map coordinates, and e-filing details using the court card below.`
-      : `### 🏛️ Jurisdictional Guidance\nJurisdiction is governed by territorial situs and pecuniary limits under the Code of Civil Procedure, 1908 or Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023. You can explore all 97 courts across India in our Courts Directory.`;
+      ? `###  Competent Court & Jurisdictional Venue\nFor matters involving **${domain ? domain.name : 'this dispute'}**, the competent judicial forum is **${suggestedCourt.name}**.\n\n* **Court Level:** ${suggestedCourt.level || suggestedCourt.jurisdiction}\n* **Territorial Forum:** ${suggestedCourt.city}, ${suggestedCourt.state}\n* **Statutory Guidance:** ${suggestedCourt.jurisdictionGuidance}\n* **E-Filing Portal:** ${suggestedCourt.filingSystem || 'State e-Courts portal'}\n\nYou can inspect court profile, map coordinates, and e-filing details using the court card below.`
+      : `###  Jurisdictional Guidance\nJurisdiction is governed by territorial situs and pecuniary limits under the Code of Civil Procedure, 1908 or Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023. You can explore all 97 courts across India in our Courts Directory.`;
 
     return {
       text: courtInfo,
@@ -1267,7 +1268,7 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
   // C) MIXED QUERY (User explicitly asked for BOTH lawyer and court)
   if (intent.type === 'MIXED_LAWYER_COURT') {
     const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
-    const mixedInfo = `### ⚖️ Recommended Counsel & Competent Court Venue\n\n* **Recommended Advocate:** ${suggestedLawyer ? suggestedLawyer.name + ' (' + suggestedLawyer.specialty + ')' : 'Specialist counsel in ' + (domain ? domain.specialty : 'this field')}\n* **Competent Court:** ${suggestedCourt ? suggestedCourt.name + ' (' + suggestedCourt.jurisdiction + ')' : 'District & Sessions Court'}\n\nReview the interactive cards below for consultation booking and court details.`;
+    const mixedInfo = `###  Recommended Counsel & Competent Court Venue\n\n* **Recommended Advocate:** ${suggestedLawyer ? suggestedLawyer.name + ' (' + suggestedLawyer.specialty + ')' : 'Specialist counsel in ' + (domain ? domain.specialty : 'this field')}\n* **Competent Court:** ${suggestedCourt ? suggestedCourt.name + ' (' + suggestedCourt.jurisdiction + ')' : 'District & Sessions Court'}\n\nReview the interactive cards below for consultation booking and court details.`;
 
     return {
       text: mixedInfo,

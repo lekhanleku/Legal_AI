@@ -77,7 +77,7 @@ function detectRegionAndCategory(title, desc) {
 
   // Region detection
   let region = 'Americas';
-  let flag = '🌎';
+  let flag = '';
 
   if (full.includes('european union') || full.includes('brussels') || full.includes('cjeu') || full.includes('echr') || full.includes('france') || full.includes('germany') || full.includes('eu court')) {
     region = 'European Union';
@@ -90,10 +90,10 @@ function detectRegionAndCategory(title, desc) {
     flag = '🇺🇳';
   } else if (full.includes('singapore') || full.includes('japan') || full.includes('tokyo') || full.includes('india') || full.includes('supreme court of india') || full.includes('hong kong') || full.includes('asia') || full.includes('china')) {
     region = 'Asia-Pacific';
-    flag = '🌏';
+    flag = '';
   } else if (full.includes('ai act') || full.includes('artificial intelligence') || full.includes('openai') || full.includes('meta') || full.includes('antitrust') || full.includes('algorithm') || full.includes('copyright') || full.includes('deepfake')) {
     region = 'Global AI & Tech';
-    flag = '⚡';
+    flag = '';
   }
 
   // Category detection
@@ -292,7 +292,7 @@ function getBaselineArticles() {
       id: 'india-karnataka-hc-civic-liability',
       title: 'Karnataka High Court Mandates Strict Public Tort Liability and Compensation for Civic Infrastructure Failures',
       region: 'Karnataka & High Courts',
-      flag: '⚖️',
+      flag: '',
       category: 'Constitutional & Civic Tort Law',
       source: 'High Court of Karnataka, Principal Bench Bengaluru',
       pubDate: dToday,
@@ -355,7 +355,7 @@ function getBaselineArticles() {
       id: 'india-const-article14-gender-equality',
       title: 'Supreme Court Enforces Article 14 & 15 Constitutional Mandate on Gender Pay Equity and Permanent Commissions',
       region: 'Equality & Social Justice (Part III & IV)',
-      flag: '⚖️',
+      flag: '',
       category: 'Substantive Equality & Non-Discrimination',
       source: 'Supreme Court of India (Appellate Civil Division)',
       pubDate: dYesterday,
@@ -397,7 +397,7 @@ function getBaselineArticles() {
       id: 'india-const-federalism-governor-article200',
       title: 'Supreme Court Clarifies Federalism as Basic Structure: Governors Cannot Withhold State Legislative Bills Indefinitely',
       region: 'Federalism & State Autonomy (Art. 200)',
-      flag: '🤝',
+      flag: '',
       category: 'Constitutional Federal Architecture',
       source: 'Supreme Court of India (Constitution Bench)',
       pubDate: d2DaysAgo,
@@ -439,7 +439,7 @@ function getBaselineArticles() {
       id: 'india-const-article32-habeas-corpus-preventive-detention',
       title: 'Supreme Court Re-Anchors Article 32 as the Heart and Soul of the Constitution against Arbitrary Preventive Detention',
       region: 'Constitutional Remedies (Art. 32 & 226)',
-      flag: '⚖️',
+      flag: '',
       category: 'Habeas Corpus & Constitutional Remedies',
       source: 'Supreme Court of India (Appellate & Writ Jurisdiction)',
       pubDate: d2DaysAgo,

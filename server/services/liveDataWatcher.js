@@ -154,10 +154,10 @@ function startLiveWatcher() {
               if (Array.isArray(INDIAN_COURTS) && INDIAN_COURTS.length > 0) {
                 const res = syncCourtsToDB(INDIAN_COURTS);
                 syncCourtsDataset(db);
-                console.log(`🔄 [Auto-Watcher] indianCourtsData.js modified -> Automatically saved to database! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
+                console.log(` [Auto-Watcher] indianCourtsData.js modified -> Automatically saved to database! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
               }
             } catch (err) {
-              console.warn('⚠️ [Auto-Watcher] Error syncing indianCourtsData:', err.message);
+              console.warn(' [Auto-Watcher] Error syncing indianCourtsData:', err.message);
             }
           });
         }
@@ -177,10 +177,10 @@ function startLiveWatcher() {
               if (Array.isArray(INDIAN_LAWYERS) && INDIAN_LAWYERS.length > 0) {
                 const res = syncLawyersToDB(INDIAN_LAWYERS);
                 syncLawyersDataset(db);
-                console.log(`🔄 [Auto-Watcher] lawyersData.js modified -> Automatically saved to database! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
+                console.log(` [Auto-Watcher] lawyersData.js modified -> Automatically saved to database! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
               }
             } catch (err) {
-              console.warn('⚠️ [Auto-Watcher] Error syncing lawyersData:', err.message);
+              console.warn(' [Auto-Watcher] Error syncing lawyersData:', err.message);
             }
           });
         }
@@ -200,7 +200,7 @@ function startLiveWatcher() {
               const items = JSON.parse(raw);
               if (Array.isArray(items) && items.length > 0) {
                 const res = syncCourtsToDB(items);
-                console.log(`🔄 [Auto-Watcher] datasets/courts_dataset.json modified -> Automatically saved to legalai.db! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
+                console.log(` [Auto-Watcher] datasets/courts_dataset.json modified -> Automatically saved to legalai.db! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
               }
             } catch (e) {}
           });
@@ -221,7 +221,7 @@ function startLiveWatcher() {
               const items = JSON.parse(raw);
               if (Array.isArray(items) && items.length > 0) {
                 const res = syncLawyersToDB(items);
-                console.log(`🔄 [Auto-Watcher] datasets/lawyers_dataset.json modified -> Automatically saved to legalai.db! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
+                console.log(` [Auto-Watcher] datasets/lawyers_dataset.json modified -> Automatically saved to legalai.db! (Updated: ${res.updated}, Inserted: ${res.inserted})`);
               }
             } catch (e) {}
           });
@@ -230,7 +230,7 @@ function startLiveWatcher() {
     } catch (wErr) {}
   }
 
-  console.log('👀 [Auto-Watcher] Active: Real-time database synchronizer listening for court and lawyer changes.');
+  console.log(' [Auto-Watcher] Active: Real-time database synchronizer listening for court and lawyer changes.');
 }
 
 module.exports = {

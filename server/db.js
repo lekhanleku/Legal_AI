@@ -116,6 +116,9 @@ try {
   try { db.prepare("ALTER TABLE lawyers ADD COLUMN practicingCourts TEXT DEFAULT ''").run(); } catch(e){}
   try { db.prepare("ALTER TABLE lawyers ADD COLUMN primaryCourt TEXT DEFAULT ''").run(); } catch(e){}
 
+  // Ensure phone column exists on users table
+  try { db.prepare("ALTER TABLE users ADD COLUMN phone TEXT DEFAULT ''").run(); } catch(e){}
+
   // Cleanup any legacy placeholder/non-Indian lawyers
   db.prepare(`
     DELETE FROM lawyers WHERE barNumber LIKE '%Bar #%' 
@@ -185,7 +188,7 @@ try {
   });
 
   const lawyerSyncResult = syncLawyersTransaction(INDIAN_LAWYERS);
-  console.log(`⚖️ Synchronized ${INDIAN_LAWYERS.length} Indian Advocates with Court Affiliations (Inserted: ${lawyerSyncResult.inserted}, Updated: ${lawyerSyncResult.updated}).`);
+  console.log(` Synchronized ${INDIAN_LAWYERS.length} Indian Advocates with Court Affiliations (Inserted: ${lawyerSyncResult.inserted}, Updated: ${lawyerSyncResult.updated}).`);
 
   // Purge legacy foreign/US courts to ensure only authentic Indian courts remain
   db.prepare(`
@@ -246,20 +249,20 @@ try {
   });
 
   const courtSyncResult = syncCourtsTransaction(INDIAN_COURTS);
-  console.log(`🏛️ Synchronized ${INDIAN_COURTS.length} Indian courts with Maps & Coordinates (Inserted: ${courtSyncResult.inserted}, Updated: ${courtSyncResult.updated}).`);
+  console.log(` Synchronized ${INDIAN_COURTS.length} Indian courts with Maps & Coordinates (Inserted: ${courtSyncResult.inserted}, Updated: ${courtSyncResult.updated}).`);
 
   // Auto-sync dataset files (datasets/ and ml/dataset/)
   try {
     const { syncAllDatasets } = require('./services/datasetSyncService');
     const syncRes = syncAllDatasets(db);
-    console.log(`📊 Synchronized dataset files: ${syncRes.courts.count} courts, ${syncRes.lawyers.count} advocates.`);
+    console.log(` Synchronized dataset files: ${syncRes.courts.count} courts, ${syncRes.lawyers.count} advocates.`);
   } catch (dErr) {
-    console.warn('⚠️ Dataset sync warning:', dErr.message);
+    console.warn(' Dataset sync warning:', dErr.message);
   }
 
-  console.log(`✅ SQLite Database connected & initialized: ${dbPath}`);
+  console.log(` SQLite Database connected & initialized: ${dbPath}`);
 } catch (err) {
-  console.error(`❌ SQLite Connection Error: ${err.message}`);
+  console.error(` SQLite Connection Error: ${err.message}`);
 }
 
 module.exports = db;

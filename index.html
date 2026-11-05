@@ -65,7 +65,7 @@
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </a>
           <div class="nav-dropdown-menu">
-            <a href="lawyers.html" class="nav-dropdown-item nav-dropdown-item-featured">
+            <a href="lawyers.html" target="_blank" rel="noopener noreferrer" class="nav-dropdown-item nav-dropdown-item-featured" id="menu-all-lawyers" title="Open Advocates Directory in New Tab">
               <div class="dropdown-item-icon-box">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 3v18"/>
@@ -115,28 +115,28 @@
           </a>
           <div class="nav-dropdown-menu">
             <a href="#" class="nav-dropdown-item" id="menu-ai-assistant">
-              <span class="dropdown-item-icon">🤖</span>
+              <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg></div>
               <div class="dropdown-item-text">
                 <strong>Ask AI Assistant</strong>
                 <span>Instant answers to your legal questions 24/7</span>
               </div>
             </a>
             <a href="#" class="nav-dropdown-item" onclick="openArticlesModal(); return false;">
-              <span class="dropdown-item-icon">📚</span>
+              <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
               <div class="dropdown-item-text">
                 <strong>Legal Guides &amp; Rights</strong>
                 <span>Simple guides explaining your rights and legal steps</span>
               </div>
             </a>
-            <a href="#world-news" class="nav-dropdown-item">
-              <span class="dropdown-item-icon">🌐</span>
+            <a href="index.html#world-news" target="_blank" rel="noopener noreferrer" class="nav-dropdown-item" id="menu-court-news" title="Open Court News Wire in New Tab">
+              <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
               <div class="dropdown-item-text">
-                <strong>Legal News</strong>
-                <span>Latest updates on new laws and regulations</span>
+                <strong>Court News Wire</strong>
+                <span>Supreme Court &amp; High Court live legal dispatches</span>
               </div>
             </a>
             <a href="#" class="nav-dropdown-item" onclick="openRagLabModal(); return false;">
-              <span class="dropdown-item-icon">🔬</span>
+              <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0-14 0"/><circle cx="9" cy="9" r="2"/></svg></div>
               <div class="dropdown-item-text">
                 <strong>AI Law Search Lab <span class="rag-chip-badge">NEW</span></strong>
                 <span>Deep search through laws, statutes &amp; citations</span>
@@ -153,14 +153,14 @@
           </a>
           <div class="nav-dropdown-menu">
             <a href="user.html" class="nav-dropdown-item">
-              <span class="dropdown-item-icon">📁</span>
+              <div class="dropdown-item-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
               <div class="dropdown-item-text">
                 <strong>Client Portal (My Cases)</strong>
                 <span>View your appointments, checklists &amp; questions</span>
               </div>
             </a>
             <a href="admin.html" class="nav-dropdown-item">
-              <span class="dropdown-item-icon" style="color:#c084fc;">👑</span>
+              <div class="dropdown-item-icon-box" style="color:#c084fc;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
               <div class="dropdown-item-text">
                 <strong style="color:#c084fc;">Admin Dashboard</strong>
                 <span>Manage user accounts, lawyers, courts &amp; settings</span>
@@ -195,7 +195,7 @@
             <button class="user-badge-btn" id="user-badge-btn" aria-haspopup="true" aria-expanded="false" title="Account Menu">
               <span class="user-avatar" id="user-avatar">U</span>
               <span class="user-name" id="user-name">User</span>
-              <span class="user-role-tag hidden" id="nav-admin-chip">👑 Admin</span>
+              <span class="user-role-tag hidden" id="nav-admin-chip">Admin</span>
               <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="user-menu-dropdown" id="user-menu-dropdown">
@@ -206,24 +206,24 @@
               </div>
               <div class="user-menu-divider"></div>
               <a href="user.html" class="user-menu-item">
-                <span class="user-menu-item-icon">📁</span>
+                <span class="user-menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
                 <span>My Client Portal</span>
               </a>
               <a href="#" class="user-menu-item" onclick="openBookingsModal(); return false;">
-                <span class="user-menu-item-icon">📅</span>
+                <span class="user-menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
                 <span>My Bookings</span>
                 <span class="nav-badge-count" id="nav-bookings-count" style="margin-left:auto;">0</span>
               </a>
               <a href="admin.html" class="user-menu-item hidden" id="dropdown-admin-item" style="color:#c084fc;">
-                <span class="user-menu-item-icon">👑</span>
+                <span class="user-menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
                 <span>Admin Dashboard</span>
               </a>
               <a href="#" class="user-menu-item" onclick="openRagLabModal(); return false;">
-                <span class="user-menu-item-icon">🔬</span>
+                <span class="user-menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0-14 0"/><circle cx="9" cy="9" r="2"/></svg></span>
                 <span>AI Law Search Lab</span>
               </a>
               <a href="user.html#tab-settings" class="user-menu-item">
-                <span class="user-menu-item-icon">⚙️</span>
+                <span class="user-menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
                 <span>Account Settings</span>
               </a>
               <div class="user-menu-divider"></div>
@@ -279,7 +279,7 @@
     <!-- QUICK ASK AI PROMPT CARD -->
     <div class="side-menu-ai-card" id="side-menu-ai-card">
       <div class="side-menu-ai-badge">
-        <span>🤖</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg>
         <span>AI Legal Assistant</span>
       </div>
       <p class="side-menu-ai-desc">Instant 24/7 legal analysis, statutory guidance, and procedural rights answers.</p>
@@ -294,56 +294,56 @@
       <div class="side-menu-section-label">Main Navigation</div>
       <nav class="side-menu-nav">
         <a href="#" class="side-menu-link active" data-nav="home">
-          <span class="side-link-icon">🏛️</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Home</span>
             <span class="side-link-sub">Overview &amp; search portal</span>
           </div>
         </a>
-        <a href="lawyers.html" class="side-menu-link">
-          <span class="side-link-icon">⚖️</span>
+        <a href="lawyers.html" target="_blank" rel="noopener noreferrer" class="side-menu-link" title="Open Advocates Directory in New Tab">
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Verified Advocates Directory</span>
             <span class="side-link-sub">All 27 advocates, filters &amp; consultation booking</span>
           </div>
         </a>
         <a href="#lawyers" class="side-menu-link" data-nav="lawyers">
-          <span class="side-link-icon">🔍</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Featured Lawyers Preview</span>
             <span class="side-link-sub">Browse top advocates on homepage</span>
           </div>
         </a>
         <a href="#courts" class="side-menu-link" data-nav="courts">
-          <span class="side-link-icon">🏛️</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">India Courts &amp; Maps Directory</span>
             <span class="side-link-sub">Apex, High, District &amp; Taluka JMFC courts with maps</span>
           </div>
         </a>
         <a href="#practice-areas" class="side-menu-link" data-nav="areas">
-          <span class="side-link-icon">🛡️</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Practice Areas</span>
             <span class="side-link-sub">Civil, Criminal, Family &amp; Corporate</span>
           </div>
         </a>
         <a href="#" class="side-menu-link" id="side-link-articles">
-          <span class="side-link-icon">📚</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Legal Guides &amp; Rights</span>
             <span class="side-link-sub">Know your rights in simple words</span>
           </div>
         </a>
-        <a href="#world-news" class="side-menu-link" data-nav="news">
-          <span class="side-link-icon">🌐</span>
+        <a href="index.html#world-news" target="_blank" rel="noopener noreferrer" class="side-menu-link" data-nav="news" title="Open Court News Wire in New Tab">
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
           <div class="side-link-content">
-            <span class="side-link-title">Legal News &amp; Reforms</span>
-            <span class="side-link-sub">Regulatory updates &amp; rulings</span>
+            <span class="side-link-title">Court News Wire ↗</span>
+            <span class="side-link-sub">Supreme Court &amp; High Court rulings</span>
           </div>
         </a>
         <a href="#" class="side-menu-link" id="side-link-rag">
-          <span class="side-link-icon">🔬</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0-14 0"/><circle cx="9" cy="9" r="2"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">AI Law Search Lab <span class="side-chip-badge">NEW</span></span>
             <span class="side-link-sub">Deep statutory RAG search</span>
@@ -356,21 +356,21 @@
       <div class="side-menu-section-label">Portals &amp; Tools</div>
       <nav class="side-menu-nav">
         <a href="user.html" class="side-menu-link">
-          <span class="side-link-icon">📁</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">Client Case Portal</span>
             <span class="side-link-sub">My consultations &amp; checklists</span>
           </div>
         </a>
         <a href="#" class="side-menu-link" id="side-link-bookings">
-          <span class="side-link-icon">📅</span>
+          <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">My Bookings</span>
             <span class="side-link-sub">Upcoming attorney appointments</span>
           </div>
         </a>
         <a href="admin.html" class="side-menu-link" id="side-link-admin" style="display:none;">
-          <span class="side-link-icon" style="color:#c084fc;">👑</span>
+          <span class="side-link-icon" style="color:#c084fc;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title" style="color:#c084fc;">Admin Dashboard</span>
             <span class="side-link-sub">Manage platform, users &amp; ML</span>
@@ -383,7 +383,7 @@
       <!-- EMERGENCY LEGAL HELPLINE -->
       <div class="side-menu-help">
         <div class="side-help-title">Emergency Legal Assistance</div>
-        <div class="side-help-phone">📞 1-800-LEGAL-AI (24/7)</div>
+        <div class="side-help-phone">1-800-LEGAL-AI (24/7)</div>
         <div class="side-help-sub">Immediate guidance for urgent filings &amp; bail assistance</div>
       </div>
     </div>
@@ -444,10 +444,10 @@
         </form>
         <div class="hero-ai-suggestions">
           <span class="hero-ai-label">Quick Inquiries:</span>
-          <button type="button" class="hero-ai-chip" data-prompt="My landlord changed the locks without notice. What are my rights?">🏠 Eviction Dispute</button>
-          <button type="button" class="hero-ai-chip" data-prompt="I was fired after reporting wage violations at my company. Can I sue?">💼 Wrongful Termination</button>
-          <button type="button" class="hero-ai-chip" data-prompt="What are my rights during police questioning and traffic stops?">⚖️ Police Rights</button>
-          <button type="button" class="hero-ai-chip" data-prompt="How do I file for child custody and dispute visitation rights?">👨‍👩‍👧 Child Custody</button>
+          <button type="button" class="hero-ai-chip" data-prompt="My landlord changed the locks without notice. What are my rights?">Eviction Dispute</button>
+          <button type="button" class="hero-ai-chip" data-prompt="I was fired after reporting wage violations at my company. Can I sue?">Wrongful Termination</button>
+          <button type="button" class="hero-ai-chip" data-prompt="What are my rights during police questioning and traffic stops?">Police Rights</button>
+          <button type="button" class="hero-ai-chip" data-prompt="How do I file for child custody and dispute visitation rights?">Child Custody</button>
         </div>
       </div>
 
@@ -622,19 +622,19 @@
       <div class="pa-modal-body">
         <div class="pa-stats-row" id="pa-stats-row"></div>
         <div class="pa-section">
-          <h4 class="pa-section-title">📋 Overview</h4>
+          <h4 class="pa-section-title">Overview</h4>
           <p class="pa-overview-text" id="pa-overview-text"></p>
         </div>
         <div class="pa-section">
-          <h4 class="pa-section-title">⚖️ Key Legal Rights & Protections</h4>
+          <h4 class="pa-section-title">Key Legal Rights & Protections</h4>
           <ul class="pa-rights-list" id="pa-rights-list"></ul>
         </div>
         <div class="pa-section">
-          <h4 class="pa-section-title">🔍 Common Case Types</h4>
+          <h4 class="pa-section-title">Common Case Types</h4>
           <div class="pa-cases-grid" id="pa-cases-grid"></div>
         </div>
         <div class="pa-section">
-          <h4 class="pa-section-title">💡 When You Need This Attorney</h4>
+          <h4 class="pa-section-title">When You Need This Attorney</h4>
           <p class="pa-when-text" id="pa-when-text"></p>
         </div>
       </div>
@@ -666,7 +666,7 @@
           <span>My Booked Consultations</span>
           <span class="toggle-badge booked-badge" id="badge-booked-count">0</span>
         </button>
-        <a href="lawyers.html" class="lawyers-toggle-btn lawyers-fullpage-link" title="Open Complete 27 Advocates Directory Page" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <a href="lawyers.html" target="_blank" rel="noopener noreferrer" class="lawyers-toggle-btn lawyers-fullpage-link" title="Open Complete 27 Advocates Directory Page in New Tab" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           <span>All 27 Advocates Directory ↗</span>
         </a>
@@ -683,8 +683,8 @@
         <div class="lawyer-filters">
           <select id="lawyer-avail-select" class="lawyer-select">
             <option value="">All Availability</option>
-            <option value="available">🟢 Available for Consult</option>
-            <option value="booked">🔴 Booked / In Hearing</option>
+            <option value="available">Available for Consult</option>
+            <option value="booked">Booked / In Hearing</option>
           </select>
 
           <select id="lawyer-specialty-select" class="lawyer-select">
@@ -851,15 +851,15 @@
       <div class="courts-map-explorer-container hidden" id="courts-map-explorer-container">
         <div class="map-explorer-header">
           <div class="map-explorer-info">
-            <h3 class="map-explorer-title">🗺️ Interactive India Courts Geo-Locator &amp; Map</h3>
+            <h3 class="map-explorer-title">Interactive India Courts Geo-Locator &amp; Map</h3>
             <p class="map-explorer-desc">Explore small courts, taluka magistrate complexes, and apex courts across India. Select any court to pin it on the live map with instant GPS directions and street details.</p>
           </div>
           <div class="map-explorer-quick-actions">
             <select id="map-court-quick-select" class="court-select map-quick-select">
-              <option value="">⚡ Jump to Court on Map...</option>
+              <option value="">Jump to Court on Map...</option>
             </select>
             <a href="#" target="_blank" rel="noopener" id="btn-open-explorer-map-ext" class="btn-court-map-action" style="padding: 10px 16px; font-weight: 600; text-decoration: none;">
-              🧭 Full Directions in Google Maps ↗
+              Full Directions in Google Maps ↗
             </a>
           </div>
         </div>
@@ -868,11 +868,11 @@
           <div class="map-court-live-card" id="map-court-live-card">
             <div class="map-card-badge" id="map-live-badge">Apex Supreme Court</div>
             <h4 class="map-card-name" id="map-live-name">Supreme Court of India</h4>
-            <div class="map-card-loc" id="map-live-loc">📍 Tilak Marg, Mandi House, New Delhi 110001</div>
-            <div class="map-card-hours" id="map-live-hours">🕒 Mon - Fri: 10:00 AM - 5:00 PM IST</div>
+            <div class="map-card-loc" id="map-live-loc">Tilak Marg, Mandi House, New Delhi 110001</div>
+            <div class="map-card-hours" id="map-live-hours">Mon - Fri: 10:00 AM - 5:00 PM IST</div>
             <div class="map-card-btn-row">
-              <button type="button" class="btn-live-court-rules" id="btn-live-court-rules">📋 View Rules &amp; Bench Info</button>
-              <a href="https://www.google.com/maps/search/?api=1&query=Supreme+Court+of+India+Tilak+Marg+New+Delhi+110001" target="_blank" rel="noopener" class="btn-live-court-dir" id="btn-live-court-dir">🧭 Navigate (GPS)</a>
+              <button type="button" class="btn-live-court-rules" id="btn-live-court-rules">View Rules &amp; Bench Info</button>
+              <a href="https://www.google.com/maps/search/?api=1&query=Supreme+Court+of+India+Tilak+Marg+New+Delhi+110001" target="_blank" rel="noopener" class="btn-live-court-dir" id="btn-live-court-dir">Navigate (GPS)</a>
             </div>
           </div>
         </div>
@@ -904,14 +904,14 @@
           <span id="news-lang-label-text">Read In:</span>
         </div>
         <div class="news-lang-pills" id="news-lang-pills">
-          <button type="button" class="news-lang-btn active" data-lang="en"><span class="lang-flag">🇬🇧</span> English</button>
-          <button type="button" class="news-lang-btn" data-lang="kn"><span class="lang-flag">🇮🇳</span> ಕನ್ನಡ (Kannada)</button>
-          <button type="button" class="news-lang-btn" data-lang="hi"><span class="lang-flag">🇮🇳</span> हिन्दी (Hindi)</button>
-          <button type="button" class="news-lang-btn" data-lang="ta"><span class="lang-flag">🇮🇳</span> தமிழ் (Tamil)</button>
-          <button type="button" class="news-lang-btn" data-lang="te"><span class="lang-flag">🇮🇳</span> తెలుగు (Telugu)</button>
-          <button type="button" class="news-lang-btn" data-lang="bn"><span class="lang-flag">🇮🇳</span> বাংলা (Bengali)</button>
-          <button type="button" class="news-lang-btn" data-lang="mr"><span class="lang-flag">🇮🇳</span> मराठी (Marathi)</button>
-          <button type="button" class="news-lang-btn" data-lang="gu"><span class="lang-flag">🇮🇳</span> ગુજરાતી (Gujarati)</button>
+          <button type="button" class="news-lang-btn active" data-lang="en"> English</button>
+          <button type="button" class="news-lang-btn" data-lang="kn"> ಕನ್ನಡ (Kannada)</button>
+          <button type="button" class="news-lang-btn" data-lang="hi"> हिन्दी (Hindi)</button>
+          <button type="button" class="news-lang-btn" data-lang="ta"> தமிழ் (Tamil)</button>
+          <button type="button" class="news-lang-btn" data-lang="te"> తెలుగు (Telugu)</button>
+          <button type="button" class="news-lang-btn" data-lang="bn"> বাংলা (Bengali)</button>
+          <button type="button" class="news-lang-btn" data-lang="mr"> मराठी (Marathi)</button>
+          <button type="button" class="news-lang-btn" data-lang="gu"> ગુજરાતી (Gujarati)</button>
         </div>
       </div>
 
@@ -924,15 +924,15 @@
         <div class="world-ticker-content" id="world-ticker-content">
           <span class="ticker-item">🇮🇳 <strong>Supreme Court Constitution Bench</strong>: Expands Article 21 Privacy to mandate Zero-Knowledge digital autonomy &amp; ₹250 Cr penalties</span>
           <span class="ticker-divider">·</span>
-          <span class="ticker-item">🏛️ <strong>Karnataka High Court</strong>: Declares safe, pothole-free roads an enforceable Article 21 fundamental right under Article 226</span>
+          <span class="ticker-item"><strong>Karnataka High Court</strong>: Declares safe, pothole-free roads an enforceable Article 21 fundamental right under Article 226</span>
           <span class="ticker-divider">·</span>
           <span class="ticker-item">🇮🇳 <strong>Constitution Bench</strong>: Declares political financing transparency an inalienable Article 19(1)(a) voter fundamental right</span>
           <span class="ticker-divider">·</span>
-          <span class="ticker-item">⚖️ <strong>Supreme Court</strong>: Enforces Article 14 &amp; 15 constitutional mandate for gender pay equity &amp; non-discrimination</span>
+          <span class="ticker-item"><strong>Supreme Court</strong>: Enforces Article 14 &amp; 15 constitutional mandate for gender pay equity &amp; non-discrimination</span>
           <span class="ticker-divider">·</span>
-          <span class="ticker-item">🤝 <strong>Federalism Ruling</strong>: Governors cannot withhold state assembly legislative bills indefinitely under Article 200</span>
+          <span class="ticker-item"><strong>Federalism Ruling</strong>: Governors cannot withhold state assembly legislative bills indefinitely under Article 200</span>
           <span class="ticker-divider">·</span>
-          <span class="ticker-item">📜 <strong>Article 32 Precedent</strong>: Re-anchors Dr. B.R. Ambedkar doctrine that Habeas Corpus petitions are the heart &amp; soul of the Constitution</span>
+          <span class="ticker-item"><strong>Article 32 Precedent</strong>: Re-anchors Dr. B.R. Ambedkar doctrine that Habeas Corpus petitions are the heart &amp; soul of the Constitution</span>
         </div>
       </div>
 
@@ -958,14 +958,14 @@
 
       <!-- REGION PILL FILTERS -->
       <div class="world-region-pills" id="world-region-pills">
-        <button class="world-pill-chip active" data-region="All" id="pill-region-all">🌐 All Constitutional Domains</button>
-        <button class="world-pill-chip" data-region="Fundamental Rights" id="pill-region-fr">⚖️ Fundamental Rights (Part III)</button>
-        <button class="world-pill-chip" data-region="Article 21 & Privacy" id="pill-region-art21">🛡️ Art. 21 &amp; Personal Liberty</button>
-        <button class="world-pill-chip" data-region="Karnataka & High Courts" id="pill-region-karnataka">🏛️ Karnataka &amp; High Courts (Art. 226)</button>
+        <button class="world-pill-chip active" data-region="All" id="pill-region-all">All Constitutional Domains</button>
+        <button class="world-pill-chip" data-region="Fundamental Rights" id="pill-region-fr">Fundamental Rights (Part III)</button>
+        <button class="world-pill-chip" data-region="Article 21 & Privacy" id="pill-region-art21">Art. 21 &amp; Personal Liberty</button>
+        <button class="world-pill-chip" data-region="Karnataka & High Courts" id="pill-region-karnataka">Karnataka &amp; High Courts (Art. 226)</button>
         <button class="world-pill-chip" data-region="Basic Structure & Democracy" id="pill-region-basic">🇮🇳 Basic Structure &amp; Democracy</button>
-        <button class="world-pill-chip" data-region="Equality & Social Justice" id="pill-region-equality">👥 Equality &amp; Non-Discrimination (Art. 14-16)</button>
-        <button class="world-pill-chip" data-region="Federalism & Powers" id="pill-region-federalism">🤝 Federalism &amp; State Autonomy (Art. 200)</button>
-        <button class="world-pill-chip" data-region="Constitutional Remedies" id="pill-region-remedies">📜 Constitutional Writs (Art. 32 &amp; 226)</button>
+        <button class="world-pill-chip" data-region="Equality & Social Justice" id="pill-region-equality">Equality &amp; Non-Discrimination (Art. 14-16)</button>
+        <button class="world-pill-chip" data-region="Federalism & Powers" id="pill-region-federalism">Federalism &amp; State Autonomy (Art. 200)</button>
+        <button class="world-pill-chip" data-region="Constitutional Remedies" id="pill-region-remedies">Constitutional Writs (Art. 32 &amp; 226)</button>
       </div>
 
       <!-- FEATURED LEAD DISPATCH (HERO) -->
@@ -1021,10 +1021,10 @@
           <li><a href="user.html">Client Case Portal</a></li>
           <li><a href="admin.html">Admin Command Suite</a></li>
           <li><a href="#" id="footer-ai-link">AI Assistant</a></li>
-          <li><a href="lawyers.html">Advocates Directory</a></li>
+          <li><a href="lawyers.html" target="_blank" rel="noopener noreferrer">Advocates Directory ↗</a></li>
           <li><a href="#lawyers">Featured Lawyers</a></li>
           <li><a href="#courts">Courts Directory</a></li>
-          <li><a href="#world-news">World Legal News</a></li>
+          <li><a href="index.html#world-news" target="_blank" rel="noopener noreferrer">Court News Wire ↗</a></li>
           <li><a href="#practice-areas">Practice Articles</a></li>
         </ul>
       </div>
@@ -1353,7 +1353,7 @@
           </div>
           <div class="lawyer-mstat">
             <span class="lawyer-mstat-lbl">Client Rating</span>
-            <span class="lawyer-mstat-val" id="lawyer-modal-rating">★ 4.9 (142 reviews)</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-rating">4.9 / 5.0 (142 reviews)</span>
           </div>
           <div class="lawyer-mstat full-span">
             <span class="lawyer-mstat-lbl">Consultation Rate</span>
@@ -1363,7 +1363,7 @@
 
         <!-- Practice & Chambers -->
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">🏛️ Chambers & Practice Location</h4>
+          <h4 class="lawyer-msection-title">Chambers & Practice Location</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
@@ -1372,7 +1372,7 @@
 
         <!-- Practicing Courts & Jurisdictions -->
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">⚖️ Designated Courts &amp; Jurisdictions</h4>
+          <h4 class="lawyer-msection-title">Designated Courts &amp; Jurisdictions</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
             <span id="lawyer-modal-courts" style="color: var(--gold-light); font-weight: 500;">Supreme Court of India · High Court of Delhi</span>
@@ -1381,7 +1381,7 @@
 
         <!-- Education & Languages -->
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">🎓 Education & Languages Spoken</h4>
+          <h4 class="lawyer-msection-title">Education & Languages Spoken</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             <span id="lawyer-modal-education">Faculty of Law, University of Delhi, LL.B.</span>
@@ -1394,7 +1394,7 @@
 
         <!-- Contact Information -->
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">📞 Direct Verified Contact Channels</h4>
+          <h4 class="lawyer-msection-title">Direct Verified Contact Channels</h4>
           <div class="lawyer-minfo-grid">
             <a class="lawyer-contact-link" id="lawyer-modal-phone-link" href="#" target="_blank" rel="noopener">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -1409,7 +1409,7 @@
 
         <!-- Full Biography -->
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">⚖️ Professional Biography & Courtroom Background</h4>
+          <h4 class="lawyer-msection-title">Professional Biography & Courtroom Background</h4>
           <p class="lawyer-modal-bio" id="lawyer-modal-bio">Professional biography...</p>
         </div>
       </div>
@@ -1420,7 +1420,7 @@
           <span id="lawyer-copy-btn-text">Copy Advocate Details</span>
         </button>
         <button type="button" class="btn-consult btn-lawyer-modal-book" id="lawyer-modal-btn-book">
-          📅 Book Consultation
+          Book Consultation
         </button>
         <button type="button" class="btn-court-close" id="lawyer-modal-btn-close">Close</button>
       </div>
@@ -1458,7 +1458,7 @@
         </div>
 
         <div class="court-modal-section">
-          <h4 class="court-msection-title">📍 Physical Address &amp; Contact</h4>
+          <h4 class="court-msection-title">Physical Address &amp; Contact</h4>
           <div class="court-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span id="court-modal-address">Court Complex Address</span>
@@ -1472,7 +1472,7 @@
         <!-- COURT LIVE MAP CONTAINER -->
         <div class="court-modal-section court-modal-map-section">
           <div class="court-map-title-row">
-            <h4 class="court-msection-title">🗺️ Court Location &amp; Live Google Maps Directions</h4>
+            <h4 class="court-msection-title">Court Location &amp; Live Google Maps Directions</h4>
             <a href="#" target="_blank" rel="noopener" id="court-modal-map-btn" class="court-map-open-btn">
               <span>Open in Google Maps App ↗</span>
             </a>
@@ -1481,24 +1481,24 @@
             <iframe id="court-modal-map-iframe" class="court-map-iframe" src="" title="Court Live Location Map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
           <div class="court-map-footer-coords">
-            <span id="court-modal-coords-label">📍 Pinpoint GPS Location &amp; Navigation Ready</span>
+            <span id="court-modal-coords-label">Pinpoint GPS Location &amp; Navigation Ready</span>
           </div>
         </div>
 
         <div class="court-modal-section">
-          <h4 class="court-msection-title">⚖️ Judicial Scope & Overview</h4>
+          <h4 class="court-msection-title">Judicial Scope & Overview</h4>
           <p class="court-modal-desc" id="court-modal-overview">Overview text...</p>
         </div>
 
         <div class="court-modal-section">
-          <h4 class="court-msection-title">📂 Primary Divisions & Dockets</h4>
+          <h4 class="court-msection-title">Primary Divisions & Dockets</h4>
           <div class="court-modal-divisions" id="court-modal-divisions"></div>
         </div>
 
         <!-- ADVOCATES PRACTICING IN THIS COURT -->
         <div class="court-modal-section court-modal-lawyers-section" id="court-modal-lawyers-section">
           <div class="court-lawyers-header-row">
-            <h4 class="court-msection-title">⚖️ Verified Advocates Practicing in this Court (<span id="court-modal-lawyers-count" style="color:var(--gold);">0</span>)</h4>
+            <h4 class="court-msection-title">Verified Advocates Practicing in this Court (<span id="court-modal-lawyers-count" style="color:var(--gold);">0</span>)</h4>
             <a href="lawyers.html" class="court-view-all-lawyers-btn" id="court-modal-filter-lawyers-btn" target="_blank" title="View in Advocates Directory">
               <span>View in Directory ↗</span>
             </a>
@@ -1527,7 +1527,7 @@
 
           <!-- JURISDICTION & LEGAL RULES ADVISORY BANNER -->
           <div class="court-jurisdiction-rule-banner" id="court-jurisdiction-rule-banner">
-            <div class="rule-banner-icon">⚖️</div>
+            <div class="rule-banner-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg></div>
             <div class="rule-banner-content">
               <div class="rule-banner-header">
                 <span class="rule-banner-tag">APPLICABLE JURISDICTION &amp; COURT RULES</span>
@@ -1547,7 +1547,7 @@
 
       <div class="court-modal-footer">
         <a href="#" target="_blank" rel="noopener" class="btn-court-portal" id="court-modal-link">
-          🌐 Visit Official Court Portal
+          Visit Official Court Portal
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
         <button class="btn-court-close" id="court-modal-btn-close">Close</button>
@@ -1609,11 +1609,11 @@
       <div class="ai-quick-topics" id="ai-quick-topics">
         <span class="ai-topics-label">Suggested Legal Topics:</span>
         <div class="ai-topics-scroll" id="ai-topics-list">
-          <button class="ai-topic-chip" data-query="What happens under IPC 420 after July 2024 with the new Bharatiya Nyaya Sanhita?">🔄 IPC 420 ➔ BNS 318(4) Transition</button>
-          <button class="ai-topic-chip" data-query="What are my legal rights if my landlord refuses to return my security deposit?">📜 Tenant Deposit Dispute</button>
-          <button class="ai-topic-chip" data-query="Under what conditions can a tenant withhold rent under the warranty of habitability?">⚖️ Habitability Preconditions</button>
-          <button class="ai-topic-chip" data-query="What are my 5th and 6th Amendment constitutional rights during police questioning?">🛡️ Police Rights & Miranda</button>
-          <button class="ai-topic-chip" data-query="What are the NYC Local Law 144 bias audit requirements for AI employment tools?">🤖 NYC LL144 AI Hiring Audit</button>
+          <button class="ai-topic-chip" data-query="What happens under IPC 420 after July 2024 with the new Bharatiya Nyaya Sanhita?">IPC 420 ➔ BNS 318(4) Transition</button>
+          <button class="ai-topic-chip" data-query="What are my legal rights if my landlord refuses to return my security deposit?">Tenant Deposit Dispute</button>
+          <button class="ai-topic-chip" data-query="Under what conditions can a tenant withhold rent under the warranty of habitability?">Habitability Preconditions</button>
+          <button class="ai-topic-chip" data-query="What are my 5th and 6th Amendment constitutional rights during police questioning?">Police Rights & Miranda</button>
+          <button class="ai-topic-chip" data-query="What are the NYC Local Law 144 bias audit requirements for AI employment tools?">NYC LL144 AI Hiring Audit</button>
           <button class="ai-topic-chip" data-query="Can a tenant petition Huurcommissie under Dutch Civil Code Article 247?">🇳🇱 Dutch Tenancy Art. 7:247</button>
         </div>
       </div>
@@ -1658,7 +1658,7 @@
           </button>
         </div>
         <div class="ai-disclaimer-note">
-          <span>⚠️ Educational legal information. Does not constitute formal attorney representation.</span>
+          <span>Educational legal information. Does not constitute formal attorney representation.</span>
         </div>
       </form>
     </div>
@@ -1724,35 +1724,35 @@
       <!-- NAVIGATION TABS -->
       <div class="rag-lab-tabs-nav" id="rag-lab-tabs-nav">
         <button class="rag-tab-btn active" data-tab="tab-router">
-          <span class="rag-tab-icon">⚡</span>
+          
           <span>Adaptive Router</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-chunker">
-          <span class="rag-tab-icon">🧩</span>
+          
           <span>Structure Chunker</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-hybrid">
-          <span class="rag-tab-icon">⚖️</span>
+          
           <span>Hybrid Retrieval</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-kg">
-          <span class="rag-tab-icon">🕸️</span>
+          
           <span>Knowledge Graph</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-attribution">
-          <span class="rag-tab-icon">🔍</span>
+          
           <span>Claim Attribution</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-version">
-          <span class="rag-tab-icon">📅</span>
+          
           <span>Version Timeline</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-evaluation">
-          <span class="rag-tab-icon">📊</span>
+          
           <span>Evaluation &amp; Judge</span>
         </button>
         <button class="rag-tab-btn" data-tab="tab-bias">
-          <span class="rag-tab-icon">⚖️</span>
+          
           <span>Bias Audit</span>
         </button>
       </div>
@@ -1880,7 +1880,7 @@
 
       <!-- FOOTER -->
       <div class="rag-lab-footer">
-        <span class="rag-footer-note">⚡ Powered by LegalAI Adaptive Hybrid-RAG System with Structure-Aware Indexing and Claim Attribution.</span>
+        <span class="rag-footer-note">Powered by LegalAI Adaptive Hybrid-RAG System with Structure-Aware Indexing and Claim Attribution.</span>
         <button class="rag-btn-secondary" onclick="closeRagLabModal();">Close Lab Console</button>
       </div>
 
@@ -1947,17 +1947,17 @@
       <!-- CATEGORY PILLS -->
       <div class="articles-category-pills" id="articles-category-pills">
         <button class="articles-pill active" data-category="All">All</button>
-        <button class="articles-pill" data-category="Supreme Court">⚖️ Supreme Court</button>
-        <button class="articles-pill" data-category="Criminal Law">🛡️ Criminal</button>
-        <button class="articles-pill" data-category="Family Law">👨‍👩‍👧 Family</button>
-        <button class="articles-pill" data-category="Employment Law">👔 Employment</button>
-        <button class="articles-pill" data-category="Corporate Law">💼 Corporate</button>
-        <button class="articles-pill" data-category="Real Estate Law">🏠 Real Estate</button>
-        <button class="articles-pill" data-category="Civil Rights">⚖️ Civil Rights</button>
-        <button class="articles-pill" data-category="Personal Injury">⚕️ Injury</button>
-        <button class="articles-pill" data-category="Contract Law">📝 Contracts</button>
-        <button class="articles-pill" data-category="Legal Industry">📰 Industry</button>
-        <button class="articles-pill" data-category="Legal News">📋 News</button>
+        <button class="articles-pill" data-category="Supreme Court">Supreme Court</button>
+        <button class="articles-pill" data-category="Criminal Law">Criminal</button>
+        <button class="articles-pill" data-category="Family Law">Family</button>
+        <button class="articles-pill" data-category="Employment Law">Employment</button>
+        <button class="articles-pill" data-category="Corporate Law">Corporate</button>
+        <button class="articles-pill" data-category="Real Estate Law">Real Estate</button>
+        <button class="articles-pill" data-category="Civil Rights">Civil Rights</button>
+        <button class="articles-pill" data-category="Personal Injury">Personal Injury</button>
+        <button class="articles-pill" data-category="Contract Law">Contracts</button>
+        <button class="articles-pill" data-category="Legal Industry">Legal Industry</button>
+        <button class="articles-pill" data-category="Legal News">Legal News</button>
       </div>
 
       <!-- ARTICLES GRID -->
@@ -1973,7 +1973,7 @@
         </div>
         <!-- Empty state -->
         <div class="articles-empty hidden" id="articles-empty">
-          <div class="articles-empty-icon">📰</div>
+          <div class="articles-empty-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
           <h4>No Articles Found</h4>
           <p>Try adjusting your search or category filter.</p>
         </div>
@@ -1982,7 +1982,7 @@
       <!-- FOOTER -->
       <div class="articles-modal-footer">
         <span id="articles-count-text" class="articles-count-text">Loading articles...</span>
-        <span class="articles-auto-refresh" id="articles-auto-refresh-label">🔄 Auto-refreshes every 5 min</span>
+        <span class="articles-auto-refresh" id="articles-auto-refresh-label">Auto-refreshes every 5 min</span>
       </div>
     </div>
   </div>
@@ -2095,8 +2095,8 @@
 
           <!-- Meta Pill Row -->
           <div class="reader-meta-row">
-            <span class="reader-cat-badge" id="reader-cat-badge">⚖️ Criminal Law</span>
-            <span class="reader-read-time" id="reader-read-time">⏱️ 4 min read</span>
+            <span class="reader-cat-badge" id="reader-cat-badge">Criminal Law</span>
+            <span class="reader-read-time" id="reader-read-time">4 min read</span>
             <span class="reader-source-badge" id="reader-source-badge">LegalAI Editorial</span>
             <span class="reader-pub-date" id="reader-pub-date">Updated Today</span>
           </div>
@@ -2108,7 +2108,7 @@
           <!-- Executive Summary / Key Takeaways -->
           <div class="reader-takeaways-card" id="reader-takeaways-card">
             <div class="takeaways-header">
-              <span class="takeaways-icon">⚡</span>
+              
               <h4>Executive Summary &amp; Key Takeaways</h4>
             </div>
             <ul class="takeaways-list" id="reader-takeaways-list">
@@ -2123,7 +2123,7 @@
 
           <!-- Statutes & Legal References -->
           <div class="reader-laws-section" id="reader-laws-section">
-            <h4 class="reader-section-tag">⚖️ Statutory Authority &amp; Key Case Precedents</h4>
+            <h4 class="reader-section-tag">Statutory Authority &amp; Key Case Precedents</h4>
             <div class="reader-laws-chips" id="reader-laws-chips">
               <!-- Dynamically populated -->
             </div>
@@ -2131,7 +2131,7 @@
 
           <!-- Interactive Action Checklist -->
           <div class="reader-checklist-section" id="reader-checklist-section">
-            <h4 class="reader-section-tag">📋 Action Steps &amp; Rights Checklist</h4>
+            <h4 class="reader-section-tag">Action Steps &amp; Rights Checklist</h4>
             <div class="reader-checklist" id="reader-checklist">
               <!-- Dynamically populated interactive checkboxes -->
             </div>
@@ -2139,7 +2139,7 @@
 
           <!-- Caution Callout -->
           <div class="reader-warning-box" id="reader-warning-box">
-            <div class="warning-icon">⚠️</div>
+            
             <div class="warning-content">
               <strong>Critical Legal Disclaimer:</strong>
               <p id="reader-warning-text">This article provides educational guidance and is not a formal legal consultation. State laws and local court rules vary significantly.</p>

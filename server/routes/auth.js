@@ -34,8 +34,25 @@ router.post(
       });
     }
 
-    const { name, email, password, role } = req.body;
+    const { name, email, password, confirmPassword, phone, role } = req.body;
     const cleanEmail = email.toLowerCase().trim();
+
+    if (confirmPassword && confirmPassword !== password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Passwords do not match. Please re-enter your password.',
+      });
+    }
+
+    if (phone) {
+      const digitsOnly = String(phone).replace(/\D/g, '');
+      if (digitsOnly.length > 0 && (digitsOnly.length < 10 || digitsOnly.length > 15)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please provide a valid 10-digit mobile number.',
+        });
+      }
+    }
 
     try {
       const existingUser = User.findByEmail(cleanEmail);
@@ -50,6 +67,7 @@ router.post(
         name,
         email: cleanEmail,
         password,
+        phone: phone ? String(phone).trim() : '',
         role: role || 'user',
       });
 
@@ -63,6 +81,7 @@ router.post(
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
+          phone: newUser.phone || '',
           role: newUser.role,
           storage: 'sqlite',
         },
@@ -127,6 +146,7 @@ router.post(
           id: user.id,
           name: user.name,
           email: user.email,
+          phone: user.phone || '',
           role: user.role,
           storage: 'sqlite',
         },
@@ -163,6 +183,7 @@ router.get('/me', async (req, res) => {
           id: user.id,
           name: user.name,
           email: user.email,
+          phone: user.phone || '',
           role: user.role,
           storage: 'sqlite',
         },

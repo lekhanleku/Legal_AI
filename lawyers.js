@@ -1066,7 +1066,7 @@ function renderStars(rating) {
   const full  = Math.floor(rating);
   const half  = rating % 1 >= 0.5;
   const empty = 5 - full - (half ? 1 : 0);
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  return ''.repeat(full) + (half ? '½' : '') + ''.repeat(empty);
 }
 
 function showToast(message, type = 'info') {
@@ -1095,10 +1095,10 @@ function lawyerCardHTML(l) {
 
   const consultBtn = isAvail
     ? `<button class="btn-consult" data-lawyer-id="${l.id}" onclick="event.stopPropagation(); openConsultModal('${l.id}')">
-        📅 Book Consultation
+         Book Consultation
       </button>`
     : `<button class="btn-consult btn-waitlist" data-lawyer-id="${l.id}" onclick="event.stopPropagation(); openConsultModal('${l.id}')">
-        ⏳ Join Waitlist / Inquire
+         Join Waitlist / Inquire
       </button>`;
 
   const activeBooking = (typeof bookingsData !== 'undefined' && Array.isArray(bookingsData))
@@ -1179,8 +1179,8 @@ function lawyerCardHTML(l) {
         <div class="lawyer-name" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" title="Click to view advocate profile">${escapeHtml(l.name)}</div>
         <div class="lawyer-title">${escapeHtml(l.title || 'Advocate / Senior Counsel')}</div>
         <div class="lawyer-badges">
-          <span class="badge-verified">✓ Bar Verified</span>
-          ${isCardMatched ? `<span class="badge-verified" style="background:rgba(184,149,106,0.2);color:var(--gold-light);border:1px solid rgba(184,149,106,0.4);">⭐ Recommended</span>` : ''}
+          <span class="badge-verified"> Bar Verified</span>
+          ${isCardMatched ? `<span class="badge-verified" style="background:rgba(184,149,106,0.2);color:var(--gold-light);border:1px solid rgba(184,149,106,0.4);">Recommended</span>` : ''}
           <span class="badge-specialty" onclick="event.stopPropagation(); openLawyerModal('${l.id}')">${escapeHtml(l.specialty)}</span>
           ${availBadge}
         </div>
@@ -1495,7 +1495,7 @@ window.resetAllFilters = function() {
 
   syncPillsToSpecialty('All Specialties');
   fetchAndRenderLawyers();
-  showToast('✓ Search filters have been reset', 'info');
+  showToast(' Search filters have been reset', 'info');
 };
 
 if (btnResetFilters) btnResetFilters.addEventListener('click', resetAllFilters);
@@ -1691,7 +1691,7 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
   if (successEl) successEl.textContent = `${lawyer.successRate || 95}%`;
 
   const ratingEl = document.getElementById('lawyer-modal-rating');
-  if (ratingEl) ratingEl.textContent = `★ ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
+  if (ratingEl) ratingEl.textContent = ` ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
 
   const rateEl = document.getElementById('lawyer-modal-rate');
   if (rateEl) rateEl.textContent = `₹${Number(lawyer.hourlyRate || 5000).toLocaleString('en-IN')} / hr`;
@@ -1769,8 +1769,8 @@ Consultation Fee: ₹${Number(currentModalLawyer.hourlyRate).toLocaleString('en-
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = '✓ Copied!';
-      showToast('✓ Advocate credentials copied to clipboard!', 'success');
+      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = ' Copied!';
+      showToast(' Advocate credentials copied to clipboard!', 'success');
       setTimeout(() => {
         if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = 'Copy Advocate Details';
       }, 2500);
@@ -1790,17 +1790,53 @@ if (lawyerModalOverlay) {
   });
 }
 
-// ── Consultation Booking Modal ──
+// ── Consultation Booking Modal (Authentication Mandatory) ──
 window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   let lawyer = lawyersData.find(l => String(l.id) === String(lawyerId)) ||
                FALLBACK_LAWYERS.find(l => String(l.id) === String(lawyerId)) ||
                fallbackLawyer;
+
+  // 1. Mandatory Login/Registration Check
+  const token = localStorage.getItem('legalai_token');
+  const cachedUserStr = localStorage.getItem('legalai_user');
+  const isAuth = !!(token && cachedUserStr);
+
+  if (!isAuth) {
+    // Preserve selected lawyer details for auto-resumption after login/register
+    const pendingData = {
+      lawyerId: lawyer ? lawyer.id : lawyerId,
+      lawyerName: lawyer ? lawyer.name : 'Advocate',
+      lawyerSpecialty: lawyer ? lawyer.specialty : '',
+      lawyerRate: lawyer ? lawyer.hourlyRate : '',
+      sourcePage: 'lawyers.html'
+    };
+    try {
+      sessionStorage.setItem('pending_consult_lawyer', JSON.stringify(pendingData));
+    } catch (_) {}
+
+    showToast('Please log in or register to book a lawyer consultation.', 'info');
+    setTimeout(() => {
+      window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(pendingData.lawyerId)}&lawyerName=${encodeURIComponent(pendingData.lawyerName)}`;
+    }, 300);
+    return;
+  }
 
   if (!lawyer || !consultOverlay) return;
 
   consultLawyerId.value = lawyer.id;
   consultModalTitle.textContent = `Book — ${lawyer.name}`;
   consultAttySubtitle.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate).toLocaleString('en-IN')}/hr`;
+
+  // Pre-fill authenticated user details
+  try {
+    const user = JSON.parse(cachedUserStr);
+    const nameInput = document.getElementById('consult-name');
+    const emailInput = document.getElementById('consult-email');
+    const phoneInput = document.getElementById('consult-phone');
+    if (nameInput && !nameInput.value) nameInput.value = user.name || '';
+    if (emailInput && !emailInput.value) emailInput.value = user.email || '';
+    if (phoneInput && user.phone && !phoneInput.value) phoneInput.value = user.phone;
+  } catch (_) {}
 
   // Set min date to today
   const today = new Date().toISOString().split('T')[0];
@@ -1825,12 +1861,29 @@ if (consultOverlay) {
   });
 }
 
-// Consultation Form Submission
+// Consultation Form Submission (With Auth Header & Session Check)
 if (consultForm) {
   consultForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const lawyerId      = consultLawyerId.value;
+    const token = localStorage.getItem('legalai_token');
+    const lawyerId = consultLawyerId.value;
+
+    if (!token) {
+      showToast('Please log in or register to book a lawyer consultation.', 'error');
+      try {
+        sessionStorage.setItem('pending_consult_lawyer', JSON.stringify({
+          lawyerId,
+          lawyerName: consultModalTitle.textContent.replace('Book — ', ''),
+          sourcePage: 'lawyers.html'
+        }));
+      } catch (_) {}
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(lawyerId)}`;
+      }, 400);
+      return;
+    }
+
     const clientName    = document.getElementById('consult-name')?.value.trim();
     const clientEmail   = document.getElementById('consult-email')?.value.trim();
     const clientPhone   = document.getElementById('consult-phone')?.value.trim();
@@ -1851,47 +1904,43 @@ if (consultForm) {
     try {
       const resp = await fetch(`${LAWYERS_API}/${lawyerId}/consult`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ clientName, clientEmail, clientPhone, preferredDate, caseSummary })
       });
       const data = await resp.json();
 
+      if (resp.status === 401) {
+        localStorage.removeItem('legalai_token');
+        localStorage.removeItem('legalai_user');
+        showToast(data.message || 'Session expired. Please log in again to book a consultation.', 'error');
+        try {
+          sessionStorage.setItem('pending_consult_lawyer', JSON.stringify({
+            lawyerId,
+            lawyerName: consultModalTitle.textContent.replace('Book — ', ''),
+            sourcePage: 'lawyers.html'
+          }));
+        } catch (_) {}
+        setTimeout(() => {
+          window.location.href = `login.html?redirect=consult&lawyerId=${encodeURIComponent(lawyerId)}`;
+        }, 1200);
+        return;
+      }
+
       if (data.success) {
         closeConsultModal();
-        showToast(`✅ Consultation booked with ${data.lawyer?.name || 'Advocate'}!`, 'success');
+        try { sessionStorage.removeItem('pending_consult_lawyer'); } catch (_) {}
+        const bookedId = data.bookingId || data.consultation?.id;
+        showToast(` Consultation #${bookedId || ''} booked with ${data.lawyer?.name || 'Advocate'}!`, 'success');
         await fetchAndRenderBookings();
         renderLawyers(lawyersData);
       } else {
         showToast(data.message || 'Could not submit booking request.', 'error');
       }
     } catch (err) {
-      // Local fallback booking
-      const matchedAtty = lawyersData.find(l => String(l.id) === String(lawyerId)) || FALLBACK_LAWYERS[0];
-      const newBooking = {
-        id: Date.now(),
-        lawyerId: matchedAtty.id,
-        lawyerName: matchedAtty.name,
-        lawyerTitle: matchedAtty.title,
-        lawyerSpecialty: matchedAtty.specialty,
-        lawyerRate: matchedAtty.hourlyRate,
-        lawyerPhone: matchedAtty.phone,
-        lawyerEmail: matchedAtty.email,
-        lawyerAvatar: matchedAtty.avatarUrl,
-        clientName,
-        clientEmail,
-        clientPhone,
-        preferredDate,
-        caseSummary,
-        status: 'confirmed',
-        createdAt: new Date().toISOString()
-      };
-      bookingsData.unshift(newBooking);
-      try { localStorage.setItem('legalai_consultations', JSON.stringify(bookingsData)); } catch (_) {}
-      closeConsultModal();
-      showToast(`✅ Consultation booked with ${matchedAtty.name}!`, 'success');
-      updateBookingsCounters(bookingsData.filter(b => b.status !== 'cancelled').length);
-      renderBookingsList(bookingsData);
-      renderLawyers(lawyersData);
+      showToast('Network error. Make sure the server is running.', 'error');
     } finally {
       if (btnText) btnText.classList.remove('hidden');
       if (btnSpinner) btnSpinner.classList.add('hidden');
@@ -2014,7 +2063,7 @@ function renderBookingsList(bookings) {
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               <div>
                 <span class="info-label">Session Date</span>
-                <span class="info-val highlight-date">📅 ${escapeHtml(b.preferredDate || 'TBD')}</span>
+                <span class="info-val highlight-date"> ${escapeHtml(b.preferredDate || 'TBD')}</span>
               </div>
             </div>
             <div class="booking-info-item">
@@ -2156,6 +2205,18 @@ sideMenuOverlay?.addEventListener('click', closeSideMenu);
 // ── URL Query Parameters Parser ──
 function parseUrlParams() {
   const params = new URLSearchParams(window.location.search);
+  const lawyerIdParam = params.get('lawyer');
+  if (lawyerIdParam) {
+    setTimeout(() => {
+      if (typeof window.openLawyerModal === 'function') {
+        window.openLawyerModal(lawyerIdParam);
+      }
+      const targetCard = document.getElementById('lawyer-card-' + lawyerIdParam);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 500);
+  }
   const courtParam = params.get('court');
   if (courtParam) {
     lawyerFilters.court = courtParam;
@@ -2180,10 +2241,47 @@ function parseUrlParams() {
   }
 }
 
+// ── Check and auto-resume consultation booking if returning authenticated from login/register ──
+function checkPendingConsultationResume() {
+  const params = new URLSearchParams(window.location.search);
+  const resumeId = params.get('bookLawyerId');
+  const token = localStorage.getItem('legalai_token');
+  if (resumeId && token) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+    try { sessionStorage.removeItem('pending_consult_lawyer'); } catch (_) {}
+    setTimeout(() => {
+      if (typeof window.openConsultModal === 'function') {
+        window.openConsultModal(resumeId);
+        showToast('Resuming your consultation booking...', 'info');
+      }
+    }, 450);
+  }
+}
+
+// ── Sync Navbar Auth Button State ──
+function syncLawyersNavAuthState() {
+  const token = localStorage.getItem('legalai_token');
+  const userStr = localStorage.getItem('legalai_user');
+  const navAuthBtn = document.getElementById('nav-auth-btn');
+  if (!navAuthBtn) return;
+  if (token && userStr) {
+    try {
+      const user = JSON.parse(userStr);
+      navAuthBtn.textContent = `${user.name ? user.name.split(' ')[0] : 'Client'} Portal ↗`;
+      navAuthBtn.href = 'user.html';
+    } catch (_) {}
+  } else {
+    navAuthBtn.textContent = 'Sign In / Register';
+    navAuthBtn.href = 'login.html';
+  }
+}
+
 // ── Initialize on Page Load ──
 document.addEventListener('DOMContentLoaded', () => {
+  syncLawyersNavAuthState();
   parseUrlParams();
   fetchAndRenderLawyers();
   fetchAndRenderBookings();
+  checkPendingConsultationResume();
 });
 

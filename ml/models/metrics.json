@@ -1,0 +1,101 @@
+{
+  "model_name": "Calibrated LinearSVC with TF-IDF Vectorizer",
+  "test_accuracy": 0.3333333333333333,
+  "cross_val_mean": 0.625,
+  "cross_val_std": 0.08740073734751262,
+  "total_samples": 120,
+  "categories": [
+    "Civil Rights",
+    "Contracts Law",
+    "Corporate Law",
+    "Criminal Law",
+    "Employment Law",
+    "Family Law",
+    "Immigration Law",
+    "Intellectual Property",
+    "Personal Injury",
+    "Tax Law",
+    "Tenant Law"
+  ],
+  "classification_report": {
+    "Civil Rights": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "Contracts Law": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "Corporate Law": {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1-score": 0.8,
+      "support": 2.0
+    },
+    "Criminal Law": {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.4,
+      "support": 3.0
+    },
+    "Employment Law": {
+      "precision": 0.3333333333333333,
+      "recall": 0.5,
+      "f1-score": 0.4,
+      "support": 2.0
+    },
+    "Family Law": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "Immigration Law": {
+      "precision": 0.1111111111111111,
+      "recall": 0.5,
+      "f1-score": 0.18181818181818182,
+      "support": 2.0
+    },
+    "Intellectual Property": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "Personal Injury": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "Tax Law": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 2.0
+    },
+    "Tenant Law": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.8,
+      "support": 3.0
+    },
+    "accuracy": 0.3333333333333333,
+    "macro avg": {
+      "precision": 0.32828282828282823,
+      "recall": 0.3181818181818181,
+      "f1-score": 0.2953168044077135,
+      "support": 24.0
+    },
+    "weighted avg": {
+      "precision": 0.3634259259259259,
+      "recall": 0.3333333333333333,
+      "f1-score": 0.3207070707070707,
+      "support": 24.0
+    }
+  }
+}

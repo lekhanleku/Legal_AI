@@ -3,11 +3,19 @@ LegalAI Machine Learning & RAG Indexing Pipeline
 Trains the NLP Domain Classifier and builds the FAISS Vector Index.
 """
 
-import os
+import o 
+import sys
 import json
 import joblib
 import pandas as pd
 import numpy as np
+
+# Configure UTF-8 safe output for Windows console
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import LinearSVC
@@ -106,7 +114,7 @@ corpus_texts = [
     for c in corpus
 ]
 
-# Vector Embedding model for RAG
+# Vector search algorithm
 try:
     from sentence_transformers import SentenceTransformer
     print("Loading SentenceTransformer ('all-MiniLM-L6-v2')...")

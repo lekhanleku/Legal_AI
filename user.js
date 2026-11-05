@@ -102,7 +102,7 @@ function showDashboard(profileData) {
   const drawerAdminLink = document.getElementById('drawer-admin-link');
   if (drawerName) drawerName.textContent = u.name || 'Client Account';
   if (drawerEmail) drawerEmail.textContent = u.email || '';
-  if (drawerRoleBadge) drawerRoleBadge.textContent = u.role === 'admin' ? '👑 Admin' : (u.isVerified ? '✓ Verified Client' : 'Client');
+  if (drawerRoleBadge) drawerRoleBadge.textContent = u.role === 'admin' ? ' Admin' : (u.isVerified ? ' Verified Client' : 'Client');
   if (u.role === 'admin' && drawerAdminLink) drawerAdminLink.style.display = 'flex';
 
   // Update Hero Banner
@@ -172,7 +172,7 @@ function renderConsultations(filterStatus = 'all') {
   if (list.length === 0) {
     container.innerHTML = `
       <div style="background:#131823; border:1px dashed rgba(255,255,255,0.1); border-radius:12px; padding:50px 20px; text-align:center;">
-        <div style="font-size:2.5rem; margin-bottom:12px;">📁</div>
+        <div style="font-size:2.5rem; margin-bottom:12px;"></div>
         <h3 style="color:#fff; margin-bottom:6px; font-size:1.15rem;">No Consultations Found</h3>
         <p style="color:#94a3b8; font-size:0.86rem; max-width:420px; margin:0 auto 20px;">
           ${filterStatus === 'all' 
@@ -350,7 +350,7 @@ profileForm?.addEventListener('submit', async (e) => {
       if (alertEl) {
         alertEl.style.display = 'block';
         alertEl.style.color = '#86efac';
-        alertEl.textContent = '✓ Profile updated successfully!';
+        alertEl.textContent = ' Profile updated successfully!';
         setTimeout(() => { alertEl.style.display = 'none'; }, 3000);
       }
     } else {
@@ -394,7 +394,7 @@ passwordForm?.addEventListener('submit', async (e) => {
       if (alertEl) {
         alertEl.style.display = 'block';
         alertEl.style.color = '#86efac';
-        alertEl.textContent = '✓ Password changed successfully!';
+        alertEl.textContent = ' Password changed successfully!';
         setTimeout(() => { alertEl.style.display = 'none'; }, 3000);
       }
     } else {
@@ -1304,7 +1304,7 @@ window.openLawyerModal = async function(lawyerId) {
   if (successEl) successEl.textContent = `${lawyer.successRate || 95}%`;
 
   const ratingEl = document.getElementById('lawyer-modal-rating');
-  if (ratingEl) ratingEl.textContent = `★ ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
+  if (ratingEl) ratingEl.textContent = ` ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
 
   const rateEl = document.getElementById('lawyer-modal-rate');
   if (rateEl) rateEl.textContent = `₹${Number(lawyer.hourlyRate || 5000).toLocaleString('en-IN')} / hr`;
@@ -1369,7 +1369,7 @@ Consultation Fee: ₹${Number(currentModalLawyer.hourlyRate).toLocaleString('en-
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = '✓ Copied!';
+      if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = ' Copied!';
       setTimeout(() => {
         if (lawyerCopyBtnText) lawyerCopyBtnText.textContent = 'Copy Advocate Details';
       }, 2500);

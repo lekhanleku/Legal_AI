@@ -464,20 +464,22 @@ def create_presentation():
         "Live Case Tracking: Connect with Indian e-Courts to check live court hearing dates."
     ], C_PURPLE)
 
-    # Save Presentation with safe lock handling
-    primary_name = "LegalAI_MCA_Presentation.pptx"
-    fallback_name = "LegalAI_Presentation.pptx"
-    
-    try:
-        output_pptx = os.path.join(os.getcwd(), primary_name)
-        prs.save(output_pptx)
-        print(f"SUCCESS: PowerPoint saved to {output_pptx}")
-        return output_pptx
-    except PermissionError:
-        output_pptx = os.path.join(os.getcwd(), fallback_name)
-        prs.save(output_pptx)
-        print(f"NOTICE: '{primary_name}' is currently open in PowerPoint. Saved updated presentation to {output_pptx}")
-        return output_pptx
+    # Save Presentation as "final ppt.pptx"
+    target_names = ["final ppt.pptx", "Final_PPT.pptx", "LegalAI_Final_Presentation.pptx"]
+    saved_paths = []
+
+    for name in target_names:
+        try:
+            out_path = os.path.join(os.getcwd(), name)
+            prs.save(out_path)
+            print(f"SUCCESS: PowerPoint saved to {out_path}")
+            saved_paths.append(out_path)
+        except PermissionError:
+            print(f"NOTICE: '{name}' is currently locked by PowerPoint. Skipping.")
+        except Exception as e:
+            print(f"Error saving {name}: {e}")
+
+    return saved_paths[0] if saved_paths else None
 
 if __name__ == "__main__":
     create_presentation()

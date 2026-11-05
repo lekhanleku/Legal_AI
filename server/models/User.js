@@ -20,25 +20,25 @@ class User {
    */
   static findById(id) {
     if (!id) return null;
-    const stmt = db.prepare('SELECT id, name, email, role, isVerified, createdAt, updatedAt FROM users WHERE id = ?');
+    const stmt = db.prepare('SELECT id, name, email, phone, role, isVerified, createdAt, updatedAt FROM users WHERE id = ?');
     return stmt.get(id) || null;
   }
 
   /**
    * Create a new user with hashed password
-   * @param {object} userData { name, email, password, role }
+   * @param {object} userData { name, email, password, phone, role }
    * @returns {object} Created user object (excluding password)
    */
-  static async create({ name, email, password, role = 'user' }) {
+  static async create({ name, email, password, phone = '', role = 'user' }) {
     const cleanEmail = email.toLowerCase().trim();
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const stmt = db.prepare(`
-      INSERT INTO users (name, email, password, role)
-      VALUES (?, ?, ?, ?)
+      INSERT INTO users (name, email, password, phone, role)
+      VALUES (?, ?, ?, ?, ?)
     `);
 
-    const result = stmt.run(name, cleanEmail, hashedPassword, role);
+    const result = stmt.run(name, cleanEmail, hashedPassword, phone || '', role);
     
     return User.findById(result.lastInsertRowid);
   }
@@ -57,7 +57,7 @@ class User {
    * Find all users with search, role filtering, and pagination
    */
   static findAll({ search = '', role = '', limit = 50, offset = 0 } = {}) {
-    let query = 'SELECT id, name, email, role, isVerified, createdAt, updatedAt FROM users WHERE 1=1';
+    let query = 'SELECT id, name, email, phone, role, isVerified, createdAt, updatedAt FROM users WHERE 1=1';
     const params = [];
 
     if (role && role !== 'all') {
@@ -67,11 +67,11 @@ class User {
 
     if (search && search.trim()) {
       const s = `%${search.trim().toLowerCase()}%`;
-      query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ?)';
-      params.push(s, s);
+      query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(COALESCE(phone, "")) LIKE ?)';
+      params.push(s, s, s);
     }
 
-    const countStmt = db.prepare(query.replace('SELECT id, name, email, role, isVerified, createdAt, updatedAt', 'SELECT COUNT(*) as total'));
+    const countStmt = db.prepare(query.replace('SELECT id, name, email, phone, role, isVerified, createdAt, updatedAt', 'SELECT COUNT(*) as total'));
     const total = countStmt.get(...params).total;
 
     query += ' ORDER BY id DESC LIMIT ? OFFSET ?';

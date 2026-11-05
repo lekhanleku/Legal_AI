@@ -4,7 +4,7 @@ An executive legal intelligence and judicial directory platform combining artifi
 
 ---
 
-## 🏛️ System Features
+##  System Features
 
 1. **AI Legal Assistant & Research Lab**:
    - Continuous HyPA Adaptive Retrieval router ($C \in [0, 1]$).
@@ -27,7 +27,7 @@ An executive legal intelligence and judicial directory platform combining artifi
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Master One-Click Launcher (Windows)
 Double-click `run.bat` or run:
@@ -54,7 +54,7 @@ python app.py
 
 ---
 
-## 👥 Default Demo Credentials
+##  Default Demo Credentials
 
 - **Master Administrator**:
   - Email: `admin@legalai.com`
@@ -67,7 +67,7 @@ python app.py
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 - **Frontend**: Vanilla HTML5, CSS3 (Glassmorphic dark theme), ES6 JavaScript.
 - **Backend**: Node.js, Express, SQLite (via `better-sqlite3` with WAL mode), JWT authentication.

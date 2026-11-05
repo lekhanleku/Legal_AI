@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Authentication &amp; Consultation Access — LegalAI</title>
+  <meta name="description" content="Sign in or register your LegalAI account to book consultations with verified Indian advocates and access the client case portal."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css?v=2.7.0"/>
+  <script>
+    (function(){
+      var t = localStorage.getItem('legalai_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <script src="theme.js"></script>
+  <style>
+    .auth-page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--dark, #0d1118);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(184, 149, 106, 0.09) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+
+    .auth-page-nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--mid, rgba(255, 255, 255, 0.08));
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(13, 17, 24, 0.75);
+    }
+    [data-theme="light"] .auth-page-nav {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .auth-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .auth-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auth-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--light-text, #cbd5e1);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .auth-back-link:hover {
+      color: var(--gold, #dfb77c);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(184, 149, 106, 0.25);
+    }
+
+    .auth-page-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 60px;
+    }
+
+    .auth-container-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--charcoal, #121824);
+      border: 1px solid var(--gold-border, rgba(184, 149, 106, 0.3));
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(184, 149, 106, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: relative;
+    }
+    [data-theme="light"] .auth-container-card {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(184, 149, 106, 0.2);
+    }
+
+    /* Consultation Notice Banner */
+    .consult-gate-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: linear-gradient(135deg, rgba(184, 149, 106, 0.16), rgba(139, 105, 20, 0.08));
+      border: 1px solid rgba(184, 149, 106, 0.45);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 24px;
+      animation: fadeInGate 0.3s ease-out;
+    }
+    [data-theme="light"] .consult-gate-notice {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    @keyframes fadeInGate {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .consult-notice-icon {
+      font-size: 24px;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .consult-notice-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--gold-glow, #dfb77c);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    [data-theme="light"] .consult-notice-title {
+      color: #92400e;
+    }
+
+    .consult-notice-desc {
+      font-size: 12.5px;
+      color: var(--light-text, #cbd5e1);
+      line-height: 1.5;
+    }
+    [data-theme="light"] .consult-notice-desc {
+      color: #78350f;
+    }
+
+    .consult-lawyer-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(184, 149, 106, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    [data-theme="light"] .consult-lawyer-pill {
+      background: #ffffff;
+      color: #1e293b;
+      border-color: #cbd5e1;
+    }
+
+    /* Auth Tab Switcher */
+    .auth-tab-bar {
+      display: flex;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+      gap: 4px;
+    }
+    [data-theme="light"] .auth-tab-bar {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--muted, #94a3b8);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .auth-tab-btn.active {
+      background: linear-gradient(135deg, var(--gold, #b8956a), var(--gold-dark, #8b6914));
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(184, 149, 106, 0.3);
+    }
+    [data-theme="light"] .auth-tab-btn.active {
+      background: #a27d4c;
+      color: #ffffff;
+    }
+
+    /* Quick Demo Login Pill */
+    .quick-demo-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed rgba(184, 149, 106, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    [data-theme="light"] .quick-demo-box {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .btn-quick-demo {
+      background: rgba(184, 149, 106, 0.15);
+      border: 1px solid rgba(184, 149, 106, 0.35);
+      color: var(--gold, #dfb77c);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-quick-demo:hover {
+      background: var(--gold, #b8956a);
+      color: #ffffff;
+    }
+
+    .auth-page-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      color: var(--muted, #64748b);
+      border-top: 1px solid var(--mid, rgba(255, 255, 255, 0.06));
+    }
+  </style>
+</head>
+<body class="auth-page-wrapper">
+
+  <!-- TOP HEADER -->
+  <header class="auth-page-nav">
+    <div class="auth-nav-left">
+      <a href="index.html" class="logo" style="gap: 10px; text-decoration: none;">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#authLogoGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="authLogoGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Legal<span class="logo-accent">AI</span></span>
+      </a>
+    </div>
+
+    <div class="auth-nav-right">
+      <!-- THEME TOGGLE BUTTON -->
+      <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark / Light Theme" title="Switch Theme">
+        <span class="theme-toggle-track">
+          <span class="theme-toggle-thumb">
+            <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg class="theme-icon theme-icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          </span>
+        </span>
+        <span class="theme-toggle-text">Dark</span>
+      </button>
+
+      <a href="lawyers.html" class="auth-back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Back to Lawyers</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="auth-page-body">
+    <div class="auth-container-card">
+
+      <!-- CONSULTATION GATE BANNER (Displayed when booking is requested) -->
+      <div class="consult-gate-notice" id="consult-gate-notice" style="display:none;">
+        <span class="consult-notice-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg></span>
+        <div>
+          <div class="consult-notice-title">Consultation Booking Required</div>
+          <p class="consult-notice-desc" id="consult-notice-text">
+            Please log in or register to book a lawyer consultation.
+          </p>
+          <div class="consult-lawyer-pill" id="consult-notice-lawyer" style="display:none;">
+            <span>Selected Advocate:</span>
+            <strong id="consult-notice-lawyer-name">Advocate</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEADER TITLE -->
+      <div class="modal-header" style="text-align:center; margin-bottom:20px;">
+        <h2 class="modal-title" id="page-auth-title" style="font-family:'Playfair Display', serif; font-size:24px; color:var(--white, #fff); margin-bottom:6px;">Sign In to LegalAI</h2>
+        <p class="modal-subtitle" id="page-auth-sub" style="font-size:13px; color:var(--muted, #94a3b8); margin:0;">
+          Access your consultation bookings, case checklists, and legal AI workflows.
+        </p>
+      </div>
+
+      <!-- TAB SWITCHER -->
+      <div class="auth-tab-bar" role="tablist">
+        <button type="button" class="auth-tab-btn active" id="tab-login" onclick="switchAuthTab('login')">
+          Sign In
+        </button>
+        <button type="button" class="auth-tab-btn" id="tab-register" onclick="switchAuthTab('register')">
+          Create Account
+        </button>
+      </div>
+
+      <!-- ONE-CLICK DEMO SHORTCUT -->
+      <div class="quick-demo-box" id="demo-box">
+        <div style="font-size:12px; color:var(--light-text, #cbd5e1);">
+          <strong style="color:var(--gold, #dfb77c); display:block;">Quick Demo Account</strong>
+          <span>Instant client sign-in for testing</span>
+        </div>
+        <button type="button" class="btn-quick-demo" id="btn-demo-login">
+          Sign In as Demo Client
+        </button>
+      </div>
+
+      <!-- ALERT MESSAGE CONTAINER -->
+      <div class="form-alert hidden" id="page-form-alert" style="margin-bottom:18px;"></div>
+
+      <!-- ===================================
+           LOGIN FORM
+           =================================== -->
+      <form class="auth-form" id="page-login-form">
+        <div class="form-group">
+          <label for="page-login-email">Email Address</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="page-login-email" placeholder="client@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="label-row">
+            <label for="page-login-password">Password</label>
+            <a href="#" class="forgot-link" onclick="showForgotPasswordToast(); return false;">Forgot?</a>
+          </div>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="page-login-password" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="toggle-password" data-target="page-login-password" aria-label="Toggle password visibility">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="page-login-remember" checked/>
+            <span class="custom-checkbox"></span>
+            Remember my session
+          </label>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="page-login-submit">
+          <span class="btn-text" id="login-submit-text">Sign In &amp; Continue</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+
+        <p class="switch-mode-text" style="text-align:center; margin-top:16px;">
+          New to LegalAI? <a href="#" onclick="switchAuthTab('register'); return false;">Create an Account</a>
+        </p>
+      </form>
+
+      <!-- ===================================
+           REGISTER FORM
+           =================================== -->
+      <form class="auth-form hidden" id="page-register-form">
+        <div class="form-group">
+          <label for="page-reg-name">Full Name</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="page-reg-name" placeholder="Priya Sharma" required autocomplete="name"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="page-reg-email">Email Address</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="page-reg-email" placeholder="priya@example.com" required autocomplete="email"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="page-reg-phone">Mobile Number</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <input type="tel" id="page-reg-phone" placeholder="9876543210" required autocomplete="tel"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="page-reg-role">Account Type</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <select id="page-reg-role">
+              <option value="user">Client / Legal Seeker</option>
+              <option value="lawyer">Advocate / Legal Specialist</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="page-reg-password">Password</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="page-reg-password" placeholder="At least 8 characters" required autocomplete="new-password"/>
+            <button type="button" class="toggle-password" data-target="page-reg-password" aria-label="Toggle password visibility">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="page-reg-confirm-password">Confirm Password</label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="page-reg-confirm-password" placeholder="Re-enter your password" required autocomplete="new-password"/>
+            <button type="button" class="toggle-password" data-target="page-reg-confirm-password" aria-label="Toggle password visibility">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="page-reg-terms" required checked/>
+            <span class="custom-checkbox"></span>
+            I agree to the LegalAI <a href="#" class="inline-link" style="color:var(--gold);">Terms of Practice</a>
+          </label>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="page-reg-submit">
+          <span class="btn-text" id="reg-submit-text">Register Account &amp; Proceed</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+
+        <p class="switch-mode-text" style="text-align:center; margin-top:16px;">
+          Already have an account? <a href="#" onclick="switchAuthTab('login'); return false;">Sign In</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <footer class="auth-page-footer">
+    &copy; 2026 LegalAI. Certified Indian Legal Consultation &amp; AI Intelligence Suite.
+  </footer>
+
+  <script>
+    // Configuration & State
+    const API_BASE = '/api/auth';
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectReason = urlParams.get('redirect');
+    const paramLawyerId = urlParams.get('lawyerId');
+    const paramLawyerName = urlParams.get('lawyerName');
+    const paramAction = urlParams.get('action'); // 'login' or 'register'
+
+    // Form elements
+    const loginForm = document.getElementById('page-login-form');
+    const registerForm = document.getElementById('page-register-form');
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const pageTitle = document.getElementById('page-auth-title');
+    const pageSub = document.getElementById('page-auth-sub');
+    const alertBox = document.getElementById('page-form-alert');
+    const gateNotice = document.getElementById('consult-gate-notice');
+    const noticeLawyerPill = document.getElementById('consult-notice-lawyer');
+    const noticeLawyerName = document.getElementById('consult-notice-lawyer-name');
+
+    // Retrieve pending consultation from URL or sessionStorage
+    function getPendingConsultation() {
+      if (paramLawyerId) {
+        return {
+          lawyerId: paramLawyerId,
+          lawyerName: paramLawyerName ? decodeURIComponent(paramLawyerName) : 'Selected Advocate'
+        };
+      }
+      try {
+        const stored = sessionStorage.getItem('pending_consult_lawyer');
+        if (stored) return JSON.parse(stored);
+      } catch (_) {}
+      return null;
+    }
+
+    // Show Alert Message
+    function setAlert(message, type = 'error') {
+      if (!message) {
+        alertBox.className = 'form-alert hidden';
+        alertBox.textContent = '';
+        return;
+      }
+      alertBox.className = `form-alert ${type}`;
+      alertBox.textContent = message;
+      alertBox.classList.remove('hidden');
+    }
+
+    // Switch between Login and Register tabs
+    function switchAuthTab(mode) {
+      setAlert('');
+      if (mode === 'register') {
+        tabLogin.classList.remove('active');
+        tabRegister.classList.add('active');
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        pageTitle.textContent = 'Create LegalAI Account';
+        pageSub.textContent = 'Register to book advocate consultations and track your legal inquiries.';
+      } else {
+        tabRegister.classList.remove('active');
+        tabLogin.classList.add('active');
+        registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        pageTitle.textContent = 'Sign In to LegalAI';
+        pageSub.textContent = 'Access your consultation bookings, case checklists, and legal AI workflows.';
+      }
+    }
+
+    // Toast Notification helper
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const t = document.createElement('div');
+      t.className = `toast toast-${type}`;
+      t.textContent = msg;
+      container.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        setTimeout(() => t.remove(), 300);
+      }, 3500);
+    }
+
+    function showForgotPasswordToast() {
+      showToast('Password recovery: Please contact support@legalai.com or use the Demo Login.', 'info');
+    }
+
+    // Check if consultation booking triggered this login
+    function checkConsultationTrigger() {
+      const pending = getPendingConsultation();
+      if (redirectReason === 'consult' || pending) {
+        gateNotice.style.display = 'flex';
+        if (pending && pending.lawyerName) {
+          noticeLawyerPill.style.display = 'inline-flex';
+          noticeLawyerName.textContent = pending.lawyerName;
+        }
+        document.getElementById('login-submit-text').textContent = 'Sign In & Book Consultation';
+        document.getElementById('reg-submit-text').textContent = 'Register & Book Consultation';
+      }
+    }
+
+    // Finish Authentication & Redirect
+    function handleAuthSuccess(user, token, isNewRegistration = false) {
+      localStorage.setItem('legalai_token', token);
+      localStorage.setItem('legalai_user', JSON.stringify(user));
+
+      const pending = getPendingConsultation();
+      if (pending && pending.lawyerId) {
+        const atName = pending.lawyerName || 'Advocate';
+        const msg = isNewRegistration 
+          ? `Account created! Redirecting to consultation booking with ${atName}...`
+          : `Welcome back, ${user.name}! Redirecting to consultation booking with ${atName}...`;
+        setAlert(msg, 'success');
+        showToast(msg, 'success');
+
+        const returnPage = pending.sourcePage || 'lawyers.html';
+        setTimeout(() => {
+          window.location.href = `${returnPage}?bookLawyerId=${encodeURIComponent(pending.lawyerId)}`;
+        }, 500);
+      } else {
+        const welcome = isNewRegistration 
+          ? `Welcome to LegalAI, ${user.name}! Redirecting to Client Portal...`
+          : `Welcome back, ${user.name}! Redirecting to Client Portal...`;
+        setAlert(welcome, 'success');
+        showToast(welcome, 'success');
+        setTimeout(() => {
+          window.location.href = 'user.html';
+        }, 500);
+      }
+    }
+
+    // Setup Form Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle Password Eyes
+      document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const targetId = this.dataset.target;
+          const input = document.getElementById(targetId);
+          if (input) {
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            this.style.color = isPassword ? 'var(--gold)' : 'var(--muted)';
+          }
+        });
+      });
+
+      // Quick Demo Client Login
+      document.getElementById('btn-demo-login')?.addEventListener('click', async () => {
+        document.getElementById('page-login-email').value = 'demouser@legalai.com';
+        document.getElementById('page-login-password').value = 'demo1234';
+        loginForm.dispatchEvent(new Event('submit'));
+      });
+
+      // Login Form Submit
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setAlert('');
+        const email = document.getElementById('page-login-email').value.trim();
+        const password = document.getElementById('page-login-password').value;
+
+        const btn = document.getElementById('page-login-submit');
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        btnText.classList.add('hidden');
+        btnSpinner.classList.remove('hidden');
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            handleAuthSuccess(data.user, data.token, false);
+          } else {
+            setAlert(data.message || 'Invalid email or password. Please try again.', 'error');
+            btnText.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+            btn.disabled = false;
+          }
+        } catch (err) {
+          setAlert('Could not connect to authentication server. Make sure server is running on port 5000.', 'error');
+          btnText.classList.remove('hidden');
+          btnSpinner.classList.add('hidden');
+          btn.disabled = false;
+        }
+      });
+
+      // Register Form Submit
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setAlert('');
+
+        const name = document.getElementById('page-reg-name').value.trim();
+        const email = document.getElementById('page-reg-email').value.trim();
+        const phone = document.getElementById('page-reg-phone').value.trim();
+        const role = document.getElementById('page-reg-role').value;
+        const password = document.getElementById('page-reg-password').value;
+        const confirmPassword = document.getElementById('page-reg-confirm-password').value;
+
+        if (password !== confirmPassword) {
+          setAlert('Passwords do not match. Please re-enter your password.', 'error');
+          return;
+        }
+
+        if (password.length < 8) {
+          setAlert('Password must be at least 8 characters long.', 'error');
+          return;
+        }
+
+        const digits = phone.replace(/\D/g, '');
+        if (digits.length < 10 || digits.length > 15) {
+          setAlert('Please provide a valid 10-digit mobile number.', 'error');
+          return;
+        }
+
+        const btn = document.getElementById('page-reg-submit');
+        const btnText = btn.querySelector('.btn-text');
+        const btnSpinner = btn.querySelector('.btn-spinner');
+        btnText.classList.add('hidden');
+        btnSpinner.classList.remove('hidden');
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, phone, role, password, confirmPassword })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            handleAuthSuccess(data.user, data.token, true);
+          } else {
+            setAlert(data.message || 'Registration failed. Please check your details.', 'error');
+            btnText.classList.remove('hidden');
+            btnSpinner.classList.add('hidden');
+            btn.disabled = false;
+          }
+        } catch (err) {
+          setAlert('Could not connect to authentication server. Make sure server is running on port 5000.', 'error');
+          btnText.classList.remove('hidden');
+          btnSpinner.classList.add('hidden');
+          btn.disabled = false;
+        }
+      });
+
+      // Check URL parameters
+      if (paramAction === 'register') {
+        switchAuthTab('register');
+      }
+
+      checkConsultationTrigger();
+
+      // If user is ALREADY authenticated when loading login page:
+      const existingToken = localStorage.getItem('legalai_token');
+      const existingUserStr = localStorage.getItem('legalai_user');
+      if (existingToken && existingUserStr) {
+        try {
+          const user = JSON.parse(existingUserStr);
+          const pending = getPendingConsultation();
+          if (pending && pending.lawyerId) {
+            const returnPage = pending.sourcePage || 'lawyers.html';
+            setAlert(`Already signed in as ${user.name}. Redirecting to consultation booking...`, 'success');
+            setTimeout(() => {
+              window.location.href = `${returnPage}?bookLawyerId=${encodeURIComponent(pending.lawyerId)}`;
+            }, 600);
+          }
+        } catch (_) {}
+      }
+    });
+  </script>
+</body>
+</html>

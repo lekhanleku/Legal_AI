@@ -73,7 +73,7 @@ router.post('/chat', async (req, res) => {
       // Store assistant response
       insertStmt.run(userId, 'assistant', aiResult.text, aiResult.category);
     } catch (dbErr) {
-      console.warn('⚠️ Could not persist chat in SQLite:', dbErr.message);
+      console.warn(' Could not persist chat in SQLite:', dbErr.message);
     }
 
     return res.json({

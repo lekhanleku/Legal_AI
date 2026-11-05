@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const Lawyer = require('../models/Lawyer');
+const User = require('../models/User');
 
 // @route   GET /api/lawyers
 // @desc    Search and filter lawyers by specialty, court, keyword, rate, or rating
@@ -171,10 +173,38 @@ router.post('/', (req, res) => {
 });
 
 // @route   POST /api/lawyers/:id/consult
-// @desc    Book a consultation with a specified attorney
-// @access  Public
+// @desc    Book a consultation with a specified attorney (Authentication Mandatory)
+// @access  Private (Requires valid JWT Bearer Token)
 router.post('/:id/consult', (req, res) => {
   try {
+    // 1. Mandatory Authentication Check
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        success: false,
+        message: 'Please log in or register to book a lawyer consultation.'
+      });
+    }
+
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+    } catch (tokenErr) {
+      return res.status(401).json({
+        success: false,
+        message: 'Your session has expired. Please log in again to book a lawyer consultation.'
+      });
+    }
+
+    const user = User.findById(decoded.id);
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authenticated user account not found in database. Please log in or register.'
+      });
+    }
+
     const lawyerId = req.params.id;
     const lawyer = Lawyer.findById(lawyerId);
     if (!lawyer) {
@@ -200,18 +230,21 @@ router.post('/:id/consult', (req, res) => {
       });
     }
 
+    // 2. Save consultation with authenticated userId and lawyerId
     const consultation = Lawyer.bookConsultation({
       lawyerId: Number(lawyerId),
-      clientName,
-      clientEmail,
-      clientPhone,
+      userId: user.id,
+      clientName: clientName || user.name,
+      clientEmail: user.email, // Bound directly to authenticated user
+      clientPhone: phoneTrimmed,
       preferredDate,
       caseSummary
     });
 
-    return res.json({
+    return res.status(201).json({
       success: true,
       message: `Consultation request successfully submitted for ${lawyer.name}!`,
+      bookingId: consultation.id,
       consultation,
       lawyer: {
         id: lawyer.id,

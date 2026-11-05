@@ -27,7 +27,7 @@
 
     buttons.forEach((btn) => {
       btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
-      btn.setAttribute('title', isLight ? 'Switch to Dark Theme (🌙)' : 'Switch to Light Theme (☀️)');
+      btn.setAttribute('title', isLight ? 'Switch to Dark Theme' : 'Switch to Light Theme');
       
       const textSpan = btn.querySelector('.theme-toggle-text');
       if (textSpan) {
@@ -76,8 +76,8 @@
 
     if (showToastNotification && typeof window.showToast === 'function') {
       const msg = (targetTheme === 'light') 
-        ? '☀️ Switched to Light Theme' 
-        : '🌙 Switched to Dark Theme';
+        ? 'Switched to Light Theme' 
+        : 'Switched to Dark Theme';
       window.showToast(msg, 'info');
     }
   }

@@ -198,7 +198,7 @@ async function loadAdminUsers(search = '', role = 'all') {
         </td>
         <td>
           <button type="button" class="portal-filter-btn" style="padding:3px 8px; font-size:0.75rem;" onclick="toggleUserVerify(${u.id}, ${u.isVerified ? 0 : 1})">
-            ${u.isVerified ? '<span style="color:#86efac;">✓ Verified</span>' : '<span style="color:#94a3b8;">○ Unverified</span>'}
+            ${u.isVerified ? '<span style="color:#86efac;"> Verified</span>' : '<span style="color:#94a3b8;">○ Unverified</span>'}
           </button>
         </td>
         <td style="font-size:0.78rem; color:#94a3b8;">${new Date(u.createdAt).toLocaleDateString()}</td>
@@ -413,7 +413,7 @@ async function loadAdminLawyers(search = '') {
         <td><span class="meta-pill meta-pill-gold">${escapeHtml(l.specialty)}</span></td>
         <td style="font-size:0.8rem; font-family:monospace;">${escapeHtml(l.barNumber)}</td>
         <td style="color:#86efac; font-weight:700;">₹${Number(l.hourlyRate).toLocaleString('en-IN')}/hr</td>
-        <td>★ ${l.rating || 5.0} (${l.casesWon || 20} wins)</td>
+        <td> ${l.rating || 5.0} (${l.casesWon || 20} wins)</td>
         <td>
           <button type="button" class="portal-filter-btn" style="padding:3px 8px; font-size:0.75rem;" onclick="toggleLawyerAvail(${l.id}, ${l.isAvailable ? 0 : 1})">
             ${l.isAvailable ? '<span style="color:#86efac;">● Available</span>' : '<span style="color:#f87171;">○ Booked</span>'}

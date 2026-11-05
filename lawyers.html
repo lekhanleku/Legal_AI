@@ -55,7 +55,7 @@
           <li><a href="index.html" class="nav-link">Home</a></li>
           <li><a href="lawyers.html" class="nav-link active">Find Lawyers</a></li>
           <li><a href="index.html#courts" class="nav-link">Courts Directory</a></li>
-          <li><a href="index.html#world-news" class="nav-link">Legal News Wire</a></li>
+          <li><a href="index.html#world-news" target="_blank" rel="noopener noreferrer" class="nav-link">Court News Wire</a></li>
           <li><a href="user.html" class="nav-link">Client Portal</a></li>
           <li><a href="admin.html" class="nav-link">Admin</a></li>
         </ul>
@@ -130,7 +130,7 @@
       <div class="side-nav-group">
         <div class="side-nav-label">Quick Consultations</div>
         <button type="button" class="side-menu-link" onclick="closeSideMenu(); openBookingsModal();">
-          📅 My Booked Consultations
+          My Booked Consultations
         </button>
       </div>
     </div>
@@ -162,7 +162,9 @@
 
       <div class="directory-kpi-bar">
         <div class="directory-kpi-card">
-          <div class="directory-kpi-icon">⚖️</div>
+          <div class="directory-kpi-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+          </div>
           <div>
             <div class="directory-kpi-num" id="kpi-total-lawyers">27</div>
             <div class="directory-kpi-label">Verified Advocates</div>
@@ -170,7 +172,9 @@
         </div>
 
         <div class="directory-kpi-card">
-          <div class="directory-kpi-icon">🛡️</div>
+          <div class="directory-kpi-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
           <div>
             <div class="directory-kpi-num">100%</div>
             <div class="directory-kpi-label">State Bar Verified</div>
@@ -178,7 +182,9 @@
         </div>
 
         <div class="directory-kpi-card">
-          <div class="directory-kpi-icon">🏆</div>
+          <div class="directory-kpi-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
           <div>
             <div class="directory-kpi-num">97%+</div>
             <div class="directory-kpi-label">Average Win Rate</div>
@@ -186,7 +192,9 @@
         </div>
 
         <div class="directory-kpi-card">
-          <div class="directory-kpi-icon">🟢</div>
+          <div class="directory-kpi-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
           <div>
             <div class="directory-kpi-num" id="kpi-available-count">27</div>
             <div class="directory-kpi-label">Available for Consult</div>
@@ -388,16 +396,16 @@
         <!-- Rating Filter -->
         <select id="lawyer-rating-select" class="directory-select" aria-label="Filter by rating">
           <option value="">Any Client Rating</option>
-          <option value="4.8">4.8+ ⭐ Star Rating</option>
-          <option value="4.9">4.9+ ⭐ Star Rating</option>
-          <option value="5.0">5.0 ⭐ Top Rated Advocates</option>
+          <option value="4.8">4.8+ Star Rating</option>
+          <option value="4.9">4.9+ Star Rating</option>
+          <option value="5.0">5.0 Top Rated Advocates</option>
         </select>
 
         <!-- Availability Filter -->
         <select id="lawyer-avail-select" class="directory-select" aria-label="Filter by availability">
           <option value="">All Availability Status</option>
-          <option value="available">🟢 Available for Consult Today</option>
-          <option value="booked">🔴 Booked / Currently in Trial</option>
+          <option value="available">Available for Consult Today</option>
+          <option value="booked">Booked / Currently in Trial</option>
         </select>
 
         <!-- Sort Select -->
@@ -449,7 +457,9 @@
 
     <!-- JURISDICTION & LEGAL AREA ADVISORY BANNER (Shown when Court or Specialty is filtered) -->
     <div class="court-jurisdiction-rule-banner hidden" id="directory-jurisdiction-rule-banner" style="margin-bottom: 24px;">
-      <div class="rule-banner-icon">⚖️</div>
+      <div class="rule-banner-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+      </div>
       <div class="rule-banner-content">
         <div class="rule-banner-header">
           <span class="rule-banner-tag">COURT JURISDICTION &amp; STATUTORY RULES</span>
@@ -508,7 +518,7 @@
           </div>
           <div class="lawyer-mstat">
             <span class="lawyer-mstat-lbl">Client Rating</span>
-            <span class="lawyer-mstat-val" id="lawyer-modal-rating">★ 4.9 (142 reviews)</span>
+            <span class="lawyer-mstat-val" id="lawyer-modal-rating">4.9 / 5.0 (142 reviews)</span>
           </div>
           <div class="lawyer-mstat full-span">
             <span class="lawyer-mstat-lbl">Consultation Rate</span>
@@ -517,7 +527,7 @@
         </div>
 
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">🏛 Chambers &amp; Practice Location</h4>
+          <h4 class="lawyer-msection-title">Chambers &amp; Practice Location</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             <span id="lawyer-modal-location">Chambers of Harish Salve — New Delhi, Delhi</span>
@@ -525,7 +535,7 @@
         </div>
 
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">⚖️ Practicing Courts &amp; Jurisdictions</h4>
+          <h4 class="lawyer-msection-title">Practicing Courts &amp; Jurisdictions</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
             <span id="lawyer-modal-courts" style="color:var(--gold-light); font-weight:500;">Supreme Court of India · High Court of Delhi</span>
@@ -533,7 +543,7 @@
         </div>
 
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">🎓 Education &amp; Languages Spoken</h4>
+          <h4 class="lawyer-msection-title">Education &amp; Languages Spoken</h4>
           <div class="lawyer-minfo-row">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
             <span id="lawyer-modal-education">Faculty of Law, University of Delhi, LL.B.</span>
@@ -545,7 +555,7 @@
         </div>
 
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">📞 Direct Verified Contact Channels</h4>
+          <h4 class="lawyer-msection-title">Direct Verified Contact Channels</h4>
           <div class="lawyer-minfo-grid">
             <a class="lawyer-contact-link" id="lawyer-modal-phone-link" href="#" target="_blank" rel="noopener">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -559,7 +569,7 @@
         </div>
 
         <div class="lawyer-modal-section">
-          <h4 class="lawyer-msection-title">📜 Professional Biography &amp; Courtroom Background</h4>
+          <h4 class="lawyer-msection-title">Professional Biography &amp; Courtroom Background</h4>
           <p class="lawyer-modal-bio" id="lawyer-modal-bio">Professional biography...</p>
         </div>
       </div>
@@ -570,7 +580,7 @@
           <span id="lawyer-copy-btn-text">Copy Advocate Details</span>
         </button>
         <button type="button" class="btn-consult btn-lawyer-modal-book" id="lawyer-modal-btn-book">
-          📅 Book Consultation with This Advocate
+          Book Consultation with This Advocate
         </button>
         <button type="button" class="btn-court-close" id="lawyer-modal-btn-close">Close</button>
       </div>
@@ -584,7 +594,9 @@
     <div class="modal-box">
       <button class="modal-close" id="consult-modal-close" aria-label="Close modal">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon">⚖️</div>
+        <div class="modal-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+        </div>
         <h3 class="modal-title" id="consult-modal-title">Book Attorney Consultation</h3>
         <p class="modal-subtitle" id="consult-attorney-subtitle">Consult directly with top legal specialists</p>
       </div>
