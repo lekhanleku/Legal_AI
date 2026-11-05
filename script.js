@@ -2,6 +2,14 @@
    LEGALAI — JAVASCRIPT
    =================================== */
 
+// Clear any #lawyers hash so browser never scrolls down automatically on load or reload
+if (window.location.hash && (window.location.hash === '#lawyers' || window.location.hash.includes('lawyers'))) {
+  try {
+    window.history.replaceState(null, null, window.location.pathname + window.location.search);
+    window.scrollTo(0, 0);
+  } catch (_) {}
+}
+
 // ── NAVBAR SCROLL ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -1364,37 +1372,8 @@ window.handleAICourtDetails = function(courtId) {
 };
 
 window.scrollToLawyerProfile = function(lawyerName, lawyerId) {
-  const section = document.getElementById('lawyers');
-  if (!section) return;
-
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  // Check if card is currently rendered
-  let card = document.getElementById(`lawyer-card-${lawyerId}`);
-  if (card) {
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    card.classList.add('card-highlight-pulse');
-    setTimeout(() => card.classList.remove('card-highlight-pulse'), 3500);
-    return;
-  }
-
-  // Filter directory to show this lawyer
-  if (lawyerSearchInput) {
-    lawyerSearchInput.value = lawyerName;
-    lawyerFilters.search = lawyerName;
-    if (lawyerSpecialtySelect) lawyerSpecialtySelect.value = 'All Specialties';
-    lawyerFilters.specialty = 'All Specialties';
-    fetchAndRenderLawyers().then(() => {
-      setTimeout(() => {
-        const loadedCard = document.getElementById(`lawyer-card-${lawyerId}`);
-        if (loadedCard) {
-          loadedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          loadedCard.classList.add('card-highlight-pulse');
-          setTimeout(() => loadedCard.classList.remove('card-highlight-pulse'), 3500);
-        }
-      }, 350);
-    });
-  }
+  // Open advocate directly in a new tab as requested (never scrolls down)
+  window.open('lawyers.html?lawyer=' + encodeURIComponent(lawyerId), '_blank', 'noopener,noreferrer');
 };
 
 // Append Chat Message with Rich Research RAG Cards & Metadata
@@ -4303,15 +4282,20 @@ if (consultForm) {
   });
 }
 
-// ── Navbar "Lawyers" link scrolls to section ──
+// ── Navbar "Lawyers" & Dropdown navigation (opens in new tab, never scrolls down) ──
 const navLawyersLink = document.getElementById('nav-lawyers');
 if (navLawyersLink) {
   navLawyersLink.addEventListener('click', (e) => {
     e.preventDefault();
-    const lawyersSection = document.getElementById('lawyers');
-    if (lawyersSection) {
-      lawyersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    window.open('lawyers.html', '_blank', 'noopener,noreferrer');
+  });
+}
+
+const navDirTrigger = document.getElementById('nav-dir-trigger');
+if (navDirTrigger) {
+  navDirTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   });
 }
 
@@ -4348,10 +4332,8 @@ window.closeBookingsModal = function() {
 };
 
 window.scrollToLawyers = function() {
-  const section = document.getElementById('lawyers');
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  // Opens in new tab, never scrolls down
+  window.open('lawyers.html', '_blank', 'noopener,noreferrer');
 };
 
 if (bookingsModalClose) {
@@ -5772,13 +5754,8 @@ function openPracticeModal(areaKey) {
   };
   document.getElementById('pa-cta-btn').onclick = () => {
     closePracticeModal();
-    const specialtySelect = document.getElementById('lawyer-specialty-select');
-    if (specialtySelect) {
-      specialtySelect.value = specialtyMap[areaKey] || 'All Specialties';
-      specialtySelect.dispatchEvent(new Event('change'));
-    }
-    const lawyersSection = document.getElementById('lawyers');
-    if (lawyersSection) lawyersSection.scrollIntoView({ behavior: 'smooth' });
+    const spec = specialtyMap[areaKey] || 'All Specialties';
+    window.open('lawyers.html?specialty=' + encodeURIComponent(spec), '_blank', 'noopener,noreferrer');
   };
 
   overlay.classList.remove('hidden');
@@ -6937,10 +6914,8 @@ document.addEventListener('DOMContentLoaded', () => {
           specialtySelect.value = specialtyMap[practiceAreaKey] || 'All Specialties';
           specialtySelect.dispatchEvent(new Event('change'));
         }
-        const lawyersSection = document.getElementById('lawyers');
-        if (lawyersSection) {
-          lawyersSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        const spec = specialtyMap[practiceAreaKey] || 'All Specialties';
+        window.open('lawyers.html?specialty=' + encodeURIComponent(spec), '_blank', 'noopener,noreferrer');
       };
     }
 
