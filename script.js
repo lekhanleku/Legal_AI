@@ -4137,8 +4137,9 @@ function closeConsultModal() {
   if (consultOverlay) consultOverlay.classList.add('hidden');
   document.body.style.overflow = '';
   clearConsultPhoneError();
-  if (consultForm) consultForm.reset();
+  if (consultForm && typeof consultForm.reset === 'function') consultForm.reset();
 }
+window.closeConsultModal = closeConsultModal;
 
 if (consultModalClose) consultModalClose.addEventListener('click', closeConsultModal);
 
@@ -5181,15 +5182,105 @@ courtPillChips.forEach(pill => {
 });
 
 // ── Court Modal Open & Close ──
+function populateCourtModalQuickSelect(courts) {
+  const sel = document.getElementById('court-modal-quick-select');
+  if (!sel) return;
+  const list = courts && courts.length > 0 ? courts : (typeof FALLBACK_COURTS !== 'undefined' ? FALLBACK_COURTS : []);
+  if (!list || list.length === 0) return;
+
+  const apex = [];
+  const highCourts = [];
+  const districtCourts = [];
+  const smallCourts = [];
+  const tribunals = [];
+
+  list.forEach(c => {
+    const jur = (c.jurisdiction || '').toLowerCase();
+    const lvl = (c.level || '').toLowerCase();
+    const code = (c.code || '').toUpperCase();
+    if (jur.includes('apex') || jur.includes('supreme') || code === 'SCI') {
+      apex.push(c);
+    } else if (jur.includes('high') || lvl.includes('high') || code.endsWith('HC')) {
+      highCourts.push(c);
+    } else if (jur.includes('tribunal') || lvl.includes('tribunal') || jur.includes('specialized') || code.startsWith('NC') || code.startsWith('IT') || code.startsWith('TD')) {
+      tribunals.push(c);
+    } else if (jur.includes('small') || jur.includes('taluka') || jur.includes('jmfc') || (c.name && (c.name.includes('JMFC') || c.name.includes('Small Causes')))) {
+      smallCourts.push(c);
+    } else {
+      districtCourts.push(c);
+    }
+  });
+
+  let html = '<option value="">-- Switch Indian Court or Bench --</option>';
+  if (apex.length) {
+    html += '<optgroup label="Apex Supreme Court">';
+    apex.forEach(c => { html += `<option value="${c.id}">${escapeHtml(c.name)} (${c.city})</option>`; });
+    html += '</optgroup>';
+  }
+  if (highCourts.length) {
+    html += '<optgroup label="State High Courts">';
+    highCourts.forEach(c => { html += `<option value="${c.id}">${escapeHtml(c.name)} (${c.state || c.city})</option>`; });
+    html += '</optgroup>';
+  }
+  if (tribunals.length) {
+    html += '<optgroup label="National Tribunals & Specialized Benches">';
+    tribunals.forEach(c => { html += `<option value="${c.id}">${escapeHtml(c.name)} (${c.city || 'India'})</option>`; });
+    html += '</optgroup>';
+  }
+  if (districtCourts.length) {
+    html += '<optgroup label="District & Sessions Courts">';
+    districtCourts.forEach(c => { html += `<option value="${c.id}">${escapeHtml(c.name)} (${c.city}, ${c.state})</option>`; });
+    html += '</optgroup>';
+  }
+  if (smallCourts.length) {
+    html += '<optgroup label="Taluka & Small Causes JMFC Courts">';
+    smallCourts.forEach(c => { html += `<option value="${c.id}">${escapeHtml(c.name)} (${c.city})</option>`; });
+    html += '</optgroup>';
+  }
+
+  sel.innerHTML = html;
+}
+
 window.openCourtModal = function(courtId, fallbackCourt = null) {
+  const overlay = courtModalOverlay || document.getElementById('court-modal-overlay');
+  if (!overlay) return;
+
   const basePool = (courtsData && courtsData.length > 0) 
     ? courtsData 
-    : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) ? window.INDIAN_COURTS_DATA : FALLBACK_COURTS);
-  let court = basePool.find(c => c.id === courtId || String(c.id) === String(courtId) || c.code === courtId) || fallbackCourt;
-  if (!court && window.aiSuggestionsCache?.courts[courtId]) {
+    : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) && window.INDIAN_COURTS_DATA.length > 0 
+        ? window.INDIAN_COURTS_DATA 
+        : (typeof FALLBACK_COURTS !== 'undefined' ? FALLBACK_COURTS : []));
+
+  let court = null;
+  if (courtId !== undefined && courtId !== null && courtId !== '') {
+    const q = String(courtId).trim().toLowerCase();
+    court = basePool.find(c => 
+      String(c.id).toLowerCase() === q || 
+      (c.code && c.code.toLowerCase() === q) ||
+      (c.name && c.name.toLowerCase().includes(q))
+    );
+  }
+
+  if (!court && courtId && window.aiSuggestionsCache?.courts?.[courtId]) {
     court = window.aiSuggestionsCache.courts[courtId];
   }
-  if (!court || !courtModalOverlay) return;
+
+  if (!court) {
+    court = fallbackCourt || basePool.find(c => (c.code && c.code.toUpperCase() === 'SCI')) || basePool[0];
+  }
+
+  if (!court) return;
+
+  // Populate and sync quick court switcher in modal
+  const sel = document.getElementById('court-modal-quick-select');
+  if (sel) {
+    if (!sel.options || sel.options.length <= 1) {
+      populateCourtModalQuickSelect(basePool);
+    }
+    if (court.id) {
+      sel.value = String(court.id);
+    }
+  }
 
   if (courtModalBadge)    courtModalBadge.textContent = court.badge || court.jurisdiction || 'Court';
   if (courtModalTitle)    courtModalTitle.textContent = court.name;
@@ -5227,9 +5318,9 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
   }
   if (coordsLabel) {
     if (court.latitude && court.longitude) {
-      coordsLabel.innerHTML = ` GPS Coordinates: <strong>${court.latitude.toFixed(4)}° N, ${court.longitude.toFixed(4)}° E</strong> · ${court.city}, ${court.state}`;
+      coordsLabel.innerHTML = `GPS Coordinates: <strong>${court.latitude.toFixed(4)}° N, ${court.longitude.toFixed(4)}° E</strong> · ${court.city}, ${court.state}`;
     } else {
-      coordsLabel.innerHTML = ` Location: <strong>${court.address ? court.address + ', ' : ''}${court.city}, ${court.state}</strong>`;
+      coordsLabel.innerHTML = `Location: <strong>${court.address ? court.address + ', ' : ''}${court.city}, ${court.state}</strong>`;
     }
   }
 
@@ -5241,7 +5332,7 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
   }
   renderCourtModalLawyersAndRules(court, 'All Specialties');
 
-  courtModalOverlay.classList.remove('hidden');
+  overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
 
@@ -5318,7 +5409,6 @@ function renderCourtLawyerCardHTML(l, isFilteredMatch) {
     <div class="court-lawyer-card ${isMatch ? 'court-lawyer-card-matched' : ''}" onclick="openLawyerProfileFromCourt('${l.id}')" title="Click to view full credentials of ${escapeHtml(l.name)}">
       ${isMatch ? `
         <div class="court-lawyer-match-banner">
-          <span class="match-sparkle">⭐</span>
           <span>Recommended ${escapeHtml(l.specialty)} Counsel for this Court</span>
         </div>
       ` : ''}
@@ -5336,7 +5426,7 @@ function renderCourtLawyerCardHTML(l, isFilteredMatch) {
       </div>
       <div class="court-lawyer-card-mid">
         <div class="court-lawyer-rate">₹${Number(l.hourlyRate).toLocaleString('en-IN')}<span class="court-lawyer-rate-unit"> / hr</span></div>
-        <div class="court-lawyer-rating">⭐ ${Number(l.rating).toFixed(1)} <span class="court-lawyer-reviews">(${l.reviewCount || 100})</span></div>
+        <div class="court-lawyer-rating">${Number(l.rating).toFixed(1)} / 5.0 <span class="court-lawyer-reviews">(${l.reviewCount || 100} reviews)</span></div>
       </div>
       <div class="court-lawyer-card-actions">
         <button type="button" class="btn-court-book-lawyer" onclick="event.stopPropagation(); bookLawyerFromCourt('${l.id}')">
@@ -5375,20 +5465,42 @@ window.bookLawyerFromCourt = function(lawyerId) {
 };
 
 function closeCourtModal() {
-  if (!courtModalOverlay) return;
-  courtModalOverlay.classList.add('hidden');
+  const overlay = courtModalOverlay || document.getElementById('court-modal-overlay');
+  if (!overlay) return;
+  overlay.classList.add('hidden');
   document.body.style.overflow = '';
   const mapIframe = document.getElementById('court-modal-map-iframe');
   if (mapIframe) {
     mapIframe.src = '';
   }
 }
+window.closeCourtModal = closeCourtModal;
 
 courtModalClose?.addEventListener('click', closeCourtModal);
 courtModalBtnClose?.addEventListener('click', closeCourtModal);
 courtModalOverlay?.addEventListener('click', (e) => {
   if (e.target === courtModalOverlay) closeCourtModal();
 });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeCourtModal();
+});
+
+const navItemCourtsDir = document.getElementById('nav-item-courts-directory');
+if (navItemCourtsDir) {
+  navItemCourtsDir.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.openCourtModal('sci');
+  });
+}
+
+const courtModalQuickSelect = document.getElementById('court-modal-quick-select');
+if (courtModalQuickSelect) {
+  courtModalQuickSelect.addEventListener('change', (e) => {
+    if (e.target.value) {
+      window.openCourtModal(e.target.value);
+    }
+  });
+}
 
 // ── Interactive India Courts Map Explorer Toggle & Locator ──
 const tabCourtsCards        = document.getElementById('tab-courts-cards');
@@ -5512,21 +5624,7 @@ if (footerAiLink) {
   });
 }
 
-// ── Initialize on page load ──
-document.addEventListener('DOMContentLoaded', () => {
-  fetchAndRenderLawyers();
-  fetchAndRenderCourts();
-  fetchAndRenderBookings();
-  fetchAndRenderWorldNews();
-});
 
-// Also fire immediately if DOM is ready
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
-  fetchAndRenderLawyers();
-  fetchAndRenderCourts();
-  fetchAndRenderBookings();
-  fetchAndRenderWorldNews();
-}
 
 
 
@@ -5852,6 +5950,7 @@ document.addEventListener('DOMContentLoaded', () => {
     articlesOverlay.classList.add('hidden');
     document.body.style.overflow = '';
   }
+  window.closeArticlesModal = closeArticlesModal;
 
   // ── SET LIVE STATUS ──
   function setArticleLiveStatus(state, text) {
@@ -8152,5 +8251,19 @@ if (navWorldNews) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
+}
+
+// ── Initialize App Modules (Safe execution after all declarations) ──
+function initAppModules() {
+  if (typeof fetchAndRenderLawyers === 'function') fetchAndRenderLawyers();
+  if (typeof fetchAndRenderCourts === 'function') fetchAndRenderCourts();
+  if (typeof fetchAndRenderBookings === 'function') fetchAndRenderBookings();
+  if (typeof fetchAndRenderWorldNews === 'function') fetchAndRenderWorldNews();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAppModules);
+} else {
+  initAppModules();
 }
 

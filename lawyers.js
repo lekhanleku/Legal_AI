@@ -1850,7 +1850,7 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
 window.closeConsultModal = function() {
   if (consultOverlay) consultOverlay.classList.add('hidden');
   document.body.style.overflow = '';
-  if (consultForm) consultForm.reset();
+  if (consultForm && typeof consultForm.reset === 'function') consultForm.reset();
 };
 
 if (consultModalClose) consultModalClose.addEventListener('click', closeConsultModal);
