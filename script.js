@@ -515,6 +515,9 @@ loginForm?.addEventListener('submit', async (e) => {
       closeModal();
       showToast(`Welcome back, ${data.user.name}!`, 'success');
       loginForm.reset();
+      if (data.user.role === 'lawyer' || data.user.lawyerId) {
+        setTimeout(() => { window.location.href = 'lawyer.html'; }, 400);
+      }
     } else {
       setFormAlert(data.message || 'Login failed. Please try again.', 'error');
     }
@@ -565,6 +568,9 @@ registerForm?.addEventListener('submit', async (e) => {
       closeModal();
       showToast(`Account created! Welcome to LegalAI, ${data.user.name}.`, 'success');
       registerForm.reset();
+      if (data.user.role === 'lawyer' || data.user.lawyerId) {
+        setTimeout(() => { window.location.href = 'lawyer.html'; }, 400);
+      }
     } else {
       setFormAlert(data.message || 'Registration failed. Please try again.', 'error');
     }

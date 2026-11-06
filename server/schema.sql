@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
   password TEXT NOT NULL,                     -- Bcrypt hashed credential
   role TEXT DEFAULT 'user',                   -- 'user' | 'admin' | 'lawyer'
   isVerified INTEGER DEFAULT 0,               -- 0: Unverified | 1: Verified
+  lawyerId INTEGER NULL,                      -- Foreign Key -> lawyers(id) for advocate accounts
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -143,4 +144,44 @@ CREATE TABLE IF NOT EXISTS consultations (
 CREATE INDEX IF NOT EXISTS idx_consultations_lawyer ON consultations(lawyerId);
 CREATE INDEX IF NOT EXISTS idx_consultations_user ON consultations(userId);
 CREATE INDEX IF NOT EXISTS idx_consultations_status ON consultations(status);
+
+
+-- ------------------------------------------------------------------------------
+-- 6. CASES TABLE
+-- Litigation dockets, court hearing cause lists, and case brief dossiers for advocates
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS cases (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  caseNumber TEXT NOT NULL UNIQUE,            -- e.g. 'COMP.APP.(AT) 542/2026', 'CRL.A. 204/2026'
+  title TEXT NOT NULL,                        -- Case title e.g. 'Priya Sharma vs. State of Maharashtra & Anr.'
+  lawyerId INTEGER NOT NULL,                  -- Foreign Key -> lawyers(id)
+  clientName TEXT NOT NULL,                   -- Client full name
+  clientEmail TEXT NOT NULL,                  -- Client email address
+  clientPhone TEXT NOT NULL,                  -- Client contact phone number
+  opposingParty TEXT NOT NULL,                -- Opposing litigant, corporate entity, or state agency
+  opposingCounsel TEXT DEFAULT '',            -- Opposing advocate or chambers
+  courtCode TEXT NOT NULL,                    -- Judicial code (e.g. SCI, DHC, NCLAT, BHC)
+  courtName TEXT NOT NULL,                    -- Full name of presiding court
+  bench TEXT NOT NULL,                        -- Presiding bench / courtroom designation
+  practiceArea TEXT NOT NULL,                 -- Corporate, Criminal, Civil Rights, IPR, etc.
+  relevantActs TEXT NOT NULL,                 -- Governing statutory acts and sections
+  nextHearingDate TEXT NOT NULL,              -- Next listed hearing date (YYYY-MM-DD)
+  hearingTime TEXT DEFAULT '10:30 AM IST',    -- Scheduled court listing time
+  stage TEXT NOT NULL,                        -- Proceedings stage (Arguments, Evidence, Final Hearing)
+  status TEXT DEFAULT 'Active Hearing',       -- 'Active Hearing' | 'Pending Hearing' | 'Under Investigation' | 'Disposed / Favorable' | 'Appeal Review'
+  disputeValue TEXT DEFAULT '',               -- Claim value or statutory relief
+  caseSummary TEXT NOT NULL,                  -- Factual matrix and legal dispute brief
+  lawyerNotes TEXT DEFAULT '',                -- Chambers notes, court orders, and counsel instructions
+  filingDate TEXT DEFAULT CURRENT_TIMESTAMP,  -- Original case registration date
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
+);
+
+-- Indexes for lawyer caseload, hearing schedule, and status queries
+CREATE INDEX IF NOT EXISTS idx_cases_lawyer ON cases(lawyerId);
+CREATE INDEX IF NOT EXISTS idx_cases_status ON cases(status);
+CREATE INDEX IF NOT EXISTS idx_cases_court ON cases(courtCode);
+CREATE INDEX IF NOT EXISTS idx_cases_hearing ON cases(nextHearingDate);
+
 

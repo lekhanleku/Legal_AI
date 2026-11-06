@@ -260,6 +260,14 @@ try {
     console.warn(' Dataset sync warning:', dErr.message);
   }
 
+  // Auto-sync lawyer accounts and individual caseloads for all Indian advocates
+  try {
+    const { syncLawyerCasesAndAccounts } = require('./services/caseSyncService');
+    syncLawyerCasesAndAccounts(db);
+  } catch (cErr) {
+    console.warn(' Lawyer cases sync warning:', cErr.message);
+  }
+
   console.log(` SQLite Database connected & initialized: ${dbPath}`);
 } catch (err) {
   console.error(` SQLite Connection Error: ${err.message}`);

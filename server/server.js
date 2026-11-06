@@ -41,6 +41,7 @@ app.use(express.static(path.join(__dirname, '..')));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/lawyer', require('./routes/lawyerPortal'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/lawyers', require('./routes/lawyers'));
 app.use('/api/courts', require('./routes/courts'));
@@ -56,6 +57,9 @@ app.get('/register', (req, res) => {
 });
 app.get('/lawyers', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'lawyers.html'));
+});
+app.get('/lawyer', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'lawyer.html'));
 });
 app.get('/user', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'user.html'));

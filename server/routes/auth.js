@@ -7,7 +7,7 @@ const User = require('../models/User');
 // Helper to generate JWT Token
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user.id, name: user.name, email: user.email, role: user.role },
+    { id: user.id, name: user.name, email: user.email, role: user.role, lawyerId: user.lawyerId || null },
     process.env.JWT_SECRET || 'fallback_secret',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
@@ -71,6 +71,57 @@ router.post(
         role: role || 'user',
       });
 
+      let lawyerId = null;
+      if (role === 'lawyer') {
+        const db = require('../db');
+        const match = db.prepare('SELECT id FROM lawyers WHERE LOWER(email) = LOWER(?)').get(cleanEmail);
+        if (match) {
+          lawyerId = match.id;
+        } else {
+          const Lawyer = require('../models/Lawyer');
+          const newLawyer = Lawyer.create({
+            name: name,
+            title: 'Advocate & Legal Counsel',
+            specialty: req.body.specialty || 'General Litigation',
+            barNumber: req.body.barNumber || `D/${Math.floor(100 + Math.random() * 900)}/${new Date().getFullYear()}`,
+            experienceYears: 5,
+            education: 'Bar Council of India Verified',
+            firmName: `Chambers of ${name}`,
+            city: 'New Delhi',
+            state: 'Delhi',
+            hourlyRate: 15000,
+            languages: 'English, Hindi',
+            bio: `Verified practicing advocate enrolled before the Bar Council. Chambers of ${name}.`,
+            phone: phone || '',
+            email: cleanEmail,
+            isAvailable: 1
+          });
+          lawyerId = newLawyer.id;
+          try {
+            const { generateCasesForLawyer } = require('../services/caseSyncService');
+            const initialCases = generateCasesForLawyer(newLawyer);
+            const insertCaseStmt = db.prepare(`
+              INSERT INTO cases (
+                caseNumber, title, lawyerId, clientName, clientEmail, clientPhone,
+                opposingParty, opposingCounsel, courtCode, courtName, bench,
+                practiceArea, relevantActs, nextHearingDate, hearingTime, stage,
+                status, disputeValue, caseSummary, lawyerNotes, filingDate
+              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `);
+            for (const cs of initialCases) {
+              insertCaseStmt.run(
+                cs.caseNumber, cs.title, cs.lawyerId, cs.clientName, cs.clientEmail, cs.clientPhone,
+                cs.opposingParty, cs.opposingCounsel, cs.courtCode, cs.courtName, cs.bench,
+                cs.practiceArea, cs.relevantActs, cs.nextHearingDate, cs.hearingTime, cs.stage,
+                cs.status, cs.disputeValue, cs.caseSummary, cs.lawyerNotes, cs.filingDate
+              );
+            }
+          } catch (_) {}
+        }
+        db.prepare('UPDATE users SET lawyerId = ? WHERE id = ?').run(lawyerId, newUser.id);
+        newUser.lawyerId = lawyerId;
+      }
+
       const token = generateToken(newUser);
 
       return res.status(201).json({
@@ -83,6 +134,7 @@ router.post(
           email: newUser.email,
           phone: newUser.phone || '',
           role: newUser.role,
+          lawyerId: newUser.lawyerId || lawyerId || null,
           storage: 'sqlite',
         },
       });
@@ -136,6 +188,19 @@ router.post(
         });
       }
 
+      // Check if user is a lawyer or matches lawyer record
+      const db = require('../db');
+      let lawyerId = user.lawyerId || null;
+      if (!lawyerId) {
+        const lawyerMatch = db.prepare('SELECT id FROM lawyers WHERE LOWER(email) = LOWER(?)').get(cleanEmail);
+        if (lawyerMatch) {
+          lawyerId = lawyerMatch.id;
+          db.prepare('UPDATE users SET lawyerId = ?, role = "lawyer" WHERE id = ?').run(lawyerId, user.id);
+          user.role = 'lawyer';
+          user.lawyerId = lawyerId;
+        }
+      }
+
       const token = generateToken(user);
 
       return res.json({
@@ -148,6 +213,7 @@ router.post(
           email: user.email,
           phone: user.phone || '',
           role: user.role,
+          lawyerId: user.lawyerId || lawyerId || null,
           storage: 'sqlite',
         },
       });
@@ -185,6 +251,7 @@ router.get('/me', async (req, res) => {
           email: user.email,
           phone: user.phone || '',
           role: user.role,
+          lawyerId: user.lawyerId || null,
           storage: 'sqlite',
         },
       });

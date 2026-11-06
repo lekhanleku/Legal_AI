@@ -333,14 +333,21 @@
       </div>
 
       <!-- ONE-CLICK DEMO SHORTCUT -->
-      <div class="quick-demo-box" id="demo-box">
-        <div style="font-size:12px; color:var(--light-text, #cbd5e1);">
-          <strong style="color:var(--gold, #dfb77c); display:block;">Quick Demo Account</strong>
-          <span>Instant client sign-in for testing</span>
+      <div class="quick-demo-box" id="demo-box" style="flex-direction:column; align-items:stretch; gap:10px;">
+        <div style="font-size:12px; color:var(--light-text, #cbd5e1); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong style="color:var(--gold, #dfb77c); display:block;">Instant Demo Logins</strong>
+            <span>Test client or advocate case portal instantly</span>
+          </div>
         </div>
-        <button type="button" class="btn-quick-demo" id="btn-demo-login">
-          Sign In as Demo Client
-        </button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn-quick-demo" id="btn-demo-login" style="flex:1; text-align:center;">
+            Sign In as Client
+          </button>
+          <button type="button" class="btn-quick-demo" id="btn-demo-lawyer" style="flex:1; text-align:center; background:rgba(223,183,124,0.2); border-color:var(--gold);">
+            Sign In as Advocate (Harish Salve)
+          </button>
+        </div>
       </div>
 
       <!-- ALERT MESSAGE CONTAINER -->
@@ -597,14 +604,31 @@
           window.location.href = `${returnPage}?bookLawyerId=${encodeURIComponent(pending.lawyerId)}`;
         }, 500);
       } else {
-        const welcome = isNewRegistration 
-          ? `Welcome to LegalAI, ${user.name}! Redirecting to Client Portal...`
-          : `Welcome back, ${user.name}! Redirecting to Client Portal...`;
-        setAlert(welcome, 'success');
-        showToast(welcome, 'success');
-        setTimeout(() => {
-          window.location.href = 'user.html';
-        }, 500);
+        if (user.role === 'lawyer' || user.lawyerId) {
+          const welcome = isNewRegistration 
+            ? `Welcome to LegalAI Chambers, ${user.name}! Redirecting to Lawyer Case Portal...`
+            : `Welcome back, ${user.name}! Loading your case dockets...`;
+          setAlert(welcome, 'success');
+          showToast(welcome, 'success');
+          setTimeout(() => {
+            window.location.href = 'lawyer.html';
+          }, 500);
+        } else if (user.role === 'admin') {
+          setAlert(`Welcome Administrator, ${user.name}! Redirecting to Admin Panel...`, 'success');
+          showToast(`Welcome Administrator!`, 'success');
+          setTimeout(() => {
+            window.location.href = 'admin.html';
+          }, 500);
+        } else {
+          const welcome = isNewRegistration 
+            ? `Welcome to LegalAI, ${user.name}! Redirecting to Client Portal...`
+            : `Welcome back, ${user.name}! Redirecting to Client Portal...`;
+          setAlert(welcome, 'success');
+          showToast(welcome, 'success');
+          setTimeout(() => {
+            window.location.href = 'user.html';
+          }, 500);
+        }
       }
     }
 
@@ -627,6 +651,13 @@
       document.getElementById('btn-demo-login')?.addEventListener('click', async () => {
         document.getElementById('page-login-email').value = 'demouser@legalai.com';
         document.getElementById('page-login-password').value = 'demo1234';
+        loginForm.dispatchEvent(new Event('submit'));
+      });
+
+      // Quick Demo Advocate Login (Harish Salve)
+      document.getElementById('btn-demo-lawyer')?.addEventListener('click', async () => {
+        document.getElementById('page-login-email').value = 'h.salve@chambersofsalve.in';
+        document.getElementById('page-login-password').value = 'lawyer1234';
         loginForm.dispatchEvent(new Event('submit'));
       });
 

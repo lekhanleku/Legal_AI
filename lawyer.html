@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advocate Case Portal &amp; Litigation Dockets — LegalAI</title>
+  <meta name="description" content="Dedicated executive caseload management, court cause list schedules, and client consultation bookings for verified Indian advocates."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css?v=2.8.0"/>
+  <link rel="stylesheet" href="portal.css?v=2.8.0"/>
+  <script>
+    (function(){
+      var t = localStorage.getItem('legalai_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <script src="theme.js"></script>
+  <style>
+    .badge-advocate {
+      background: linear-gradient(135deg, rgba(223, 183, 124, 0.25), rgba(184, 149, 106, 0.1));
+      color: #dfb77c;
+      border: 1px solid rgba(223, 183, 124, 0.4);
+    }
+    .lawyer-switcher-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-gold);
+      padding: 6px 12px;
+      border-radius: var(--radius-md);
+    }
+    .lawyer-switcher-select {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      max-width: 260px;
+    }
+    .lawyer-switcher-select option {
+      background: #131823;
+      color: #fff;
+    }
+    .case-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+    .case-card:hover {
+      border-color: var(--border-gold);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+    .case-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .case-number-badge {
+      font-family: monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-glow);
+      background: rgba(223, 183, 124, 0.12);
+      border: 1px solid rgba(223, 183, 124, 0.3);
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .case-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .case-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .case-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .case-meta-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+    .case-meta-value {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+    .case-hearing-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, rgba(223, 183, 124, 0.08), rgba(184, 149, 106, 0.04));
+      border: 1px solid rgba(223, 183, 124, 0.25);
+      border-radius: var(--radius-sm);
+    }
+    .case-hearing-date {
+      font-weight: 700;
+      color: var(--gold-glow);
+      font-size: 0.95rem;
+    }
+    .case-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .status-select-chip {
+      background: #1e2637;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+    .status-select-chip option {
+      background: #131823;
+    }
+    .case-dossier-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .case-dossier-modal.open {
+      display: flex;
+    }
+    .case-dossier-content {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+    .timeline-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .timeline-bullet {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold-primary);
+      color: #000;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PORTAL NAVBAR -->
+  <header class="portal-nav">
+    <div class="portal-nav-container">
+      <div class="portal-nav-left">
+        <a href="index.html" class="portal-brand">
+          <div class="portal-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+              <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="30" x2="32" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="portal-brand-text">
+            <div class="portal-brand-title">
+              LegalAI <span class="portal-brand-badge badge-advocate">Advocate Portal</span>
+            </div>
+            <span class="portal-brand-sub">Chambers Case Management &amp; Cause List</span>
+          </div>
+        </a>
+
+        <!-- QUICK ADVOCATE SELECTOR (Proof that this applies to ALL 54 lawyers) -->
+        <div class="lawyer-switcher-wrap" id="lawyer-switcher-box" title="Switch between any of the 54 verified Indian advocates to view their personal caseload">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold-glow);"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          <select id="select-active-lawyer" class="lawyer-switcher-select" aria-label="Switch active lawyer account">
+            <option value="">Loading 54 Indian Advocates...</option>
+          </select>
+        </div>
+      </div>
+
+      <nav class="portal-nav-links">
+        <a href="index.html" class="portal-nav-link">Main Site</a>
+        <a href="lawyers.html" class="portal-nav-link">Advocates Directory</a>
+        <a href="user.html" class="portal-nav-link">Client Portal</a>
+        <a href="admin.html" class="portal-nav-link" id="nav-admin-link" style="color:#c084fc;">Admin</a>
+      </nav>
+
+      <div class="portal-user-menu" id="portal-user-menu">
+        <!-- THEME TOGGLE BUTTON -->
+        <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark / Light Theme" title="Switch Theme">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-thumb">
+              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+              <svg class="theme-icon theme-icon-sun hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </span>
+          </span>
+          <span class="theme-toggle-text">Dark</span>
+        </button>
+
+        <div class="user-profile-chip" id="lawyer-header-chip" title="Active Advocate Chambers">
+          <div class="user-avatar-circle" id="lawyer-header-avatar" style="border-color:var(--gold-glow); color:var(--gold-glow);">A</div>
+          <div class="user-chip-info">
+            <span class="user-chip-name" id="lawyer-header-name">Advocate Chambers</span>
+            <span class="user-chip-role" id="lawyer-header-bar">Bar Verified</span>
+          </div>
+        </div>
+        <button class="btn-portal-logout" id="btn-lawyer-logout" title="Sign out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ACCESS GATE CONTAINER (Shown if no lawyer is logged in) -->
+  <div class="portal-gate-card" id="lawyer-gate-card" style="display:none; max-width:520px; margin:60px auto; padding:32px; background:var(--bg-surface); border:1px solid var(--border-gold); border-radius:var(--radius-lg); text-align:center;">
+    <div style="width:52px; height:52px; margin:0 auto 16px; border-radius:50%; background:rgba(223,183,124,0.15); border:1px solid var(--border-gold); display:flex; align-items:center; justify-content:center; color:var(--gold-glow);">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+    </div>
+    <h2 style="font-family:'Playfair Display', serif; font-size:1.6rem; color:#fff; margin-bottom:8px;">Advocate Chambers Portal</h2>
+    <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:20px;">
+      Sign in to access your personal litigation dockets, client consultations, and court hearing cause lists.
+    </p>
+
+    <!-- Instant Demo Advocate Buttons -->
+    <div style="background:#131823; border:1px solid rgba(223,183,124,0.3); padding:16px; border-radius:10px; margin-bottom:20px; text-align:left;">
+      <div style="font-size:0.78rem; font-weight:700; color:#dfb77c; text-transform:uppercase; margin-bottom:6px;">Instant Advocate Sign-In (Any Lawyer)</div>
+      <div style="font-size:0.84rem; color:#cbd5e1; margin-bottom:12px;">Click below to log in instantly as any Senior Advocate to inspect their individual caseload:</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="btn-portal-primary" id="gate-btn-harish" style="width:100%; justify-content:center;">
+          Sign In as Harish Salve, Senior Advocate (Corporate / Arbitration)
+        </button>
+        <button class="btn-portal-primary" id="gate-btn-mukul" style="width:100%; justify-content:center; background:#1e2637; border-color:var(--border);">
+          Sign In as Mukul Rohatgi, Senior Advocate (Criminal / Bail)
+        </button>
+        <button class="btn-portal-primary" id="gate-btn-indira" style="width:100%; justify-content:center; background:#1e2637; border-color:var(--border);">
+          Sign In as Indira Jaising, Senior Advocate (Civil Rights / Writs)
+        </button>
+      </div>
+    </div>
+
+    <!-- Standard Login Form -->
+    <form id="lawyer-login-form" style="text-align:left;">
+      <div class="portal-form-group">
+        <label for="gate-lawyer-email">Advocate Email Address</label>
+        <input type="email" id="gate-lawyer-email" class="portal-form-input" placeholder="h.salve@chambersofsalve.in" required/>
+      </div>
+      <div class="portal-form-group">
+        <label for="gate-lawyer-password">Password</label>
+        <input type="password" id="gate-lawyer-password" class="portal-form-input" placeholder="••••••••" required/>
+      </div>
+      <div id="gate-lawyer-alert" style="color:#f87171; font-size:0.84rem; margin-bottom:14px; display:none;"></div>
+      <button type="submit" class="btn-portal-primary" style="width:100%; justify-content:center; margin-bottom:14px;">Sign In to Advocate Portal</button>
+      <div style="text-align:center;">
+        <a href="index.html" style="color:#94a3b8; font-size:0.84rem; text-decoration:none;">← Return to Main Website</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- AUTHENTICATED ADVOCATE DASHBOARD -->
+  <main class="portal-main" id="lawyer-dashboard-content">
+
+    <!-- HERO CHAMBERS BANNER -->
+    <section class="portal-hero" style="padding: 28px 0;">
+      <div class="portal-hero-content" style="max-width: 100%;">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:20px;">
+          <div>
+            <div class="portal-hero-meta" style="margin-bottom:12px;">
+              <span class="meta-pill meta-pill-emerald">● Verified Bar Enrolled</span>
+              <span class="meta-pill meta-pill-gold" id="lawyer-bar-badge">Bar: D/248/1980</span>
+              <span class="meta-pill meta-pill-blue" id="lawyer-court-badge">Supreme Court of India</span>
+              <span class="meta-pill meta-pill-purple" id="lawyer-specialty-badge">Corporate Law</span>
+            </div>
+            <h1 class="portal-hero-title" id="lawyer-display-name" style="font-size:2.1rem; margin-bottom:6px;">Harish Salve, Senior Advocate</h1>
+            <p class="portal-hero-desc" id="lawyer-display-firm" style="font-size:1rem; color:var(--text-muted); max-width:850px;">
+              Chambers of Harish Salve · New Delhi, Delhi · 44 Years Bar Practice
+            </p>
+          </div>
+
+          <div style="text-align:right; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+            <div style="font-size:0.8rem; font-weight:600; text-transform:uppercase; color:var(--gold-glow); letter-spacing:0.06em;">Courtroom Success Ratio</div>
+            <div style="font-size:2rem; font-weight:800; color:#fff;" id="lawyer-display-winrate">99%</div>
+            <div style="font-size:0.82rem; color:var(--text-muted);" id="lawyer-display-caseswon">860 Favorable Judgments</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KPI STATS CARDS -->
+    <section class="portal-kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Assigned Court Dockets</span>
+          <div class="kpi-icon kpi-icon-gold"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        </div>
+        <div class="kpi-value" id="kpi-lawyer-total-cases">0</div>
+        <div class="kpi-sub"><span style="color:#86efac;">●</span> Active briefs in your chambers</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Active Hearings Scheduled</span>
+          <div class="kpi-icon kpi-icon-blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        </div>
+        <div class="kpi-value" id="kpi-lawyer-active-hearings">0</div>
+        <div class="kpi-sub">Upcoming courtroom listings</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Client Consultations</span>
+          <div class="kpi-icon kpi-icon-purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        </div>
+        <div class="kpi-value" id="kpi-lawyer-consultations">0</div>
+        <div class="kpi-sub">Directory client appointments</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span class="kpi-label">Disposed / Favorable</span>
+          <div class="kpi-icon kpi-icon-emerald"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        </div>
+        <div class="kpi-value" id="kpi-lawyer-disposed">0</div>
+        <div class="kpi-sub"><span style="color:#86efac;">Settled</span> Decrees &amp; orders secured</div>
+      </div>
+    </section>
+
+    <!-- NAVIGATION TABS -->
+    <div class="portal-tabs-nav">
+      <button class="portal-tab-btn active" data-tab="tab-cases">
+        <span>Court Cases &amp; Dockets</span>
+        <span class="tab-badge" id="badge-tab-cases">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-cause-list">
+        <span>Hearing Cause List / Calendar</span>
+        <span class="tab-badge" id="badge-tab-cause-list">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-consultations">
+        <span>Client Consultations</span>
+        <span class="tab-badge" id="badge-tab-consults">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-add-case">
+        <span>+ Register New Docket</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: COURT CASES & DOCKETS (DEFAULT VIEW) -->
+    <div class="portal-tab-pane active" id="tab-cases">
+      <div class="portal-toolbar" style="flex-wrap:wrap; gap:14px;">
+        <div class="portal-filter-group" id="case-status-filters">
+          <button class="portal-filter-btn active" data-status="all">All Cases</button>
+          <button class="portal-filter-btn" data-status="Active Hearing">Active Hearing</button>
+          <button class="portal-filter-btn" data-status="Pending Hearing">Pending Hearing</button>
+          <button class="portal-filter-btn" data-status="Under Investigation">Under Investigation</button>
+          <button class="portal-filter-btn" data-status="Disposed / Favorable">Disposed / Favorable</button>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; flex:1; max-width:400px;">
+          <input type="text" id="case-search-input" class="portal-form-input" placeholder="Search case number, client, opposing party or act..." style="margin:0;"/>
+        </div>
+
+        <button class="btn-portal-primary" onclick="switchToTab('tab-add-case')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Case Docket
+        </button>
+      </div>
+
+      <!-- CASES CONTAINER (Dynamic Cards Grid) -->
+      <div id="cases-container" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(460px, 1fr)); gap:20px;">
+        <div style="grid-column: 1 / -1; text-align:center; padding:50px; color:var(--text-muted);">
+          Loading your personal litigation dockets...
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: HEARING CAUSE LIST / CALENDAR -->
+    <div class="portal-tab-pane" id="tab-cause-list">
+      <div class="portal-toolbar">
+        <div>
+          <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; color:#fff;">Upcoming Court Appearances &amp; Cause List</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Chronological order of your scheduled courtroom arguments across Indian benches</p>
+        </div>
+      </div>
+
+      <div id="cause-list-container" style="display:flex; flex-direction:column; gap:14px;">
+        <!-- Dynamically rendered timeline -->
+      </div>
+    </div>
+
+    <!-- TAB 3: CLIENT CONSULTATIONS -->
+    <div class="portal-tab-pane" id="tab-consultations">
+      <div class="portal-toolbar">
+        <div>
+          <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; color:#fff;">Client Inquiries &amp; Consultation Requests</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Bookings submitted by clients through the LegalAI advocate directory</p>
+        </div>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client Name</th>
+                <th>Contact Details</th>
+                <th>Preferred Time</th>
+                <th>Case Summary</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="lawyer-consults-tbody">
+              <tr><td colspan="7" style="text-align:center; padding:30px;">Loading consultations...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ADD NEW CASE DOCKET -->
+    <div class="portal-tab-pane" id="tab-add-case">
+      <div style="max-width:760px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-gold); border-radius:var(--radius-lg); padding:28px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; color:#fff; margin-bottom:6px;">Register New Court Docket</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:24px;">File a new client case into your chambers active litigation tracking system.</p>
+
+        <form id="form-new-case">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="portal-form-group">
+              <label for="new-case-title">Case Title / Matter *</label>
+              <input type="text" id="new-case-title" class="portal-form-input" placeholder="e.g. Priya Sharma vs. State of Maharashtra" required/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-case-number">Case / Docket Number</label>
+              <input type="text" id="new-case-number" class="portal-form-input" placeholder="e.g. CRL.A. 204/2026 (Leave empty for auto-generation)"/>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+            <div class="portal-form-group">
+              <label for="new-client-name">Client Full Name *</label>
+              <input type="text" id="new-client-name" class="portal-form-input" placeholder="Client Name" required/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-client-email">Client Email</label>
+              <input type="email" id="new-client-email" class="portal-form-input" placeholder="client@example.com"/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-client-phone">Client Phone</label>
+              <input type="tel" id="new-client-phone" class="portal-form-input" placeholder="+91 98765 43210"/>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="portal-form-group">
+              <label for="new-case-court">Court / Forum *</label>
+              <input type="text" id="new-case-court" class="portal-form-input" placeholder="e.g. Supreme Court of India" required/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-case-bench">Bench / Courtroom</label>
+              <input type="text" id="new-case-bench" class="portal-form-input" placeholder="e.g. Courtroom 3 — Hon'ble CJI Bench"/>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="portal-form-group">
+              <label for="new-opposing-party">Opposing Party</label>
+              <input type="text" id="new-opposing-party" class="portal-form-input" placeholder="e.g. Union of India / TechCorp Ltd"/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-case-acts">Statutory Acts &amp; Sections</label>
+              <input type="text" id="new-case-acts" class="portal-form-input" placeholder="e.g. BNSS Sec 482 / Companies Act Sec 241"/>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+            <div class="portal-form-group">
+              <label for="new-hearing-date">Next Hearing Date</label>
+              <input type="date" id="new-hearing-date" class="portal-form-input"/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-hearing-stage">Proceedings Stage</label>
+              <input type="text" id="new-hearing-stage" class="portal-form-input" placeholder="e.g. Arguments on Interim Stay"/>
+            </div>
+            <div class="portal-form-group">
+              <label for="new-dispute-value">Dispute Value / Claim</label>
+              <input type="text" id="new-dispute-value" class="portal-form-input" placeholder="e.g. ₹25 Crores / Bail"/>
+            </div>
+          </div>
+
+          <div class="portal-form-group">
+            <label for="new-case-summary">Case Brief &amp; Summary</label>
+            <textarea id="new-case-summary" class="portal-form-input" rows="3" placeholder="Brief outline of legal issues, reliefs sought, and procedural strategy..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-portal-primary" style="width:100%; justify-content:center; padding:12px;">
+            Register Docket &amp; Save to Chambers Database
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- CASE DOSSIER MODAL -->
+  <div class="case-dossier-modal" id="case-dossier-modal" role="dialog" aria-modal="true">
+    <div class="case-dossier-content">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+        <div>
+          <span class="case-number-badge" id="modal-docket-number">CRL.A. 204/2026</span>
+          <h2 style="font-family:'Playfair Display', serif; font-size:1.45rem; color:#fff; margin-top:8px;" id="modal-docket-title">
+            Case Title
+          </h2>
+        </div>
+        <button type="button" class="modal-close" onclick="closeCaseDossierModal()" style="font-size:24px; color:#94a3b8; background:none; border:none; cursor:pointer;">&times;</button>
+      </div>
+
+      <div class="case-meta-grid" style="margin-bottom:18px;">
+        <div class="case-meta-item">
+          <span class="case-meta-label">Court &amp; Venue</span>
+          <span class="case-meta-value" id="modal-docket-court">Supreme Court of India</span>
+        </div>
+        <div class="case-meta-item">
+          <span class="case-meta-label">Bench / Courtroom</span>
+          <span class="case-meta-value" id="modal-docket-bench">Courtroom 3</span>
+        </div>
+        <div class="case-meta-item">
+          <span class="case-meta-label">Client Name &amp; Contact</span>
+          <span class="case-meta-value" id="modal-docket-client">Priya Sharma</span>
+        </div>
+        <div class="case-meta-item">
+          <span class="case-meta-label">Opposing Party</span>
+          <span class="case-meta-value" id="modal-docket-opposing">State of Maharashtra</span>
+        </div>
+        <div class="case-meta-item">
+          <span class="case-meta-label">Governing Acts</span>
+          <span class="case-meta-value" id="modal-docket-acts">BNSS 2023 Sec 482</span>
+        </div>
+        <div class="case-meta-item">
+          <span class="case-meta-label">Claim / Dispute Value</span>
+          <span class="case-meta-value" id="modal-docket-value">₹15 Crores</span>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:var(--radius-md); padding:16px; margin-bottom:18px;">
+        <h4 style="font-size:0.85rem; font-weight:700; text-transform:uppercase; color:var(--gold-glow); margin-bottom:6px;">Case Summary &amp; Legal Strategy</h4>
+        <p style="font-size:0.9rem; color:var(--text-main); line-height:1.6;" id="modal-docket-summary">Case summary text...</p>
+      </div>
+
+      <!-- INTERACTIVE CHAMBERS NOTES / ORDERS -->
+      <div style="margin-bottom:18px;">
+        <h4 style="font-size:0.85rem; font-weight:700; text-transform:uppercase; color:var(--gold-glow); margin-bottom:8px;">Chambers Notes &amp; Court Orders</h4>
+        <textarea id="modal-docket-notes" class="portal-form-input" rows="3" placeholder="Enter notes from court hearing or procedural instructions..."></textarea>
+        <button type="button" class="btn-portal-primary" id="btn-save-case-notes" style="margin-top:8px;">
+          Save Case Notes to Database
+        </button>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn-portal-logout" onclick="closeCaseDossierModal()">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="lawyer.js?v=2.8.0"></script>
+</body>
+</html>
+
