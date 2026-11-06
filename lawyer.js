@@ -10,6 +10,9 @@ let currentConsultations = [];
 let allLawyersList = [];
 let activeCaseIdInModal = null;
 let activeStatusFilter = 'all';
+let currentNotifications = [];
+let lastNotifIds = new Set();
+let notifPollTimer = null;
 
 // Toast Notification
 function showToast(msg, type = 'info') {
@@ -68,6 +71,183 @@ function switchToTab(tabId) {
   });
 }
 
+// ── Notification Dropdown Toggle ──
+function toggleNotifDropdown(forceState) {
+  const dropdown = document.getElementById('notif-dropdown');
+  if (!dropdown) return;
+  if (forceState !== undefined) {
+    forceState ? dropdown.classList.remove('hidden') : dropdown.classList.add('hidden');
+  } else {
+    dropdown.classList.toggle('hidden');
+  }
+}
+
+// ── Fetch & Render Notifications ──
+async function fetchAndRenderNotifications(isBackgroundPoll = false) {
+  const token = getAuthToken();
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/notifications`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success && Array.isArray(data.notifications)) {
+      currentNotifications = data.notifications;
+      const unreadCount = data.unreadCount || 0;
+
+      // Update Bell Badge
+      const badge = document.getElementById('notif-badge');
+      if (badge) {
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+
+      const unreadText = document.getElementById('notif-unread-text');
+      if (unreadText) {
+        unreadText.textContent = `${unreadCount} new inquiry${unreadCount === 1 ? '' : 'ies'}`;
+      }
+
+      // Live toast trigger if a new consultation arrived during background polling
+      if (isBackgroundPoll && data.notifications.length > 0) {
+        data.notifications.forEach(n => {
+          if (!n.isRead && !lastNotifIds.has(n.id)) {
+            showToast(`New Consultation Booking: ${n.clientName} scheduled for ${n.preferredDate}!`, 'success');
+            fetchAndRenderConsultations();
+          }
+        });
+      }
+
+      lastNotifIds = new Set(data.notifications.map(n => n.id));
+      renderNotificationsList();
+    }
+  } catch (err) {
+    console.warn('Could not fetch notifications:', err);
+  }
+}
+
+function renderNotificationsList() {
+  const container = document.getElementById('notif-list-container');
+  if (!container) return;
+
+  if (currentNotifications.length === 0) {
+    container.innerHTML = `
+      <div style="padding:28px 16px; text-align:center; color:var(--text-muted); font-size:0.85rem;">
+        No booking notifications right now.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = currentNotifications.map(n => {
+    const isUnread = !n.isRead;
+    return `
+      <div class="notif-item ${isUnread ? 'unread' : ''}" id="notif-item-${n.id}" onclick="handleNotifClick(${n.id}, ${n.consultationId || 'null'})">
+        <div style="width:34px; height:34px; border-radius:50%; background:${isUnread ? 'rgba(223,183,124,0.2)' : 'rgba(255,255,255,0.06)'}; color:${isUnread ? 'var(--gold-glow)' : '#94a3b8'}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:0.85rem; color:${isUnread ? '#fff' : '#cbd5e1'};">${escapeHtml(n.title)}</strong>
+            ${isUnread ? '<span style="width:7px; height:7px; border-radius:50%; background:var(--gold-glow); display:inline-block;"></span>' : ''}
+          </div>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin:3px 0 6px 0; line-height:1.4;">
+            ${escapeHtml(n.message)}
+          </p>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.72rem; color:var(--gold-glow); font-weight:600;">Scheduled: ${escapeHtml(n.preferredDate)}</span>
+            <div style="display:flex; gap:6px;">
+              ${n.consultationId ? `
+                <button type="button" onclick="event.stopPropagation(); quickConfirmFromNotif(${n.consultationId}, ${n.id});" style="background:var(--gold-primary); color:#000; border:none; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; cursor:pointer;">
+                  Confirm
+                </button>
+              ` : ''}
+              ${isUnread ? `
+                <button type="button" onclick="event.stopPropagation(); markNotificationRead(${n.id});" style="background:none; border:none; color:var(--text-muted); font-size:0.7rem; cursor:pointer; text-decoration:underline;">
+                  Mark Read
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── Mark Notification Read ──
+async function markNotificationRead(notifId) {
+  const token = getAuthToken();
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/notifications/${notifId}/read`, {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      const target = currentNotifications.find(n => n.id === notifId);
+      if (target) target.isRead = 1;
+      renderNotificationsList();
+      const badge = document.getElementById('notif-badge');
+      if (badge) {
+        if (data.unreadCount > 0) {
+          badge.textContent = data.unreadCount;
+          badge.classList.remove('hidden');
+        } else {
+          badge.classList.add('hidden');
+        }
+      }
+      const unreadText = document.getElementById('notif-unread-text');
+      if (unreadText) unreadText.textContent = `${data.unreadCount} new inquir${data.unreadCount === 1 ? 'y' : 'ies'}`;
+    }
+  } catch (err) {
+    console.warn('Could not mark notification read:', err);
+  }
+}
+
+// ── Mark All Read ──
+async function markAllNotificationsRead() {
+  const token = getAuthToken();
+  if (!token) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/notifications/mark-all-read`, {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      currentNotifications.forEach(n => n.isRead = 1);
+      renderNotificationsList();
+      document.getElementById('notif-badge')?.classList.add('hidden');
+      const unreadText = document.getElementById('notif-unread-text');
+      if (unreadText) unreadText.textContent = '0 new inquiries';
+      showToast('All notifications marked as read', 'info');
+    }
+  } catch (err) {
+    console.warn('Could not mark all read:', err);
+  }
+}
+
+// ── Quick Confirm Booking From Notification ──
+async function quickConfirmFromNotif(consultId, notifId) {
+  await updateConsultationStatus(consultId, 'confirmed');
+  await markNotificationRead(notifId);
+}
+
+// ── Handle Notification Click ──
+function handleNotifClick(notifId, consultId) {
+  markNotificationRead(notifId);
+  switchToTab('tab-consultations');
+  toggleNotifDropdown(false);
+}
+
 // ── Render Lawyers in Dropdown ──
 async function loadAllLawyersDropdown() {
   const select = document.getElementById('select-active-lawyer');
@@ -107,6 +287,7 @@ async function switchActiveLawyer(lawyerId) {
       showDashboard(data.lawyer, data.stats);
       fetchAndRenderCases();
       fetchAndRenderConsultations();
+      fetchAndRenderNotifications();
     } else {
       showToast(data.message || 'Failed to switch lawyer account', 'error');
     }
@@ -149,6 +330,7 @@ function showDashboard(lawyer, stats = {}) {
 
   // Update Stats Counters
   updateKPIStats(stats);
+  fetchAndRenderNotifications();
 }
 
 function updateKPIStats(stats = {}) {
@@ -568,6 +750,35 @@ async function initLawyerPortal() {
   // New case form submit
   document.getElementById('form-new-case')?.addEventListener('submit', handleNewCaseSubmit);
 
+  // Notification Bell Toggle
+  document.getElementById('btn-notif-bell')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleNotifDropdown();
+  });
+
+  // Mark all notifications read
+  document.getElementById('btn-mark-all-read')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    markAllNotificationsRead();
+  });
+
+  // Click outside to dismiss notification dropdown
+  document.addEventListener('click', (e) => {
+    const wrap = document.getElementById('notif-bell-wrap');
+    if (wrap && !wrap.contains(e.target)) {
+      toggleNotifDropdown(false);
+    }
+  });
+
+  // Live Background Polling for New Client Bookings (Every 12 seconds)
+  if (!notifPollTimer) {
+    notifPollTimer = setInterval(() => {
+      if (getAuthToken() && activeLawyer) {
+        fetchAndRenderNotifications(true);
+      }
+    }, 12000);
+  }
+
   // Logout button
   document.getElementById('btn-lawyer-logout')?.addEventListener('click', () => {
     clearAuthSession();
@@ -643,6 +854,11 @@ window.openCaseDossierModal = openCaseDossierModal;
 window.closeCaseDossierModal = closeCaseDossierModal;
 window.updateCaseStatus = updateCaseStatus;
 window.updateConsultationStatus = updateConsultationStatus;
+window.toggleNotifDropdown = toggleNotifDropdown;
+window.markNotificationRead = markNotificationRead;
+window.markAllNotificationsRead = markAllNotificationsRead;
+window.handleNotifClick = handleNotifClick;
+window.quickConfirmFromNotif = quickConfirmFromNotif;
 
 // Run on DOM load
 if (document.readyState === 'loading') {

@@ -185,3 +185,29 @@ CREATE INDEX IF NOT EXISTS idx_cases_court ON cases(courtCode);
 CREATE INDEX IF NOT EXISTS idx_cases_hearing ON cases(nextHearingDate);
 
 
+-- ------------------------------------------------------------------------------
+-- 7. NOTIFICATIONS TABLE
+-- Real-time alerts for advocates on client consultation bookings & case updates
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS notifications (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  lawyerId INTEGER NOT NULL,                  -- Foreign Key -> lawyers(id)
+  consultationId INTEGER NULL,                -- Foreign Key -> consultations(id)
+  type TEXT DEFAULT 'booking',                -- 'booking' | 'hearing_alert' | 'case_update'
+  title TEXT NOT NULL,                        -- Alert header e.g. 'New Consultation Booking: Client Name'
+  message TEXT NOT NULL,                      -- Full notification message & appointment details
+  clientName TEXT NOT NULL,                   -- Client name
+  clientEmail TEXT NOT NULL,                  -- Client email
+  clientPhone TEXT NOT NULL,                  -- Client phone
+  preferredDate TEXT NOT NULL,                -- Scheduled date/time of consultation
+  isRead INTEGER DEFAULT 0,                   -- 0: Unread | 1: Read
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
+);
+
+-- Indexes for rapid advocate notification queries
+CREATE INDEX IF NOT EXISTS idx_notifications_lawyer ON notifications(lawyerId);
+CREATE INDEX IF NOT EXISTS idx_notifications_isRead ON notifications(isRead);
+
+
+

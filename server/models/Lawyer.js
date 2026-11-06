@@ -140,8 +140,32 @@ class Lawyer {
       data.caseSummary
     );
 
+    const consultId = result.lastInsertRowid;
+
+    // Automatically trigger notification for the lawyer
+    try {
+      const notifStmt = db.prepare(`
+        INSERT INTO notifications (
+          lawyerId, consultationId, type, title, message,
+          clientName, clientEmail, clientPhone, preferredDate, isRead
+        ) VALUES (?, ?, 'booking', ?, ?, ?, ?, ?, ?, 0)
+      `);
+      notifStmt.run(
+        data.lawyerId,
+        consultId,
+        `New Consultation Booking: ${data.clientName}`,
+        `Client ${data.clientName} has scheduled a consultation for ${data.preferredDate}. Legal Matter: ${data.caseSummary}`,
+        data.clientName,
+        data.clientEmail,
+        data.clientPhone,
+        data.preferredDate
+      );
+    } catch (nErr) {
+      console.warn('Could not insert lawyer notification:', nErr.message);
+    }
+
     return {
-      id: result.lastInsertRowid,
+      id: consultId,
       ...data,
       status: 'pending',
       createdAt: new Date().toISOString()

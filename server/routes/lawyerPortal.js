@@ -284,5 +284,66 @@ router.post('/switch-lawyer', (req, res) => {
   });
 });
 
+// ── GET /api/lawyer/notifications ──
+router.get('/notifications', authenticateLawyer, (req, res) => {
+  const notifs = db.prepare(`
+    SELECT * FROM notifications 
+    WHERE lawyerId = ? 
+    ORDER BY id DESC LIMIT 50
+  `).all(req.lawyer.id);
+
+  const unreadCount = db.prepare(`
+    SELECT count(*) as c FROM notifications 
+    WHERE lawyerId = ? AND isRead = 0
+  `).get(req.lawyer.id)?.c || 0;
+
+  res.json({
+    success: true,
+    total: notifs.length,
+    unreadCount,
+    notifications: notifs
+  });
+});
+
+// ── PUT /api/lawyer/notifications/:id/read ──
+router.put('/notifications/:id/read', authenticateLawyer, (req, res) => {
+  db.prepare(`
+    UPDATE notifications SET isRead = 1 
+    WHERE id = ? AND lawyerId = ?
+  `).run(req.params.id, req.lawyer.id);
+
+  const unreadCount = db.prepare(`
+    SELECT count(*) as c FROM notifications 
+    WHERE lawyerId = ? AND isRead = 0
+  `).get(req.lawyer.id)?.c || 0;
+
+  res.json({ success: true, message: 'Notification marked as read', unreadCount });
+});
+
+// ── PUT /api/lawyer/notifications/mark-all-read ──
+router.put('/notifications/mark-all-read', authenticateLawyer, (req, res) => {
+  db.prepare(`
+    UPDATE notifications SET isRead = 1 
+    WHERE lawyerId = ?
+  `).run(req.lawyer.id);
+
+  res.json({ success: true, message: 'All notifications marked as read', unreadCount: 0 });
+});
+
+// ── DELETE /api/lawyer/notifications/:id ──
+router.delete('/notifications/:id', authenticateLawyer, (req, res) => {
+  db.prepare(`
+    DELETE FROM notifications 
+    WHERE id = ? AND lawyerId = ?
+  `).run(req.params.id, req.lawyer.id);
+
+  const unreadCount = db.prepare(`
+    SELECT count(*) as c FROM notifications 
+    WHERE lawyerId = ? AND isRead = 0
+  `).get(req.lawyer.id)?.c || 0;
+
+  res.json({ success: true, message: 'Notification deleted', unreadCount });
+});
+
 module.exports = router;
 

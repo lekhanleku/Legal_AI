@@ -390,6 +390,27 @@ function syncLawyerCasesAndAccounts(db) {
       CREATE INDEX IF NOT EXISTS idx_cases_court ON cases(courtCode);
     `);
 
+    // Ensure notifications table exists
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS notifications (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        lawyerId INTEGER NOT NULL,
+        consultationId INTEGER NULL,
+        type TEXT DEFAULT 'booking',
+        title TEXT NOT NULL,
+        message TEXT NOT NULL,
+        clientName TEXT NOT NULL,
+        clientEmail TEXT NOT NULL,
+        clientPhone TEXT NOT NULL,
+        preferredDate TEXT NOT NULL,
+        isRead INTEGER DEFAULT 0,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
+      );
+      CREATE INDEX IF NOT EXISTS idx_notifications_lawyer ON notifications(lawyerId);
+      CREATE INDEX IF NOT EXISTS idx_notifications_isRead ON notifications(isRead);
+    `);
+
     // 2. Ensure lawyerId column exists on users table
     try {
       db.prepare('ALTER TABLE users ADD COLUMN lawyerId INTEGER NULL').run();
@@ -471,7 +492,7 @@ function syncLawyerCasesAndAccounts(db) {
       if (existingConsults === 0) {
         const d1 = new Date(); d1.setDate(d1.getDate() + 3);
         const d2 = new Date(); d2.setDate(d2.getDate() + 7);
-        insertConsultStmt.run(
+        const res1 = insertConsultStmt.run(
           lawyer.id,
           'Aarav Deshmukh',
           'aarav.deshmukh@gmail.com',
@@ -480,7 +501,7 @@ function syncLawyerCasesAndAccounts(db) {
           `Legal consultation inquiry regarding ${lawyer.specialty} dispute before ${lawyer.primaryCourt || 'High Court'}.`,
           'confirmed'
         );
-        insertConsultStmt.run(
+        const res2 = insertConsultStmt.run(
           lawyer.id,
           'Meera Subramanian',
           'meera.sub@outlook.com',
@@ -490,6 +511,66 @@ function syncLawyerCasesAndAccounts(db) {
           'pending'
         );
         consultsCreated += 2;
+
+        // Seed notifications for these bookings
+        try {
+          const notifInsert = db.prepare(`
+            INSERT INTO notifications (
+              lawyerId, consultationId, type, title, message,
+              clientName, clientEmail, clientPhone, preferredDate, isRead
+            ) VALUES (?, ?, 'booking', ?, ?, ?, ?, ?, ?, ?)
+          `);
+          notifInsert.run(
+            lawyer.id,
+            res1.lastInsertRowid,
+            'New Consultation Booking: Aarav Deshmukh',
+            `Client Aarav Deshmukh has booked a consultation for ${d1.toISOString().split('T')[0]} 11:30 AM. Legal Matter: ${lawyer.specialty} proceedings.`,
+            'Aarav Deshmukh',
+            'aarav.deshmukh@gmail.com',
+            '+91 98201 54321',
+            d1.toISOString().split('T')[0] + ' 11:30 AM',
+            0
+          );
+          notifInsert.run(
+            lawyer.id,
+            res2.lastInsertRowid,
+            'New Consultation Booking: Meera Subramanian',
+            `Client Meera Subramanian has booked a consultation for ${d2.toISOString().split('T')[0]} 03:00 PM. Legal Matter: Urgent contract drafting review.`,
+            'Meera Subramanian',
+            'meera.sub@outlook.com',
+            '+91 98450 67890',
+            d2.toISOString().split('T')[0] + ' 03:00 PM',
+            0
+          );
+        } catch (_) {}
+      }
+    }
+
+    // Ensure all existing consultations have matching notifications
+    const unnotified = db.prepare(`
+      SELECT c.id, c.lawyerId, c.clientName, c.clientEmail, c.clientPhone, c.preferredDate, c.caseSummary
+      FROM consultations c
+      LEFT JOIN notifications n ON n.consultationId = c.id
+      WHERE n.id IS NULL
+    `).all();
+    if (unnotified.length > 0) {
+      const notifInsert = db.prepare(`
+        INSERT INTO notifications (
+          lawyerId, consultationId, type, title, message,
+          clientName, clientEmail, clientPhone, preferredDate, isRead
+        ) VALUES (?, ?, 'booking', ?, ?, ?, ?, ?, ?, 0)
+      `);
+      for (const u of unnotified) {
+        notifInsert.run(
+          u.lawyerId,
+          u.id,
+          `New Consultation Booking: ${u.clientName}`,
+          `Client ${u.clientName} has scheduled a consultation for ${u.preferredDate}. Summary: ${u.caseSummary}`,
+          u.clientName,
+          u.clientEmail,
+          u.clientPhone,
+          u.preferredDate
+        );
       }
     }
 

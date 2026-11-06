@@ -77,6 +77,22 @@ try {
       FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
     );
 
+    CREATE TABLE IF NOT EXISTS notifications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      lawyerId INTEGER NOT NULL,
+      consultationId INTEGER NULL,
+      type TEXT DEFAULT 'booking',
+      title TEXT NOT NULL,
+      message TEXT NOT NULL,
+      clientName TEXT NOT NULL,
+      clientEmail TEXT NOT NULL,
+      clientPhone TEXT NOT NULL,
+      preferredDate TEXT NOT NULL,
+      isRead INTEGER DEFAULT 0,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
+    );
+
     CREATE TABLE IF NOT EXISTS courts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
