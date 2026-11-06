@@ -76,25 +76,29 @@ app.get('/api/health', (req, res) => {
 // Port configuration
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
-  console.log(` LegalAI Server running on http://localhost:${PORT}`);
-  
-  // Start Live File Watcher for real-time court & lawyer database synchronization
-  try {
-    const { startLiveWatcher } = require('./services/liveDataWatcher');
-    startLiveWatcher();
-  } catch (wErr) {
-    console.warn(' Could not initialize live watcher:', wErr.message);
-  }
-});
+if (require.main === module) {
+  const server = app.listen(PORT, () => {
+    console.log(` LegalAI Server running on http://localhost:${PORT}`);
+    
+    // Start Live File Watcher for real-time court & lawyer database synchronization
+    try {
+      const { startLiveWatcher } = require('./services/liveDataWatcher');
+      startLiveWatcher();
+    } catch (wErr) {
+      console.warn(' Could not initialize live watcher:', wErr.message);
+    }
+  });
 
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`\n  [PORT BUSY] Port ${PORT} is already in use by another process.`);
-    console.error(`If LegalAI is already running in another window, you can open http://localhost:${PORT} in your browser.`);
-    console.error(`To restart, close the existing window or kill the process using port ${PORT}.\n`);
-  } else {
-    console.error(' Server startup error:', err);
-  }
-});
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n  [PORT BUSY] Port ${PORT} is already in use by another process.`);
+      console.error(`If LegalAI is already running in another window, you can open http://localhost:${PORT} in your browser.`);
+      console.error(`To restart, close the existing window or kill the process using port ${PORT}.\n`);
+    } else {
+      console.error(' Server startup error:', err);
+    }
+  });
+}
+
+module.exports = app;
 

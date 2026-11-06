@@ -17,43 +17,50 @@ class Lawyer {
       offset = 0
     } = filters;
 
-    let query = 'SELECT * FROM lawyers WHERE 1=1';
+    let query = `
+      SELECT l.*,
+        (SELECT COUNT(*) FROM cases cs WHERE cs.lawyerId = l.id) as caseCount,
+        (SELECT COUNT(*) FROM cases cs WHERE cs.lawyerId = l.id AND LOWER(cs.status) LIKE '%active%') as activeCasesCount,
+        (SELECT COUNT(*) FROM consultations cn WHERE cn.lawyerId = l.id) as consultationCount
+      FROM lawyers l
+      WHERE 1=1
+    `;
     const params = [];
 
     if (availability === 'available' || availability === '1') {
-      query += ' AND isAvailable = 1';
+      query += ' AND l.isAvailable = 1';
     } else if (availability === 'booked' || availability === '0') {
-      query += ' AND isAvailable = 0';
+      query += ' AND l.isAvailable = 0';
     }
 
     if (specialty && specialty !== 'All Specialties') {
-      query += ' AND specialty = ?';
+      query += ' AND l.specialty = ?';
       params.push(specialty);
     }
 
     const activeCourt = (court || courtCode || '').trim();
     if (activeCourt && activeCourt !== 'All Courts' && activeCourt !== 'All') {
-      query += ' AND (courtCodes LIKE ? OR practicingCourts LIKE ? OR primaryCourt LIKE ?)';
+      query += ' AND (l.courtCodes LIKE ? OR l.practicingCourts LIKE ? OR l.primaryCourt LIKE ?)';
       params.push(`%${activeCourt}%`, `%${activeCourt}%`, `%${activeCourt}%`);
     }
 
     if (search && search.trim()) {
       const searchTerm = `%${search.trim()}%`;
-      query += ' AND (name LIKE ? OR firmName LIKE ? OR bio LIKE ? OR city LIKE ? OR state LIKE ? OR barNumber LIKE ? OR practicingCourts LIKE ? OR courtCodes LIKE ?)';
+      query += ' AND (l.name LIKE ? OR l.firmName LIKE ? OR l.bio LIKE ? OR l.city LIKE ? OR l.state LIKE ? OR l.barNumber LIKE ? OR l.practicingCourts LIKE ? OR l.courtCodes LIKE ?)';
       params.push(searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm, searchTerm);
     }
 
     if (maxFee) {
-      query += ' AND hourlyRate <= ?';
+      query += ' AND l.hourlyRate <= ?';
       params.push(Number(maxFee));
     }
 
     if (minRating) {
-      query += ' AND rating >= ?';
+      query += ' AND l.rating >= ?';
       params.push(Number(minRating));
     }
 
-    query += ' ORDER BY isAvailable DESC, rating DESC, casesWon DESC LIMIT ? OFFSET ?';
+    query += ' ORDER BY l.isAvailable DESC, l.rating DESC, l.casesWon DESC LIMIT ? OFFSET ?';
     params.push(Number(limit), Number(offset));
 
     const stmt = db.prepare(query);

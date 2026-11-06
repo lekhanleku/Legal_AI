@@ -5,6 +5,7 @@ const db = require('../db');
 const User = require('../models/User');
 const Lawyer = require('../models/Lawyer');
 const Court = require('../models/Court');
+const Case = require('../models/Case');
 
 // Admin Auth Middleware
 function requireAdmin(req, res, next) {
@@ -42,6 +43,7 @@ router.get('/stats', requireAdmin, async (req, res) => {
     const lawyerStats = Lawyer.getStats();
     const consultStats = Lawyer.getConsultationStats();
     const courtStats = Court.getStats();
+    const caseStats = Case.getAdminStats();
 
     // AI chat metrics
     const totalAIChats = db.prepare('SELECT COUNT(*) as count FROM ai_chats').get().count;
@@ -71,6 +73,7 @@ router.get('/stats', requireAdmin, async (req, res) => {
         lawyers: lawyerStats,
         consultations: consultStats,
         courts: courtStats,
+        cases: caseStats,
         ai: {
           totalQueries: totalAIChats,
           topCategories: aiCategories
@@ -435,6 +438,328 @@ router.get('/chats', requireAdmin, (req, res) => {
     return res.json({ success: true, chats });
   } catch (err) {
     console.error('Admin Chats Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ================================================================
+// COURT CASES & LITIGATION DOCKETS ADMINISTRATION
+// ================================================================
+
+// @route   GET /api/admin/cases
+// @desc    Get all court dockets across all lawyers with search, filters, pagination
+// @access  Admin
+router.get('/cases', requireAdmin, (req, res) => {
+  try {
+    const { search, status, court, lawyerId, limit = 100, offset = 0 } = req.query;
+    const result = Case.findAllAdmin({ search, status, court, lawyerId, limit, offset });
+    const stats = Case.getAdminStats();
+    return res.json({ success: true, ...result, stats });
+  } catch (err) {
+    console.error('Admin Cases Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   GET /api/admin/cases/stats
+// @desc    Get summary statistics for litigation cases
+// @access  Admin
+router.get('/cases/stats', requireAdmin, (req, res) => {
+  try {
+    const stats = Case.getAdminStats();
+    return res.json({ success: true, stats });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   GET /api/admin/cases/:id
+// @desc    Get single case docket details with attorney and court data
+// @access  Admin
+router.get('/cases/:id', requireAdmin, (req, res) => {
+  try {
+    const caseItem = db.prepare(`
+      SELECT c.*, l.name as lawyerName, l.specialty as lawyerSpecialty, l.firmName as lawyerFirm,
+             l.barNumber as lawyerBarNumber, l.phone as lawyerPhone, l.email as lawyerEmail
+      FROM cases c
+      LEFT JOIN lawyers l ON c.lawyerId = l.id
+      WHERE c.id = ?
+    `).get(Number(req.params.id));
+
+    if (!caseItem) {
+      return res.status(404).json({ success: false, message: 'Case docket not found' });
+    }
+    return res.json({ success: true, case: caseItem });
+  } catch (err) {
+    console.error('Admin Get Case Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   POST /api/admin/cases
+// @desc    Create new court case assigned to lawyer and client
+// @access  Admin
+router.post('/cases', requireAdmin, (req, res) => {
+  try {
+    const {
+      caseNumber, title, lawyerId, clientName, clientEmail, clientPhone,
+      courtCode, courtName, bench, practiceArea, relevantActs,
+      nextHearingDate, hearingTime, stage, status, disputeValue,
+      caseSummary, lawyerNotes
+    } = req.body;
+
+    if (!title || !clientName || !lawyerId) {
+      return res.status(400).json({ success: false, message: 'Case title, client name, and assigned lawyer are required.' });
+    }
+
+    const cnr = caseNumber && caseNumber.trim()
+      ? caseNumber.trim()
+      : `CNR-${(courtCode || 'IN').toUpperCase()}-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const newCase = Case.create({
+      caseNumber: cnr,
+      title: title.trim(),
+      lawyerId: Number(lawyerId),
+      clientName: clientName.trim(),
+      clientEmail: clientEmail ? clientEmail.trim() : '',
+      clientPhone: clientPhone ? clientPhone.trim() : '',
+      courtCode: courtCode || 'SCI',
+      courtName: courtName || 'Supreme Court of India',
+      bench: bench || 'Principal Bench',
+      practiceArea: practiceArea || 'General Litigation',
+      relevantActs: relevantActs || 'Constitution of India',
+      nextHearingDate: nextHearingDate || new Date().toISOString().split('T')[0],
+      hearingTime: hearingTime || '10:30 AM IST',
+      stage: stage || 'Notice & Admission',
+      status: status || 'Active Hearing',
+      disputeValue: disputeValue || '',
+      caseSummary: caseSummary || '',
+      lawyerNotes: lawyerNotes || ''
+    });
+
+    return res.status(201).json({ success: true, case: newCase, message: 'Case docket created successfully' });
+  } catch (err) {
+    console.error('Admin Add Case Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   PUT /api/admin/cases/:id
+// @desc    Update case docket status, hearing date, bench, notes
+// @access  Admin
+router.put('/cases/:id', requireAdmin, (req, res) => {
+  try {
+    const target = Case.findById(req.params.id);
+    if (!target) {
+      return res.status(404).json({ success: false, message: 'Case docket not found' });
+    }
+    const updated = Case.update(req.params.id, req.body);
+    return res.json({ success: true, case: updated, message: 'Case docket updated successfully' });
+  } catch (err) {
+    console.error('Admin Update Case Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   DELETE /api/admin/cases/:id
+// @desc    Delete case docket permanently
+// @access  Admin
+router.delete('/cases/:id', requireAdmin, (req, res) => {
+  try {
+    const success = Case.delete(req.params.id);
+    if (!success) {
+      return res.status(404).json({ success: false, message: 'Case docket not found' });
+    }
+    return res.json({ success: true, message: 'Case docket removed successfully' });
+  } catch (err) {
+    console.error('Admin Delete Case Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ================================================================
+// CLIENT & LAWYER FULL DOSSIER INSPECTION
+// ================================================================
+
+// @route   GET /api/admin/users/:id/dossier
+// @desc    Get complete 360-degree client dossier (profile, consultations, cases, chats)
+// @access  Admin
+router.get('/users/:id/dossier', requireAdmin, (req, res) => {
+  try {
+    const user = User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Client account not found' });
+    }
+
+    const consultations = db.prepare(`
+      SELECT c.*, l.name as lawyerName, l.specialty as lawyerSpecialty, l.firmName as lawyerFirm, l.hourlyRate as lawyerRate
+      FROM consultations c
+      LEFT JOIN lawyers l ON c.lawyerId = l.id
+      WHERE c.userId = ? OR LOWER(c.clientEmail) = LOWER(?)
+      ORDER BY c.id DESC
+    `).all(user.id, user.email);
+
+    const cases = db.prepare(`
+      SELECT c.*, l.name as lawyerName, l.specialty as lawyerSpecialty
+      FROM cases c
+      LEFT JOIN lawyers l ON c.lawyerId = l.id
+      WHERE LOWER(c.clientEmail) = LOWER(?) OR LOWER(c.clientName) = LOWER(?)
+      ORDER BY c.nextHearingDate ASC, c.id DESC
+    `).all(user.email, user.name);
+
+    const chats = db.prepare(`
+      SELECT id, message, category, timestamp
+      FROM ai_chats
+      WHERE userId = ?
+      ORDER BY id DESC
+      LIMIT 25
+    `).all(user.id);
+
+    return res.json({
+      success: true,
+      user,
+      consultations,
+      cases,
+      chats
+    });
+  } catch (err) {
+    console.error('Admin Client Dossier Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   PUT /api/admin/users/:id
+// @desc    Update client/user details (name, email, phone, role, isVerified)
+// @access  Admin
+router.put('/users/:id', requireAdmin, async (req, res) => {
+  try {
+    const user = User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    const updated = await User.update(req.params.id, req.body);
+    return res.json({ success: true, user: updated, message: 'User updated successfully' });
+  } catch (err) {
+    console.error('Admin Update User Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   GET /api/admin/lawyers/:id/dossier
+// @desc    Get complete 360-degree attorney dossier (profile, full litigation dockets, client inquiries, notifications)
+// @access  Admin
+router.get('/lawyers/:id/dossier', requireAdmin, (req, res) => {
+  try {
+    const lawyer = Lawyer.findById(req.params.id);
+    if (!lawyer) {
+      return res.status(404).json({ success: false, message: 'Attorney not found' });
+    }
+
+    const cases = Case.findByLawyerId(lawyer.id, { limit: 100 });
+    const consultations = db.prepare(`
+      SELECT c.*, u.name as userName, u.email as userEmail
+      FROM consultations c
+      LEFT JOIN users u ON c.userId = u.id
+      WHERE c.lawyerId = ?
+      ORDER BY c.id DESC
+    `).all(lawyer.id);
+
+    const notifications = db.prepare(`
+      SELECT * FROM notifications WHERE lawyerId = ? ORDER BY id DESC LIMIT 25
+    `).all(lawyer.id);
+
+    return res.json({
+      success: true,
+      lawyer,
+      cases,
+      consultations,
+      notifications,
+      stats: Case.getStats(lawyer.id)
+    });
+  } catch (err) {
+    console.error('Admin Lawyer Dossier Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ================================================================
+// ADMIN IMPERSONATION & DIRECT PORTAL ACCESS
+// ================================================================
+
+// @route   POST /api/admin/impersonate
+// @desc    Admin accesses client or lawyer portal with authentic session token
+// @access  Admin
+router.post('/impersonate', requireAdmin, async (req, res) => {
+  try {
+    const { type, id } = req.body;
+    if (!type || !id) {
+      return res.status(400).json({ success: false, message: 'Target type and ID are required' });
+    }
+
+    let targetUser = null;
+    let lawyerRecord = null;
+    let redirectUrl = 'index.html';
+
+    if (type === 'user' || type === 'client') {
+      targetUser = User.findById(id);
+      if (!targetUser) {
+        return res.status(404).json({ success: false, message: 'Client account not found' });
+      }
+      redirectUrl = 'user.html';
+    } else if (type === 'lawyer') {
+      lawyerRecord = Lawyer.findById(id);
+      if (!lawyerRecord) {
+        return res.status(404).json({ success: false, message: 'Attorney not found' });
+      }
+
+      // Check if there is an existing user account for this lawyer
+      targetUser = db.prepare('SELECT id, name, email, phone, role, isVerified, lawyerId FROM users WHERE lawyerId = ? OR LOWER(email) = LOWER(?)').get(lawyerRecord.id, lawyerRecord.email);
+      if (!targetUser) {
+        const bcrypt = require('bcryptjs');
+        const defaultHash = await bcrypt.hash('lawyer1234', 10);
+        const stmt = db.prepare(`
+          INSERT INTO users (name, email, password, phone, role, isVerified, lawyerId)
+          VALUES (?, ?, ?, ?, 'lawyer', 1, ?)
+        `);
+        const r = stmt.run(
+          lawyerRecord.name,
+          lawyerRecord.email.toLowerCase(),
+          defaultHash,
+          lawyerRecord.phone || '',
+          lawyerRecord.id
+        );
+        targetUser = User.findById(r.lastInsertRowid);
+      }
+
+      targetUser.lawyerId = lawyerRecord.id;
+      redirectUrl = 'lawyer.html';
+    } else {
+      return res.status(400).json({ success: false, message: 'Invalid target type. Must be "user" or "lawyer".' });
+    }
+
+    const token = jwt.sign(
+      {
+        id: targetUser.id,
+        name: targetUser.name,
+        email: targetUser.email,
+        role: targetUser.role,
+        lawyerId: targetUser.lawyerId || (lawyerRecord ? lawyerRecord.id : null),
+        adminImpersonator: req.admin.email
+      },
+      process.env.JWT_SECRET || 'fallback_secret',
+      { expiresIn: '12h' }
+    );
+
+    return res.json({
+      success: true,
+      token,
+      user: targetUser,
+      lawyer: lawyerRecord,
+      redirectUrl,
+      message: `Admin access granted as ${targetUser.name} (${targetUser.role})`
+    });
+  } catch (err) {
+    console.error('Admin Impersonate Error:', err);
     return res.status(500).json({ success: false, message: err.message });
   }
 });

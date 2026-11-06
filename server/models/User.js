@@ -57,24 +57,30 @@ class User {
    * Find all users with search, role filtering, and pagination
    */
   static findAll({ search = '', role = '', limit = 50, offset = 0 } = {}) {
-    let query = 'SELECT id, name, email, phone, role, isVerified, createdAt, updatedAt FROM users WHERE 1=1';
+    let query = `
+      SELECT u.id, u.name, u.email, u.phone, u.role, u.isVerified, u.lawyerId, u.createdAt, u.updatedAt,
+        (SELECT COUNT(*) FROM consultations c WHERE c.userId = u.id OR LOWER(c.clientEmail) = LOWER(u.email)) as consultationCount,
+        (SELECT COUNT(*) FROM cases cs WHERE LOWER(cs.clientEmail) = LOWER(u.email) OR LOWER(cs.clientName) = LOWER(u.name)) as caseCount
+      FROM users u
+      WHERE 1=1
+    `;
     const params = [];
 
     if (role && role !== 'all') {
-      query += ' AND role = ?';
+      query += ' AND u.role = ?';
       params.push(role);
     }
 
     if (search && search.trim()) {
       const s = `%${search.trim().toLowerCase()}%`;
-      query += ' AND (LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(COALESCE(phone, "")) LIKE ?)';
+      query += ' AND (LOWER(u.name) LIKE ? OR LOWER(u.email) LIKE ? OR LOWER(COALESCE(u.phone, "")) LIKE ?)';
       params.push(s, s, s);
     }
 
-    const countStmt = db.prepare(query.replace('SELECT id, name, email, phone, role, isVerified, createdAt, updatedAt', 'SELECT COUNT(*) as total'));
-    const total = countStmt.get(...params).total;
+    const countQuery = `SELECT COUNT(*) as total FROM users u WHERE 1=1 ${role && role !== 'all' ? 'AND u.role = ?' : ''} ${search && search.trim() ? 'AND (LOWER(u.name) LIKE ? OR LOWER(u.email) LIKE ? OR LOWER(COALESCE(u.phone, "")) LIKE ?)' : ''}`;
+    const total = db.prepare(countQuery).get(...params).total;
 
-    query += ' ORDER BY id DESC LIMIT ? OFFSET ?';
+    query += ' ORDER BY u.id DESC LIMIT ? OFFSET ?';
     params.push(Number(limit), Number(offset));
 
     const users = db.prepare(query).all(...params);
@@ -95,6 +101,10 @@ class User {
     if (updates.email !== undefined) {
       fields.push('email = ?');
       params.push(updates.email.toLowerCase().trim());
+    }
+    if (updates.phone !== undefined) {
+      fields.push('phone = ?');
+      params.push(updates.phone.trim());
     }
     if (updates.role !== undefined) {
       fields.push('role = ?');

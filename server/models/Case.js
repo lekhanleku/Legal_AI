@@ -95,6 +95,10 @@ class Case {
     const fields = [];
     const params = [];
 
+    if (updates.title !== undefined) {
+      fields.push('title = ?');
+      params.push(updates.title);
+    }
     if (updates.status !== undefined) {
       fields.push('status = ?');
       params.push(updates.status);
@@ -119,6 +123,50 @@ class Case {
       fields.push('bench = ?');
       params.push(updates.bench);
     }
+    if (updates.caseSummary !== undefined) {
+      fields.push('caseSummary = ?');
+      params.push(updates.caseSummary);
+    }
+    if (updates.opposingParty !== undefined) {
+      fields.push('opposingParty = ?');
+      params.push(updates.opposingParty);
+    }
+    if (updates.opposingCounsel !== undefined) {
+      fields.push('opposingCounsel = ?');
+      params.push(updates.opposingCounsel);
+    }
+    if (updates.courtCode !== undefined) {
+      fields.push('courtCode = ?');
+      params.push(updates.courtCode);
+    }
+    if (updates.courtName !== undefined) {
+      fields.push('courtName = ?');
+      params.push(updates.courtName);
+    }
+    if (updates.practiceArea !== undefined) {
+      fields.push('practiceArea = ?');
+      params.push(updates.practiceArea);
+    }
+    if (updates.relevantActs !== undefined) {
+      fields.push('relevantActs = ?');
+      params.push(updates.relevantActs);
+    }
+    if (updates.clientName !== undefined) {
+      fields.push('clientName = ?');
+      params.push(updates.clientName);
+    }
+    if (updates.clientEmail !== undefined) {
+      fields.push('clientEmail = ?');
+      params.push(updates.clientEmail);
+    }
+    if (updates.clientPhone !== undefined) {
+      fields.push('clientPhone = ?');
+      params.push(updates.clientPhone);
+    }
+    if (updates.disputeValue !== undefined) {
+      fields.push('disputeValue = ?');
+      params.push(updates.disputeValue);
+    }
 
     if (fields.length === 0) return Case.findById(id);
 
@@ -130,14 +178,98 @@ class Case {
   }
 
   /**
+   * Delete case docket permanently
+   */
+  static delete(id) {
+    if (!id) return false;
+    const stmt = db.prepare('DELETE FROM cases WHERE id = ?');
+    const res = stmt.run(Number(id));
+    return res.changes > 0;
+  }
+
+  /**
+   * Find all platform cases for master admin with joins to lawyer details
+   */
+  static findAllAdmin({ search = '', status = '', court = '', lawyerId = null, limit = 100, offset = 0 } = {}) {
+    let query = `
+      SELECT c.*, l.name as lawyerName, l.specialty as lawyerSpecialty, l.firmName as lawyerFirm, l.barNumber as lawyerBarNumber
+      FROM cases c
+      LEFT JOIN lawyers l ON c.lawyerId = l.id
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (lawyerId && lawyerId !== 'all') {
+      query += ' AND c.lawyerId = ?';
+      params.push(Number(lawyerId));
+    }
+
+    if (status && status !== 'all' && status !== 'All') {
+      query += ' AND LOWER(c.status) LIKE LOWER(?)';
+      params.push(`%${status}%`);
+    }
+
+    if (court && court !== 'all' && court !== 'All') {
+      query += ' AND (c.courtCode = ? OR c.courtName LIKE ?)';
+      params.push(court, `%${court}%`);
+    }
+
+    if (search && search.trim()) {
+      const q = `%${search.trim().toLowerCase()}%`;
+      query += ` AND (
+        LOWER(c.caseNumber) LIKE ? OR
+        LOWER(c.title) LIKE ? OR
+        LOWER(c.clientName) LIKE ? OR
+        LOWER(c.clientEmail) LIKE ? OR
+        LOWER(COALESCE(l.name, '')) LIKE ? OR
+        LOWER(c.courtName) LIKE ? OR
+        LOWER(c.relevantActs) LIKE ? OR
+        LOWER(c.opposingParty) LIKE ?
+      )`;
+      params.push(q, q, q, q, q, q, q, q);
+    }
+
+    const countQuery = query.replace(
+      'SELECT c.*, l.name as lawyerName, l.specialty as lawyerSpecialty, l.firmName as lawyerFirm, l.barNumber as lawyerBarNumber',
+      'SELECT COUNT(*) as total'
+    );
+    const total = db.prepare(countQuery).get(...params).total;
+
+    query += ' ORDER BY c.nextHearingDate ASC, c.id DESC LIMIT ? OFFSET ?';
+    params.push(Number(limit), Number(offset));
+
+    const cases = db.prepare(query).all(...params);
+    return { cases, total };
+  }
+
+  /**
+   * Get executive statistics for master admin
+   */
+  static getAdminStats() {
+    const totalCases = db.prepare('SELECT count(*) as c FROM cases').get()?.c || 0;
+    const activeHearings = db.prepare("SELECT count(*) as c FROM cases WHERE LOWER(status) LIKE '%active%' OR LOWER(status) LIKE '%hearing%' OR LOWER(status) LIKE '%arguments%'").get()?.c || 0;
+    const disposedCases = db.prepare("SELECT count(*) as c FROM cases WHERE LOWER(status) LIKE '%disposed%' OR LOWER(status) LIKE '%settled%' OR LOWER(status) LIKE '%dismissed%'").get()?.c || 0;
+    const distinctCourts = db.prepare('SELECT count(DISTINCT courtCode) as c FROM cases').get()?.c || 0;
+    const lawyersWithCases = db.prepare('SELECT count(DISTINCT lawyerId) as c FROM cases').get()?.c || 0;
+
+    return {
+      totalCases,
+      activeHearings,
+      disposedCases,
+      distinctCourts,
+      lawyersWithCases
+    };
+  }
+
+  /**
    * Get executive statistics for a lawyer's dashboard
    */
   static getStats(lawyerId) {
     if (!lawyerId) return { totalCases: 0, activeHearings: 0, disposed: 0, upcomingHearings: 0 };
 
     const total = db.prepare('SELECT count(*) as c FROM cases WHERE lawyerId = ?').get(lawyerId)?.c || 0;
-    const active = db.prepare('SELECT count(*) as c FROM cases WHERE lawyerId = ? AND LOWER(status) LIKE "%active%"').get(lawyerId)?.c || 0;
-    const disposed = db.prepare('SELECT count(*) as c FROM cases WHERE lawyerId = ? AND LOWER(status) LIKE "%disposed%"').get(lawyerId)?.c || 0;
+    const active = db.prepare("SELECT count(*) as c FROM cases WHERE lawyerId = ? AND LOWER(status) LIKE '%active%'").get(lawyerId)?.c || 0;
+    const disposed = db.prepare("SELECT count(*) as c FROM cases WHERE lawyerId = ? AND LOWER(status) LIKE '%disposed%'").get(lawyerId)?.c || 0;
     const consults = db.prepare('SELECT count(*) as c FROM consultations WHERE lawyerId = ?').get(lawyerId)?.c || 0;
 
     return {

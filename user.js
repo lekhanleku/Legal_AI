@@ -1393,5 +1393,40 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+function checkAdminImpersonationBar() {
+  const imp = localStorage.getItem('legalai_admin_impersonating');
+  if (!imp) return;
+  try {
+    const data = JSON.parse(imp);
+    if (document.getElementById('admin-impersonation-bar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'admin-impersonation-bar';
+    bar.style.cssText = 'position:sticky; top:0; z-index:99999; background:linear-gradient(90deg, #7c3aed, #4f46e5); color:#fff; padding:10px 20px; font-size:0.85rem; display:flex; align-items:center; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.4);';
+    bar.innerHTML = `
+      <div style="display:flex; align-items:center; gap:10px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span><strong>ADMINISTRATOR FULL ACCESS MODE:</strong> Viewing client portal as <strong>${escapeHtml(data.name)}</strong></span>
+      </div>
+      <button id="btn-return-admin" style="background:#fff; color:#4f46e5; border:none; padding:6px 14px; border-radius:6px; font-weight:700; font-size:0.82rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span>Return to Master Admin Suite</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    `;
+    document.body.prepend(bar);
+
+    document.getElementById('btn-return-admin')?.addEventListener('click', () => {
+      const backupToken = localStorage.getItem('legalai_admin_backup_token');
+      const backupUser = localStorage.getItem('legalai_admin_backup_user');
+      if (backupToken) localStorage.setItem('legalai_token', backupToken);
+      if (backupUser) localStorage.setItem('legalai_user', backupUser);
+      localStorage.removeItem('legalai_admin_backup_token');
+      localStorage.removeItem('legalai_admin_backup_user');
+      localStorage.removeItem('legalai_admin_impersonating');
+      window.location.href = 'admin.html';
+    });
+  } catch (_) {}
+}
+
 // Run on page load
+checkAdminImpersonationBar();
 initUserPortal();

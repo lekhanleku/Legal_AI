@@ -144,6 +144,13 @@
             <span class="side-link-sub">Add &amp; modify lawyers</span>
           </div>
         </a>
+        <a href="#tab-cases-mgmt" class="side-menu-link" data-admin-tab="tab-cases-mgmt">
+          <span class="side-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+          <div class="side-link-content">
+            <span class="side-link-title">Litigation Cases &amp; Dockets</span>
+            <span class="side-link-sub">Full multi-lawyer caseload</span>
+          </div>
+        </a>
         <a href="#tab-courts-mgmt" class="side-menu-link" data-admin-tab="tab-courts-mgmt">
           <span class="side-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></span>
           <div class="side-link-content">
@@ -293,6 +300,15 @@
 
       <div class="kpi-card">
         <div class="kpi-card-header">
+          <span class="kpi-label">Court Cases &amp; Dockets</span>
+          <div class="kpi-icon kpi-icon-purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        </div>
+        <div class="kpi-value" id="kpi-admin-cases">0</div>
+        <div class="kpi-sub" id="kpi-admin-cases-sub">0 Active Hearings · 0 Disposed</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
           <span class="kpi-label">AI Queries Processed</span>
           <div class="kpi-icon kpi-icon-emerald"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
         </div>
@@ -323,6 +339,10 @@
       <button class="portal-tab-btn" data-tab="tab-lawyers-mgmt">
         <span>Attorney Directory</span>
         <span class="tab-badge" id="tab-badge-attorneys">0</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-cases-mgmt">
+        <span>Court Cases &amp; Dockets</span>
+        <span class="tab-badge" id="tab-badge-cases">0</span>
       </button>
       <button class="portal-tab-btn" data-tab="tab-courts-mgmt">
         <span>Courts Directory</span>
@@ -361,16 +381,17 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Verified</th>
-                <th>Joined Date</th>
-                <th>Actions</th>
+                <th>Client / User Account</th>
+                <th>Account Role</th>
+                <th>Consultations</th>
+                <th>Court Cases</th>
+                <th>Verification</th>
+                <th>Joined</th>
+                <th style="min-width:180px;">Full Access &amp; Actions</th>
               </tr>
             </thead>
             <tbody id="admin-users-tbody">
-              <tr><td colspan="7" style="text-align:center; padding:30px;">Loading user accounts...</td></tr>
+              <tr><td colspan="8" style="text-align:center; padding:30px;">Loading user accounts...</td></tr>
             </tbody>
           </table>
         </div>
@@ -434,17 +455,68 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Attorney</th>
+                <th>Attorney &amp; Chambers</th>
                 <th>Specialty</th>
                 <th>Bar Number</th>
                 <th>Hourly Rate</th>
                 <th>Rating &amp; Wins</th>
-                <th>Availability</th>
-                <th>Actions</th>
+                <th>Court Dockets</th>
+                <th>Status</th>
+                <th style="min-width:180px;">Full Access &amp; Actions</th>
               </tr>
             </thead>
             <tbody id="admin-lawyers-tbody">
-              <tr><td colspan="8" style="text-align:center; padding:30px;">Loading verified lawyers...</td></tr>
+              <tr><td colspan="9" style="text-align:center; padding:30px;">Loading verified lawyers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: COURT CASES & LITIGATION DOCKETS MANAGEMENT -->
+    <div class="portal-tab-pane" id="tab-cases-mgmt">
+      <div class="portal-toolbar" style="flex-wrap:wrap; gap:12px;">
+        <div class="portal-search-box" style="flex:1; min-width:240px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="cases-search-input" placeholder="Search by CNR / Case Number, title, client, lawyer, act..."/>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <label for="cases-lawyer-filter" style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Lawyer:</label>
+          <select id="cases-lawyer-filter" class="portal-form-select" style="padding:6px 10px; font-size:0.82rem; min-width:170px;">
+            <option value="all">All Verified Lawyers</option>
+          </select>
+        </div>
+        <div class="portal-filter-group" id="cases-status-filters">
+          <button class="portal-filter-btn active" data-status="all">All Dockets</button>
+          <button class="portal-filter-btn" data-status="active">Active Hearings</button>
+          <button class="portal-filter-btn" data-status="arguments">Arguments</button>
+          <button class="portal-filter-btn" data-status="reserved">Orders Reserved</button>
+          <button class="portal-filter-btn" data-status="disposed">Disposed</button>
+        </div>
+        <button class="btn-portal-primary" id="btn-open-add-case">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Court Case Docket
+        </button>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>CNR / Case Number</th>
+                <th>Case Title &amp; Domain</th>
+                <th>Assigned Attorney</th>
+                <th>Client Name &amp; Contact</th>
+                <th>Court Venue &amp; Bench</th>
+                <th>Statutory Acts</th>
+                <th>Next Hearing</th>
+                <th>Status</th>
+                <th style="min-width:160px;">Admin Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-cases-tbody">
+              <tr><td colspan="9" style="text-align:center; padding:30px;">Loading court dockets...</td></tr>
             </tbody>
           </table>
         </div>
@@ -965,6 +1037,355 @@
         <div class="portal-modal-footer">
           <button type="button" class="portal-filter-btn" onclick="closeModal('modal-edit-court');">Cancel</button>
           <button type="submit" class="btn-portal-primary">Save Venue Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CLIENT 360 FULL ACCESS DOSSIER MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-client-dossier">
+    <div class="portal-modal" style="max-width:900px; max-height:90vh; display:flex; flex-direction:column;">
+      <div class="portal-modal-header" style="border-bottom:1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="portal-logo-icon" style="width:36px; height:36px; background:linear-gradient(135deg, #10b981, #059669);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div>
+            <h3 class="portal-modal-title" id="dossier-client-name" style="margin:0; font-size:1.25rem;">Client Dossier</h3>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="dossier-client-email">client@example.com</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-portal-primary" id="btn-dossier-access-client" style="padding:6px 14px; font-size:0.82rem; background:linear-gradient(135deg, #10b981, #059669);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Access Client Portal
+          </button>
+          <button class="portal-modal-close" onclick="closeModal('modal-client-dossier');">&times;</button>
+        </div>
+      </div>
+      <div class="portal-modal-body" style="overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:20px;">
+        <!-- Client Details Bar -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; background:var(--bg-surface); padding:16px; border-radius:10px; border:1px solid var(--border);">
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Account ID</span>
+            <div id="dossier-client-id" style="font-weight:700; color:#fff;">#--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Phone Number</span>
+            <div id="dossier-client-phone" style="font-weight:600; color:var(--text-main);">--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Role / Status</span>
+            <div id="dossier-client-role-badge">--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Registered Date</span>
+            <div id="dossier-client-joined" style="font-size:0.85rem; color:var(--text-muted);">--</div>
+          </div>
+        </div>
+
+        <!-- Booked Consultations Section -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1rem; margin:0; display:flex; align-items:center; gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Booked Consultations (<span id="dossier-client-consults-count">0</span>)</span>
+            </h4>
+          </div>
+          <div id="dossier-client-consults-list" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:16px;">Loading consultations...</div>
+          </div>
+        </div>
+
+        <!-- Linked Court Cases Section -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1rem; margin:0; display:flex; align-items:center; gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>Litigation Cases (<span id="dossier-client-cases-count">0</span>)</span>
+            </h4>
+          </div>
+          <div id="dossier-client-cases-list" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:16px;">No linked litigation dockets.</div>
+          </div>
+        </div>
+
+        <!-- Recent AI Research Queries -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1rem; margin:0; display:flex; align-items:center; gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Recent AI Legal Inquiries (<span id="dossier-client-chats-count">0</span>)</span>
+            </h4>
+          </div>
+          <div id="dossier-client-chats-list" style="display:flex; flex-direction:column; gap:8px; max-height:220px; overflow-y:auto;">
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:16px;">No recent inquiries.</div>
+          </div>
+        </div>
+      </div>
+      <div class="portal-modal-footer">
+        <button type="button" class="portal-filter-btn" onclick="closeModal('modal-client-dossier');">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAWYER 360 FULL ACCESS DOSSIER MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-lawyer-dossier">
+    <div class="portal-modal" style="max-width:940px; max-height:90vh; display:flex; flex-direction:column;">
+      <div class="portal-modal-header" style="border-bottom:1px solid var(--border);">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div class="portal-logo-icon" style="width:36px; height:36px; background:linear-gradient(135deg, #dfb77c, #b8956a);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+          </div>
+          <div>
+            <h3 class="portal-modal-title" id="dossier-lawyer-name" style="margin:0; font-size:1.25rem;">Attorney Caseload Dossier</h3>
+            <span style="font-size:0.8rem; color:var(--text-muted);" id="dossier-lawyer-sub">Bar Council Verified Advocate</span>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-portal-primary" id="btn-dossier-access-lawyer" style="padding:6px 14px; font-size:0.82rem; background:linear-gradient(135deg, #dfb77c, #b8956a); color:#000; font-weight:700;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Access Advocate Portal
+          </button>
+          <button class="portal-modal-close" onclick="closeModal('modal-lawyer-dossier');">&times;</button>
+        </div>
+      </div>
+      <div class="portal-modal-body" style="overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:20px;">
+        <!-- Attorney Profile Matrix -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px; background:var(--bg-surface); padding:16px; border-radius:10px; border:1px solid var(--border);">
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Bar Number</span>
+            <div id="dossier-lawyer-barnum" style="font-weight:700; color:#fff; font-family:monospace;">--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Hourly Rate</span>
+            <div id="dossier-lawyer-rate" style="font-weight:700; color:#86efac;">--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Specialty</span>
+            <div id="dossier-lawyer-specialty" style="font-weight:600; color:#dfb77c;">--</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Courtroom Track Record</span>
+            <div id="dossier-lawyer-stats" style="font-size:0.85rem; color:var(--text-main);">--</div>
+          </div>
+        </div>
+
+        <!-- Litigation Dockets Section -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1rem; margin:0; display:flex; align-items:center; gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>Active Court Dockets &amp; Hear List (<span id="dossier-lawyer-cases-count">0</span>)</span>
+            </h4>
+          </div>
+          <div id="dossier-lawyer-cases-list" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:16px;">Loading court dockets...</div>
+          </div>
+        </div>
+
+        <!-- Client Consultation Inquiries Section -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h4 style="color:#fff; font-size:1rem; margin:0; display:flex; align-items:center; gap:8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>Client Consultation Inquiries (<span id="dossier-lawyer-consults-count">0</span>)</span>
+            </h4>
+          </div>
+          <div id="dossier-lawyer-consults-list" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="color:var(--text-muted); font-size:0.85rem; text-align:center; padding:16px;">Loading consultations...</div>
+          </div>
+        </div>
+      </div>
+      <div class="portal-modal-footer">
+        <button type="button" class="portal-filter-btn" onclick="closeModal('modal-lawyer-dossier');">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD COURT CASE MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-add-case">
+    <div class="portal-modal" style="max-width:850px; max-height:90vh; display:flex; flex-direction:column;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">Create &amp; Assign Court Case Docket</h3>
+        <button class="portal-modal-close" onclick="closeModal('modal-add-case');">&times;</button>
+      </div>
+      <form id="form-add-case" style="display:flex; flex-direction:column; overflow:hidden;">
+        <div class="portal-modal-body" style="overflow-y:auto; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Case Action Title *</label>
+            <input type="text" id="new-case-title" class="portal-form-input" placeholder="e.g. M/s Horizon Infotech vs. State of Delhi" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>CNR Number / Case Number (Optional - Auto-generated if blank)</label>
+            <input type="text" id="new-case-cnr" class="portal-form-input" placeholder="CNR-SCI-2026-104921"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Assigned Attorney *</label>
+            <select id="new-case-lawyer-id" class="portal-form-select" required>
+              <option value="">Select Attorney...</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Client Full Name *</label>
+            <input type="text" id="new-case-client-name" class="portal-form-input" placeholder="Rajesh Mehta" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Client Email Address</label>
+            <input type="email" id="new-case-client-email" class="portal-form-input" placeholder="client@example.com"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Client Phone Number</label>
+            <input type="text" id="new-case-client-phone" class="portal-form-input" placeholder="+91 98201 54321"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Court Venue *</label>
+            <select id="new-case-court-code" class="portal-form-select" required>
+              <option value="SCI">Supreme Court of India</option>
+              <option value="DEL">Delhi High Court</option>
+              <option value="BOM">Bombay High Court</option>
+              <option value="NCLAT">NCLAT Appellate Tribunal</option>
+              <option value="DRT">Debt Recovery Tribunal (DRT)</option>
+              <option value="DIST-SAK">Saket District Courts</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Judicial Bench</label>
+            <input type="text" id="new-case-bench" class="portal-form-input" placeholder="Court Hall 3 (Division Bench)" value="Court Hall 3 (Division Bench)"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Practice Domain</label>
+            <input type="text" id="new-case-practice-area" class="portal-form-input" placeholder="Corporate Law / Civil Litigation" value="Corporate Litigation"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Relevant Statutory Acts</label>
+            <input type="text" id="new-case-relevant-acts" class="portal-form-input" placeholder="Companies Act 2013, CPC Sec 9" value="Companies Act 2013, CPC Sec 9"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Next Hearing Date *</label>
+            <input type="date" id="new-case-hearing-date" class="portal-form-input" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Hearing Session Time</label>
+            <input type="text" id="new-case-hearing-time" class="portal-form-input" placeholder="10:30 AM IST" value="10:30 AM IST"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Case Stage</label>
+            <select id="new-case-stage" class="portal-form-select">
+              <option value="Notice & Admission">Notice &amp; Admission</option>
+              <option value="Pleadings Complete">Pleadings Complete</option>
+              <option value="Arguments in Progress">Arguments in Progress</option>
+              <option value="Reserved for Orders">Reserved for Orders</option>
+              <option value="Final Judgment Pronounced">Final Judgment Pronounced</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Case Status</label>
+            <select id="new-case-status" class="portal-form-select">
+              <option value="Active Hearing">Active Hearing</option>
+              <option value="Arguments in Progress">Arguments in Progress</option>
+              <option value="Notice Issued">Notice Issued</option>
+              <option value="Reserved for Orders">Reserved for Orders</option>
+              <option value="Disposed / Favorable Order">Disposed / Favorable Order</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Dispute Claim Value</label>
+            <input type="text" id="new-case-dispute-value" class="portal-form-input" placeholder="₹4.50 Crores"/>
+          </div>
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Brief Case Summary</label>
+            <textarea id="new-case-summary" class="portal-form-input" rows="2" placeholder="Summary of cause of action, interim reliefs sought, and prayer before the court..."></textarea>
+          </div>
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Attorney Strategy Notes</label>
+            <textarea id="new-case-notes" class="portal-form-input" rows="2" placeholder="Confidential litigation strategy notes..."></textarea>
+          </div>
+        </div>
+        <div class="portal-modal-footer">
+          <button type="button" class="portal-filter-btn" onclick="closeModal('modal-add-case');">Cancel</button>
+          <button type="submit" class="btn-portal-primary">Create Court Docket</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT COURT CASE MODAL -->
+  <div class="portal-modal-overlay hidden" id="modal-edit-case">
+    <div class="portal-modal" style="max-width:850px; max-height:90vh; display:flex; flex-direction:column;">
+      <div class="portal-modal-header">
+        <h3 class="portal-modal-title">Edit Court Case Docket</h3>
+        <button class="portal-modal-close" onclick="closeModal('modal-edit-case');">&times;</button>
+      </div>
+      <form id="form-edit-case" style="display:flex; flex-direction:column; overflow:hidden;">
+        <input type="hidden" id="edit-case-id"/>
+        <div class="portal-modal-body" style="overflow-y:auto; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Case Action Title *</label>
+            <input type="text" id="edit-case-title" class="portal-form-input" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>CNR Number</label>
+            <input type="text" id="edit-case-cnr" class="portal-form-input" readonly style="opacity:0.75; font-family:monospace;"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Court Venue &amp; Code</label>
+            <input type="text" id="edit-case-court-name" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Judicial Bench</label>
+            <input type="text" id="edit-case-bench" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Statutory Acts</label>
+            <input type="text" id="edit-case-acts" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Next Hearing Date *</label>
+            <input type="date" id="edit-case-hearing-date" class="portal-form-input" required/>
+          </div>
+          <div class="portal-form-group">
+            <label>Hearing Session Time</label>
+            <input type="text" id="edit-case-hearing-time" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Litigation Stage</label>
+            <input type="text" id="edit-case-stage" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Docket Status *</label>
+            <select id="edit-case-status" class="portal-form-select" required>
+              <option value="Active Hearing">Active Hearing</option>
+              <option value="Arguments in Progress">Arguments in Progress</option>
+              <option value="Notice Issued">Notice Issued</option>
+              <option value="Reserved for Orders">Reserved for Orders</option>
+              <option value="Disposed / Favorable Order">Disposed / Favorable Order</option>
+              <option value="Dismissed / Disposed">Dismissed / Disposed</option>
+            </select>
+          </div>
+          <div class="portal-form-group">
+            <label>Client Name</label>
+            <input type="text" id="edit-case-client-name" class="portal-form-input"/>
+          </div>
+          <div class="portal-form-group">
+            <label>Client Contact (Phone / Email)</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="edit-case-client-phone" class="portal-form-input" placeholder="Phone"/>
+              <input type="email" id="edit-case-client-email" class="portal-form-input" placeholder="Email"/>
+            </div>
+          </div>
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Case Summary &amp; Claims</label>
+            <textarea id="edit-case-summary" class="portal-form-input" rows="2"></textarea>
+          </div>
+          <div class="portal-form-group" style="grid-column: 1 / -1;">
+            <label>Attorney Strategy Notes</label>
+            <textarea id="edit-case-notes" class="portal-form-input" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="portal-modal-footer">
+          <button type="button" class="portal-filter-btn" onclick="closeModal('modal-edit-case');">Cancel</button>
+          <button type="submit" class="btn-portal-primary">Save Docket Updates</button>
         </div>
       </form>
     </div>
