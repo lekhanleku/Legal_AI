@@ -104,7 +104,7 @@
                 <span>Search by practice area, experience &amp; state bar</span>
               </div>
             </a>
-            <a href="#" id="nav-item-courts-directory" onclick="openCourtModal('sci'); return false;" class="nav-dropdown-item" title="Open Courts Directory &amp; Map">
+            <a href="#courts" id="nav-item-courts-directory" class="nav-dropdown-item" title="Open Courts Directory &amp; Map">
               <div class="dropdown-item-icon-box">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg>
               </div>
@@ -321,7 +321,7 @@
             <span class="side-link-title">Verified Advocates Directory</span>
           </div>
         </a>
-        <a href="#" onclick="openCourtModal('sci'); closeSideMenu(); return false;" class="side-menu-link">
+        <a href="#courts" onclick="closeSideMenu();" class="side-menu-link" title="India Courts &amp; Maps">
           <span class="side-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></span>
           <div class="side-link-content">
             <span class="side-link-title">India Courts &amp; Maps</span>
@@ -485,6 +485,73 @@
       <div class="stat-item">
         <span class="stat-num" data-target="25">0</span><span class="stat-suffix">yrs</span>
         <span class="stat-label">Experience</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDIA COURTS & MAPS DIRECTORY SECTION -->
+  <section class="courts-section" id="courts">
+    <div class="container">
+      <div class="section-header" style="text-align:center; max-width:760px; margin:0 auto 36px auto;">
+        <div class="section-tag">VERIFIED JUDICIAL NETWORK · ALL INDIAN JURISDICTIONS</div>
+        <h2 class="section-title">India Courts &amp; Maps Directory</h2>
+        <p class="section-desc">
+          Browse comprehensive judicial profiles, GPS navigation, electronic filing portals, procedural rules, and verified practicing advocates across Supreme Court, High Courts, District Courts, and Taluka Benches.
+        </p>
+      </div>
+
+      <!-- COURTS CONTROLS & SEARCH -->
+      <div class="court-controls">
+        <div class="court-search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="court-search-input" placeholder="Search court by name, city, state, judge, or jurisdiction (e.g., Shimla, Delhi, Bombay)..." autocomplete="off" />
+          <button id="court-search-clear" class="court-search-clear-btn hidden" title="Clear Search">&times;</button>
+        </div>
+
+        <div class="court-filters">
+          <select id="court-jurisdiction-select" class="court-select" aria-label="Filter by jurisdiction">
+            <option value="All Jurisdictions">All Indian Jurisdictions</option>
+            <option value="Apex Supreme Court">Apex Supreme Court of India</option>
+            <option value="State High Court">State High Courts</option>
+            <option value="District &amp; Sessions Court">District &amp; Sessions Courts</option>
+            <option value="Specialized Tribunal">National Specialized Tribunals</option>
+            <option value="Small Courts">Taluka &amp; Small Causes (JMFC)</option>
+          </select>
+
+          <select id="court-state-select" class="court-select" aria-label="Filter by state">
+            <option value="All States">All States &amp; Union Territories</option>
+            <option value="Delhi">Delhi NCT</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- RESULTS HEADER & CATEGORY PILLS -->
+      <div class="court-results-header">
+        <div class="court-pills-row">
+          <button type="button" class="court-pill-chip active" data-jurisdiction="All Jurisdictions">All Courts</button>
+          <button type="button" class="court-pill-chip" data-jurisdiction="Apex Supreme Court">Apex Supreme Court</button>
+          <button type="button" class="court-pill-chip" data-jurisdiction="State High Court">High Courts</button>
+          <button type="button" class="court-pill-chip" data-jurisdiction="District &amp; Sessions Court">District &amp; Sessions</button>
+          <button type="button" class="court-pill-chip" data-jurisdiction="Specialized Tribunal">Tribunals</button>
+          <button type="button" class="court-pill-chip" data-jurisdiction="Small Courts">Taluka JMFC</button>
+        </div>
+        <div class="court-count-badge" id="court-count-badge">Loading Verified Courts...</div>
+      </div>
+
+      <!-- COURTS GRID WITH INDIVIDUAL NAME CARDS -->
+      <div class="courts-grid" id="courts-grid">
+        <!-- Rendered dynamically by script.js with individual cards for each court -->
       </div>
     </div>
   </section>
@@ -952,6 +1019,10 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <span>Lawyer Profiles</span>
               </button>
+              <button type="button" class="btn-court-opt-courts" id="btn-court-opt-toggle-allcourts" onclick="switchCourtModalTab('allcourts')" title="View separate individual cards for each court">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                <span>All Court Cards</span>
+              </button>
               <a href="lawyers.html" class="btn-court-opt-dir" id="court-modal-lawyers-dir-link" title="Open complete Verified Advocates Directory">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <span>All Advocates</span>
@@ -972,6 +1043,10 @@
           <button type="button" class="court-modal-tab" id="court-tab-btn-lawyers" onclick="switchCourtModalTab('lawyers')">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span>Practicing Lawyer Profiles (<span id="court-tab-lawyers-badge">0</span>)</span>
+          </button>
+          <button type="button" class="court-modal-tab" id="court-tab-btn-allcourts" onclick="switchCourtModalTab('allcourts')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>All Court Cards (<span id="court-tab-all-badge">97</span>)</span>
           </button>
         </div>
       </div>
@@ -1102,6 +1177,27 @@
             <div class="court-modal-lawyers-grid" id="court-modal-lawyers-grid">
               <!-- Rendered dynamically -->
             </div>
+          </div>
+        </div>
+
+        <!-- TAB PANEL 3: ALL INDIAN COURT CARDS -->
+        <div class="court-modal-tab-panel hidden-panel" id="court-modal-panel-allcourts">
+          <div class="court-modal-allcourts-header" style="margin-bottom:12px;">
+            <div class="court-search-box" style="margin-bottom:10px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="court-modal-search-input" placeholder="Search court cards by name or city (e.g., Shimla, Bombay, Delhi)..." autocomplete="off" />
+            </div>
+            <div class="court-pills-row" id="court-modal-pills-row" style="margin-bottom:12px;">
+              <button type="button" class="court-pill-chip active" data-modal-filter="All">All Courts</button>
+              <button type="button" class="court-pill-chip" data-modal-filter="Apex Supreme Court">Supreme Court</button>
+              <button type="button" class="court-pill-chip" data-modal-filter="State High Court">High Courts</button>
+              <button type="button" class="court-pill-chip" data-modal-filter="District &amp; Sessions Court">District &amp; Sessions</button>
+              <button type="button" class="court-pill-chip" data-modal-filter="Specialized Tribunal">Tribunals</button>
+              <button type="button" class="court-pill-chip" data-modal-filter="Small Courts">Taluka JMFC</button>
+            </div>
+          </div>
+          <div class="court-modal-cards-grid" id="court-modal-cards-grid">
+            <!-- Dynamically populated with individual name cards for each court -->
           </div>
         </div>
       </div>

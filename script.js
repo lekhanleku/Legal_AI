@@ -5444,21 +5444,130 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
 window.switchCourtModalTab = function(tabName) {
   const tabOverview = document.getElementById('court-tab-btn-overview');
   const tabLawyers = document.getElementById('court-tab-btn-lawyers');
+  const tabAllCourts = document.getElementById('court-tab-btn-allcourts');
   const panelOverview = document.getElementById('court-modal-panel-overview');
   const panelLawyers = document.getElementById('court-modal-panel-lawyers');
+  const panelAllCourts = document.getElementById('court-modal-panel-allcourts');
+
+  [tabOverview, tabLawyers, tabAllCourts].forEach(btn => btn?.classList.remove('active'));
+  [panelOverview, panelLawyers, panelAllCourts].forEach(panel => panel?.classList.add('hidden-panel'));
 
   if (tabName === 'lawyers') {
-    if (tabOverview) tabOverview.classList.remove('active');
-    if (tabLawyers) tabLawyers.classList.add('active');
-    if (panelOverview) panelOverview.classList.add('hidden-panel');
-    if (panelLawyers) panelLawyers.classList.remove('hidden-panel');
+    tabLawyers?.classList.add('active');
+    panelLawyers?.classList.remove('hidden-panel');
+  } else if (tabName === 'allcourts') {
+    tabAllCourts?.classList.add('active');
+    panelAllCourts?.classList.remove('hidden-panel');
+    if (typeof renderCourtModalCards === 'function') {
+      renderCourtModalCards();
+    }
   } else {
-    if (tabOverview) tabOverview.classList.add('active');
-    if (tabLawyers) tabLawyers.classList.remove('active');
-    if (panelOverview) panelOverview.classList.remove('hidden-panel');
-    if (panelLawyers) panelLawyers.classList.add('hidden-panel');
+    tabOverview?.classList.add('active');
+    panelOverview?.classList.remove('hidden-panel');
   }
 };
+
+let modalCourtFilter = 'All';
+let modalCourtSearch = '';
+
+function renderCourtModalCards(filter = modalCourtFilter, search = modalCourtSearch) {
+  modalCourtFilter = filter;
+  modalCourtSearch = search;
+  const grid = document.getElementById('court-modal-cards-grid');
+  if (!grid) return;
+
+  const basePool = (courtsData && courtsData.length > 0)
+    ? courtsData 
+    : (typeof window !== 'undefined' && Array.isArray(window.INDIAN_COURTS_DATA) && window.INDIAN_COURTS_DATA.length > 0 
+        ? window.INDIAN_COURTS_DATA 
+        : (typeof FALLBACK_COURTS !== 'undefined' ? FALLBACK_COURTS : []));
+
+  let list = [...basePool];
+
+  if (filter && filter !== 'All') {
+    if (filter === 'Small Courts') {
+      list = list.filter(c => (c.jurisdiction && (c.jurisdiction.includes('Taluka') || c.jurisdiction.includes('Small Causes') || c.jurisdiction.includes('JMFC'))));
+    } else {
+      list = list.filter(c => c.jurisdiction === filter || (c.level && c.level.includes(filter)));
+    }
+  }
+
+  if (search && search.trim()) {
+    const q = search.trim().toLowerCase();
+    list = list.filter(c =>
+      (c.name && c.name.toLowerCase().includes(q)) ||
+      (c.city && c.city.toLowerCase().includes(q)) ||
+      (c.state && c.state.toLowerCase().includes(q)) ||
+      (c.address && c.address.toLowerCase().includes(q)) ||
+      (c.chiefJudge && c.chiefJudge.toLowerCase().includes(q)) ||
+      (c.jurisdiction && c.jurisdiction.toLowerCase().includes(q))
+    );
+  }
+
+  const allBadge = document.getElementById('court-tab-all-badge');
+  if (allBadge) allBadge.textContent = basePool.length;
+
+  if (list.length === 0) {
+    grid.innerHTML = `
+      <div class="court-lawyer-empty-box" style="grid-column: 1 / -1;">
+        <p>No court matching your search query was found. Try clearing filters.</p>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = list.map(c => `
+    <div class="court-card" id="modal-court-card-${c.id}" data-id="${c.id}">
+      <div class="court-card-top">
+        <div class="court-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/>
+          </svg>
+        </div>
+        <div class="court-badges-wrap">
+          <span class="court-jurisdiction-badge">${escapeHtml(c.jurisdiction || 'Court')}</span>
+          <span class="court-level-badge">${escapeHtml(c.level || 'Jurisdiction')}</span>
+        </div>
+      </div>
+
+      <div class="court-name">${escapeHtml(c.name)}</div>
+      <div class="court-circuit-text">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>${escapeHtml(c.address ? `${c.address}, ` : '')}${escapeHtml(c.city || '')}, ${escapeHtml(c.state || '')}</span>
+      </div>
+
+      <p class="court-desc-text">${escapeHtml(c.overview || '')}</p>
+
+      <div class="court-meta-box">
+        <div class="court-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>${escapeHtml(c.chiefJudge ? (c.chiefJudge.length > 32 ? c.chiefJudge.substring(0, 30) + '...' : c.chiefJudge) : 'Presiding Judge')}</span>
+        </div>
+        <div class="court-meta-item">
+          <span class="court-filing-chip">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            ${escapeHtml(c.filingSystem || 'e-Courts Digital')}
+          </span>
+        </div>
+      </div>
+
+      <div class="court-advocates-preview-row" onclick="openCourtModal('${c.id}'); switchCourtModalTab('lawyers');" title="Click to view advocates practicing before ${escapeHtml(c.name)}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+        <span><strong>${(typeof window.getLawyersForCourt === 'function' ? window.getLawyersForCourt(c.code).length : 2) || (c.code === 'SCI' ? 26 : 2)} Verified Advocates</strong> Practicing Here</span>
+        <span class="court-advocates-preview-arrow">-></span>
+      </div>
+
+      <div class="court-card-actions">
+        <button type="button" class="btn-court-details" onclick="openCourtModal('${c.id}'); switchCourtModalTab('overview');">
+          View Court Info &amp; Rules
+        </button>
+        <button type="button" class="btn-court-details" style="background:rgba(184,149,106,0.18); color:var(--gold-light);" onclick="openCourtModal('${c.id}'); switchCourtModalTab('lawyers');">
+          Practicing Advocates
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
 
 let activeModalCourt = null;
 
@@ -5692,7 +5801,12 @@ const navItemCourtsDir = document.getElementById('nav-item-courts-directory');
 if (navItemCourtsDir) {
   navItemCourtsDir.addEventListener('click', (e) => {
     e.preventDefault();
-    window.openCourtModal('sci');
+    const courtsSection = document.getElementById('courts');
+    if (courtsSection) {
+      courtsSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.openCourtModal('sci');
+    }
   });
 }
 
@@ -5739,6 +5853,35 @@ if (btnCourtOptToggle) {
     }
   });
 }
+
+const btnCourtOptToggleCourts = document.getElementById('btn-court-opt-toggle-allcourts');
+if (btnCourtOptToggleCourts) {
+  btnCourtOptToggleCourts.addEventListener('click', () => {
+    if (typeof switchCourtModalTab === 'function') {
+      switchCourtModalTab('allcourts');
+    }
+  });
+}
+
+const courtModalSearchInput = document.getElementById('court-modal-search-input');
+if (courtModalSearchInput) {
+  courtModalSearchInput.addEventListener('input', debounce(() => {
+    if (typeof renderCourtModalCards === 'function') {
+      renderCourtModalCards(modalCourtFilter, courtModalSearchInput.value);
+    }
+  }, 250));
+}
+
+const modalPillChips = document.querySelectorAll('#court-modal-pills-row .court-pill-chip');
+modalPillChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    modalPillChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    if (typeof renderCourtModalCards === 'function') {
+      renderCourtModalCards(chip.dataset.modalFilter, modalCourtSearch);
+    }
+  });
+});
 
 // ── Interactive India Courts Map Explorer Toggle & Locator ──
 const tabCourtsCards        = document.getElementById('tab-courts-cards');
