@@ -786,12 +786,7 @@ async function initLawyerPortal() {
     showAccessGate();
   });
 
-  // Gate Quick Logins
-  document.getElementById('gate-btn-harish')?.addEventListener('click', () => switchActiveLawyer(1));
-  document.getElementById('gate-btn-mukul')?.addEventListener('click', () => switchActiveLawyer(2));
-  document.getElementById('gate-btn-indira')?.addEventListener('click', () => switchActiveLawyer(4));
-
-  // Gate Standard Form Login
+  // Gate Standard Form Login (authenticates strictly against isolated advocate registry)
   document.getElementById('lawyer-login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('gate-lawyer-email').value.trim();
@@ -803,8 +798,21 @@ async function initLawyerPortal() {
       const res = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password, role: 'lawyer' })
       });
+      const data = await res.json();
+      if (data.success) {
+        setAuthSession(data.token, data.user);
+        checkSessionAndLoad();
+      } else {
+        alertEl.textContent = data.message || 'Invalid email or password.';
+        alertEl.style.display = 'block';
+      }
+    } catch (err) {
+      alertEl.textContent = 'Network error connecting to authentication server.';
+      alertEl.style.display = 'block';
+    }
+  });
       const data = await res.json();
       if (data.success) {
         setAuthSession(data.token, data.user);

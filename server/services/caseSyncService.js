@@ -411,22 +411,20 @@ function syncLawyerCasesAndAccounts(db) {
       CREATE INDEX IF NOT EXISTS idx_notifications_isRead ON notifications(isRead);
     `);
 
-    // 2. Ensure lawyerId column exists on users table
-    try {
-      db.prepare('ALTER TABLE users ADD COLUMN lawyerId INTEGER NULL').run();
-    } catch (_) {}
-
-    // 3. Fetch all lawyers
+    // 2. Fetch all lawyers
     const lawyers = db.prepare('SELECT * FROM lawyers').all();
     if (!lawyers || lawyers.length === 0) return;
 
-    const findUserByEmail = db.prepare('SELECT id, lawyerId, role FROM users WHERE LOWER(email) = LOWER(?)');
-    const insertLawyerUser = db.prepare(`
-      INSERT INTO users (name, email, password, phone, role, isVerified, lawyerId)
-      VALUES (?, ?, ?, ?, 'lawyer', 1, ?)
+    // Isolate advocate accounts in dedicated advocate_accounts table
+    const findAdvocateAccount = db.prepare('SELECT id, lawyerId FROM advocate_accounts WHERE lawyerId = ? OR LOWER(email) = LOWER(?)');
+    const insertAdvocateAccount = db.prepare(`
+      INSERT INTO advocate_accounts (lawyerId, name, email, password, phone, barNumber, specialty, role, isVerified)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'lawyer', 1)
     `);
-    const updateLawyerUser = db.prepare(`
-      UPDATE users SET role = 'lawyer', lawyerId = ?, name = ? WHERE id = ?
+    const updateAdvocateAccount = db.prepare(`
+      UPDATE advocate_accounts 
+      SET lawyerId = ?, name = ?, email = ?, phone = ?, barNumber = ?, specialty = ?
+      WHERE id = ?
     `);
 
     const checkCaseByNum = db.prepare('SELECT id FROM cases WHERE caseNumber = ?');
@@ -440,34 +438,38 @@ function syncLawyerCasesAndAccounts(db) {
     `);
 
     const countCasesForLawyer = db.prepare('SELECT count(*) as c FROM cases WHERE lawyerId = ?');
-    const countConsultsForLawyer = db.prepare('SELECT count(*) as c FROM consultations WHERE lawyerId = ?');
-    const insertConsultStmt = db.prepare(`
-      INSERT INTO consultations (lawyerId, userId, clientName, clientEmail, clientPhone, preferredDate, caseSummary, status)
-      VALUES (?, NULL, ?, ?, ?, ?, ?, ?)
-    `);
 
     // Standard hash for 'lawyer1234'
     const defaultPasswordHash = bcrypt.hashSync('lawyer1234', 8);
 
-    let usersCreated = 0;
+    let advocatesSynced = 0;
     let casesCreated = 0;
-    let consultsCreated = 0;
 
     for (const lawyer of lawyers) {
       const email = lawyer.email.toLowerCase().trim();
-      let user = findUserByEmail.get(email);
+      let account = findAdvocateAccount.get(lawyer.id, email);
 
-      if (!user) {
-        insertLawyerUser.run(
+      if (!account) {
+        insertAdvocateAccount.run(
+          lawyer.id,
           lawyer.name,
           email,
           defaultPasswordHash,
           lawyer.phone || '+91 98765 43210',
-          lawyer.id
+          lawyer.barNumber || 'D/BCI/VERIFIED',
+          lawyer.specialty || 'General Litigation'
         );
-        usersCreated++;
-      } else if (user.role !== 'lawyer' || user.lawyerId !== lawyer.id) {
-        updateLawyerUser.run(lawyer.id, lawyer.name, user.id);
+        advocatesSynced++;
+      } else {
+        updateAdvocateAccount.run(
+          lawyer.id,
+          lawyer.name,
+          email,
+          lawyer.phone || '+91 98765 43210',
+          lawyer.barNumber || 'D/BCI/VERIFIED',
+          lawyer.specialty || 'General Litigation',
+          account.id
+        );
       }
 
       // Check cases for this lawyer
@@ -486,98 +488,24 @@ function syncLawyerCasesAndAccounts(db) {
           }
         }
       }
-
-      // Check consultations for this lawyer
-      const existingConsults = countConsultsForLawyer.get(lawyer.id).c;
-      if (existingConsults === 0) {
-        const d1 = new Date(); d1.setDate(d1.getDate() + 3);
-        const d2 = new Date(); d2.setDate(d2.getDate() + 7);
-        const res1 = insertConsultStmt.run(
-          lawyer.id,
-          'Aarav Deshmukh',
-          'aarav.deshmukh@gmail.com',
-          '+91 98201 54321',
-          d1.toISOString().split('T')[0] + ' 11:30 AM',
-          `Legal consultation inquiry regarding ${lawyer.specialty} dispute before ${lawyer.primaryCourt || 'High Court'}.`,
-          'confirmed'
-        );
-        const res2 = insertConsultStmt.run(
-          lawyer.id,
-          'Meera Subramanian',
-          'meera.sub@outlook.com',
-          '+91 98450 67890',
-          d2.toISOString().split('T')[0] + ' 03:00 PM',
-          `Urgent legal advisory on contract drafting and statutory compliance review.`,
-          'pending'
-        );
-        consultsCreated += 2;
-
-        // Seed notifications for these bookings
-        try {
-          const notifInsert = db.prepare(`
-            INSERT INTO notifications (
-              lawyerId, consultationId, type, title, message,
-              clientName, clientEmail, clientPhone, preferredDate, isRead
-            ) VALUES (?, ?, 'booking', ?, ?, ?, ?, ?, ?, ?)
-          `);
-          notifInsert.run(
-            lawyer.id,
-            res1.lastInsertRowid,
-            'New Consultation Booking: Aarav Deshmukh',
-            `Client Aarav Deshmukh has booked a consultation for ${d1.toISOString().split('T')[0]} 11:30 AM. Legal Matter: ${lawyer.specialty} proceedings.`,
-            'Aarav Deshmukh',
-            'aarav.deshmukh@gmail.com',
-            '+91 98201 54321',
-            d1.toISOString().split('T')[0] + ' 11:30 AM',
-            0
-          );
-          notifInsert.run(
-            lawyer.id,
-            res2.lastInsertRowid,
-            'New Consultation Booking: Meera Subramanian',
-            `Client Meera Subramanian has booked a consultation for ${d2.toISOString().split('T')[0]} 03:00 PM. Legal Matter: Urgent contract drafting review.`,
-            'Meera Subramanian',
-            'meera.sub@outlook.com',
-            '+91 98450 67890',
-            d2.toISOString().split('T')[0] + ' 03:00 PM',
-            0
-          );
-        } catch (_) {}
-      }
     }
 
-    // Ensure all existing consultations have matching notifications
-    const unnotified = db.prepare(`
-      SELECT c.id, c.lawyerId, c.clientName, c.clientEmail, c.clientPhone, c.preferredDate, c.caseSummary
-      FROM consultations c
-      LEFT JOIN notifications n ON n.consultationId = c.id
-      WHERE n.id IS NULL
-    `).all();
-    if (unnotified.length > 0) {
-      const notifInsert = db.prepare(`
-        INSERT INTO notifications (
-          lawyerId, consultationId, type, title, message,
-          clientName, clientEmail, clientPhone, preferredDate, isRead
-        ) VALUES (?, ?, 'booking', ?, ?, ?, ?, ?, ?, 0)
-      `);
-      for (const u of unnotified) {
-        notifInsert.run(
-          u.lawyerId,
-          u.id,
-          `New Consultation Booking: ${u.clientName}`,
-          `Client ${u.clientName} has scheduled a consultation for ${u.preferredDate}. Summary: ${u.caseSummary}`,
-          u.clientName,
-          u.clientEmail,
-          u.clientPhone,
-          u.preferredDate
-        );
-      }
-    }
+    // Clean up any legacy mock consultations
+    db.prepare(`
+      DELETE FROM consultations 
+      WHERE LOWER(clientEmail) IN ('aarav.deshmukh@gmail.com', 'meera.sub@outlook.com')
+         OR clientName IN ('Aarav Deshmukh', 'Meera Subramanian')
+    `).run();
+
+    db.prepare(`
+      DELETE FROM notifications 
+      WHERE LOWER(clientEmail) IN ('aarav.deshmukh@gmail.com', 'meera.sub@outlook.com')
+         OR clientName IN ('Aarav Deshmukh', 'Meera Subramanian')
+    `).run();
 
     console.log(` Lawyer Cases & Accounts Synced for all ${lawyers.length} lawyers:`);
-    console.log(`   - Lawyer User Accounts: +${usersCreated} initialized`);
+    console.log(`   - Dedicated Advocate Accounts: ${advocatesSynced} newly synced (total: ${lawyers.length})`);
     console.log(`   - Court Cases & Dockets: +${casesCreated} seeded`);
-    console.log(`   - Client Consultations: +${consultsCreated} seeded`);
   } catch (err) {
     console.error(' Error syncing lawyer cases and accounts:', err.message);
   }

@@ -3,18 +3,26 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
+const AdvocateAccount = require('../models/AdvocateAccount');
 
 // Helper to generate JWT Token
-const generateToken = (user) => {
+const generateToken = (account) => {
   return jwt.sign(
-    { id: user.id, name: user.name, email: user.email, role: user.role, lawyerId: user.lawyerId || null },
+    {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      role: account.role,
+      lawyerId: account.lawyerId || null
+    },
     process.env.JWT_SECRET || 'fallback_secret',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
 };
 
 // @route   POST /api/auth/register
-// @desc    Register a new user in SQLite DB
+// @desc    Register a new client or advocate account in isolated tables
 // @access  Public
 router.post(
   '/register',
@@ -54,32 +62,29 @@ router.post(
       }
     }
 
-    try {
-      const existingUser = User.findByEmail(cleanEmail);
-      if (existingUser) {
-        return res.status(400).json({
-          success: false,
-          message: 'An account with this email address already exists.',
-        });
-      }
-
-      const newUser = await User.create({
-        name,
-        email: cleanEmail,
-        password,
-        phone: phone ? String(phone).trim() : '',
-        role: role || 'user',
+    // Security check: Never allow public registration of admin accounts
+    if (role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Master Administrator accounts cannot be self-registered publicly.',
       });
+    }
 
-      let lawyerId = null;
+    try {
       if (role === 'lawyer') {
-        const db = require('../db');
-        const match = db.prepare('SELECT id FROM lawyers WHERE LOWER(email) = LOWER(?)').get(cleanEmail);
-        if (match) {
-          lawyerId = match.id;
-        } else {
-          const Lawyer = require('../models/Lawyer');
-          const newLawyer = Lawyer.create({
+        // Enrolled Advocate registration in isolated advocate_accounts table
+        const existingAdvocate = AdvocateAccount.findByEmail(cleanEmail);
+        if (existingAdvocate) {
+          return res.status(400).json({
+            success: false,
+            message: 'An advocate account with this email address already exists.',
+          });
+        }
+
+        const Lawyer = require('../models/Lawyer');
+        let matchedLawyer = Lawyer.findByEmail(cleanEmail);
+        if (!matchedLawyer) {
+          matchedLawyer = Lawyer.create({
             name: name,
             title: 'Advocate & Legal Counsel',
             specialty: req.body.specialty || 'General Litigation',
@@ -96,47 +101,70 @@ router.post(
             email: cleanEmail,
             isAvailable: 1
           });
-          lawyerId = newLawyer.id;
-          try {
-            const { generateCasesForLawyer } = require('../services/caseSyncService');
-            const initialCases = generateCasesForLawyer(newLawyer);
-            const insertCaseStmt = db.prepare(`
-              INSERT INTO cases (
-                caseNumber, title, lawyerId, clientName, clientEmail, clientPhone,
-                opposingParty, opposingCounsel, courtCode, courtName, bench,
-                practiceArea, relevantActs, nextHearingDate, hearingTime, stage,
-                status, disputeValue, caseSummary, lawyerNotes, filingDate
-              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `);
-            for (const cs of initialCases) {
-              insertCaseStmt.run(
-                cs.caseNumber, cs.title, cs.lawyerId, cs.clientName, cs.clientEmail, cs.clientPhone,
-                cs.opposingParty, cs.opposingCounsel, cs.courtCode, cs.courtName, cs.bench,
-                cs.practiceArea, cs.relevantActs, cs.nextHearingDate, cs.hearingTime, cs.stage,
-                cs.status, cs.disputeValue, cs.caseSummary, cs.lawyerNotes, cs.filingDate
-              );
-            }
-          } catch (_) {}
         }
-        db.prepare('UPDATE users SET lawyerId = ? WHERE id = ?').run(lawyerId, newUser.id);
-        newUser.lawyerId = lawyerId;
+
+        const newAdvocate = await AdvocateAccount.create({
+          lawyerId: matchedLawyer.id,
+          name: name,
+          email: cleanEmail,
+          password: password,
+          phone: phone ? String(phone).trim() : '',
+          barNumber: matchedLawyer.barNumber || req.body.barNumber || 'D/BCI/VERIFIED',
+          specialty: matchedLawyer.specialty || 'General Litigation'
+        });
+
+        const token = generateToken(newAdvocate);
+
+        return res.status(201).json({
+          success: true,
+          message: 'Advocate Chambers account registered successfully!',
+          token,
+          user: {
+            id: newAdvocate.id,
+            name: newAdvocate.name,
+            email: newAdvocate.email,
+            phone: newAdvocate.phone || '',
+            role: 'lawyer',
+            lawyerId: matchedLawyer.id,
+          },
+          redirectUrl: 'lawyer.html',
+          portalName: 'Advocate Chambers'
+        });
       }
+
+      // Default: Client / Seeker registration in isolated users table
+      const existingUser = User.findByEmail(cleanEmail);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'An account with this email address already exists.',
+        });
+      }
+
+      const newUser = await User.create({
+        name,
+        email: cleanEmail,
+        password,
+        phone: phone ? String(phone).trim() : '',
+        role: 'user',
+      });
 
       const token = generateToken(newUser);
 
       return res.status(201).json({
         success: true,
-        message: 'Account created successfully (Saved to SQLite)!',
+        message: 'Client account created successfully!',
         token,
         user: {
           id: newUser.id,
           name: newUser.name,
           email: newUser.email,
           phone: newUser.phone || '',
-          role: newUser.role,
-          lawyerId: newUser.lawyerId || lawyerId || null,
+          role: 'user',
           storage: 'sqlite',
         },
+        redirectUrl: 'user.html',
+        portalName: 'Client Portal'
       });
     } catch (err) {
       console.error('Registration Error:', err);
@@ -149,7 +177,7 @@ router.post(
 );
 
 // @route   POST /api/auth/login
-// @desc    Authenticate user & get token using SQLite DB
+// @desc    Authenticate user with strict database table segregation
 // @access  Public
 router.post(
   '/login',
@@ -168,54 +196,187 @@ router.post(
       });
     }
 
-    const { email, password } = req.body;
+    const { email, password, role: requestedRole } = req.body;
     const cleanEmail = email.toLowerCase().trim();
 
     try {
-      const user = User.findByEmail(cleanEmail);
-      if (!user) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid credentials. Please check your email and password.',
-        });
-      }
-
-      const isMatch = await User.comparePassword(password, user.password);
-      if (!isMatch) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid credentials. Please check your email and password.',
-        });
-      }
-
-      // Check if user is a lawyer or matches lawyer record
-      const db = require('../db');
-      let lawyerId = user.lawyerId || null;
-      if (!lawyerId) {
-        const lawyerMatch = db.prepare('SELECT id FROM lawyers WHERE LOWER(email) = LOWER(?)').get(cleanEmail);
-        if (lawyerMatch) {
-          lawyerId = lawyerMatch.id;
-          db.prepare('UPDATE users SET lawyerId = ?, role = "lawyer" WHERE id = ?').run(lawyerId, user.id);
-          user.role = 'lawyer';
-          user.lawyerId = lawyerId;
+      // 1. ADMIN PORTAL LOGIN: Check dedicated 'admins' table
+      if (requestedRole === 'admin') {
+        const admin = Admin.findByEmail(cleanEmail);
+        if (!admin) {
+          return res.status(401).json({
+            success: false,
+            message: 'Access Denied: Invalid administrator credentials or account not found in Master Admin registry.',
+          });
         }
+
+        const isMatch = await Admin.comparePassword(password, admin.password);
+        if (!isMatch) {
+          return res.status(401).json({
+            success: false,
+            message: 'Access Denied: Invalid administrator password.',
+          });
+        }
+
+        const token = generateToken(admin);
+        return res.json({
+          success: true,
+          message: 'Authenticated as Master Administrator!',
+          token,
+          user: {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email,
+            phone: admin.phone || '',
+            role: 'admin',
+            isSuperAdmin: admin.isSuperAdmin
+          },
+          redirectUrl: 'admin.html',
+          portalName: 'Master Administrator Console'
+        });
       }
 
-      const token = generateToken(user);
+      // 2. ADVOCATE PORTAL LOGIN: Check dedicated 'advocate_accounts' table
+      if (requestedRole === 'lawyer') {
+        const advocate = AdvocateAccount.findByEmail(cleanEmail);
+        if (!advocate) {
+          return res.status(401).json({
+            success: false,
+            message: 'Access Restricted: This account is not enrolled in the Advocate Chambers registry. Please sign in via the Client Portal.',
+          });
+        }
 
-      return res.json({
-        success: true,
-        message: 'Logged in successfully!',
-        token,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          phone: user.phone || '',
-          role: user.role,
-          lawyerId: user.lawyerId || lawyerId || null,
-          storage: 'sqlite',
-        },
+        const isMatch = await AdvocateAccount.comparePassword(password, advocate.password);
+        if (!isMatch) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials. Please verify your advocate email and password.',
+          });
+        }
+
+        const token = generateToken(advocate);
+        return res.json({
+          success: true,
+          message: `Welcome to Advocate Chambers, ${advocate.name}!`,
+          token,
+          user: {
+            id: advocate.id,
+            lawyerId: advocate.lawyerId,
+            name: advocate.name,
+            email: advocate.email,
+            phone: advocate.phone || '',
+            barNumber: advocate.barNumber,
+            specialty: advocate.specialty,
+            role: 'lawyer'
+          },
+          redirectUrl: 'lawyer.html',
+          portalName: 'Advocate Chambers'
+        });
+      }
+
+      // 3. CLIENT PORTAL LOGIN: Check dedicated 'users' table
+      if (requestedRole === 'user') {
+        const client = User.findByEmail(cleanEmail);
+        if (!client) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials. Please verify your email and password.',
+          });
+        }
+
+        const isMatch = await User.comparePassword(password, client.password);
+        if (!isMatch) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials. Please verify your email and password.',
+          });
+        }
+
+        const token = generateToken(client);
+        return res.json({
+          success: true,
+          message: 'Logged in successfully to Client Portal!',
+          token,
+          user: {
+            id: client.id,
+            name: client.name,
+            email: client.email,
+            phone: client.phone || '',
+            role: 'user'
+          },
+          redirectUrl: 'user.html',
+          portalName: 'Client Portal'
+        });
+      }
+
+      // 4. FALLBACK (no explicit role requested): Strict priority resolution
+      // Try Client table first
+      const client = User.findByEmail(cleanEmail);
+      if (client && await User.comparePassword(password, client.password)) {
+        const token = generateToken(client);
+        return res.json({
+          success: true,
+          message: 'Logged in successfully to Client Portal!',
+          token,
+          user: {
+            id: client.id,
+            name: client.name,
+            email: client.email,
+            phone: client.phone || '',
+            role: 'user'
+          },
+          redirectUrl: 'user.html',
+          portalName: 'Client Portal'
+        });
+      }
+
+      // Try Advocate table
+      const advocate = AdvocateAccount.findByEmail(cleanEmail);
+      if (advocate && await AdvocateAccount.comparePassword(password, advocate.password)) {
+        const token = generateToken(advocate);
+        return res.json({
+          success: true,
+          message: `Welcome to Advocate Chambers, ${advocate.name}!`,
+          token,
+          user: {
+            id: advocate.id,
+            lawyerId: advocate.lawyerId,
+            name: advocate.name,
+            email: advocate.email,
+            phone: advocate.phone || '',
+            barNumber: advocate.barNumber,
+            specialty: advocate.specialty,
+            role: 'lawyer'
+          },
+          redirectUrl: 'lawyer.html',
+          portalName: 'Advocate Chambers'
+        });
+      }
+
+      // Try Admin table
+      const admin = Admin.findByEmail(cleanEmail);
+      if (admin && await Admin.comparePassword(password, admin.password)) {
+        const token = generateToken(admin);
+        return res.json({
+          success: true,
+          message: 'Authenticated as Master Administrator!',
+          token,
+          user: {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email,
+            phone: admin.phone || '',
+            role: 'admin',
+            isSuperAdmin: admin.isSuperAdmin
+          },
+          redirectUrl: 'admin.html',
+          portalName: 'Master Administrator Console'
+        });
+      }
+
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials. Please verify your email and password.',
       });
     } catch (err) {
       console.error('Login Error:', err);
@@ -228,7 +389,7 @@ router.post(
 );
 
 // @route   GET /api/auth/me
-// @desc    Get current user profile from token using SQLite DB
+// @desc    Get current user profile from token using segregated DB tables
 // @access  Private
 router.get('/me', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -240,28 +401,59 @@ router.get('/me', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
-    const user = User.findById(decoded.id);
     
-    if (user) {
-      return res.json({
-        success: true,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          phone: user.phone || '',
-          role: user.role,
-          lawyerId: user.lawyerId || null,
-          storage: 'sqlite',
-        },
-      });
+    if (decoded.role === 'admin') {
+      const admin = Admin.findById(decoded.id);
+      if (admin) {
+        return res.json({
+          success: true,
+          user: {
+            id: admin.id,
+            name: admin.name,
+            email: admin.email,
+            phone: admin.phone || '',
+            role: 'admin',
+            isSuperAdmin: admin.isSuperAdmin
+          }
+        });
+      }
+    } else if (decoded.role === 'lawyer') {
+      const advocate = AdvocateAccount.findById(decoded.id) || (decoded.lawyerId ? AdvocateAccount.findByLawyerId(decoded.lawyerId) : null);
+      if (advocate) {
+        return res.json({
+          success: true,
+          user: {
+            id: advocate.id,
+            lawyerId: advocate.lawyerId,
+            name: advocate.name,
+            email: advocate.email,
+            phone: advocate.phone || '',
+            barNumber: advocate.barNumber,
+            specialty: advocate.specialty,
+            role: 'lawyer'
+          }
+        });
+      }
+    } else {
+      const client = User.findById(decoded.id);
+      if (client) {
+        return res.json({
+          success: true,
+          user: {
+            id: client.id,
+            name: client.name,
+            email: client.email,
+            phone: client.phone || '',
+            role: 'user'
+          }
+        });
+      }
     }
 
-    return res.status(404).json({ success: false, message: 'User not found in SQLite database' });
+    return res.status(404).json({ success: false, message: 'Account not found in segregated databases' });
   } catch (err) {
     res.status(401).json({ success: false, message: 'Invalid or expired token' });
   }
 });
 
 module.exports = router;
-

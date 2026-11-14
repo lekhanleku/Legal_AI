@@ -3,11 +3,13 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const db = require('../db');
 const User = require('../models/User');
+const Admin = require('../models/Admin');
+const AdvocateAccount = require('../models/AdvocateAccount');
 const Lawyer = require('../models/Lawyer');
 const Court = require('../models/Court');
 const Case = require('../models/Case');
 
-// Admin Auth Middleware
+// Admin Auth Middleware with segregated admins table verification
 function requireAdmin(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -17,17 +19,22 @@ function requireAdmin(req, res, next) {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
-    const user = User.findById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'User not found' });
-    }
-
-    if (user.role !== 'admin') {
+    if (decoded.role !== 'admin') {
       return res.status(403).json({ success: false, message: 'Access denied: Administrator privileges required.' });
     }
 
-    req.admin = user;
+    let admin = Admin.findById(decoded.id) || Admin.findByEmail(decoded.email);
+    if (!admin) {
+      // Legacy fallback
+      const user = User.findById(decoded.id);
+      if (user && user.role === 'admin') admin = user;
+    }
+
+    if (!admin) {
+      return res.status(403).json({ success: false, message: 'Access denied: Administrator record not found in system registry.' });
+    }
+
+    req.admin = admin;
     next();
   } catch (err) {
     return res.status(401).json({ success: false, message: 'Invalid or expired session token' });
@@ -712,23 +719,25 @@ router.post('/impersonate', requireAdmin, async (req, res) => {
         return res.status(404).json({ success: false, message: 'Attorney not found' });
       }
 
-      // Check if there is an existing user account for this lawyer
-      targetUser = db.prepare('SELECT id, name, email, phone, role, isVerified, lawyerId FROM users WHERE lawyerId = ? OR LOWER(email) = LOWER(?)').get(lawyerRecord.id, lawyerRecord.email);
+      // Check if there is an existing advocate account in advocate_accounts table
+      targetUser = db.prepare('SELECT id, lawyerId, name, email, phone, barNumber, specialty, role, isVerified FROM advocate_accounts WHERE lawyerId = ? OR LOWER(email) = LOWER(?)').get(lawyerRecord.id, lawyerRecord.email);
       if (!targetUser) {
         const bcrypt = require('bcryptjs');
         const defaultHash = await bcrypt.hash('lawyer1234', 10);
         const stmt = db.prepare(`
-          INSERT INTO users (name, email, password, phone, role, isVerified, lawyerId)
-          VALUES (?, ?, ?, ?, 'lawyer', 1, ?)
+          INSERT INTO advocate_accounts (lawyerId, name, email, password, phone, barNumber, specialty, role, isVerified)
+          VALUES (?, ?, ?, ?, ?, ?, ?, 'lawyer', 1)
         `);
         const r = stmt.run(
+          lawyerRecord.id,
           lawyerRecord.name,
           lawyerRecord.email.toLowerCase(),
           defaultHash,
           lawyerRecord.phone || '',
-          lawyerRecord.id
+          lawyerRecord.barNumber || 'D/BCI/VERIFIED',
+          lawyerRecord.specialty || 'General Litigation'
         );
-        targetUser = User.findById(r.lastInsertRowid);
+        targetUser = AdvocateAccount.findById(r.lastInsertRowid);
       }
 
       targetUser.lawyerId = lawyerRecord.id;

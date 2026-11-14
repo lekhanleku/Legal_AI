@@ -1657,7 +1657,7 @@ loginForm?.addEventListener('submit', async (e) => {
     const res = await fetch(`${SERVER_ORIGIN}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password, role: 'admin' })
     });
 
     const data = await res.json();
@@ -1686,7 +1686,7 @@ btnQuickAdmin?.addEventListener('click', async () => {
     const res = await fetch(`${SERVER_ORIGIN}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'admin@legalai.com', password: 'admin1234' })
+      body: JSON.stringify({ email: 'admin@legalai.com', password: 'admin1234', role: 'admin' })
     });
 
     const data = await res.json();

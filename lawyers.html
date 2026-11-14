@@ -588,57 +588,81 @@
   <!-- ===================================
        ATTORNEY CONSULTATION BOOKING MODAL
        =================================== -->
-  <div class="modal-overlay hidden" id="consult-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="consult-modal-title">
-    <div class="modal-box">
-      <button class="modal-close" id="consult-modal-close" aria-label="Close modal">&times;</button>
+  <!-- ===================================
+       CONSULTATION BOOKING MODAL
+       =================================== -->
+  <div class="auth-modal-overlay hidden" id="consult-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="consult-modal-title">
+    <div class="auth-modal-card consult-modal-card" id="consult-modal-card">
+      <button class="modal-close-btn" id="consult-modal-close" aria-label="Close modal">&times;</button>
+      
       <div class="modal-header">
-        <div class="modal-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg>
+        <div class="modal-logo">
+          <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="4" fill="url(#consultGrad)"/>
+            <path d="M12 30 L20 10 L28 30" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            <line x1="14.5" y1="23" x2="25.5" y2="23" stroke="white" stroke-width="2"/>
+            <defs>
+              <linearGradient id="consultGrad" x1="0" y1="0" x2="40" y2="40">
+                <stop offset="0%" stop-color="#b8956a"/>
+                <stop offset="100%" stop-color="#8b6914"/>
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
         <h3 class="modal-title" id="consult-modal-title">Book Attorney Consultation</h3>
         <p class="modal-subtitle" id="consult-attorney-subtitle">Consult directly with top legal specialists</p>
       </div>
 
-      <form class="consult-form" id="consult-form" novalidate>
+      <form id="consult-form" class="auth-form" novalidate>
         <input type="hidden" id="consult-lawyer-id" name="lawyerId" value="" />
 
         <div class="form-group">
-          <label for="consult-name">Full Name <span class="required">*</span></label>
-          <input type="text" id="consult-name" name="clientName" placeholder="Advocate or Client Full Name" required />
-          <span class="field-error" id="err-consult-name"></span>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="consult-email">Email Address <span class="required">*</span></label>
-            <input type="email" id="consult-email" name="clientEmail" placeholder="client@example.com" required />
-            <span class="field-error" id="err-consult-email"></span>
-          </div>
-
-          <div class="form-group">
-            <label for="consult-phone">Phone Number <span class="required">*</span></label>
-            <input type="tel" id="consult-phone" name="clientPhone" placeholder="+91 98765 43210" required />
-            <span class="field-error" id="err-consult-phone"></span>
+          <label for="consult-name">Full Name <span class="required-star">*</span></label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="consult-name" required placeholder="Full Name" autocomplete="name" />
           </div>
         </div>
 
         <div class="form-group">
-          <label for="consult-date">Preferred Consultation Date <span class="required">*</span></label>
-          <input type="date" id="consult-date" name="preferredDate" required />
-          <span class="field-error" id="err-consult-date"></span>
+          <label for="consult-email">Email Address <span class="required-star">*</span></label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="consult-email" required placeholder="client@example.com" autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-group" id="consult-phone-group">
+          <label for="consult-phone">Phone Number <span class="required-star">*</span></label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.7 19.79 19.79 0 0 1 1.61 5.1 2 2 0 0 1 3.6 2.87h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5A16 16 0 0 0 14 16.09l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <input type="tel" id="consult-phone" required placeholder="+91 98765 43210" autocomplete="tel" />
+          </div>
+          <div class="field-error-msg hidden" id="consult-phone-error">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span id="consult-phone-error-text">Invalid phone number. Please enter a valid 10-digit phone number.</span>
+          </div>
         </div>
 
         <div class="form-group">
-          <label for="consult-summary">Brief Case Summary / Legal Concern</label>
-          <textarea id="consult-summary" name="caseSummary" rows="3" placeholder="Describe the dispute, contract, court hearing, or legal guidance required..."></textarea>
+          <label for="consult-date">Preferred Consultation Date <span class="required-star">*</span></label>
+          <div class="input-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <input type="date" id="consult-date" required />
+          </div>
         </div>
 
-        <div class="consult-modal-footer">
-          <button type="submit" class="btn-submit-consult" id="consult-submit">
-            <span class="btn-text">Confirm Consultation Request</span>
-            <span class="btn-spinner hidden"></span>
-          </button>
+        <div class="form-group">
+          <label for="consult-summary">Brief Case / Dispute Summary</label>
+          <div class="input-wrapper">
+            <textarea id="consult-summary" rows="3" placeholder="Describe your legal matter, dispute, or consultation requirements..."></textarea>
+          </div>
         </div>
+
+        <button type="submit" class="auth-submit-btn" id="consult-submit">
+          <span class="btn-text">Confirm Consultation Booking</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
       </form>
     </div>
   </div>

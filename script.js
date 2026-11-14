@@ -321,10 +321,14 @@ function openModal(mode = 'login') {
   document.body.style.overflow = 'hidden';
 
   if (mode === 'login') {
-    modalTitle.textContent = 'Welcome Back';
-    modalSubtitle.textContent = 'Sign in to access your legal dashboard & AI assistant';
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
+    if (typeof selectModalRole === 'function') {
+      selectModalRole(activeModalRole || 'user');
+    } else {
+      modalTitle.textContent = 'Welcome Back';
+      modalSubtitle.textContent = 'Sign in to access your legal dashboard & AI assistant';
+    }
   } else {
     modalTitle.textContent = 'Create Account';
     modalSubtitle.textContent = 'Join LegalAI to consult top lawyers & AI legal tools';
@@ -516,6 +520,73 @@ async function initSession() {
   }
 }
 
+
+// ── Auth Modal Role Selector & Portal Theming ──
+let activeModalRole = 'user';
+
+window.selectModalRole = function(role) {
+  if (!['user', 'lawyer', 'admin'].includes(role)) role = 'user';
+  activeModalRole = role;
+
+  const card = document.getElementById('auth-modal-card');
+  const badge = document.getElementById('modal-role-badge');
+  const badgeIcon = document.getElementById('modal-role-badge-icon');
+  const badgeText = document.getElementById('modal-role-badge-text');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSub = document.getElementById('modal-subtitle');
+  const emailInput = document.getElementById('login-email');
+  const submitBtn = document.getElementById('login-submit');
+  const submitText = submitBtn?.querySelector('.btn-text');
+
+  // Update role buttons
+  document.querySelectorAll('#modal-auth-role-selector .auth-role-btn').forEach(btn => {
+    if (btn.dataset.role === role) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Update card theme
+  if (card) {
+    card.classList.remove('role-theme-user', 'role-theme-lawyer', 'role-theme-admin');
+    card.classList.add(`role-theme-${role}`);
+  }
+
+  // Update submit button styling
+  if (submitBtn) {
+    submitBtn.classList.remove('btn-role-lawyer', 'btn-role-admin');
+    if (role === 'lawyer') submitBtn.classList.add('btn-role-lawyer');
+    if (role === 'admin') submitBtn.classList.add('btn-role-admin');
+  }
+
+  if (role === 'admin') {
+    if (badge) badge.className = 'role-portal-badge badge-admin';
+    if (badgeIcon) badgeIcon.innerHTML = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>';
+    if (badgeText) badgeText.textContent = 'Master Administrator Console';
+    if (modalTitle) modalTitle.textContent = 'Admin Console Sign In';
+    if (modalSub) modalSub.textContent = 'Restricted access for system administrators & platform audit controls';
+    if (emailInput) emailInput.placeholder = 'admin@legalai.com';
+    if (submitText) submitText.textContent = 'Sign In to Admin Console';
+  } else if (role === 'lawyer') {
+    if (badge) badge.className = 'role-portal-badge badge-advocate';
+    if (badgeIcon) badgeIcon.innerHTML = '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>';
+    if (badgeText) badgeText.textContent = 'Advocate Chambers & Litigation Desk';
+    if (modalTitle) modalTitle.textContent = 'Advocate Chambers Sign In';
+    if (modalSub) modalSub.textContent = 'Sign in to access litigation dockets, client hearings & legal briefs';
+    if (emailInput) emailInput.placeholder = 'h.salve@chambersofsalve.in (or advocate@chambers.in)';
+    if (submitText) submitText.textContent = 'Sign In to Advocate Chambers';
+  } else {
+    if (badge) badge.className = 'role-portal-badge badge-client';
+    if (badgeIcon) badgeIcon.innerHTML = '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
+    if (badgeText) badgeText.textContent = 'Client & Citizen Case Portal';
+    if (modalTitle) modalTitle.textContent = 'Welcome Back, Client';
+    if (modalSub) modalSub.textContent = 'Sign in to access your consultations, case checklists & AI legal assistant';
+    if (emailInput) emailInput.placeholder = 'client@example.com (or demouser@legalai.com)';
+    if (submitText) submitText.textContent = 'Sign In to Client Portal';
+  }
+};
+
 // ── LOGIN FORM SUBMISSION ──
 loginForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -535,7 +606,7 @@ loginForm?.addEventListener('submit', async (e) => {
     const res = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password, role: activeModalRole })
     });
 
     const data = await res.json();
@@ -547,7 +618,10 @@ loginForm?.addEventListener('submit', async (e) => {
       closeModal();
       showToast(`Welcome back, ${data.user.name}!`, 'success');
       loginForm.reset();
-      if (data.user.role === 'lawyer' || data.user.lawyerId) {
+
+      if (data.user.role === 'admin') {
+        setTimeout(() => { window.location.href = 'admin.html'; }, 400);
+      } else if (data.user.role === 'lawyer' || data.user.lawyerId) {
         setTimeout(() => { window.location.href = 'lawyer.html'; }, 400);
       }
     } else {

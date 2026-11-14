@@ -196,9 +196,9 @@ router.post('/', (req, res) => {
 // @route   POST /api/lawyers/:id/consult
 // @desc    Book a consultation with a specified attorney (Supports both authenticated users and guest clients)
 // @access  Public / Authenticated
-router.post('/:id/consult', (req, res) => {
+const handleConsultBooking = (req, res) => {
   try {
-    const lawyerIdParam = req.params.id;
+    const lawyerIdParam = req.params.id || req.body.lawyerId;
     const { clientName, clientEmail, clientPhone, preferredDate, caseSummary, lawyerName } = req.body;
 
     // 1. Resolve attorney from database with fallback matching
@@ -299,6 +299,9 @@ router.post('/:id/consult', (req, res) => {
       message: 'Could not book consultation: ' + err.message
     });
   }
-});
+};
+
+router.post('/:id/consult', handleConsultBooking);
+router.post('/consult', handleConsultBooking);
 
 module.exports = router;

@@ -828,6 +828,88 @@ if (lawyerModalOverlay) {
 }
 
 // ── Consultation Booking Modal (Works seamlessly for all visitors and authenticated clients) ──
+
+// ── Phone Validation Helpers for Consultation Booking ──
+function validatePhoneNumber(phone) {
+  const trimmed = (phone || '').trim();
+  if (!trimmed) {
+    return {
+      valid: false,
+      message: 'Phone number is required. Please provide a valid contact number.'
+    };
+  }
+
+  const validPattern = /^[+]?[(]?[0-9]{1,4}[)]?[-s./0-9]*$/;
+  if (!validPattern.test(trimmed)) {
+    return {
+      valid: false,
+      message: 'Invalid phone number format! Letters and special symbols are not allowed. Please provide a valid contact number.'
+    };
+  }
+
+  const digits = trimmed.replace(/\D/g, '');
+  if (digits.length < 10) {
+    return {
+      valid: false,
+      message: `Invalid phone number! It has only ${digits.length} digits. Please provide a valid 10-digit contact number.`
+    };
+  }
+  if (digits.length > 15) {
+    return {
+      valid: false,
+      message: `Invalid phone number! Too long (${digits.length} digits). Standard phone numbers cannot exceed 15 digits.`
+    };
+  }
+
+  if (/^(\d)\1+$/.test(digits)) {
+    return {
+      valid: false,
+      message: 'Invalid phone number! Repeating placeholder digits are not accepted. Please provide a real contact number.'
+    };
+  }
+
+  return { valid: true, digits };
+}
+
+function showConsultPhoneError(message) {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  const errorText = document.getElementById('consult-phone-error-text');
+  if (phoneInput) {
+    phoneInput.classList.add('input-error');
+    phoneInput.classList.remove('input-valid');
+  }
+  if (errorEl && errorText) {
+    errorText.textContent = message;
+    errorEl.classList.remove('hidden');
+  }
+}
+
+function clearConsultPhoneError() {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  if (phoneInput) {
+    phoneInput.classList.remove('input-error');
+    phoneInput.classList.remove('input-valid');
+  }
+  if (errorEl) {
+    errorEl.classList.add('hidden');
+  }
+}
+
+function showConsultPhoneValid() {
+  const phoneInput = document.getElementById('consult-phone');
+  const errorEl = document.getElementById('consult-phone-error');
+  if (phoneInput) {
+    phoneInput.classList.remove('input-error');
+    phoneInput.classList.add('input-valid');
+  }
+  if (errorEl) {
+    errorEl.classList.add('hidden');
+  }
+}
+
+
 window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   let lawyer = null;
   if (Array.isArray(lawyersData) && lawyersData.length > 0) {
@@ -849,19 +931,24 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   }
   if (!lawyer) {
     lawyer = {
-      id: lawyerId || '1',
-      name: 'Senior Advocate',
-      title: 'Senior Advocate & Legal Counsel',
-      specialty: 'Legal Consultation',
-      hourlyRate: 25000
+      id: lawyerId || '26',
+      name: 'Harish Salve, Senior Advocate',
+      title: 'Senior Advocate & King\'s Counsel',
+      specialty: 'Constitutional & Commercial Law',
+      hourlyRate: 45000
     };
   }
 
-  if (!consultOverlay) return;
+  const overlay = consultOverlay || document.getElementById('consult-modal-overlay');
+  if (!overlay) return;
 
-  consultLawyerId.value = lawyer.id;
-  consultModalTitle.textContent = `Book — ${lawyer.name}`;
-  consultAttySubtitle.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate || 25000).toLocaleString('en-IN')}/hr`;
+  const titleEl = consultModalTitle || document.getElementById('consult-modal-title');
+  const subtitleEl = consultAttySubtitle || document.getElementById('consult-attorney-subtitle');
+  const idInput = consultLawyerId || document.getElementById('consult-lawyer-id');
+
+  if (idInput) idInput.value = lawyer.id;
+  if (titleEl) titleEl.textContent = `Book — ${lawyer.name}`;
+  if (subtitleEl) subtitleEl.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate || 25000).toLocaleString('en-IN')}/hr`;
 
   // Pre-fill authenticated user details if available
   const cachedUserStr = localStorage.getItem('legalai_user');
@@ -889,31 +976,73 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
     }
   }
 
-  consultOverlay.classList.remove('hidden');
+  // Clear any past validation errors
+  clearConsultPhoneError();
+
+  overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 };
 
 window.closeConsultModal = function() {
-  if (consultOverlay) consultOverlay.classList.add('hidden');
+  const overlay = consultOverlay || document.getElementById('consult-modal-overlay');
+  if (overlay) overlay.classList.add('hidden');
   document.body.style.overflow = '';
-  if (consultForm && typeof consultForm.reset === 'function') consultForm.reset();
+  clearConsultPhoneError();
+  const form = consultForm || document.getElementById('consult-form');
+  if (form && typeof form.reset === 'function') form.reset();
 };
 
-if (consultModalClose) consultModalClose.addEventListener('click', closeConsultModal);
+const closeBtn = consultModalClose || document.getElementById('consult-modal-close');
+if (closeBtn) closeBtn.addEventListener('click', window.closeConsultModal);
 
-if (consultOverlay) {
-  consultOverlay.addEventListener('click', (e) => {
-    if (e.target === consultOverlay) closeConsultModal();
+const overlayEl = consultOverlay || document.getElementById('consult-modal-overlay');
+if (overlayEl) {
+  overlayEl.addEventListener('click', (e) => {
+    if (e.target === overlayEl) window.closeConsultModal();
+  });
+}
+
+// Attach real-time validation on phone input
+const consultPhoneInput = document.getElementById('consult-phone');
+if (consultPhoneInput) {
+  consultPhoneInput.addEventListener('blur', () => {
+    const val = consultPhoneInput.value.trim();
+    if (!val) {
+      clearConsultPhoneError();
+      return;
+    }
+    const check = validatePhoneNumber(val);
+    if (!check.valid) {
+      showConsultPhoneError(check.message);
+    } else {
+      showConsultPhoneValid();
+    }
+  });
+
+  consultPhoneInput.addEventListener('input', () => {
+    const val = consultPhoneInput.value.trim();
+    if (!val) {
+      clearConsultPhoneError();
+      return;
+    }
+    if (consultPhoneInput.classList.contains('input-error')) {
+      const check = validatePhoneNumber(val);
+      if (check.valid) {
+        showConsultPhoneValid();
+      }
+    }
   });
 }
 
 // Consultation Form Submission (Works seamlessly both authenticated and guest, online and offline)
-if (consultForm) {
-  consultForm.addEventListener('submit', async (e) => {
+const formEl = consultForm || document.getElementById('consult-form');
+if (formEl) {
+  formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem('legalai_token');
-    const lawyerId = consultLawyerId.value;
+    const idInput = consultLawyerId || document.getElementById('consult-lawyer-id');
+    const lawyerId = idInput?.value || '26';
 
     const clientName    = document.getElementById('consult-name')?.value.trim();
     const clientEmail   = document.getElementById('consult-email')?.value.trim();
@@ -926,15 +1055,25 @@ if (consultForm) {
       return;
     }
 
-    const btnText    = consultSubmit.querySelector('.btn-text');
-    const btnSpinner = consultSubmit.querySelector('.btn-spinner');
+    const phoneCheck = validatePhoneNumber(clientPhone);
+    if (!phoneCheck.valid) {
+      showToast(phoneCheck.message, 'error');
+      showConsultPhoneError(phoneCheck.message);
+      if (consultPhoneInput) consultPhoneInput.focus();
+      return;
+    }
+
+    const submitBtn = consultSubmit || document.getElementById('consult-submit');
+    const btnText    = submitBtn?.querySelector('.btn-text');
+    const btnSpinner = submitBtn?.querySelector('.btn-spinner');
     if (btnText) btnText.classList.add('hidden');
     if (btnSpinner) btnSpinner.classList.remove('hidden');
-    consultSubmit.disabled = true;
+    if (submitBtn) submitBtn.disabled = true;
 
     let currentLawyer = (lawyersData || []).find(l => String(l.id) === String(lawyerId)) ||
                         (typeof FALLBACK_LAWYERS !== 'undefined' ? FALLBACK_LAWYERS.find(l => String(l.id) === String(lawyerId)) : null);
-    const lawyerNameClean = currentLawyer?.name || consultModalTitle.textContent.replace('Book — ', '').trim() || 'Advocate';
+    const titleEl = consultModalTitle || document.getElementById('consult-modal-title');
+    const lawyerNameClean = currentLawyer?.name || titleEl?.textContent.replace('Book — ', '').trim() || 'Advocate';
 
     const payload = {
       lawyerId,
@@ -969,17 +1108,28 @@ if (consultForm) {
       const data = await resp.json();
 
       if (data.success) {
-        closeConsultModal();
+        window.closeConsultModal();
         try { sessionStorage.removeItem('pending_consult_lawyer'); } catch (_) {}
         const bookedId = data.bookingId || data.consultation?.id;
-        showToast(`Consultation #${bookedId || ''} booked with ${data.lawyer?.name || lawyerNameClean}!`, 'success');
+        showToast(
+          `Consultation #${bookedId || ''} booked with ${data.lawyer?.name || lawyerNameClean}!`,
+          'success',
+          bookedId ? {
+            label: 'Cancel Booking',
+            callback: () => cancelConsultationBooking(bookedId, true)
+          } : null
+        );
         await fetchAndRenderBookings();
         renderLawyers(lawyersData);
       } else {
+        if (data.message && data.message.toLowerCase().includes('phone')) {
+          showConsultPhoneError(data.message);
+          if (consultPhoneInput) consultPhoneInput.focus();
+        }
         showToast(data.message || 'Could not submit booking request.', 'error');
       }
     } catch (err) {
-      // Seamless offline fallback when port 5000 is not reachable
+      // Seamless offline fallback when server is unreachable
       const offlineId = Date.now();
       const offlineConsultation = {
         id: offlineId,
@@ -1010,7 +1160,7 @@ if (consultForm) {
       } catch (_) {}
 
       bookingsData.unshift(offlineConsultation);
-      closeConsultModal();
+      window.closeConsultModal();
       showToast(`Consultation #${offlineId} scheduled with ${lawyerNameClean}! Request saved successfully.`, 'success');
       const activeCount = bookingsData.filter(b => b.status !== 'cancelled').length;
       updateBookingsCounters(activeCount);
@@ -1019,7 +1169,7 @@ if (consultForm) {
     } finally {
       if (btnText) btnText.classList.remove('hidden');
       if (btnSpinner) btnSpinner.classList.add('hidden');
-      consultSubmit.disabled = false;
+      if (submitBtn) submitBtn.disabled = false;
     }
   });
 }

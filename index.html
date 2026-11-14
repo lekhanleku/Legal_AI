@@ -587,6 +587,28 @@
         <p class="modal-subtitle" id="modal-subtitle">Sign in to access your legal dashboard & AI assistant</p>
       </div>
 
+      <!-- DYNAMIC ROLE PORTAL BADGE -->
+      <div class="role-portal-badge badge-client" id="modal-role-badge">
+        <svg id="modal-role-badge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span id="modal-role-badge-text">Client &amp; Citizen Case Portal</span>
+      </div>
+
+      <!-- 3-WAY ROLE SELECTOR (CLIENT, ADVOCATE, ADMIN) -->
+      <div class="auth-role-selector" id="modal-auth-role-selector" role="radiogroup" aria-label="Portal Selection">
+        <button type="button" class="auth-role-btn active" id="modal-role-btn-user" data-role="user" onclick="selectModalRole('user')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Client Portal</span>
+        </button>
+        <button type="button" class="auth-role-btn" id="modal-role-btn-lawyer" data-role="lawyer" onclick="selectModalRole('lawyer')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <span>Advocate Chambers</span>
+        </button>
+        <button type="button" class="auth-role-btn" id="modal-role-btn-admin" data-role="admin" onclick="selectModalRole('admin')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Admin Console</span>
+        </button>
+      </div>
+
       <!-- ERROR / ALERT CONTAINER -->
       <div class="form-alert hidden" id="form-alert"></div>
 

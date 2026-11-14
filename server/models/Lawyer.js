@@ -307,6 +307,12 @@ class Lawyer {
   /**
    * Permanently delete a consultation record
    */
+  static deleteConsultation(id) {
+    const stmt = db.prepare('DELETE FROM consultations WHERE id = ?');
+    const res = stmt.run(Number(id));
+    return res.changes > 0;
+  }
+
   /**
    * Update consultation status (pending, confirmed, completed, cancelled)
    */

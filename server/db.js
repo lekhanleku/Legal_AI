@@ -11,7 +11,7 @@ try {
   db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
 
-  // Auto-create users, ai_chats, lawyers, and consultations tables if they do not exist
+  // Auto-create isolated tables for users (clients), admins, advocate accounts, ai_chats, lawyers, and consultations
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,10 +20,41 @@ try {
       password TEXT NOT NULL,
       phone TEXT DEFAULT '',
       role TEXT DEFAULT 'user',
-      isVerified INTEGER DEFAULT 0,
+      isVerified INTEGER DEFAULT 1,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS admins (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      phone TEXT DEFAULT '',
+      role TEXT DEFAULT 'admin',
+      isSuperAdmin INTEGER DEFAULT 1,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE INDEX IF NOT EXISTS idx_admins_email ON admins(email);
+
+    CREATE TABLE IF NOT EXISTS advocate_accounts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      lawyerId INTEGER UNIQUE NOT NULL,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      phone TEXT DEFAULT '',
+      barNumber TEXT NOT NULL,
+      specialty TEXT NOT NULL,
+      role TEXT DEFAULT 'lawyer',
+      isVerified INTEGER DEFAULT 1,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (lawyerId) REFERENCES lawyers(id) ON DELETE CASCADE
+    );
+    CREATE INDEX IF NOT EXISTS idx_advocate_accounts_email ON advocate_accounts(email);
+    CREATE INDEX IF NOT EXISTS idx_advocate_accounts_lawyerId ON advocate_accounts(lawyerId);
 
     CREATE TABLE IF NOT EXISTS ai_chats (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -405,6 +436,36 @@ try {
     console.log(` Synced ${syncStats.statutesCount} statutes and ${syncStats.versionsCount} statute versions to SQLite`);
   } catch (sErr) {
     console.warn(' Statutes sync warning:', sErr.message);
+  }
+
+  // Ensure default Master Admin exists in dedicated admins table
+  try {
+    const adminCheck = db.prepare('SELECT id FROM admins WHERE LOWER(email) = ?').get('admin@legalai.com');
+    if (!adminCheck) {
+      const bcrypt = require('bcryptjs');
+      const adminPass = bcrypt.hashSync('admin1234', 10);
+      db.prepare(`
+        INSERT INTO admins (name, email, password, phone, role, isSuperAdmin)
+        VALUES ('LegalAI Administrator', 'admin@legalai.com', ?, '+91 11 2338 0001', 'admin', 1)
+      `).run(adminPass);
+    }
+  } catch (aErr) {
+    console.warn('Admin seed notice:', aErr.message);
+  }
+
+  // Ensure default Demo Client exists in isolated users (clients) table
+  try {
+    const userCheck = db.prepare('SELECT id FROM users WHERE LOWER(email) = ?').get('demouser@legalai.com');
+    if (!userCheck) {
+      const bcrypt = require('bcryptjs');
+      const userPass = bcrypt.hashSync('demo1234', 10);
+      db.prepare(`
+        INSERT INTO users (name, email, password, phone, role, isVerified)
+        VALUES ('Demo Client', 'demouser@legalai.com', ?, '+91 98765 43210', 'user', 1)
+      `).run(userPass);
+    }
+  } catch (uErr) {
+    console.warn('Demo user seed notice:', uErr.message);
   }
 
   console.log(` SQLite Database connected & initialized: ${dbPath}`);

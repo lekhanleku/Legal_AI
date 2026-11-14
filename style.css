@@ -4034,6 +4034,30 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   100% { background-position: -100% 0; }
 }
 
+/* ── UNIVERSAL CONSULTATION MODAL BACKDROP & BOX ── */
+#consult-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 25000 !important;
+  background: rgba(8, 8, 8, 0.85) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  overflow-y: auto !important;
+}
+
+#consult-modal-overlay.hidden {
+  display: none !important;
+}
+
+#consult-modal-card {
+  max-width: 520px;
+  width: 100%;
+}
+
 /* ── CONSULTATION MODAL EXTRAS ── */
 .consult-modal-card {
   max-width: 520px;
@@ -11041,4 +11065,280 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 
 [data-theme="light"] .booking-detail-lbl {
   color: #64748b;
+}
+
+
+/* ================================================================
+   ROLE-BASED AUTHENTICATION SELECTOR & PORTAL THEMES
+   (Client Portal / Advocate Chambers / Master Admin Console)
+   ================================================================ */
+
+.auth-role-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 20px;
+}
+
+[data-theme="light"] .auth-role-selector {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.auth-role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted, #94a3b8);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+  font-family: inherit;
+  line-height: 1.2;
+}
+
+.auth-role-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.auth-role-btn:hover {
+  color: var(--white, #ffffff);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .auth-role-btn:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Active State: Client (Gold Theme) */
+.auth-role-btn[data-role="user"].active {
+  background: rgba(184, 149, 106, 0.22);
+  border-color: rgba(184, 149, 106, 0.55);
+  color: var(--gold, #dfb77c);
+  box-shadow: 0 4px 14px rgba(184, 149, 106, 0.2);
+}
+
+.auth-role-btn[data-role="user"].active svg {
+  stroke: var(--gold, #dfb77c);
+  transform: scale(1.08);
+}
+
+[data-theme="light"] .auth-role-btn[data-role="user"].active {
+  background: #fffbeb;
+  border-color: #d97706;
+  color: #b45309;
+}
+
+/* Active State: Advocate (Regal Blue / Cyan Theme) */
+.auth-role-btn[data-role="lawyer"].active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #38bdf8;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+}
+
+.auth-role-btn[data-role="lawyer"].active svg {
+  stroke: #38bdf8;
+  transform: scale(1.08);
+}
+
+[data-theme="light"] .auth-role-btn[data-role="lawyer"].active {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+/* Active State: Admin (High-Security Crimson Theme) */
+.auth-role-btn[data-role="admin"].active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #f87171;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2);
+}
+
+.auth-role-btn[data-role="admin"].active svg {
+  stroke: #f87171;
+  transform: scale(1.08);
+}
+
+[data-theme="light"] .auth-role-btn[data-role="admin"].active {
+  background: #fef2f2;
+  border-color: #dc2626;
+  color: #b91c1c;
+}
+
+/* Role Portal Badges */
+.role-portal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  width: 100%;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+
+.role-portal-badge.badge-client {
+  background: rgba(184, 149, 106, 0.16);
+  border: 1px solid rgba(184, 149, 106, 0.45);
+  color: var(--gold, #dfb77c);
+}
+
+[data-theme="light"] .role-portal-badge.badge-client {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.role-portal-badge.badge-advocate {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+}
+
+[data-theme="light"] .role-portal-badge.badge-advocate {
+  background: #f0f9ff;
+  border-color: #bae6fd;
+  color: #0284c7;
+}
+
+.role-portal-badge.badge-admin {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #f87171;
+}
+
+[data-theme="light"] .role-portal-badge.badge-admin {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+/* Auth Card Border & Glow Variations */
+.auth-container-card.role-theme-user,
+.auth-modal-card.role-theme-user {
+  border-color: rgba(184, 149, 106, 0.45);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(184, 149, 106, 0.15);
+}
+
+.auth-container-card.role-theme-lawyer,
+.auth-modal-card.role-theme-lawyer {
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.auth-container-card.role-theme-admin,
+.auth-modal-card.role-theme-admin {
+  border-color: rgba(239, 68, 68, 0.45);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(239, 68, 68, 0.15);
+}
+
+/* Submit Buttons by Role */
+.auth-submit-btn.btn-role-lawyer {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+}
+
+.auth-submit-btn.btn-role-lawyer:hover {
+  background: linear-gradient(135deg, #0369a1, #075985);
+}
+
+.auth-submit-btn.btn-role-admin {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+}
+
+.auth-submit-btn.btn-role-admin:hover {
+  background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+}
+
+/* Quick Demo Row */
+.demo-buttons-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 480px) {
+  .demo-buttons-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-demo-client {
+  background: rgba(184, 149, 106, 0.15);
+  border: 1px solid rgba(184, 149, 106, 0.35);
+  color: var(--gold, #dfb77c);
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-demo-client:hover {
+  background: rgba(184, 149, 106, 0.25);
+  border-color: var(--gold, #dfb77c);
+}
+
+.btn-demo-lawyer {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: #38bdf8;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-demo-lawyer:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+}
+
+.btn-demo-admin {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-demo-admin:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #f87171;
 }

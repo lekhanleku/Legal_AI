@@ -446,7 +446,7 @@ loginForm?.addEventListener('submit', async (e) => {
     const res = await fetch(`${SERVER_ORIGIN}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password, role: 'user' })
     });
 
     const data = await res.json();
@@ -474,7 +474,7 @@ btnQuickDemo?.addEventListener('click', async () => {
     const res = await fetch(`${SERVER_ORIGIN}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'demouser@legalai.com', password: 'demo1234' })
+      body: JSON.stringify({ email: 'demouser@legalai.com', password: 'demo1234', role: 'user' })
     });
 
     const data = await res.json();

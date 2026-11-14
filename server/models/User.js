@@ -140,21 +140,31 @@ class User {
   }
 
   /**
-   * Get user summary statistics for admin dashboard
+   * Get user summary statistics across segregated databases for admin dashboard
    */
   static getStats() {
-    const totalUsers = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
-    const verifiedUsers = db.prepare('SELECT COUNT(*) as count FROM users WHERE isVerified = 1').get().count;
-    const roles = db.prepare('SELECT role, COUNT(*) as count FROM users GROUP BY role').all();
+    const totalClients = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
+    const verifiedClients = db.prepare('SELECT COUNT(*) as count FROM users WHERE isVerified = 1').get().count;
+    let totalAdvocates = 0;
+    try {
+      totalAdvocates = db.prepare('SELECT COUNT(*) as count FROM advocate_accounts').get().count;
+    } catch (_) {}
+    let totalAdmins = 0;
+    try {
+      totalAdmins = db.prepare('SELECT COUNT(*) as count FROM admins').get().count;
+    } catch (_) {}
     
-    const roleMap = { user: 0, lawyer: 0, admin: 0 };
-    roles.forEach(r => { roleMap[r.role] = r.count; });
+    const roleMap = { user: totalClients, lawyer: totalAdvocates, admin: totalAdmins };
+    const totalUsers = totalClients + totalAdvocates + totalAdmins;
 
     const recentUsers = db.prepare('SELECT id, name, email, role, createdAt FROM users ORDER BY id DESC LIMIT 5').all();
 
     return {
       totalUsers,
-      verifiedUsers,
+      totalClients,
+      totalAdvocates,
+      totalAdmins,
+      verifiedUsers: verifiedClients,
       roleBreakdown: roleMap,
       recentUsers
     };

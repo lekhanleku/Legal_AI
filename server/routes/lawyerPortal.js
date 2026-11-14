@@ -5,6 +5,7 @@ const db = require('../db');
 const Case = require('../models/Case');
 const Lawyer = require('../models/Lawyer');
 const User = require('../models/User');
+const AdvocateAccount = require('../models/AdvocateAccount');
 
 // Helper to authenticate lawyer from Bearer token
 function authenticateLawyer(req, res, next) {
@@ -16,39 +17,53 @@ function authenticateLawyer(req, res, next) {
   const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
-    const user = User.findById(decoded.id);
 
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'User not found in database' });
-    }
-
-    // Resolve lawyer record
-    let lawyer = null;
-    if (user.lawyerId) {
-      lawyer = Lawyer.findById(user.lawyerId);
-    }
-    if (!lawyer && user.email) {
-      const stmt = db.prepare('SELECT * FROM lawyers WHERE LOWER(email) = LOWER(?)');
-      lawyer = stmt.get(user.email);
-    }
-    if (!lawyer && user.name) {
-      const stmt = db.prepare('SELECT * FROM lawyers WHERE LOWER(name) LIKE ? LIMIT 1');
-      lawyer = stmt.get(`%${user.name.toLowerCase().trim()}%`);
-    }
-
-    // Fallback to first lawyer if user is an admin or testing
-    if (!lawyer && user.role === 'admin') {
-      lawyer = db.prepare('SELECT * FROM lawyers ORDER BY id ASC LIMIT 1').get();
-    }
-
-    if (!lawyer) {
+    // Strict boundary: Client accounts cannot enter Advocate Chambers
+    if (decoded.role === 'user') {
       return res.status(403).json({
         success: false,
-        message: 'This account is not associated with an authorized advocate/lawyer profile.'
+        message: 'Access Denied: Client accounts cannot access Advocate Chambers.'
       });
     }
 
-    req.user = user;
+    let advocate = null;
+    if (decoded.role === 'lawyer') {
+      if (decoded.lawyerId) {
+        advocate = AdvocateAccount.findByLawyerId(decoded.lawyerId);
+      }
+      if (!advocate && decoded.id) {
+        advocate = AdvocateAccount.findById(decoded.id);
+      }
+      if (!advocate && decoded.email) {
+        advocate = AdvocateAccount.findByEmail(decoded.email);
+      }
+    } else if (decoded.role === 'admin') {
+      // Administrator session: select requested lawyer or first advocate
+      const targetLawyerId = req.query.lawyerId || req.body.lawyerId;
+      if (targetLawyerId) {
+        advocate = AdvocateAccount.findByLawyerId(Number(targetLawyerId));
+      }
+      if (!advocate) {
+        advocate = db.prepare('SELECT * FROM advocate_accounts ORDER BY id ASC LIMIT 1').get();
+      }
+    }
+
+    if (!advocate) {
+      return res.status(403).json({
+        success: false,
+        message: 'This account is not enrolled in the Advocate Chambers registry.'
+      });
+    }
+
+    const lawyer = Lawyer.findById(advocate.lawyerId);
+    if (!lawyer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Advocate profile record not found in system directory.'
+      });
+    }
+
+    req.user = advocate;
     req.lawyer = lawyer;
     next();
   } catch (err) {
@@ -233,8 +248,32 @@ router.get('/all-lawyers', (req, res) => {
   });
 });
 
-// ── POST /api/lawyer/switch-lawyer (Instant demo/test switch to any lawyer) ──
+// ── POST /api/lawyer/switch-lawyer (Protected Administrator Session Switching) ──
 router.post('/switch-lawyer', (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access Denied: Unauthenticated lawyer account switching is prohibited. Please sign in with advocate credentials.'
+    });
+  }
+
+  try {
+    const callerToken = authHeader.split(' ')[1];
+    const decoded = jwt.verify(callerToken, process.env.JWT_SECRET || 'fallback_secret');
+    if (decoded.role !== 'admin' && decoded.role !== 'lawyer') {
+      return res.status(403).json({
+        success: false,
+        message: 'Access Denied: Only administrators or verified advocates can switch chambers sessions.'
+      });
+    }
+  } catch (err) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access Denied: Invalid authentication credentials for session switching.'
+    });
+  }
+
   const { lawyerId } = req.body;
   if (!lawyerId) {
     return res.status(400).json({ success: false, message: 'lawyerId is required' });
@@ -245,22 +284,18 @@ router.post('/switch-lawyer', (req, res) => {
     return res.status(404).json({ success: false, message: 'Lawyer not found' });
   }
 
-  // Find or create matching user record
-  let user = db.prepare('SELECT * FROM users WHERE lawyerId = ? OR LOWER(email) = LOWER(?)').get(lawyer.id, lawyer.email);
-  if (!user) {
-    const defaultPasswordHash = '$2a$08$K6qG25c.XwA30XWqQ96uueD9v8lR0wE8W1501d5oX46k26pL5O'; // 'lawyer1234'
-    const result = db.prepare(`
-      INSERT INTO users (name, email, password, phone, role, isVerified, lawyerId)
-      VALUES (?, ?, ?, ?, 'lawyer', 1, ?)
-    `).run(lawyer.name, lawyer.email.toLowerCase().trim(), defaultPasswordHash, lawyer.phone || '', lawyer.id);
-    user = User.findById(result.lastInsertRowid);
-  } else if (user.role !== 'lawyer' || user.lawyerId !== lawyer.id) {
-    db.prepare('UPDATE users SET role = "lawyer", lawyerId = ? WHERE id = ?').run(lawyer.id, user.id);
-    user = User.findById(user.id);
+  // Lookup in isolated advocate_accounts table
+  let advocate = AdvocateAccount.findByLawyerId(lawyer.id);
+  if (!advocate) {
+    advocate = AdvocateAccount.findByEmail(lawyer.email);
+  }
+
+  if (!advocate) {
+    return res.status(404).json({ success: false, message: 'No advocate account registered for this lawyer.' });
   }
 
   const token = jwt.sign(
-    { id: user.id, name: user.name, email: user.email, role: 'lawyer', lawyerId: lawyer.id },
+    { id: advocate.id, name: advocate.name, email: advocate.email, role: 'lawyer', lawyerId: lawyer.id },
     process.env.JWT_SECRET || 'fallback_secret',
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
@@ -272,10 +307,10 @@ router.post('/switch-lawyer', (req, res) => {
     message: `Switched session to ${lawyer.name}`,
     token,
     user: {
-      id: user.id,
+      id: advocate.id,
       name: lawyer.name,
-      email: user.email,
-      phone: lawyer.phone || user.phone || '',
+      email: advocate.email,
+      phone: lawyer.phone || advocate.phone || '',
       role: 'lawyer',
       lawyerId: lawyer.id
     },
