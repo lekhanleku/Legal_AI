@@ -736,7 +736,7 @@ body {
 .side-link-content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: center;
 }
 
 .side-link-title {
@@ -749,8 +749,7 @@ body {
 }
 
 .side-link-sub {
-  font-size: 0.75rem;
-  color: #94a3b8;
+  display: none !important;
 }
 
 .side-chip-badge {
