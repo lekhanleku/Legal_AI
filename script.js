@@ -1440,12 +1440,9 @@ window.handleAICourtDetails = function(courtId) {
 };
 
 window.scrollToLawyerProfile = function(lawyerName, lawyerId) {
-  if (!isUserLoggedIn()) {
-    openModal('login');
-    showToast('Please sign in to view advocate credentials.', 'info');
-    return;
+  if (typeof openLawyerModal === 'function') {
+    openLawyerModal(lawyerId);
   }
-  window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
 // Append Chat Message with Rich Research RAG Cards & Metadata
@@ -3541,29 +3538,29 @@ function lawyerCardHTML(l) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
             Cancel Booking
           </button>
-          <a href="lawyers.html?lawyer=${l.id}" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
+          <button type="button" class="btn-profile" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" style="display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             Full Details
-          </a>
+          </button>
         </div>
       </div>
     `
     : `
       ${consultBtn}
-      <a href="lawyers.html?lawyer=${l.id}" class="btn-profile" style="text-decoration:none; display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
+      <button type="button" class="btn-profile" onclick="event.stopPropagation(); openLawyerModal('${l.id}')" style="display:inline-flex; align-items:center; gap:5px;" title="View advocate profile">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
         Full Details
-      </a>
+      </button>
     `;
 
   return `
   <div class="lawyer-card ${isAvail ? 'card-available' : 'card-booked'}" id="lawyer-card-${l.id}" data-id="${l.id}" onclick="handleLawyerCardClick(event, '${l.id}')" title="Click to view full details of ${escapeHtml(l.name)}">
     <div class="lawyer-card-header">
-      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent('${l.id}');" title="Click to view advocate details">
+      <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); openLawyerModal('${l.id}');" title="Click to view advocate details">
         ${avatarEl}
       </div>
       <div class="lawyer-header-info">
-        <div class="lawyer-name" onclick="event.stopPropagation(); window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent('${l.id}');" title="Click to view advocate details">${escapeHtml(l.name)}</div>
+        <div class="lawyer-name" onclick="event.stopPropagation(); openLawyerModal('${l.id}');" title="Click to view advocate details">${escapeHtml(l.name)}</div>
         <div class="lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
         <div class="lawyer-badges">
           <span class="badge-verified"> Bar Verified</span>
@@ -3929,25 +3926,13 @@ const lawyerCopyBtnText   = document.getElementById('lawyer-copy-btn-text');
 let currentModalLawyer = null;
 
 window.handleLawyerCardClick = function(event, lawyerId) {
-  // Prevent when clicking interactive elements like buttons, inputs, or links
-  if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input')) {
-    return;
+  if (event && event.target && event.target.closest('button, a, input, select')) return;
+  if (typeof openLawyerModal === 'function') {
+    openLawyerModal(lawyerId);
   }
-  if (!isUserLoggedIn()) {
-    openModal('login');
-    showToast('Please sign in to view advocate profiles.', 'info');
-    return;
-  }
-  // Navigate to advocate profile in same tab
-  window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
 window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
-  if (!isUserLoggedIn()) {
-    openModal('login');
-    showToast('Please sign in to view full advocate credentials and case records.', 'info');
-    return;
-  }
   let lawyer = null;
 
   // 1. Try finding in loaded lawyersData
@@ -4431,14 +4416,8 @@ if (consultForm) {
 // ── Navbar "Lawyers" & Dropdown navigation (opens in new tab, never scrolls down) ──
 const navLawyersLink = document.getElementById('nav-lawyers');
 if (navLawyersLink) {
-  navLawyersLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (!isUserLoggedIn()) {
-      openModal('login');
-      showToast('Please sign in to access the Verified Advocates Directory.', 'info');
-      return;
-    }
-    window.location.href = 'lawyers.html';
+  navLawyersLink.addEventListener('click', () => {
+    // Direct navigation to Verified Advocates Directory
   });
 }
 
@@ -4484,6 +4463,16 @@ window.closeBookingsModal = function() {
 };
 
 window.scrollToLawyers = function() {
+  const grid = document.getElementById('lawyers-grid');
+  if (grid) {
+    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  const courts = document.getElementById('courts');
+  if (courts) {
+    courts.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
   window.location.href = 'lawyers.html';
 };
 
@@ -6335,7 +6324,12 @@ function openPracticeModal(areaKey) {
   document.getElementById('pa-cta-btn').onclick = () => {
     closePracticeModal();
     const spec = specialtyMap[areaKey] || 'All Specialties';
-    window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
+    const match = (typeof lawyersData !== 'undefined' && lawyersData.length ? lawyersData : (typeof FALLBACK_LAWYERS !== 'undefined' ? FALLBACK_LAWYERS : [])).find(l => l.specialty === spec);
+    if (match && typeof openLawyerModal === 'function') {
+      openLawyerModal(match.id, match);
+    } else {
+      window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
+    }
   };
 
   overlay.classList.remove('hidden');
@@ -7388,7 +7382,13 @@ document.addEventListener('DOMContentLoaded', () => {
           specialtySelect.dispatchEvent(new Event('change'));
         }
         const spec = specialtyMap[practiceAreaKey] || 'All Specialties';
-        window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
+        const match = (typeof lawyersData !== 'undefined' && lawyersData.length ? lawyersData : (typeof FALLBACK_LAWYERS !== 'undefined' ? FALLBACK_LAWYERS : [])).find(l => l.specialty === spec);
+        if (match && typeof openLawyerModal === 'function') {
+          if (typeof closeLegalReader === 'function') closeLegalReader();
+          openLawyerModal(match.id, match);
+        } else {
+          window.location.href = 'lawyers.html?specialty=' + encodeURIComponent(spec);
+        }
       };
     }
 
