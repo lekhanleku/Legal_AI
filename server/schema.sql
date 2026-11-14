@@ -210,4 +210,113 @@ CREATE INDEX IF NOT EXISTS idx_notifications_lawyer ON notifications(lawyerId);
 CREATE INDEX IF NOT EXISTS idx_notifications_isRead ON notifications(isRead);
 
 
+-- ------------------------------------------------------------------------------
+-- 8. STATUTES TABLE
+-- Structured legal corpus storing statutory articles, preconditions & exceptions
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS statutes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  docKey TEXT NOT NULL UNIQUE,                -- Canonical document key (e.g. bns_318_4_cheating)
+  actCode TEXT DEFAULT '',                    -- Short statutory identifier (e.g. BNS_2023)
+  actName TEXT DEFAULT '',                    -- Full statutory Act title
+  domain TEXT NOT NULL,                       -- Legal practice domain (e.g. Criminal Law)
+  jurisdiction TEXT DEFAULT 'India',          -- Jurisdiction (India, USA - New York, Netherlands)
+  language TEXT DEFAULT 'en',                 -- Language code ('en', 'nl', 'hi')
+  section TEXT DEFAULT '',                    -- Section / Article number
+  title TEXT NOT NULL,                        -- Provision title
+  citation TEXT NOT NULL,                     -- Formal legal citation
+  effectiveDate TEXT DEFAULT NULL,            -- Enforcement start date (YYYY-MM-DD)
+  repealDate TEXT DEFAULT NULL,               -- Repeal date if superseded (YYYY-MM-DD)
+  status TEXT DEFAULT 'IN_FORCE',             -- 'IN_FORCE' | 'REPEALED' | 'IN_FORCE_AMENDED'
+  text TEXT NOT NULL,                         -- Authoritative statutory explanation & rule text
+  structureJson TEXT DEFAULT '{}',            -- Hierarchical parsing (chapter, rule, provisos)
+  preconditionsJson TEXT DEFAULT '[]',        -- Statutory 'only if' preconditions JSON array
+  exceptionsJson TEXT DEFAULT '[]',           -- Attached statutory exceptions/provisos JSON
+  crossReferencesJson TEXT DEFAULT '[]',      -- Linked statutory cross-references JSON
+  keyElementsJson TEXT DEFAULT '[]',          -- Essential ingredients & penalties JSON
+  actionChecklistJson TEXT DEFAULT '[]',      -- Actionable next steps JSON
+  supersedesJson TEXT DEFAULT 'null',         -- Superseded legacy code reference JSON
+  supersededByJson TEXT DEFAULT 'null',       -- Superseding new code reference JSON
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_statutes_docKey ON statutes(docKey);
+CREATE INDEX IF NOT EXISTS idx_statutes_domain ON statutes(domain);
+CREATE INDEX IF NOT EXISTS idx_statutes_jurisdiction ON statutes(jurisdiction);
+CREATE INDEX IF NOT EXISTS idx_statutes_status ON statutes(status);
+
+
+-- ------------------------------------------------------------------------------
+-- 9. STATUTE_VERSIONS TABLE
+-- Temporal statutory crosswalk registry (IPC -> BNS, CrPC -> BNSS, IEA -> BSA)
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS statute_versions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  transitionKey TEXT NOT NULL UNIQUE,         -- e.g. 'IPC_420', 'CRPC_438'
+  oldAct TEXT NOT NULL,                       -- Repealed / previous statutory Act
+  oldSection TEXT NOT NULL,                   -- Legacy section identifier
+  title TEXT NOT NULL,                        -- Offence / provision title
+  newAct TEXT NOT NULL,                       -- Current governing statutory Act
+  newSection TEXT NOT NULL,                   -- New section identifier
+  effectiveDate TEXT NOT NULL,                -- Transition effective date (e.g. 2024-07-01)
+  status TEXT DEFAULT 'REPEALED_SUPERSEDED',  -- Lifecycle status
+  jurisdiction TEXT DEFAULT 'India',          -- Jurisdiction scope
+  punishment TEXT DEFAULT '',                 -- Prescribed punishment / sanction
+  proceduralCode TEXT DEFAULT '',             -- Governing procedural statute
+  notes TEXT DEFAULT '',                      -- Savings clause & transition notes
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_statute_versions_key ON statute_versions(transitionKey);
+
+
+-- ------------------------------------------------------------------------------
+-- 10. RAG_QUERY_LOGS TABLE
+-- Telemetry log for RAG routing, retrieval citations, latency & user feedback
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS rag_query_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId INTEGER NULL,                        -- Foreign Key -> users(id) if logged in
+  engine TEXT DEFAULT 'node-rag',             -- 'node-rag' | 'python-adaptive-rag'
+  query TEXT NOT NULL,                        -- User legal question
+  category TEXT DEFAULT '',                   -- Predicted practice domain
+  confidence REAL DEFAULT 0.0,                -- Classification confidence
+  route TEXT DEFAULT 'RETRIEVE',              -- 'DIRECT' | 'RETRIEVE' | 'RETRIEVE_MORE'
+  complexityScore REAL DEFAULT 0.0,           -- Query complexity score [0, 1]
+  jurisdiction TEXT DEFAULT 'India',          -- Detected jurisdiction
+  retrievedDocKeysJson TEXT DEFAULT '[]',     -- Retrieved statute docKeys JSON
+  attributionPrecision REAL NULL,             -- Claim-level attribution precision
+  judgeScore REAL NULL,                       -- Calibrated composite judge rating (1-5)
+  latencyMs REAL DEFAULT 0.0,                 -- End-to-end processing latency in ms
+  userRating INTEGER NULL,                    -- End-user satisfaction rating (1-5)
+  userFeedback TEXT DEFAULT '',               -- Optional qualitative user feedback
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_rag_logs_user ON rag_query_logs(userId);
+CREATE INDEX IF NOT EXISTS idx_rag_logs_category ON rag_query_logs(category);
+
+
+-- ------------------------------------------------------------------------------
+-- 11. RAG_EVALUATIONS TABLE
+-- Persisted evaluation benchmark runs & inter-rater agreement metrics
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS rag_evaluations (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  benchmarkName TEXT NOT NULL,                -- Benchmark suite identifier
+  evaluatorType TEXT NOT NULL,                -- 'calibrated-judge' | 'blinded-expert' | 'system-baseline'
+  krippendorffAlpha REAL DEFAULT 0.0,         -- Multi-rater agreement (alpha)
+  spearmanRho REAL DEFAULT 0.0,               -- Correlation between LLM judge & humans
+  faithfulness REAL DEFAULT 0.0,              -- Faithfulness score [0, 1]
+  citationPrecision REAL DEFAULT 0.0,         -- Citation precision [0, 1]
+  preconditionCompleteness REAL DEFAULT 0.0,  -- Precondition completeness [0, 1]
+  expertRating REAL DEFAULT 0.0,              -- Mean 5-point Likert rating
+  metricsJson TEXT DEFAULT '{}',              -- Detailed comparative metrics payload
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 

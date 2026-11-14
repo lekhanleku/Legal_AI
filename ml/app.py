@@ -24,6 +24,7 @@ if hasattr(sys.stderr, 'reconfigure'):
     sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 import json
+import time
 import joblib
 import numpy as np
 from typing import List, Optional, Dict, Any
@@ -35,6 +36,15 @@ from pydantic import BaseModel
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 
+from db_connector import (
+    ensure_rag_tables,
+    get_best_lawyer_and_court_from_db,
+    get_db_status,
+    load_statutes_from_db,
+    log_rag_inference,
+    save_evaluation_run,
+    save_feedback,
+)
 from version_manager import version_manager
 from structure_chunker import structure_chunker
 from knowledge_graph import legal_kg
@@ -147,7 +157,11 @@ DOMAIN_MAPPINGS = {
 
 
 def load_corpus() -> List[Dict[str, Any]]:
-    """Loads legal corpus, prioritizing v2 with rich structural annotations."""
+    """Loads legal corpus from SQLite `statutes` table first, with JSON file fallback."""
+    ensure_rag_tables()
+    db_docs = load_statutes_from_db()
+    if db_docs:
+        return db_docs
     target_path = CORPUS_V2_PATH if os.path.exists(CORPUS_V2_PATH) else LEGACY_CORPUS_PATH
     with open(target_path, "r", encoding="utf-8") as f:
         return json.load(f)
@@ -157,6 +171,7 @@ def build_models_and_index():
     """Trains the supervised domain classifier and indexes structure-aware statutory chunks."""
     global classifier, faiss_index, rag_metadata, rag_embedder, hybrid_retriever_instance, metrics_data
     os.makedirs(MODELS_DIR, exist_ok=True)
+    ensure_rag_tables()
 
     model_path = os.path.join(MODELS_DIR, "legal_classifier.pkl")
     faiss_path = os.path.join(MODELS_DIR, "faiss_index_v2.bin")
@@ -252,6 +267,8 @@ class AdaptiveRAGResponse(BaseModel):
     layperson_view: Dict[str, Any]
     suggested_specialty: str
     suggested_court: Dict[str, Any]
+    suggested_lawyer: Optional[Dict[str, Any]] = None
+    rag_log_id: Optional[int] = None
     model_info: Dict[str, Any]
 
 
@@ -269,6 +286,7 @@ def health():
         "classifier_loaded": classifier is not None,
         "faiss_index_loaded": faiss_index is not None,
         "indexed_statutes": faiss_index.ntotal if faiss_index else 0,
+        "database": get_db_status(),
         "features": [
             "Adaptive Retrieval Router",
             "Structure-Aware Chunking",
@@ -330,6 +348,7 @@ def adaptive_rag_query(req: QueryRequest):
     if classifier is None or faiss_index is None or hybrid_retriever_instance is None:
         build_models_and_index()
 
+    t_start = time.perf_counter()
     query = req.query.strip()
 
     # 1. Supervised NLP Domain Classification
@@ -387,7 +406,7 @@ def adaptive_rag_query(req: QueryRequest):
     })
 
     # Header with diagnostic metadata
-    answer_parts.append(f"### ⚖️ Legal Analysis: **{category}**")
+    answer_parts.append(f"### Legal Analysis: **{category}**")
     answer_parts.append(f"> **ML Diagnostic:** Classified with **{round(confidence * 100, 1)}% confidence**.")
     answer_parts.append(f"> **Adaptive Retrieval Route:** `{routing_decision['route']}` ({routing_decision['explanation']}).")
 
@@ -398,7 +417,7 @@ def adaptive_rag_query(req: QueryRequest):
     if temporal_info.get("applicable_transitions"):
         trans = temporal_info["applicable_transitions"][0]
         answer_parts.append(
-            f"> 🔄 **Statute Transition:** `{trans['old_act']} {trans['old_section']}` ➔ "
+            f"> **Statute Transition:** `{trans['old_act']} {trans['old_section']}` -> "
             f"**`{trans['new_act']} {trans['new_section']}`** (Effective: {trans['effective_date']})."
         )
 
@@ -433,7 +452,7 @@ def adaptive_rag_query(req: QueryRequest):
         if exceptions:
             answer_parts.extend(["", "#### 3. Statutory Exceptions & Provisos (Attached Authority)"])
             for exc in exceptions:
-                answer_parts.append(f"* ⚠️ **Exception:** {exc}")
+                answer_parts.append(f"* **Exception:** {exc}")
 
         # Action checklist
         checklist = primary_source.get("action_checklist", []) if primary_source else []
@@ -476,6 +495,38 @@ def adaptive_rag_query(req: QueryRequest):
         temporal_alert=temporal_info
     )
 
+    db_lawyer, db_court = get_best_lawyer_and_court_from_db(mapping["specialty"], mapping["courtCode"])
+    resolved_court = (
+        {
+            "code": db_court.get("code", mapping["courtCode"]),
+            "name": db_court.get("name", mapping["courtName"]),
+            "city": db_court.get("city", ""),
+            "state": db_court.get("state", ""),
+            "jurisdiction": db_court.get("jurisdiction", "")
+        }
+        if db_court
+        else {
+            "code": mapping["courtCode"],
+            "name": mapping["courtName"]
+        }
+    )
+
+    latency_ms = round((time.perf_counter() - t_start) * 1000.0, 2)
+    retrieved_doc_keys = [s.get("id") for s in retrieved_sources if s.get("id")]
+    rag_log_id = log_rag_inference(
+        query=query,
+        category=category,
+        confidence=confidence,
+        route=routing_decision.get("route", "RETRIEVE"),
+        complexity_score=float(routing_decision.get("complexity_score", 0.0)),
+        jurisdiction=jur_profile.get("primary_jurisdiction", "India"),
+        retrieved_doc_keys=retrieved_doc_keys,
+        attribution_precision=claim_attributions.get("attribution_precision"),
+        judge_score=judge_eval.get("composite_expert_score"),
+        latency_ms=latency_ms,
+        engine="python-adaptive-rag"
+    )
+
     return AdaptiveRAGResponse(
         success=True,
         query=query,
@@ -492,16 +543,16 @@ def adaptive_rag_query(req: QueryRequest):
         calibrated_judge_evaluation=judge_eval,
         layperson_view=layperson_view,
         suggested_specialty=mapping["specialty"],
-        suggested_court={
-            "code": mapping["courtCode"],
-            "name": mapping["courtName"]
-        },
+        suggested_court=resolved_court,
+        suggested_lawyer=db_lawyer,
+        rag_log_id=rag_log_id,
         model_info={
             "engine": "Version-Aware Adaptive Hybrid RAG",
             "version": "3.0.0",
             "retriever": "Hybrid BM25 + FAISS Cosine + Cross-Encoder Reranker",
             "attribution_framework": "ALCE Claim-Level NLI Verification",
-            "indexed_statutes": faiss_index.ntotal if faiss_index else 0
+            "indexed_statutes": faiss_index.ntotal if faiss_index else 0,
+            "database": "sqlite"
         }
     )
 
@@ -535,9 +586,11 @@ def legacy_rag_query(req: QueryRequest):
 # -------------------------------------------------------------
 @app.get("/api/rag/versions")
 def get_version_catalog():
-    """Returns statutory version transition maps (IPC->BNS, CrPC->BNSS, NY LL144, Dutch BW)."""
+    """Returns statutory version transition maps synced with SQLite `statute_versions`."""
+    version_manager.sync_from_db()
     return {
         "success": True,
+        "source": "sqlite",
         "catalog": version_manager.get_all_transitions()
     }
 
@@ -552,11 +605,55 @@ def get_knowledge_graph(query: Optional[str] = None):
 
 @app.post("/api/rag/evaluate")
 def run_evaluation_benchmark():
-    """Runs the rigorous blinded expert review and calibrated LLM judge benchmark."""
+    """Runs the blinded expert benchmark and persists metrics to SQLite `rag_evaluations`."""
     results = benchmark_suite.run_benchmark()
+    ours = results.get("comparative_metrics", {}).get("adaptive_hybrid_rag_ours", {})
+    eval_id = save_evaluation_run(
+        benchmark_name=results.get("evaluation_title", "Calibrated Benchmark Suite"),
+        evaluator_type="calibrated-judge",
+        krippendorff_alpha=float(results.get("evaluators", {}).get("krippendorff_alpha", 0.0)),
+        spearman_rho=float(results.get("llm_judge_calibration", {}).get("correlation_value", 0.0)),
+        faithfulness=float(ours.get("faithfulness", 0.0)),
+        citation_precision=float(ours.get("citation_precision", 0.0)),
+        precondition_completeness=float(ours.get("precondition_completeness", 0.0)),
+        expert_rating=float(ours.get("overall_expert_rating", 0.0)),
+        metrics_payload=results
+    )
     return {
         "success": True,
+        "evaluation_id": eval_id,
         "results": results
+    }
+
+
+class FeedbackRequest(BaseModel):
+    rag_log_id: int
+    rating: Optional[int] = None
+    feedback: Optional[str] = ""
+
+
+@app.post("/api/rag/feedback")
+def submit_rag_feedback(req: FeedbackRequest):
+    """Persists user rating/feedback on a RAG query log entry in SQLite."""
+    if req.rating is not None and (req.rating < 1 or req.rating > 5):
+        raise HTTPException(status_code=400, detail="Rating must be between 1 and 5")
+    updated = save_feedback(req.rag_log_id, req.rating, req.feedback or "")
+    if not updated:
+        raise HTTPException(status_code=404, detail="RAG query log entry not found")
+    return {
+        "success": True,
+        "rag_log_id": req.rag_log_id,
+        "message": "Feedback saved in SQLite"
+    }
+
+
+@app.get("/api/rag/db-status")
+def rag_db_status():
+    """Returns shared SQLite database connectivity and table row counts."""
+    status = get_db_status()
+    return {
+        "success": status.get("connected", False),
+        **status
     }
 
 

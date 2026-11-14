@@ -13,6 +13,10 @@
     (function(){
       var t = localStorage.getItem('legalai_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', t);
+      var token = localStorage.getItem('legalai_token');
+      if (!token) {
+        window.location.replace('index.html?auth=login&msg=Please+sign+in+to+access+the+Verified+Advocates+Directory');
+      }
     })();
   </script>
   <script src="theme.js"></script>

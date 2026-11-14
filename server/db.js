@@ -119,6 +119,94 @@ try {
       mapEmbedUrl TEXT DEFAULT '',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS statutes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      docKey TEXT NOT NULL UNIQUE,
+      actCode TEXT DEFAULT '',
+      actName TEXT DEFAULT '',
+      domain TEXT NOT NULL,
+      jurisdiction TEXT DEFAULT 'India',
+      language TEXT DEFAULT 'en',
+      section TEXT DEFAULT '',
+      title TEXT NOT NULL,
+      citation TEXT NOT NULL,
+      effectiveDate TEXT DEFAULT NULL,
+      repealDate TEXT DEFAULT NULL,
+      status TEXT DEFAULT 'IN_FORCE',
+      text TEXT NOT NULL,
+      structureJson TEXT DEFAULT '{}',
+      preconditionsJson TEXT DEFAULT '[]',
+      exceptionsJson TEXT DEFAULT '[]',
+      crossReferencesJson TEXT DEFAULT '[]',
+      keyElementsJson TEXT DEFAULT '[]',
+      actionChecklistJson TEXT DEFAULT '[]',
+      supersedesJson TEXT DEFAULT 'null',
+      supersededByJson TEXT DEFAULT 'null',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_statutes_docKey ON statutes(docKey);
+    CREATE INDEX IF NOT EXISTS idx_statutes_domain ON statutes(domain);
+    CREATE INDEX IF NOT EXISTS idx_statutes_jurisdiction ON statutes(jurisdiction);
+    CREATE INDEX IF NOT EXISTS idx_statutes_status ON statutes(status);
+
+    CREATE TABLE IF NOT EXISTS statute_versions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      transitionKey TEXT NOT NULL UNIQUE,
+      oldAct TEXT NOT NULL,
+      oldSection TEXT NOT NULL,
+      title TEXT NOT NULL,
+      newAct TEXT NOT NULL,
+      newSection TEXT NOT NULL,
+      effectiveDate TEXT NOT NULL,
+      status TEXT DEFAULT 'REPEALED_SUPERSEDED',
+      jurisdiction TEXT DEFAULT 'India',
+      punishment TEXT DEFAULT '',
+      proceduralCode TEXT DEFAULT '',
+      notes TEXT DEFAULT '',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_statute_versions_key ON statute_versions(transitionKey);
+
+    CREATE TABLE IF NOT EXISTS rag_query_logs (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      userId INTEGER NULL,
+      engine TEXT DEFAULT 'node-rag',
+      query TEXT NOT NULL,
+      category TEXT DEFAULT '',
+      confidence REAL DEFAULT 0.0,
+      route TEXT DEFAULT 'RETRIEVE',
+      complexityScore REAL DEFAULT 0.0,
+      jurisdiction TEXT DEFAULT 'India',
+      retrievedDocKeysJson TEXT DEFAULT '[]',
+      attributionPrecision REAL NULL,
+      judgeScore REAL NULL,
+      latencyMs REAL DEFAULT 0.0,
+      userRating INTEGER NULL,
+      userFeedback TEXT DEFAULT '',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_rag_logs_user ON rag_query_logs(userId);
+    CREATE INDEX IF NOT EXISTS idx_rag_logs_category ON rag_query_logs(category);
+
+    CREATE TABLE IF NOT EXISTS rag_evaluations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      benchmarkName TEXT NOT NULL,
+      evaluatorType TEXT NOT NULL,
+      krippendorffAlpha REAL DEFAULT 0.0,
+      spearmanRho REAL DEFAULT 0.0,
+      faithfulness REAL DEFAULT 0.0,
+      citationPrecision REAL DEFAULT 0.0,
+      preconditionCompleteness REAL DEFAULT 0.0,
+      expertRating REAL DEFAULT 0.0,
+      metricsJson TEXT DEFAULT '{}',
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Ensure map columns exist on existing SQLite databases
@@ -282,6 +370,15 @@ try {
     syncLawyerCasesAndAccounts(db);
   } catch (cErr) {
     console.warn(' Lawyer cases sync warning:', cErr.message);
+  }
+
+  // Auto-sync statutory RAG corpus, temporal versions, and evaluation baseline
+  try {
+    const { syncStatutesAndVersions } = require('./services/statuteSyncService');
+    const syncStats = syncStatutesAndVersions(db);
+    console.log(` Synced ${syncStats.statutesCount} statutes and ${syncStats.versionsCount} statute versions to SQLite`);
+  } catch (sErr) {
+    console.warn(' Statutes sync warning:', sErr.message);
   }
 
   console.log(` SQLite Database connected & initialized: ${dbPath}`);

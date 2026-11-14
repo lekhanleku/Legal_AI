@@ -1656,6 +1656,51 @@ body {
 
 .hidden { display: none !important; }
 
+/* Guest / Pre-Login State: Hide all protected features and nav items until user logs in */
+html.is-logged-out .auth-protected-nav,
+html.is-logged-out .auth-protected-feature,
+body.user-logged-out .auth-protected-nav,
+body.user-logged-out .auth-protected-feature,
+html:not(.is-logged-in) .auth-protected-nav,
+html:not(.is-logged-in) .auth-protected-feature {
+  display: none !important;
+}
+
+html.is-logged-in .auth-protected-nav,
+body.user-logged-in .auth-protected-nav {
+  display: list-item !important;
+}
+
+html.is-logged-in .hero-cta.auth-protected-feature,
+body.user-logged-in .hero-cta.auth-protected-feature {
+  display: flex !important;
+}
+
+html.is-logged-in .hero-stats.auth-protected-feature,
+body.user-logged-in .hero-stats.auth-protected-feature {
+  display: flex !important;
+}
+
+html.is-logged-in .nav-menu-btn.auth-protected-feature,
+body.user-logged-in .nav-menu-btn.auth-protected-feature {
+  display: flex !important;
+}
+
+html.is-logged-in .ai-fab-btn.auth-protected-feature,
+body.user-logged-in .ai-fab-btn.auth-protected-feature {
+  display: flex !important;
+}
+
+html.is-logged-in .side-menu-body.auth-protected-feature,
+body.user-logged-in .side-menu-body.auth-protected-feature {
+  display: block !important;
+}
+
+html.is-logged-in .side-menu-ai-card.auth-protected-feature,
+body.user-logged-in .side-menu-ai-card.auth-protected-feature {
+  display: block !important;
+}
+
 /* LOGGED IN / OUT USER NAV BAR STATE */
 .logged-out-view,
 .logged-in-view {
@@ -6832,12 +6877,12 @@ body {
 }
 
 .takeaways-list li::before {
-  content: '✦';
+  content: '•';
   position: absolute;
   left: 0;
   top: 1px;
   color: var(--gold);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 /* ── RICH ARTICLE CONTENT ── */
@@ -8501,116 +8546,9 @@ body {
   color: var(--gold);
 }
 
-/* ── FLOATING ACTIVE BOOKING QUICK-BAR ── */
+/* ── FLOATING ACTIVE BOOKING QUICK-BAR (REMOVED) ── */
 .floating-booking-pill {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  z-index: 999;
-  background: rgba(18, 18, 18, 0.95);
-  border: 1px solid rgba(184, 149, 106, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(184, 149, 106, 0.15);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-radius: 50px;
-  padding: 8px 14px 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  animation: slideUpPill 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  transition: transform 0.3s, opacity 0.3s;
-}
-
-.floating-booking-pill.hidden {
   display: none !important;
-}
-
-.floating-booking-pill .pill-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.floating-booking-pill .pill-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 10px #22c55e;
-  animation: pulseDot 1.8s infinite;
-  flex-shrink: 0;
-}
-
-.floating-booking-pill .pill-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.floating-booking-pill .pill-heading {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--gold);
-  font-weight: 700;
-}
-
-.floating-booking-pill .pill-sub {
-  font-size: 12px;
-  color: #e5e5e5;
-  font-weight: 500;
-  max-width: 260px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.floating-booking-pill .pill-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.floating-booking-pill .pill-btn-cancel {
-  background: rgba(239, 68, 68, 0.14);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  color: #fca5a5;
-  border-radius: 20px;
-  font-size: 11.5px;
-  font-weight: 600;
-  padding: 5px 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s;
-}
-
-.floating-booking-pill .pill-btn-cancel:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-  transform: scale(1.03);
-}
-
-.floating-booking-pill .pill-btn-view {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: var(--muted);
-  border-radius: 20px;
-  font-size: 11.5px;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.floating-booking-pill .pill-btn-view:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-@keyframes slideUpPill {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .bookings-empty-state {

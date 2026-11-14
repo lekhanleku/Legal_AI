@@ -68,9 +68,31 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'admin.html'));
 });
 
-// Health check endpoint
+// Health check endpoint (verifies live SQLite connectivity)
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'LegalAI API is running smoothly' });
+  try {
+    const probe = db.prepare('SELECT 1 as ok').get();
+    const tblCountRow = db.prepare("SELECT COUNT(*) as cnt FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get();
+    res.json({
+      status: 'ok',
+      message: 'LegalAI API is running smoothly',
+      database: {
+        engine: 'sqlite',
+        connected: Boolean(probe && probe.ok === 1),
+        tables: tblCountRow ? tblCountRow.cnt : 0
+      }
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'degraded',
+      message: 'Database health check failed',
+      database: {
+        engine: 'sqlite',
+        connected: false,
+        error: err.message
+      }
+    });
+  }
 });
 
 // Port configuration

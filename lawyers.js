@@ -2,6 +2,13 @@
    LEGALAI — DEDICATED LAWYERS DIRECTORY ENGINE (lawyers.js)
    ================================================================ */
 
+(function enforceAuth() {
+  const token = localStorage.getItem('legalai_token');
+  if (!token) {
+    window.location.replace('index.html?auth=login&msg=Please+sign+in+to+access+the+Verified+Advocates+Directory');
+  }
+})();
+
 const SERVER_ORIGIN = (function() {
   if (window.location.protocol === 'file:') return 'http://localhost:5000';
   if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && window.location.port !== '5000') {

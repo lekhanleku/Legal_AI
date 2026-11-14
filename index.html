@@ -13,6 +13,15 @@
     (function(){
       var t = localStorage.getItem('legalai_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', t);
+      var token = localStorage.getItem('legalai_token');
+      var user = localStorage.getItem('legalai_user');
+      if (token && user) {
+        document.documentElement.classList.add('is-logged-in');
+        document.documentElement.classList.remove('is-logged-out');
+      } else {
+        document.documentElement.classList.add('is-logged-out');
+        document.documentElement.classList.remove('is-logged-in');
+      }
     })();
   </script>
   <script src="theme.js"></script>
@@ -27,7 +36,7 @@
       <!-- LEFT SECTION: THREE LINE MENU BUTTON & LOGO -->
       <div class="nav-left" id="nav-left">
         <!-- THREE LINE MENU BUTTON -->
-        <button class="nav-menu-btn" id="nav-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" title="Menu">
+        <button class="nav-menu-btn auth-protected-feature" id="nav-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" title="Menu">
           <span class="menu-bar"></span>
           <span class="menu-bar"></span>
           <span class="menu-bar"></span>
@@ -59,7 +68,7 @@
         <li><a href="#" class="nav-link active" id="nav-home">Home</a></li>
 
         <!-- LAWYERS & COURTS DROPDOWN -->
-        <li class="nav-item-dropdown">
+        <li class="nav-item-dropdown auth-protected-nav">
           <a href="#" class="nav-link nav-dropdown-trigger" id="nav-dir-trigger" onclick="return false;">
             Find Lawyers
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -108,7 +117,7 @@
         </li>
 
         <!-- AI & LEGAL HELP DROPDOWN -->
-        <li class="nav-item-dropdown">
+        <li class="nav-item-dropdown auth-protected-nav">
           <a href="#" class="nav-link nav-dropdown-trigger" id="nav-ai-trigger" onclick="return false;">
             AI &amp; Legal Help
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -146,7 +155,7 @@
         </li>
 
         <!-- USER & ADMIN PORTALS DROPDOWN -->
-        <li class="nav-item-dropdown">
+        <li class="nav-item-dropdown auth-protected-nav">
           <a href="#" class="nav-link nav-dropdown-trigger" id="nav-portals-trigger" onclick="return false;">
             Client &amp; Admin
             <svg class="dropdown-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -284,7 +293,7 @@
     </div>
 
     <!-- QUICK ASK AI PROMPT CARD -->
-    <div class="side-menu-ai-card" id="side-menu-ai-card">
+    <div class="side-menu-ai-card auth-protected-feature" id="side-menu-ai-card">
       <div class="side-menu-ai-badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M9 13v2"/><path d="M15 13v2"/></svg>
         <span>AI Legal Assistant</span>
@@ -297,7 +306,7 @@
     </div>
 
     <!-- DRAWER SCROLLABLE CONTENT -->
-    <div class="side-menu-body">
+    <div class="side-menu-body auth-protected-feature">
       <div class="side-menu-section-label">Main Navigation</div>
       <nav class="side-menu-nav">
         <a href="#" class="side-menu-link active" data-nav="home">
@@ -465,7 +474,7 @@
         </div>
       </div>
 
-      <div class="hero-cta" id="hero-cta">
+      <div class="hero-cta auth-protected-feature" id="hero-cta">
         <button class="cta-primary" id="cta-consult">
           Free Consultation
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -475,7 +484,7 @@
     </div>
 
     <!-- HERO STATS BAR -->
-    <div class="hero-stats" id="hero-stats">
+    <div class="hero-stats auth-protected-feature" id="hero-stats">
       <div class="stat-item">
         <span class="stat-num" data-target="1200">0</span><span class="stat-suffix">+</span>
         <span class="stat-label">Cases Won</span>
@@ -821,7 +830,7 @@
         </div>
         <div class="lawyer-modal-header-info">
           <div class="lawyer-modal-badges">
-            <span class="badge-verified">✓ Bar Verified</span>
+            <span class="badge-verified">Bar Verified</span>
             <span class="badge-specialty" id="lawyer-modal-specialty">Civil Litigation</span>
             <span class="badge-availability" id="lawyer-modal-avail">Available</span>
           </div>
@@ -1065,7 +1074,7 @@
   </div>
 
   <!-- FLOATING AI ASSISTANT TRIGGER BUTTON -->
-  <button class="ai-fab-btn" id="ai-fab-btn" aria-label="Open LegalAI Assistant">
+  <button class="ai-fab-btn auth-protected-feature" id="ai-fab-btn" aria-label="Open LegalAI Assistant">
     <div class="ai-fab-glow"></div>
     <div class="ai-fab-icon">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1118,12 +1127,12 @@
       <div class="ai-quick-topics" id="ai-quick-topics">
         <span class="ai-topics-label">Suggested Legal Topics:</span>
         <div class="ai-topics-scroll" id="ai-topics-list">
-          <button class="ai-topic-chip" data-query="What happens under IPC 420 after July 2024 with the new Bharatiya Nyaya Sanhita?">IPC 420 ➔ BNS 318(4) Transition</button>
+          <button class="ai-topic-chip" data-query="What happens under IPC 420 after July 2024 with the new Bharatiya Nyaya Sanhita?">IPC 420 to BNS 318(4) Transition</button>
           <button class="ai-topic-chip" data-query="What are my legal rights if my landlord refuses to return my security deposit?">Tenant Deposit Dispute</button>
           <button class="ai-topic-chip" data-query="Under what conditions can a tenant withhold rent under the warranty of habitability?">Habitability Preconditions</button>
           <button class="ai-topic-chip" data-query="What are my 5th and 6th Amendment constitutional rights during police questioning?">Police Rights & Miranda</button>
           <button class="ai-topic-chip" data-query="What are the NYC Local Law 144 bias audit requirements for AI employment tools?">NYC LL144 AI Hiring Audit</button>
-          <button class="ai-topic-chip" data-query="Can a tenant petition Huurcommissie under Dutch Civil Code Article 247?">🇳🇱 Dutch Tenancy Art. 7:247</button>
+          <button class="ai-topic-chip" data-query="Can a tenant petition Huurcommissie under Dutch Civil Code Article 247?">Dutch Tenancy Art. 7:247</button>
         </div>
       </div>
 
@@ -1226,7 +1235,7 @@
         <div class="rag-metric-item">
           <span class="rag-metric-dot pulse-purple"></span>
           <span class="rag-metric-label">Temporal Validity:</span>
-          <span class="rag-metric-val">IPC ➔ BNS 2024 Transition In Force</span>
+          <span class="rag-metric-val">IPC to BNS 2024 Transition In Force</span>
         </div>
       </div>
 
@@ -1691,25 +1700,6 @@
     </div>
   </div>
 
-  <!-- FLOATING QUICK ACTIVE BOOKING BAR -->
-  <div class="floating-booking-pill hidden" id="floating-booking-pill">
-    <div class="pill-left">
-      <span class="pill-dot"></span>
-      <div class="pill-content">
-        <span class="pill-heading">Scheduled Consultation</span>
-        <span class="pill-sub" id="floating-pill-sub">Alexander Wright, Esq. · 2026-09-23</span>
-      </div>
-    </div>
-    <div class="pill-actions">
-      <button class="pill-btn-cancel" id="floating-pill-cancel-btn" title="Cancel this scheduled consultation immediately">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        Cancel
-      </button>
-      <button class="pill-btn-view" onclick="openBookingsModal();" title="View in My Bookings">
-        My Bookings
-      </button>
-    </div>
-  </div>
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div class="toast-container" id="toast-container"></div>

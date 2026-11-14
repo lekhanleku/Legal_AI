@@ -3,7 +3,7 @@ LegalAI Machine Learning & RAG Indexing Pipeline
 Trains the NLP Domain Classifier and builds the FAISS Vector Index.
 """
 
-import o 
+import os
 import sys
 import json
 import joblib
@@ -25,8 +25,12 @@ from sklearn.metrics import classification_report, accuracy_score
 
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, BASE_DIR)
+from db_connector import load_statutes_from_db
+
 DATASET_PATH = os.path.join(BASE_DIR, "dataset", "legal_queries.csv")
-CORPUS_PATH = os.path.join(BASE_DIR, "data", "legal_corpus.json")
+CORPUS_PATH = os.path.join(BASE_DIR, "data", "legal_corpus_v2.json")
+LEGACY_CORPUS_PATH = os.path.join(BASE_DIR, "data", "legal_corpus.json")
 MODELS_DIR = os.path.join(BASE_DIR, "models")
 
 os.makedirs(MODELS_DIR, exist_ok=True)
@@ -75,8 +79,8 @@ report = classification_report(y_test, y_pred, output_dict=True)
 cv_scores = cross_val_score(pipeline, X, y, cv=5)
 
 print("\n" + "-" * 50)
-print(f"✅ ML Model Test Accuracy: {accuracy * 100:.2f}%")
-print(f"✅ 5-Fold Cross-Validation Accuracy: {cv_scores.mean() * 100:.2f}% (+/- {cv_scores.std() * 100:.2f}%)")
+print(f"[OK] ML Model Test Accuracy: {accuracy * 100:.2f}%")
+print(f"[OK] 5-Fold Cross-Validation Accuracy: {cv_scores.mean() * 100:.2f}% (+/- {cv_scores.std() * 100:.2f}%)")
 print("-" * 50)
 
 # Save Classifier
@@ -104,10 +108,14 @@ print(f"Saved training metrics to: {metrics_path}")
 # ============================================================
 print("\n[3/3] Building RAG Vector Store from Legal Knowledge Corpus...")
 
-with open(CORPUS_PATH, "r", encoding="utf-8") as f:
-    corpus = json.load(f)
-
-print(f"Loaded {len(corpus)} statutory chunks for semantic vector indexing.")
+corpus = load_statutes_from_db()
+if corpus:
+    print(f"Loaded {len(corpus)} statutory chunks from SQLite database for indexing.")
+else:
+    target_corpus = CORPUS_PATH if os.path.exists(CORPUS_PATH) else LEGACY_CORPUS_PATH
+    with open(target_corpus, "r", encoding="utf-8") as f:
+        corpus = json.load(f)
+    print(f"Loaded {len(corpus)} statutory chunks from JSON fallback ({target_corpus}).")
 
 corpus_texts = [
     f"{c['title']} ({c['domain']}) - {c['citation']}: {c['text']} Key elements: {' '.join(c.get('key_elements', []))}"
@@ -138,7 +146,7 @@ dim = embeddings.shape[1]
 index = faiss.IndexFlatIP(dim) # Inner Product on normalized vectors = Cosine Similarity
 index.add(embeddings.astype('float32'))
 
-print(f"✅ FAISS Vector Index created with {index.ntotal} documents (Dimension: {dim}).")
+print(f"[OK] FAISS Vector Index created with {index.ntotal} documents (Dimension: {dim}).")
 
 # Save Vector Index and Metadata
 faiss_path = os.path.join(MODELS_DIR, "faiss_index.bin")
@@ -162,5 +170,5 @@ print(f"Saved FAISS index to: {faiss_path}")
 print(f"Saved RAG metadata to: {meta_path}")
 
 print("\n" + "=" * 60)
-print("  🎉 MACHINE LEARNING & RAG PIPELINE BUILD COMPLETE! 🎉  ")
+print("  [COMPLETE] MACHINE LEARNING & RAG PIPELINE BUILD COMPLETE!  ")
 print("=" * 60)

@@ -12,6 +12,11 @@ Specifically handles:
 import datetime
 from typing import Dict, List, Optional, Any
 
+try:
+    from db_connector import load_statute_versions_from_db
+except Exception:
+    load_statute_versions_from_db = None
+
 
 # Master Cross-Code Transition Registry
 TRANSITION_MAP = {
@@ -156,8 +161,22 @@ class VersionManager:
     """Manages statutory versioning, effective dates, and transition warnings."""
 
     def __init__(self):
-        self.transition_registry = TRANSITION_MAP
+        self.transition_registry = dict(TRANSITION_MAP)
         self.cutoff_date_india = datetime.date(2024, 7, 1)
+        self.sync_from_db()
+
+    def sync_from_db(self) -> int:
+        """Merge statutory transitions from SQLite `statute_versions` into registry."""
+        merged = dict(TRANSITION_MAP)
+        if load_statute_versions_from_db is not None:
+            try:
+                db_versions = load_statute_versions_from_db()
+                if db_versions:
+                    merged.update(db_versions)
+            except Exception:
+                pass
+        self.transition_registry = merged
+        return len(self.transition_registry)
 
     def detect_temporal_context(self, query: str, query_date: Optional[str] = None) -> Dict[str, Any]:
         """
@@ -184,7 +203,7 @@ class VersionManager:
                 "severity": "CRITICAL",
                 "code": "IPC_TRANSITION",
                 "message": (
-                    "⚠️ **CRITICAL STATUTORY UPDATE:** The Indian Penal Code (IPC, 1860) was completely "
+                    "**CRITICAL STATUTORY UPDATE:** The Indian Penal Code (IPC, 1860) was completely "
                     "superseded on **1 July 2024** by the **Bharatiya Nyaya Sanhita (BNS, 2023)**. "
                     "Inquiries regarding post-July 2024 incidents must be evaluated under BNS."
                 )
@@ -209,7 +228,7 @@ class VersionManager:
                 "severity": "CRITICAL",
                 "code": "CRPC_TRANSITION",
                 "message": (
-                    "⚠️ **CRITICAL PROCEDURAL UPDATE:** The Code of Criminal Procedure (CrPC, 1973) "
+                    "**CRITICAL PROCEDURAL UPDATE:** The Code of Criminal Procedure (CrPC, 1973) "
                     "was replaced on **1 July 2024** by the **Bharatiya Nagarik Suraksha Sanhita (BNSS, 2023)**."
                 )
             })
@@ -244,7 +263,8 @@ class VersionManager:
         return self.transition_registry.get(key.upper())
 
     def get_all_transitions(self) -> Dict[str, Any]:
-        """Returns the full statutory versioning and transition catalog."""
+        """Returns the full statutory versioning and transition catalog (synced from SQLite)."""
+        self.sync_from_db()
         return self.transition_registry
 
 

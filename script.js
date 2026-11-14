@@ -377,7 +377,15 @@ switchToLogin?.addEventListener('click', (e) => {
   openModal('login');
 });
 
-// Update Navbar Auth State
+// Auth verification helper
+function isUserLoggedIn() {
+  const token = localStorage.getItem('legalai_token');
+  const user = localStorage.getItem('legalai_user');
+  return !!(token && user);
+}
+window.isUserLoggedIn = isUserLoggedIn;
+
+// Update Navbar Auth State & Gated Features
 function setLoggedInState(user) {
   const adminChip = document.getElementById('nav-admin-chip');
   const dropdownAdminItem = document.getElementById('dropdown-admin-item');
@@ -394,6 +402,11 @@ function setLoggedInState(user) {
   const sideAdminLink = document.getElementById('side-link-admin');
 
   if (!user) {
+    document.documentElement.classList.add('is-logged-out');
+    document.documentElement.classList.remove('is-logged-in');
+    document.body?.classList.add('user-logged-out');
+    document.body?.classList.remove('user-logged-in');
+
     loggedOutView?.classList.remove('hidden');
     loggedInView?.classList.add('hidden');
     adminChip?.classList.add('hidden');
@@ -402,15 +415,30 @@ function setLoggedInState(user) {
     sideLoggedOut?.classList.remove('hidden');
     sideLoggedIn?.classList.add('hidden');
     if (sideAdminLink) sideAdminLink.style.display = 'none';
+
+    // Hide protected nav dropdowns, hero CTAs, and FAB buttons
+    document.querySelectorAll('.auth-protected-nav, .auth-protected-feature').forEach(el => {
+      el.classList.add('hidden');
+    });
     return;
   }
+
+  document.documentElement.classList.remove('is-logged-out');
+  document.documentElement.classList.add('is-logged-in');
+  document.body?.classList.remove('user-logged-out');
+  document.body?.classList.add('user-logged-in');
+
+  // Unhide protected nav dropdowns, hero CTAs, and FAB buttons
+  document.querySelectorAll('.auth-protected-nav, .auth-protected-feature').forEach(el => {
+    el.classList.remove('hidden');
+  });
 
   const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
   if (userAvatarEl) userAvatarEl.textContent = initial;
   if (userNameEl) userNameEl.textContent = user.name;
   if (dropdownName) dropdownName.textContent = user.name;
   if (dropdownEmail) dropdownEmail.textContent = user.email || 'user@legalai.com';
-  if (dropdownRole) dropdownRole.textContent = user.role === 'admin' ? ' Master Administrator' : 'Verified Client';
+  if (dropdownRole) dropdownRole.textContent = user.role === 'admin' ? 'Master Administrator' : 'Verified Client';
 
   loggedOutView?.classList.add('hidden');
   loggedInView?.classList.remove('hidden');
@@ -457,10 +485,14 @@ async function initSession() {
   const token = localStorage.getItem('legalai_token');
   const cachedUser = localStorage.getItem('legalai_user');
 
-  if (cachedUser) {
+  if (cachedUser && token) {
     try {
       setLoggedInState(JSON.parse(cachedUser));
-    } catch (e) {}
+    } catch (e) {
+      setLoggedInState(null);
+    }
+  } else {
+    setLoggedInState(null);
   }
 
   if (!token) return;
@@ -611,6 +643,22 @@ function checkPendingConsultationResume() {
   }
 }
 checkPendingConsultationResume();
+
+// Auto-open auth modal if redirected with ?auth=login
+function checkUrlAuthTriggers() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('auth') === 'login') {
+    const msg = params.get('msg');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    setTimeout(() => {
+      if (typeof openModal === 'function') {
+        openModal('login');
+        if (msg) showToast(decodeURIComponent(msg), 'info');
+      }
+    }, 250);
+  }
+}
+checkUrlAuthTriggers();
 
 // ===================================
 // LEGALAI ASSISTANT (FRONTEND CLIENT)
@@ -1248,7 +1296,9 @@ function openAIDrawer() {
 function closeAIDrawer() {
   if (!aiDrawer) return;
   aiDrawer.classList.add('hidden');
-  aiFabBtn?.classList.remove('hidden');
+  if (isUserLoggedIn()) {
+    aiFabBtn?.classList.remove('hidden');
+  }
 }
 
 // Global cache for AI matched lawyer & court recommendations
@@ -1359,6 +1409,11 @@ function renderSuggestedCourtCardHTML(court) {
 
 // Global action handlers for AI cards
 window.handleAILawyerConsult = function(lawyerId) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in or create an account to book a consultation with this advocate.', 'info');
+    return;
+  }
   const lawyerObj = window.aiSuggestionsCache.lawyers[lawyerId];
   if (lawyerObj && !lawyersData.find(l => l.id === lawyerId)) {
     lawyersData.push(lawyerObj);
@@ -1369,6 +1424,11 @@ window.handleAILawyerConsult = function(lawyerId) {
 };
 
 window.handleAICourtDetails = function(courtId) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to view court details and jurisdiction maps.', 'info');
+    return;
+  }
   const courtObj = window.aiSuggestionsCache.courts[courtId];
   if (courtObj && !courtsData.find(c => c.id === courtId)) {
     courtsData.push(courtObj);
@@ -1379,6 +1439,11 @@ window.handleAICourtDetails = function(courtId) {
 };
 
 window.scrollToLawyerProfile = function(lawyerName, lawyerId) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to view advocate credentials.', 'info');
+    return;
+  }
   window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
@@ -1722,6 +1787,11 @@ navAiLink?.addEventListener('click', (e) => {
 // Hero "Free Consultation" CTA
 ctaConsultBtn?.addEventListener('click', (e) => {
   e.preventDefault();
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to book a free legal consultation.', 'info');
+    return;
+  }
   openAIDrawer();
 });
 
@@ -1729,6 +1799,11 @@ ctaConsultBtn?.addEventListener('click', (e) => {
 const ctaLearnBtn = document.getElementById('cta-learn');
 ctaLearnBtn?.addEventListener('click', (e) => {
   e.preventDefault();
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to explore LegalAI features.', 'info');
+    return;
+  }
   if (typeof openArticlesModal === 'function') {
     openArticlesModal();
   } else if (typeof openAIDrawer === 'function') {
@@ -1804,6 +1879,11 @@ const ragLabTabsNav      = document.getElementById('rag-lab-tabs-nav');
 
 // Open / Close RAG Lab Modal
 window.openRagLabModal = function(targetTab = 'tab-router') {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to access the AI Law Search Lab.', 'info');
+    return;
+  }
   if (!ragLabModalOverlay) return;
   ragLabModalOverlay.classList.remove('hidden');
 
@@ -3852,11 +3932,21 @@ window.handleLawyerCardClick = function(event, lawyerId) {
   if (event.target.closest('button') || event.target.closest('a') || event.target.closest('input')) {
     return;
   }
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to view advocate profiles.', 'info');
+    return;
+  }
   // Navigate to advocate profile in same tab
   window.location.href = 'lawyers.html?lawyer=' + encodeURIComponent(lawyerId);
 };
 
 window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to view full advocate credentials and case records.', 'info');
+    return;
+  }
   let lawyer = null;
 
   // 1. Try finding in loaded lawyersData
@@ -4305,6 +4395,11 @@ const navLawyersLink = document.getElementById('nav-lawyers');
 if (navLawyersLink) {
   navLawyersLink.addEventListener('click', (e) => {
     e.preventDefault();
+    if (!isUserLoggedIn()) {
+      openModal('login');
+      showToast('Please sign in to access the Verified Advocates Directory.', 'info');
+      return;
+    }
     window.location.href = 'lawyers.html';
   });
 }
@@ -4335,6 +4430,11 @@ const navBookingsCount      = document.getElementById('nav-bookings-count');
 const badgeBookedCount      = document.getElementById('badge-booked-count');
 
 window.openBookingsModal = function() {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to view your booked consultations.', 'info');
+    return;
+  }
   if (bookingsModalOverlay) {
     bookingsModalOverlay.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
@@ -4350,6 +4450,11 @@ window.closeBookingsModal = function() {
 };
 
 window.scrollToLawyers = function() {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to browse verified advocates.', 'info');
+    return;
+  }
   window.location.href = 'lawyers.html';
 };
 
@@ -4409,24 +4514,10 @@ function updateBookingsCounters(count) {
 
 function updateFloatingBookingPill() {
   const pill = document.getElementById('floating-booking-pill');
-  const sub = document.getElementById('floating-pill-sub');
-  const cancelBtn = document.getElementById('floating-pill-cancel-btn');
-  if (!pill) return;
-
-  const activeBookings = (bookingsData || []).filter(b => b.status !== 'cancelled');
-  if (activeBookings.length === 0) {
+  if (pill) {
     pill.classList.add('hidden');
-    return;
+    pill.remove();
   }
-
-  const latest = activeBookings[0];
-  if (sub) {
-    sub.textContent = `${latest.lawyerName || 'Attorney'} ·  ${latest.preferredDate || 'Upcoming'}`;
-  }
-  if (cancelBtn) {
-    cancelBtn.onclick = () => cancelConsultationBooking(latest.id, true);
-  }
-  pill.classList.remove('hidden');
 }
 
 async function fetchAndRenderBookings() {
@@ -5248,6 +5339,11 @@ function populateCourtModalQuickSelect(courts) {
 }
 
 window.openCourtModal = function(courtId, fallbackCourt = null) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to access India Courts & Maps Directory.', 'info');
+    return;
+  }
   const overlay = courtModalOverlay || document.getElementById('court-modal-overlay');
   if (!overlay) return;
 
@@ -5823,6 +5919,11 @@ const PRACTICE_AREA_DATA = {
 
 // ── Open Practice Area Modal ──
 function openPracticeModal(areaKey) {
+  if (!isUserLoggedIn()) {
+    openModal('login');
+    showToast('Please sign in to explore Practice Area legal guides.', 'info');
+    return;
+  }
   const data = PRACTICE_AREA_DATA[areaKey];
   if (!data) return;
 
@@ -5929,6 +6030,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── OPEN MODAL ──
   window.openArticlesModal = function () {
+    if (!isUserLoggedIn()) {
+      openModal('login');
+      showToast('Please sign in to read Legal Guides & Court News.', 'info');
+      return;
+    }
     if (!articlesOverlay) return;
     articlesOverlay.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
