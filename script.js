@@ -5432,10 +5432,32 @@ window.openCourtModal = function(courtId, fallbackCourt = null) {
   if (modalSpecialtySelect) {
     modalSpecialtySelect.value = 'All Specialties';
   }
+  if (typeof switchCourtModalTab === 'function') {
+    switchCourtModalTab('overview');
+  }
   renderCourtModalLawyersAndRules(court, 'All Specialties');
 
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+};
+
+window.switchCourtModalTab = function(tabName) {
+  const tabOverview = document.getElementById('court-tab-btn-overview');
+  const tabLawyers = document.getElementById('court-tab-btn-lawyers');
+  const panelOverview = document.getElementById('court-modal-panel-overview');
+  const panelLawyers = document.getElementById('court-modal-panel-lawyers');
+
+  if (tabName === 'lawyers') {
+    if (tabOverview) tabOverview.classList.remove('active');
+    if (tabLawyers) tabLawyers.classList.add('active');
+    if (panelOverview) panelOverview.classList.add('hidden-panel');
+    if (panelLawyers) panelLawyers.classList.remove('hidden-panel');
+  } else {
+    if (tabOverview) tabOverview.classList.add('active');
+    if (tabLawyers) tabLawyers.classList.remove('active');
+    if (panelOverview) panelOverview.classList.remove('hidden-panel');
+    if (panelLawyers) panelLawyers.classList.add('hidden-panel');
+  }
 };
 
 let activeModalCourt = null;
@@ -5445,6 +5467,10 @@ function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
 
   const lawyersGrid = document.getElementById('court-modal-lawyers-grid');
   const lawyersCount = document.getElementById('court-modal-lawyers-count');
+  const optCountPill = document.getElementById('court-modal-lawyer-opt-count');
+  const tabLawyersBadge = document.getElementById('court-tab-lawyers-badge');
+  const ctaLawyerCount = document.getElementById('court-modal-cta-lawyer-count');
+  const lawyerSelect = document.getElementById('court-modal-lawyer-select');
   const filterLawyersBtn = document.getElementById('court-modal-filter-lawyers-btn');
   const ruleBannerTitle = document.getElementById('rule-banner-title');
   const ruleBannerActs = document.getElementById('rule-banner-acts');
@@ -5459,7 +5485,7 @@ function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
         governingActs: 'Code of Civil Procedure, 1908 / Bharatiya Nagarik Suraksha Sanhita, 2023',
         ruleSummary: 'Territorial and pecuniary jurisdiction governs trial proceedings before this bench.',
         proceduralRequirements: 'Representation by verified State Bar Advocate.',
-        appellateHierarchy: 'Subordinate Court → District Court → High Court → Supreme Court.'
+        appellateHierarchy: 'Subordinate Court -> District Court -> High Court -> Supreme Court.'
       };
 
   if (ruleBannerTitle) ruleBannerTitle.textContent = jurRule.title;
@@ -5479,6 +5505,25 @@ function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
 
   if (lawyersCount) {
     lawyersCount.textContent = courtLawyers.length;
+  }
+  if (optCountPill) {
+    optCountPill.textContent = `${courtLawyers.length} Available`;
+  }
+  if (tabLawyersBadge) {
+    tabLawyersBadge.textContent = courtLawyers.length;
+  }
+  if (ctaLawyerCount) {
+    ctaLawyerCount.textContent = `${courtLawyers.length} verified advocate${courtLawyers.length === 1 ? '' : 's'}`;
+  }
+
+  // Populate Practicing Lawyer Profile Quick-Select Dropdown
+  if (lawyerSelect) {
+    let lawyerOpts = '<option value="">-- Choose Practicing Lawyer Profile --</option>';
+    const listForSelect = courtLawyers.length > 0 ? courtLawyers : ((typeof window.getLawyersForCourt === 'function') ? window.getLawyersForCourt(court.code) : []);
+    listForSelect.forEach(l => {
+      lawyerOpts += `<option value="${l.id}">${escapeHtml(l.name)} (${escapeHtml(l.specialty)} · ${l.experienceYears}+ Yrs · ₹${Number(l.hourlyRate).toLocaleString('en-IN')}/hr)</option>`;
+    });
+    lawyerSelect.innerHTML = lawyerOpts;
   }
 
   if (filterLawyersBtn) {
@@ -5507,35 +5552,91 @@ function renderCourtModalLawyersAndRules(court, specialty = 'All Specialties') {
 
 function renderCourtLawyerCardHTML(l, isFilteredMatch) {
   const isMatch = l.isJurisdictionMatch || isFilteredMatch;
+  const isAvail = l.isAvailable !== 0;
+  const avatarEl = l.avatarUrl
+    ? `<img class="lawyer-avatar" src="${escapeHtml(l.avatarUrl)}" alt="${escapeHtml(l.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="lawyer-avatar-fallback" style="display:none">${getInitials(l.name)}</div>`
+    : `<div class="lawyer-avatar-fallback">${getInitials(l.name)}</div>`;
+
+  const availBadge = isAvail
+    ? `<span class="badge-availability available" title="Available for consultation"><span class="status-pulse-dot"></span> Available for Consult</span>`
+    : `<span class="badge-availability booked" title="Currently retained on active trial dockets"><span class="status-busy-dot"></span> Booked / In Trial</span>`;
+
   return `
-    <div class="court-lawyer-card ${isMatch ? 'court-lawyer-card-matched' : ''}" onclick="openLawyerProfileFromCourt('${l.id}')" title="Click to view full credentials of ${escapeHtml(l.name)}">
+    <div class="lawyer-card ${isAvail ? 'card-available' : 'card-booked'} ${isMatch ? 'court-lawyer-card-matched' : ''}" id="court-lawyer-card-${l.id}" data-id="${l.id}" onclick="openLawyerProfileFromCourt('${l.id}')" title="Click to view full credentials of ${escapeHtml(l.name)}">
       ${isMatch ? `
-        <div class="court-lawyer-match-banner">
+        <div class="court-lawyer-match-banner" style="margin:-22px -20px 14px -20px; border-radius:12px 12px 0 0; padding:6px 14px; background:linear-gradient(90deg, rgba(184,149,106,0.22), rgba(184,149,106,0.06)); border-bottom:1px solid rgba(184,149,106,0.28); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--gold-light); display:flex; align-items:center; gap:6px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           <span>Recommended ${escapeHtml(l.specialty)} Counsel for this Court</span>
         </div>
       ` : ''}
-      <div class="court-lawyer-card-top">
-        <img src="${escapeHtml(l.avatarUrl || 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=400&q=80')}" alt="${escapeHtml(l.name)}" class="court-lawyer-avatar" loading="lazy"/>
-        <div class="court-lawyer-info">
-          <div class="court-lawyer-name">${escapeHtml(l.name)}</div>
-          <div class="court-lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
-          <div class="court-lawyer-pills">
-            <span class="court-lawyer-spec-pill">${escapeHtml(l.specialty)}</span>
-            <span class="court-lawyer-win-pill">${l.experienceYears}+ Yrs · ${l.successRate || 95}% Win</span>
-            ${l.barNumber ? `<span class="court-lawyer-bar-pill">Bar: ${escapeHtml(l.barNumber)}</span>` : ''}
+      <div class="lawyer-card-header">
+        <div class="lawyer-avatar-clickable" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')" title="Click to view advocate details">
+          ${avatarEl}
+        </div>
+        <div class="lawyer-header-info">
+          <div class="lawyer-name" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')" title="Click to view advocate details">${escapeHtml(l.name)}</div>
+          <div class="lawyer-title">${escapeHtml(l.title || 'Advocate')}</div>
+          <div class="lawyer-badges">
+            <span class="badge-verified">Bar Verified</span>
+            <span class="badge-specialty" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')">${escapeHtml(l.specialty)}</span>
+            ${availBadge}
           </div>
         </div>
       </div>
-      <div class="court-lawyer-card-mid">
-        <div class="court-lawyer-rate">₹${Number(l.hourlyRate).toLocaleString('en-IN')}<span class="court-lawyer-rate-unit"> / hr</span></div>
-        <div class="court-lawyer-rating">${Number(l.rating).toFixed(1)} / 5.0 <span class="court-lawyer-reviews">(${l.reviewCount || 100} reviews)</span></div>
+
+      <div class="lawyer-rating-row">
+        <span class="stars">${renderStars(l.rating || 5.0)}</span>
+        <span class="lawyer-rating-val">${Number(l.rating || 5.0).toFixed(1)}</span>
+        <span class="lawyer-review-count">(${l.reviewCount || 100} reviews)</span>
       </div>
-      <div class="court-lawyer-card-actions">
-        <button type="button" class="btn-court-book-lawyer" onclick="event.stopPropagation(); bookLawyerFromCourt('${l.id}')">
-           Book Consultation
+
+      <div class="lawyer-stats-row">
+        <div class="lawyer-stat">
+          <span class="lawyer-stat-val">${l.experienceYears || 15}+</span>
+          <span class="lawyer-stat-lbl">Yrs Exp</span>
+        </div>
+        <div class="lawyer-stat">
+          <span class="lawyer-stat-val">${l.casesWon || 250}</span>
+          <span class="lawyer-stat-lbl">Cases Won</span>
+        </div>
+        <div class="lawyer-stat">
+          <span class="lawyer-stat-val">${l.successRate || 95}%</span>
+          <span class="lawyer-stat-lbl">Win Rate</span>
+        </div>
+        <div class="lawyer-stat">
+          <span class="lawyer-stat-val">₹${Number(l.hourlyRate || 10000).toLocaleString('en-IN')}</span>
+          <span class="lawyer-stat-lbl">Per Hour</span>
+        </div>
+      </div>
+
+      <div class="lawyer-details-list">
+        <div class="lawyer-detail-item lawyer-court-affiliation-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="m3 7 9-3 9 3"/><path d="m6 10-3 6h6l-3-6z"/><path d="m18 10-3 6h6l-3-6z"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+          <span>Courts: <strong style="color:var(--gold-light);">${escapeHtml(l.practicingCourts || l.primaryCourt || 'Supreme Court of India')}</strong></span>
+        </div>
+        <div class="lawyer-detail-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>${escapeHtml(l.firmName || 'Chambers of Advocate')} — ${escapeHtml(l.city || 'New Delhi')}, ${escapeHtml(l.state || 'Delhi')}</span>
+        </div>
+        <div class="lawyer-detail-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Bar Enrollment: <strong>${escapeHtml(l.barNumber || 'Verified')}</strong></span>
+        </div>
+        <div class="lawyer-detail-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>${escapeHtml(l.education || 'Faculty of Law')}</span>
+        </div>
+      </div>
+
+      <p class="lawyer-bio">${escapeHtml(l.bio || '')}</p>
+
+      <div class="lawyer-card-footer">
+        <button type="button" class="btn-consult" onclick="event.stopPropagation(); bookLawyerFromCourt('${l.id}')">
+          Book Consultation
         </button>
-        <button type="button" class="btn-court-view-lawyer" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')">
-          Full Profile
+        <button type="button" class="btn-profile" onclick="event.stopPropagation(); openLawyerProfileFromCourt('${l.id}')" style="display:inline-flex; align-items:center; gap:5px;" title="View full advocate credentials">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          Full Details
         </button>
       </div>
     </div>
@@ -5600,6 +5701,41 @@ if (courtModalQuickSelect) {
   courtModalQuickSelect.addEventListener('change', (e) => {
     if (e.target.value) {
       window.openCourtModal(e.target.value);
+    }
+  });
+}
+
+// Practicing Lawyer Profile Option listeners in Court Modal
+const courtModalLawyerSelect = document.getElementById('court-modal-lawyer-select');
+if (courtModalLawyerSelect) {
+  courtModalLawyerSelect.addEventListener('change', (e) => {
+    const selectedId = e.target.value;
+    if (!selectedId) return;
+    if (typeof switchCourtModalTab === 'function') {
+      switchCourtModalTab('lawyers');
+    }
+    setTimeout(() => {
+      const targetCard = document.getElementById(`court-lawyer-card-${selectedId}`);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetCard.style.outline = '2px solid var(--gold)';
+        targetCard.style.boxShadow = '0 0 20px rgba(184,149,106,0.5)';
+        setTimeout(() => {
+          targetCard.style.outline = '';
+          targetCard.style.boxShadow = '';
+        }, 2500);
+      } else {
+        openLawyerProfileFromCourt(selectedId);
+      }
+    }, 120);
+  });
+}
+
+const btnCourtOptToggle = document.getElementById('btn-court-opt-toggle-lawyers');
+if (btnCourtOptToggle) {
+  btnCourtOptToggle.addEventListener('click', () => {
+    if (typeof switchCourtModalTab === 'function') {
+      switchCourtModalTab('lawyers');
     }
   });
 }
@@ -7935,7 +8071,7 @@ function updateNewsUIStrings() {
   if (pKar) pKar.textContent = ui.karnatakaHighCourt || ' Karnataka & High Courts (Art. 226)';
 
   const pBasic = document.getElementById('pill-region-basic');
-  if (pBasic) pBasic.textContent = ui.basicStructure || '🇮🇳 Basic Structure & Democracy';
+  if (pBasic) pBasic.textContent = ui.basicStructure || 'Basic Structure & Democracy';
 
   const pEquality = document.getElementById('pill-region-equality');
   if (pEquality) pEquality.textContent = ui.equalityJustice || ' Equality & Non-Discrimination (Art. 14-16)';

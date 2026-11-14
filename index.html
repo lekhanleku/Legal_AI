@@ -925,122 +925,183 @@
         <h3 class="court-modal-title" id="court-modal-title">Supreme Court of India</h3>
         <p class="court-modal-circuit" id="court-modal-circuit">New Delhi · All India Apex Jurisdiction</p>
 
-        <!-- Court Quick Switcher -->
-        <div class="court-modal-selector-wrap" style="margin: 16px 0 6px 0;">
-          <label for="court-modal-quick-select" style="display:flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--gold); margin-bottom:6px;">
+        <!-- Practicing Lawyer Profile Option Bar -->
+        <div class="court-modal-lawyer-opt-bar" id="court-modal-lawyer-opt-bar">
+          <div class="court-lawyer-opt-left">
+            <div class="court-lawyer-opt-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="court-lawyer-opt-meta">
+              <div class="court-lawyer-opt-label">PRACTICING LAWYER PROFILES</div>
+              <div class="court-lawyer-opt-title">
+                <span>Verified Advocates &amp; Senior Counsel</span>
+                <span class="court-lawyer-opt-count-pill" id="court-modal-lawyer-opt-count">0 Available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="court-lawyer-opt-right">
+            <!-- Quick Lawyer Profile Selector Option -->
+            <div class="court-lawyer-dropdown-wrap">
+              <select id="court-modal-lawyer-select" class="court-modal-lawyer-select" aria-label="Select Practicing Lawyer Profile">
+                <option value="">-- Choose Practicing Lawyer Profile --</option>
+              </select>
+            </div>
+            <div class="court-lawyer-opt-actions">
+              <button type="button" class="btn-court-opt-profile" id="btn-court-opt-toggle-lawyers" title="View advocate profile cards">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Lawyer Profiles</span>
+              </button>
+              <a href="lawyers.html" class="btn-court-opt-dir" id="court-modal-lawyers-dir-link" title="Open complete Verified Advocates Directory">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>All Advocates</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hidden input keeping court quick-select backward compatibility -->
+          <select id="court-modal-quick-select" class="court-modal-quick-select" style="display:none;" aria-hidden="true"></select>
+        </div>
+
+        <!-- Court Modal View Switcher Navigation Tabs -->
+        <div class="court-modal-tabs" id="court-modal-tabs">
+          <button type="button" class="court-modal-tab active" id="court-tab-btn-overview" onclick="switchCourtModalTab('overview')">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg>
-            Select Indian Court / Jurisdiction:
-          </label>
-          <select id="court-modal-quick-select" class="court-modal-quick-select" aria-label="Select Indian Court to view details and map" style="width:100%; padding:10px 14px; background:#1e1a16; border:1.5px solid rgba(184,149,106,0.35); border-radius:8px; color:#fff; font-family:'Inter', sans-serif; font-size:13.5px; outline:none; cursor:pointer;">
-            <option value="">-- Switch Indian Court or Bench --</option>
-          </select>
+            <span>Court Overview &amp; Map</span>
+          </button>
+          <button type="button" class="court-modal-tab" id="court-tab-btn-lawyers" onclick="switchCourtModalTab('lawyers')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Practicing Lawyer Profiles (<span id="court-tab-lawyers-badge">0</span>)</span>
+          </button>
         </div>
       </div>
 
       <div class="court-modal-body">
-        <div class="court-modal-stats-grid">
-          <div class="court-mstat">
-            <span class="court-mstat-lbl">Jurisdiction Level</span>
-            <span class="court-mstat-val" id="court-modal-level">Supreme</span>
-          </div>
-          <div class="court-mstat">
-            <span class="court-mstat-lbl">Chief Presiding Judge</span>
-            <span class="court-mstat-val" id="court-modal-judge">Chief Justice of India</span>
-          </div>
-          <div class="court-mstat">
-            <span class="court-mstat-lbl">Electronic Filing Portal</span>
-            <span class="court-mstat-val" id="court-modal-filing">Supreme Court e-Filing 3.0 / CIS</span>
-          </div>
-          <div class="court-mstat">
-            <span class="court-mstat-lbl">Clerk Office Hours</span>
-            <span class="court-mstat-val" id="court-modal-hours">Mon - Fri: 10:00 AM - 5:00 PM IST</span>
-          </div>
-        </div>
-
-        <div class="court-modal-section">
-          <h4 class="court-msection-title">Physical Address &amp; Contact</h4>
-          <div class="court-minfo-row">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span id="court-modal-address">Court Complex Address</span>
-          </div>
-          <div class="court-minfo-row">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span id="court-modal-phone">+91 11 2338 8922</span>
-          </div>
-        </div>
-
-        <!-- COURT LIVE MAP CONTAINER -->
-        <div class="court-modal-section court-modal-map-section">
-          <div class="court-map-title-row">
-            <h4 class="court-msection-title">Court Location &amp; Live Google Maps Directions</h4>
-            <a href="#" id="court-modal-map-btn" class="court-map-open-btn">
-              <span>Open in Google Maps App</span>
-            </a>
-          </div>
-          <div class="court-map-frame-box">
-            <iframe id="court-modal-map-iframe" class="court-map-iframe" src="" title="Court Live Location Map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-          <div class="court-map-footer-coords">
-            <span id="court-modal-coords-label">Pinpoint GPS Location &amp; Navigation Ready</span>
-          </div>
-        </div>
-
-        <div class="court-modal-section">
-          <h4 class="court-msection-title">Judicial Scope & Overview</h4>
-          <p class="court-modal-desc" id="court-modal-overview">Overview text...</p>
-        </div>
-
-        <div class="court-modal-section">
-          <h4 class="court-msection-title">Primary Divisions & Dockets</h4>
-          <div class="court-modal-divisions" id="court-modal-divisions"></div>
-        </div>
-
-        <!-- ADVOCATES PRACTICING IN THIS COURT -->
-        <div class="court-modal-section court-modal-lawyers-section" id="court-modal-lawyers-section">
-          <div class="court-lawyers-header-row">
-            <h4 class="court-msection-title">Verified Advocates Practicing in this Court (<span id="court-modal-lawyers-count" style="color:var(--gold);">0</span>)</h4>
-            <a href="lawyers.html" class="court-view-all-lawyers-btn" id="court-modal-filter-lawyers-btn" title="View in Advocates Directory">
-              <span>View in Directory</span>
-            </a>
-          </div>
-          <p class="court-lawyers-subtitle">Licensed Senior Counsel, Partners, and Trial Advocates enrolled before this jurisdiction's bar:</p>
-
-          <!-- LEGAL AREA / SPECIALTY FILTER ROW -->
-          <div class="court-specialty-filter-row">
-            <div class="court-specialty-filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <span>Legal Area / Specialty:</span>
-            </div>
-            <select id="court-modal-specialty-select" class="court-modal-specialty-select" aria-label="Filter advocates by legal area">
-              <option value="All Specialties">All Legal Areas &amp; Practice Specialties</option>
-              <option value="Criminal Law">Criminal Law &amp; Bail Defense</option>
-              <option value="Corporate Law">Corporate, Commercial &amp; Contracts</option>
-              <option value="Real Estate Law">Real Estate, Land &amp; Property Law</option>
-              <option value="Civil Rights">Constitutional Law &amp; Writs</option>
-              <option value="Family Law">Family, Divorce &amp; Custody</option>
-              <option value="Intellectual Property">Intellectual Property &amp; Tech</option>
-              <option value="Employment Law">Employment &amp; Labor Rights</option>
-              <option value="Personal Injury">Personal Injury &amp; MACT Claims</option>
-              <option value="Tax Law">Taxation &amp; Revenue Appeals</option>
-            </select>
-          </div>
-
-          <!-- JURISDICTION & LEGAL RULES ADVISORY BANNER -->
-          <div class="court-jurisdiction-rule-banner" id="court-jurisdiction-rule-banner">
-            <div class="rule-banner-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg></div>
-            <div class="rule-banner-content">
-              <div class="rule-banner-header">
-                <span class="rule-banner-tag">APPLICABLE JURISDICTION &amp; COURT RULES</span>
-                <h5 class="rule-banner-title" id="rule-banner-title">Court Jurisdiction &amp; Legal Rules</h5>
+        <!-- TAB PANEL 1: COURT OVERVIEW & LOCATION MAP -->
+        <div class="court-modal-tab-panel active" id="court-modal-panel-overview">
+          <div class="court-lawyers-quick-cta" onclick="switchCourtModalTab('lawyers')">
+            <div class="court-cta-left">
+              <div class="court-cta-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               </div>
-              <div class="rule-banner-acts" id="rule-banner-acts">Governing Statute / Procedural Act</div>
-              <p class="rule-banner-desc" id="rule-banner-desc">Legal rules and procedural requirements governing this court.</p>
-              <div class="rule-banner-meta" id="rule-banner-meta">Procedural Requirements &amp; Appellate Hierarchy</div>
+              <div class="court-cta-text">
+                <strong>Need Legal Representation in this Court?</strong>
+                <span>Consult <span id="court-modal-cta-lawyer-count">verified advocates</span> practicing before this bench</span>
+              </div>
+            </div>
+            <button type="button" class="btn-court-cta-view" onclick="event.stopPropagation(); switchCourtModalTab('lawyers')">
+              <span>View Lawyer Profiles</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <div class="court-modal-stats-grid">
+            <div class="court-mstat">
+              <span class="court-mstat-lbl">Jurisdiction Level</span>
+              <span class="court-mstat-val" id="court-modal-level">Supreme</span>
+            </div>
+            <div class="court-mstat">
+              <span class="court-mstat-lbl">Chief Presiding Judge</span>
+              <span class="court-mstat-val" id="court-modal-judge">Chief Justice of India</span>
+            </div>
+            <div class="court-mstat">
+              <span class="court-mstat-lbl">Electronic Filing Portal</span>
+              <span class="court-mstat-val" id="court-modal-filing">Supreme Court e-Filing 3.0 / CIS</span>
+            </div>
+            <div class="court-mstat">
+              <span class="court-mstat-lbl">Clerk Office Hours</span>
+              <span class="court-mstat-val" id="court-modal-hours">Mon - Fri: 10:00 AM - 5:00 PM IST</span>
             </div>
           </div>
 
-          <div class="court-modal-lawyers-grid" id="court-modal-lawyers-grid">
-            <!-- Rendered dynamically -->
+          <div class="court-modal-section">
+            <h4 class="court-msection-title">Physical Address &amp; Contact</h4>
+            <div class="court-minfo-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span id="court-modal-address">Court Complex Address</span>
+            </div>
+            <div class="court-minfo-row">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span id="court-modal-phone">+91 11 2338 8922</span>
+            </div>
+          </div>
+
+          <!-- COURT LIVE MAP CONTAINER -->
+          <div class="court-modal-section court-modal-map-section">
+            <div class="court-map-title-row">
+              <h4 class="court-msection-title">Court Location &amp; Live Google Maps Directions</h4>
+              <a href="#" id="court-modal-map-btn" class="court-map-open-btn">
+                <span>Open in Google Maps App</span>
+              </a>
+            </div>
+            <div class="court-map-frame-box">
+              <iframe id="court-modal-map-iframe" class="court-map-iframe" src="" title="Court Live Location Map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="court-map-footer-coords">
+              <span id="court-modal-coords-label">Pinpoint GPS Location &amp; Navigation Ready</span>
+            </div>
+          </div>
+
+          <div class="court-modal-section">
+            <h4 class="court-msection-title">Judicial Scope & Overview</h4>
+            <p class="court-modal-desc" id="court-modal-overview">Overview text...</p>
+          </div>
+
+          <div class="court-modal-section">
+            <h4 class="court-msection-title">Primary Divisions & Dockets</h4>
+            <div class="court-modal-divisions" id="court-modal-divisions"></div>
+          </div>
+        </div>
+
+        <!-- TAB PANEL 2: PRACTICING LAWYER PROFILES -->
+        <div class="court-modal-tab-panel hidden-panel" id="court-modal-panel-lawyers">
+          <!-- ADVOCATES PRACTICING IN THIS COURT -->
+          <div class="court-modal-section court-modal-lawyers-section" id="court-modal-lawyers-section" style="margin-top:0;">
+            <div class="court-lawyers-header-row">
+              <h4 class="court-msection-title">Verified Advocates Practicing in this Court (<span id="court-modal-lawyers-count" style="color:var(--gold);">0</span>)</h4>
+              <a href="lawyers.html" class="court-view-all-lawyers-btn" id="court-modal-filter-lawyers-btn" title="View in Advocates Directory">
+                <span>View in Directory</span>
+              </a>
+            </div>
+            <p class="court-lawyers-subtitle">Licensed Senior Counsel, Partners, and Trial Advocates enrolled before this jurisdiction's bar:</p>
+
+            <!-- LEGAL AREA / SPECIALTY FILTER ROW -->
+            <div class="court-specialty-filter-row">
+              <div class="court-specialty-filter-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <span>Legal Area / Specialty:</span>
+              </div>
+              <select id="court-modal-specialty-select" class="court-modal-specialty-select" aria-label="Filter advocates by legal area">
+                <option value="All Specialties">All Legal Areas &amp; Practice Specialties</option>
+                <option value="Criminal Law">Criminal Law &amp; Bail Defense</option>
+                <option value="Corporate Law">Corporate, Commercial &amp; Contracts</option>
+                <option value="Real Estate Law">Real Estate, Land &amp; Property Law</option>
+                <option value="Civil Rights">Constitutional Law &amp; Writs</option>
+                <option value="Family Law">Family, Divorce &amp; Custody</option>
+                <option value="Intellectual Property">Intellectual Property &amp; Tech</option>
+                <option value="Employment Law">Employment &amp; Labor Rights</option>
+                <option value="Personal Injury">Personal Injury &amp; MACT Claims</option>
+                <option value="Tax Law">Taxation &amp; Revenue Appeals</option>
+              </select>
+            </div>
+
+            <!-- JURISDICTION & LEGAL RULES ADVISORY BANNER -->
+            <div class="court-jurisdiction-rule-banner" id="court-jurisdiction-rule-banner">
+              <div class="rule-banner-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 7l9-3 9 3M6 10l-3 6h6l-3-6zM18 10l-3 6h6l-3-6zM3 21h18"/></svg></div>
+              <div class="rule-banner-content">
+                <div class="rule-banner-header">
+                  <span class="rule-banner-tag">APPLICABLE JURISDICTION &amp; COURT RULES</span>
+                  <h5 class="rule-banner-title" id="rule-banner-title">Court Jurisdiction &amp; Legal Rules</h5>
+                </div>
+                <div class="rule-banner-acts" id="rule-banner-acts">Governing Statute / Procedural Act</div>
+                <p class="rule-banner-desc" id="rule-banner-desc">Legal rules and procedural requirements governing this court.</p>
+                <div class="rule-banner-meta" id="rule-banner-meta">Procedural Requirements &amp; Appellate Hierarchy</div>
+              </div>
+            </div>
+
+            <div class="court-modal-lawyers-grid" id="court-modal-lawyers-grid">
+              <!-- Rendered dynamically -->
+            </div>
           </div>
         </div>
       </div>
