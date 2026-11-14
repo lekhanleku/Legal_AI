@@ -287,6 +287,7 @@ async function switchActiveLawyer(lawyerId) {
       showDashboard(data.lawyer, data.stats);
       fetchAndRenderCases();
       fetchAndRenderConsultations();
+      fetchAndRenderClients();
       fetchAndRenderNotifications();
     } else {
       showToast(data.message || 'Failed to switch lawyer account', 'error');
@@ -618,20 +619,21 @@ async function fetchAndRenderConsultations() {
             <td><strong style="color:var(--gold-glow);">${escapeHtml(c.preferredDate)}</strong></td>
             <td style="max-width:280px; font-size:0.85rem;">${escapeHtml(c.caseSummary)}</td>
             <td>
-              <span class="meta-pill ${c.status === 'confirmed' ? 'meta-pill-emerald' : (c.status === 'completed' ? 'meta-pill-blue' : 'meta-pill-gold')}">
+              <span class="meta-pill ${c.status === 'confirmed' ? 'meta-pill-emerald' : (c.status === 'completed' ? 'meta-pill-blue' : (c.status === 'cancelled' ? 'meta-pill-red' : 'meta-pill-gold'))}">
                 ${escapeHtml(c.status)}
               </span>
             </td>
             <td>
-              ${c.status === 'pending' ? `
-                <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem;" onclick="updateConsultationStatus(${c.id}, 'confirmed')">
-                  Confirm
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem;" onclick="openConsultManageModal(${c.id})">
+                  Manage
                 </button>
-              ` : (c.status === 'confirmed' ? `
-                <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem; background:#10b981;" onclick="updateConsultationStatus(${c.id}, 'completed')">
-                  Mark Done
-                </button>
-              ` : `<span>Completed</span>`)}
+                ${c.status === 'pending' ? `
+                  <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem; background:#10b981;" onclick="updateConsultationStatus(${c.id}, 'confirmed')">
+                    Confirm
+                  </button>
+                ` : ''}
+              </div>
             </td>
           </tr>
         `).join('');
@@ -658,11 +660,310 @@ async function updateConsultationStatus(consultId, status) {
     if (data.success) {
       showToast(`Consultation #${consultId} status marked as ${status}`, 'success');
       fetchAndRenderConsultations();
+      fetchAndRenderClients();
     }
   } catch (err) {
     showToast('Failed to update consultation status', 'error');
   }
 }
+
+// ── Advocate Consultation Management Modal ──
+let activeManagingConsultId = null;
+window.openConsultManageModal = function(consultId) {
+  const consult = (currentConsultations || []).find(c => Number(c.id) === Number(consultId));
+  if (!consult) return;
+
+  activeManagingConsultId = consult.id;
+  const modal = document.getElementById('modal-consult-manage');
+  if (!modal) return;
+
+  document.getElementById('mc-consult-id').value = consult.id;
+  document.getElementById('mc-title').textContent = `Manage Consultation #${consult.id}`;
+  document.getElementById('mc-client-info').textContent = `${consult.clientName} (${consult.clientEmail} | ${consult.clientPhone || 'No phone'})`;
+  document.getElementById('mc-status').value = consult.status || 'pending';
+  document.getElementById('mc-date').value = consult.preferredDate || '';
+  document.getElementById('mc-summary').value = consult.caseSummary || '';
+
+  modal.style.display = 'flex';
+};
+
+window.closeConsultManageModal = function() {
+  const modal = document.getElementById('modal-consult-manage');
+  if (modal) modal.style.display = 'none';
+  activeManagingConsultId = null;
+};
+
+window.saveConsultationChanges = async function() {
+  if (!activeManagingConsultId) return;
+  const token = getAuthToken();
+  const status = document.getElementById('mc-status').value;
+  const preferredDate = document.getElementById('mc-date').value.trim();
+  const caseSummary = document.getElementById('mc-summary').value.trim();
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/consultations/${activeManagingConsultId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ status, preferredDate, caseSummary })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Consultation #${activeManagingConsultId} updated`, 'success');
+      closeConsultManageModal();
+      fetchAndRenderConsultations();
+      fetchAndRenderClients();
+    } else {
+      showToast(data.message || 'Could not update consultation', 'error');
+    }
+  } catch (err) {
+    showToast('Network error saving consultation updates', 'error');
+  }
+};
+
+window.deleteActiveConsultation = async function() {
+  if (!activeManagingConsultId) return;
+  if (!confirm('Are you sure you want to remove this client consultation from your chambers docket?')) return;
+
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/consultations/${activeManagingConsultId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Consultation #${activeManagingConsultId} removed`, 'info');
+      closeConsultManageModal();
+      fetchAndRenderConsultations();
+      fetchAndRenderClients();
+    } else {
+      showToast(data.message || 'Could not remove consultation', 'error');
+    }
+  } catch (err) {
+    showToast('Network error deleting consultation', 'error');
+  }
+};
+
+// ── Fetch & Render Represented Clients ──
+let currentClients = [];
+async function fetchAndRenderClients() {
+  const token = getAuthToken();
+  if (!token) return;
+
+  const tbody = document.getElementById('lawyer-clients-tbody');
+  const badge = document.getElementById('badge-tab-clients');
+  if (!tbody) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/clients`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success && Array.isArray(data.clients)) {
+      currentClients = data.clients;
+      if (badge) badge.textContent = currentClients.length;
+
+      if (currentClients.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#94a3b8;">No clients registered in your chambers docket yet. Click "Intake New Client" to add.</td></tr>';
+      } else {
+        renderClientsTable(currentClients);
+      }
+    }
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#f87171;">Could not load clients roster.</td></tr>';
+  }
+}
+
+function renderClientsTable(clients) {
+  const tbody = document.getElementById('lawyer-clients-tbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = clients.map(client => `
+    <tr>
+      <td>
+        <strong style="color:#fff; font-size:0.95rem;">${escapeHtml(client.name)}</strong>
+      </td>
+      <td>
+        <div>${escapeHtml(client.email)}</div>
+        <div style="font-size:0.8rem; color:#94a3b8;">${escapeHtml(client.phone || 'No phone recorded')}</div>
+      </td>
+      <td>
+        <span class="meta-pill meta-pill-gold">${client.caseCount} Dockets</span>
+      </td>
+      <td>
+        <span class="meta-pill meta-pill-emerald">${client.consultCount} Inquiries</span>
+      </td>
+      <td>
+        <span style="font-size:0.82rem; color:#cbd5e1;">${client.lastActivityDate ? client.lastActivityDate.split(' ')[0] : 'Recent'}</span>
+      </td>
+      <td>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem;" onclick="openClientDossier('${escapeHtml(client.email)}')">
+            Client Dossier
+          </button>
+          <button class="btn-portal-primary" style="padding:4px 8px; font-size:0.75rem; background:#1e2637; border-color:var(--border);" onclick="prepNewDocketForClient('${escapeHtml(client.name)}', '${escapeHtml(client.email)}', '${escapeHtml(client.phone || '')}')">
+            + Docket
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Client Search Filter
+document.getElementById('client-search-input')?.addEventListener('input', (e) => {
+  const val = e.target.value.toLowerCase().trim();
+  if (!val) {
+    renderClientsTable(currentClients);
+    return;
+  }
+  const filtered = currentClients.filter(c => 
+    c.name.toLowerCase().includes(val) ||
+    c.email.toLowerCase().includes(val) ||
+    (c.phone && c.phone.toLowerCase().includes(val))
+  );
+  renderClientsTable(filtered);
+});
+
+// ── Intake New Client Modal & Form ──
+window.openIntakeClientModal = function() {
+  const modal = document.getElementById('modal-intake-client');
+  if (modal) {
+    document.getElementById('form-intake-client')?.reset();
+    modal.style.display = 'flex';
+  }
+};
+
+window.closeIntakeClientModal = function() {
+  const modal = document.getElementById('modal-intake-client');
+  if (modal) modal.style.display = 'none';
+};
+
+document.getElementById('form-intake-client')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = getAuthToken();
+  if (!token) return;
+
+  const name = document.getElementById('intake-client-name').value.trim();
+  const email = document.getElementById('intake-client-email').value.trim();
+  const phone = document.getElementById('intake-client-phone').value.trim();
+  const preferredDate = document.getElementById('intake-client-date').value.trim();
+  const caseSummary = document.getElementById('intake-client-summary').value.trim();
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/clients`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ name, email, phone, preferredDate, caseSummary })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Client ${name} registered successfully to Chambers!`, 'success');
+      closeIntakeClientModal();
+      fetchAndRenderClients();
+      fetchAndRenderConsultations();
+    } else {
+      showToast(data.message || 'Could not register client', 'error');
+    }
+  } catch (err) {
+    showToast('Network error while registering client', 'error');
+  }
+});
+
+// ── Client Dossier Modal ──
+window.openClientDossier = async function(email) {
+  const token = getAuthToken();
+  if (!token) return;
+
+  const modal = document.getElementById('modal-client-dossier');
+  if (!modal) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/clients/${encodeURIComponent(email)}/dossier`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success && data.client) {
+      const c = data.client;
+      document.getElementById('cd-client-name').textContent = c.name;
+      document.getElementById('cd-client-contact').textContent = `${c.email} | ${c.phone || 'No phone recorded'}`;
+      document.getElementById('cd-cases-count').textContent = c.totalCases;
+      document.getElementById('cd-consults-count').textContent = c.totalConsultations;
+
+      // Render Cases
+      const casesList = document.getElementById('cd-cases-list');
+      if (casesList) {
+        if (!c.cases || c.cases.length === 0) {
+          casesList.innerHTML = '<div style="font-size:0.84rem; color:#94a3b8; padding:8px;">No active litigation court dockets filed yet.</div>';
+        } else {
+          casesList.innerHTML = c.cases.map(cs => `
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px; padding:10px;">
+              <div style="display:flex; justify-content:space-between;">
+                <strong style="color:#dfb77c; font-size:0.85rem;">${escapeHtml(cs.caseNumber)}</strong>
+                <span class="meta-pill meta-pill-emerald" style="font-size:0.7rem;">${escapeHtml(cs.stage || 'Hearing')}</span>
+              </div>
+              <div style="font-size:0.85rem; color:#fff; margin-top:3px;">${escapeHtml(cs.title)}</div>
+              <div style="font-size:0.78rem; color:#94a3b8;">${escapeHtml(cs.courtName)} &middot; Next: ${escapeHtml(cs.nextHearingDate || 'TBD')}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Render Consultations
+      const consultsList = document.getElementById('cd-consults-list');
+      if (consultsList) {
+        if (!c.consultations || c.consultations.length === 0) {
+          consultsList.innerHTML = '<div style="font-size:0.84rem; color:#94a3b8; padding:8px;">No consultation history.</div>';
+        } else {
+          consultsList.innerHTML = c.consultations.map(con => `
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:6px; padding:10px;">
+              <div style="display:flex; justify-content:space-between;">
+                <strong style="color:var(--text-main); font-size:0.82rem;">${escapeHtml(con.preferredDate)}</strong>
+                <span class="meta-pill ${con.status === 'confirmed' ? 'meta-pill-emerald' : 'meta-pill-gold'}" style="font-size:0.7rem;">${escapeHtml(con.status)}</span>
+              </div>
+              <div style="font-size:0.82rem; color:#cbd5e1; margin-top:4px;">${escapeHtml(con.caseSummary)}</div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // Wire "+ New Docket for Client"
+      const btnAddCase = document.getElementById('cd-btn-add-case');
+      if (btnAddCase) {
+        btnAddCase.onclick = () => {
+          closeClientDossierModal();
+          prepNewDocketForClient(c.name, c.email, c.phone);
+        };
+      }
+
+      modal.style.display = 'flex';
+    }
+  } catch (err) {
+    showToast('Could not load client dossier', 'error');
+  }
+};
+
+window.closeClientDossierModal = function() {
+  const modal = document.getElementById('modal-client-dossier');
+  if (modal) modal.style.display = 'none';
+};
+
+window.prepNewDocketForClient = function(name, email, phone) {
+  switchToTab('tab-add-case');
+  const nameInput = document.getElementById('new-client-name');
+  const emailInput = document.getElementById('new-client-email');
+  const phoneInput = document.getElementById('new-client-phone');
+  if (nameInput) nameInput.value = name || '';
+  if (emailInput) emailInput.value = email || '';
+  if (phoneInput) phoneInput.value = phone || '';
+  showToast(`Pre-filled docket form for client: ${name}`, 'info');
+};
 
 // ── Register New Case Docket ──
 async function handleNewCaseSubmit(e) {
@@ -847,6 +1148,7 @@ async function checkSessionAndLoad() {
       showDashboard(data.lawyer, data.stats);
       fetchAndRenderCases();
       fetchAndRenderConsultations();
+      fetchAndRenderClients();
     } else {
       // If user is not authorized or token expired, show gate
       showAccessGate();

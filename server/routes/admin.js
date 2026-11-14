@@ -247,12 +247,36 @@ router.delete('/consultations/:id', requireAdmin, (req, res) => {
 });
 
 // @route   GET /api/admin/lawyers
-// @desc    Get all lawyers in the directory with administrative details
+// @desc    Get all lawyers in the directory with administrative and account credentials status
 // @access  Admin
 router.get('/lawyers', requireAdmin, (req, res) => {
   try {
     const { search, specialty, limit = 100 } = req.query;
-    const lawyers = Lawyer.findAll({ search, specialty, limit });
+    let query = `
+      SELECT l.*,
+             a.id as accountId,
+             a.isVerified as accountVerified,
+             a.createdAt as accountCreatedAt,
+             (SELECT COUNT(*) FROM cases c WHERE c.lawyerId = l.id) as caseCount,
+             (SELECT COUNT(*) FROM consultations con WHERE con.lawyerId = l.id) as consultationCount
+      FROM lawyers l
+      LEFT JOIN advocate_accounts a ON a.lawyerId = l.id
+      WHERE 1=1
+    `;
+    const params = [];
+    if (specialty && specialty !== 'all') {
+      query += ' AND l.specialty = ?';
+      params.push(specialty);
+    }
+    if (search && search.trim()) {
+      const s = `%${search.trim().toLowerCase()}%`;
+      query += ' AND (LOWER(l.name) LIKE ? OR LOWER(l.firmName) LIKE ? OR LOWER(l.barNumber) LIKE ? OR LOWER(l.city) LIKE ?)';
+      params.push(s, s, s, s);
+    }
+    query += ' ORDER BY l.id ASC LIMIT ?';
+    params.push(Number(limit));
+
+    const lawyers = db.prepare(query).all(...params);
     return res.json({ success: true, lawyers, count: lawyers.length });
   } catch (err) {
     console.error('Admin Fetch Lawyers Error:', err);
@@ -261,12 +285,38 @@ router.get('/lawyers', requireAdmin, (req, res) => {
 });
 
 // @route   POST /api/admin/lawyers
-// @desc    Add new attorney to directory
+// @desc    Add new attorney to directory and auto-provision isolated Advocate Chambers account
 // @access  Admin
-router.post('/lawyers', requireAdmin, (req, res) => {
+router.post('/lawyers', requireAdmin, async (req, res) => {
   try {
     const lawyer = Lawyer.create(req.body);
-    return res.status(201).json({ success: true, lawyer, message: 'Attorney added to verified directory' });
+
+    // Auto-provision credentials in isolated advocate_accounts table
+    const bcrypt = require('bcryptjs');
+    const defaultPassword = req.body.password || 'lawyer1234';
+    const passwordHash = await bcrypt.hash(defaultPassword, 10);
+
+    const existingAccount = db.prepare('SELECT id FROM advocate_accounts WHERE lawyerId = ? OR LOWER(email) = LOWER(?)').get(lawyer.id, lawyer.email);
+    if (!existingAccount) {
+      db.prepare(`
+        INSERT INTO advocate_accounts (lawyerId, name, email, password, phone, barNumber, specialty, role, isVerified)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'lawyer', 1)
+      `).run(
+        lawyer.id,
+        lawyer.name,
+        lawyer.email.toLowerCase().trim(),
+        passwordHash,
+        lawyer.phone || '',
+        lawyer.barNumber || 'D/BCI/VERIFIED',
+        lawyer.specialty || 'General Litigation'
+      );
+    }
+
+    return res.status(201).json({
+      success: true,
+      lawyer,
+      message: `Advocate added to directory and chambers account provisioned (Default Pass: ${defaultPassword})`
+    });
   } catch (err) {
     console.error('Admin Add Lawyer Error:', err);
     return res.status(500).json({ success: false, message: err.message });
@@ -282,7 +332,8 @@ router.get('/lawyers/:id', requireAdmin, (req, res) => {
     if (!lawyer) {
       return res.status(404).json({ success: false, message: 'Attorney not found' });
     }
-    return res.json({ success: true, lawyer });
+    const account = db.prepare('SELECT id, isVerified, createdAt FROM advocate_accounts WHERE lawyerId = ?').get(lawyer.id);
+    return res.json({ success: true, lawyer, account: account || null });
   } catch (err) {
     console.error('Admin Get Lawyer Error:', err);
     return res.status(500).json({ success: false, message: err.message });
@@ -290,28 +341,103 @@ router.get('/lawyers/:id', requireAdmin, (req, res) => {
 });
 
 // @route   PUT /api/admin/lawyers/:id
-// @desc    Update lawyer profile
+// @desc    Update lawyer profile and synchronize credentials in advocate_accounts
 // @access  Admin
 router.put('/lawyers/:id', requireAdmin, (req, res) => {
   try {
     const updated = Lawyer.update(req.params.id, req.body);
-    return res.json({ success: true, lawyer: updated, message: 'Attorney profile updated' });
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Lawyer not found' });
+    }
+
+    // Synchronize updates to advocate_accounts table
+    db.prepare(`
+      UPDATE advocate_accounts 
+      SET name = COALESCE(?, name),
+          email = COALESCE(?, email),
+          phone = COALESCE(?, phone),
+          barNumber = COALESCE(?, barNumber),
+          specialty = COALESCE(?, specialty),
+          updatedAt = CURRENT_TIMESTAMP
+      WHERE lawyerId = ?
+    `).run(
+      req.body.name || updated.name,
+      req.body.email ? req.body.email.toLowerCase().trim() : updated.email,
+      req.body.phone !== undefined ? req.body.phone : updated.phone,
+      req.body.barNumber || updated.barNumber,
+      req.body.specialty || updated.specialty,
+      req.params.id
+    );
+
+    return res.json({ success: true, lawyer: updated, message: 'Attorney profile and chambers account updated' });
   } catch (err) {
     console.error('Admin Update Lawyer Error:', err);
     return res.status(500).json({ success: false, message: err.message });
   }
 });
 
+// @route   PUT /api/admin/lawyers/:id/password
+// @desc    Admin reset advocate chambers password
+// @access  Admin
+router.put('/lawyers/:id/password', requireAdmin, async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (!password || password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+    }
+    const bcrypt = require('bcryptjs');
+    const hash = await bcrypt.hash(password, 10);
+    const result = db.prepare('UPDATE advocate_accounts SET password = ?, updatedAt = CURRENT_TIMESTAMP WHERE lawyerId = ?').run(hash, req.params.id);
+    if (result.changes === 0) {
+      return res.status(404).json({ success: false, message: 'Advocate account not found' });
+    }
+    return res.json({ success: true, message: 'Advocate chambers password updated successfully' });
+  } catch (err) {
+    console.error('Admin Reset Lawyer Password Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// @route   PUT /api/admin/lawyers/:id/verify
+// @desc    Admin toggle advocate verification and directory availability
+// @access  Admin
+router.put('/lawyers/:id/verify', requireAdmin, (req, res) => {
+  try {
+    const lawyer = Lawyer.findById(req.params.id);
+    if (!lawyer) {
+      return res.status(404).json({ success: false, message: 'Lawyer not found' });
+    }
+    const newStatus = lawyer.isAvailable ? 0 : 1;
+    Lawyer.update(req.params.id, { isAvailable: newStatus });
+    db.prepare('UPDATE advocate_accounts SET isVerified = ?, updatedAt = CURRENT_TIMESTAMP WHERE lawyerId = ?').run(newStatus, req.params.id);
+
+    return res.json({
+      success: true,
+      isAvailable: newStatus,
+      isVerified: newStatus,
+      message: `Advocate status updated to ${newStatus === 1 ? 'Verified & Active' : 'Suspended / Hidden'}`
+    });
+  } catch (err) {
+    console.error('Admin Verify Lawyer Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   DELETE /api/admin/lawyers/:id
-// @desc    Remove lawyer from directory
+// @desc    Remove lawyer from directory and deactivate advocate chambers account
 // @access  Admin
 router.delete('/lawyers/:id', requireAdmin, (req, res) => {
   try {
+    // Delete advocate account
+    db.prepare('DELETE FROM advocate_accounts WHERE lawyerId = ?').run(req.params.id);
+    
+    // Delete lawyer record
     const success = Lawyer.delete(req.params.id);
     if (!success) {
       return res.status(404).json({ success: false, message: 'Lawyer not found' });
     }
-    return res.json({ success: true, message: 'Attorney removed from directory' });
+
+    return res.json({ success: true, message: 'Attorney and chambers account removed from system' });
   } catch (err) {
     console.error('Admin Delete Lawyer Error:', err);
     return res.status(500).json({ success: false, message: err.message });

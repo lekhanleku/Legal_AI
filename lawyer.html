@@ -491,6 +491,10 @@
         <span>Client Consultations</span>
         <span class="tab-badge" id="badge-tab-consults">0</span>
       </button>
+      <button class="portal-tab-btn" data-tab="tab-clients">
+        <span>My Represented Clients</span>
+        <span class="tab-badge" id="badge-tab-clients">0</span>
+      </button>
       <button class="portal-tab-btn" data-tab="tab-add-case">
         <span>+ Register New Docket</span>
       </button>
@@ -570,7 +574,44 @@
       </div>
     </div>
 
-    <!-- TAB 4: ADD NEW CASE DOCKET -->
+    <!-- TAB 4: MY REPRESENTED CLIENTS -->
+    <div class="portal-tab-pane" id="tab-clients">
+      <div class="portal-toolbar" style="flex-wrap:wrap; gap:12px;">
+        <div>
+          <h3 style="font-family:'Outfit', sans-serif; font-size:1.2rem; color:#fff;">Represented Clients Directory</h3>
+          <p style="font-size:0.85rem; color:var(--text-muted);">Manage litigation clients, case files, consultation history &amp; chambers advisory notes</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
+          <input type="text" id="client-search-input" class="portal-form-input" placeholder="Search clients by name, email, or phone..." style="margin:0; min-width:260px;"/>
+          <button class="btn-portal-primary" onclick="openIntakeClientModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Intake New Client
+          </button>
+        </div>
+      </div>
+
+      <div class="portal-table-card">
+        <div class="portal-table-wrap">
+          <table class="portal-table">
+            <thead>
+              <tr>
+                <th>Client Name</th>
+                <th>Email &amp; Phone</th>
+                <th>Litigation Dockets</th>
+                <th>Consultations</th>
+                <th>Last Active</th>
+                <th style="min-width:200px;">Advocate Controls</th>
+              </tr>
+            </thead>
+            <tbody id="lawyer-clients-tbody">
+              <tr><td colspan="6" style="text-align:center; padding:30px;">Loading your represented clients...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: ADD NEW CASE DOCKET -->
     <div class="portal-tab-pane" id="tab-add-case">
       <div style="max-width:760px; margin:0 auto; background:var(--bg-card); border:1px solid var(--border-gold); border-radius:var(--radius-lg); padding:28px;">
         <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; color:#fff; margin-bottom:6px;">Register New Court Docket</h3>
@@ -709,6 +750,148 @@
 
       <div style="display:flex; justify-content:flex-end; gap:10px;">
         <button type="button" class="btn-portal-logout" onclick="closeCaseDossierModal()">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTAKE NEW CLIENT MODAL -->
+  <div class="case-dossier-modal" id="modal-intake-client" role="dialog" aria-modal="true" style="display:none;">
+    <div class="case-dossier-content" style="max-width:580px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.35rem; color:#fff; margin:0;">
+          Chambers Client Intake &amp; Registration
+        </h3>
+        <button type="button" onclick="closeIntakeClientModal()" style="font-size:24px; color:#94a3b8; background:none; border:none; cursor:pointer;">&times;</button>
+      </div>
+      <form id="form-intake-client">
+        <div class="portal-form-group">
+          <label for="intake-client-name">Client Full Name *</label>
+          <input type="text" id="intake-client-name" class="portal-form-input" placeholder="e.g. Ramesh K. Patel" required/>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div class="portal-form-group">
+            <label for="intake-client-email">Email Address *</label>
+            <input type="email" id="intake-client-email" class="portal-form-input" placeholder="client@example.com" required/>
+          </div>
+          <div class="portal-form-group">
+            <label for="intake-client-phone">Phone Number</label>
+            <input type="tel" id="intake-client-phone" class="portal-form-input" placeholder="+91 98765 43210"/>
+          </div>
+        </div>
+        <div class="portal-form-group">
+          <label for="intake-client-date">Initial Advisory Date &amp; Time</label>
+          <input type="text" id="intake-client-date" class="portal-form-input" placeholder="e.g. 2026-11-20 11:30 AM"/>
+        </div>
+        <div class="portal-form-group">
+          <label for="intake-client-summary">Case Matter / Legal Brief</label>
+          <textarea id="intake-client-summary" class="portal-form-input" rows="3" placeholder="Brief outline of client legal issue, litigation dispute, or advisory requirements..."></textarea>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn-portal-logout" onclick="closeIntakeClientModal()">Cancel</button>
+          <button type="submit" class="btn-portal-primary">Register Client to Chambers</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CLIENT DOSSIER MODAL -->
+  <div class="case-dossier-modal" id="modal-client-dossier" role="dialog" aria-modal="true" style="display:none;">
+    <div class="case-dossier-content" style="max-width:720px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <span class="meta-pill meta-pill-emerald" id="cd-status-badge">Represented Client</span>
+          <h2 style="font-family:'Playfair Display', serif; font-size:1.45rem; color:#fff; margin-top:6px;" id="cd-client-name">
+            Client Name
+          </h2>
+          <div style="font-size:0.85rem; color:var(--text-muted);" id="cd-client-contact">client@example.com | +91 98765 43210</div>
+        </div>
+        <button type="button" onclick="closeClientDossierModal()" style="font-size:24px; color:#94a3b8; background:none; border:none; cursor:pointer;">&times;</button>
+      </div>
+
+      <!-- Quick Metrics -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:18px;">
+        <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px;">
+          <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Active Dockets</div>
+          <div style="font-size:1.3rem; font-weight:700; color:var(--gold-glow);" id="cd-cases-count">0</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px;">
+          <div style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Consultations</div>
+          <div style="font-size:1.3rem; font-weight:700; color:#86efac;" id="cd-consults-count">0</div>
+        </div>
+      </div>
+
+      <!-- Cases Section -->
+      <div style="margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="font-size:0.85rem; font-weight:700; text-transform:uppercase; color:var(--gold-glow); margin:0;">
+            Court Dockets with this Client
+          </h4>
+          <button type="button" class="btn-portal-primary" style="padding:4px 10px; font-size:0.75rem;" id="cd-btn-add-case">
+            + New Docket for Client
+          </button>
+        </div>
+        <div id="cd-cases-list" style="max-height:160px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+          <!-- Rendered cases -->
+        </div>
+      </div>
+
+      <!-- Consultations Section -->
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:0.85rem; font-weight:700; text-transform:uppercase; color:var(--gold-glow); margin-bottom:8px;">
+          Consultations &amp; Advisory History
+        </h4>
+        <div id="cd-consults-list" style="max-height:160px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+          <!-- Rendered consultations -->
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn-portal-logout" onclick="closeClientDossierModal()">Close Dossier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGE CONSULTATION MODAL -->
+  <div class="case-dossier-modal" id="modal-consult-manage" role="dialog" aria-modal="true" style="display:none;">
+    <div class="case-dossier-content" style="max-width:540px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.3rem; color:#fff; margin:0;" id="mc-title">
+          Manage Client Consultation
+        </h3>
+        <button type="button" onclick="closeConsultManageModal()" style="font-size:24px; color:#94a3b8; background:none; border:none; cursor:pointer;">&times;</button>
+      </div>
+      <input type="hidden" id="mc-consult-id"/>
+      <div class="portal-form-group">
+        <label>Client Name &amp; Contact</label>
+        <div id="mc-client-info" style="font-size:0.9rem; color:var(--text-main); font-weight:600;"></div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="portal-form-group">
+          <label for="mc-status">Consultation Status</label>
+          <select id="mc-status" class="portal-form-select">
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="portal-form-group">
+          <label for="mc-date">Scheduled Time</label>
+          <input type="text" id="mc-date" class="portal-form-input"/>
+        </div>
+      </div>
+      <div class="portal-form-group">
+        <label for="mc-summary">Case Advisory Notes &amp; Strategy</label>
+        <textarea id="mc-summary" class="portal-form-input" rows="3"></textarea>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+        <button type="button" class="btn-portal-logout" style="border-color:#ef4444; color:#ef4444;" onclick="deleteActiveConsultation()">
+          Remove from Docket
+        </button>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn-portal-logout" onclick="closeConsultManageModal()">Cancel</button>
+          <button type="button" class="btn-portal-primary" onclick="saveConsultationChanges()">Save Updates</button>
+        </div>
       </div>
     </div>
   </div>

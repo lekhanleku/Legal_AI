@@ -198,14 +198,14 @@ router.get('/consultations', authenticateLawyer, (req, res) => {
   });
 });
 
-// ── PUT /api/lawyer/consultations/:id ──
+// ── PUT /api/lawyer/consultations/:id (Advocate updates client consultation status or notes) ──
 router.put('/consultations/:id', authenticateLawyer, (req, res) => {
   const consult = db.prepare('SELECT * FROM consultations WHERE id = ? AND lawyerId = ?').get(req.params.id, req.lawyer.id);
   if (!consult) {
     return res.status(404).json({ success: false, message: 'Consultation not found for this lawyer' });
   }
 
-  const { status, preferredDate } = req.body;
+  const { status, preferredDate, caseSummary } = req.body;
   const updates = [];
   const params = [];
 
@@ -217,6 +217,10 @@ router.put('/consultations/:id', authenticateLawyer, (req, res) => {
     updates.push('preferredDate = ?');
     params.push(preferredDate);
   }
+  if (caseSummary) {
+    updates.push('caseSummary = ?');
+    params.push(caseSummary);
+  }
 
   if (updates.length > 0) {
     params.push(req.params.id);
@@ -226,8 +230,157 @@ router.put('/consultations/:id', authenticateLawyer, (req, res) => {
   const updatedConsult = db.prepare('SELECT * FROM consultations WHERE id = ?').get(req.params.id);
   res.json({
     success: true,
-    message: 'Consultation updated successfully',
+    message: `Consultation #${req.params.id} updated successfully`,
     consultation: updatedConsult
+  });
+});
+
+// ── DELETE /api/lawyer/consultations/:id (Advocate cancels/removes consultation) ──
+router.delete('/consultations/:id', authenticateLawyer, (req, res) => {
+  const consult = db.prepare('SELECT * FROM consultations WHERE id = ? AND lawyerId = ?').get(req.params.id, req.lawyer.id);
+  if (!consult) {
+    return res.status(404).json({ success: false, message: 'Consultation not found for this lawyer' });
+  }
+
+  db.prepare('DELETE FROM consultations WHERE id = ?').run(req.params.id);
+  db.prepare('DELETE FROM notifications WHERE consultationId = ?').run(req.params.id);
+
+  res.json({
+    success: true,
+    message: `Consultation #${req.params.id} removed from docket`
+  });
+});
+
+// ── GET /api/lawyer/clients (Advocate lists all clients represented by or consulting with their chambers) ──
+router.get('/clients', authenticateLawyer, (req, res) => {
+  const lawyerId = req.lawyer.id;
+  const { search = '' } = req.query;
+
+  let query = `
+    WITH all_clients AS (
+      SELECT clientName as name, LOWER(clientEmail) as email, clientPhone as phone, filingDate as activityDate
+      FROM cases 
+      WHERE lawyerId = ? AND clientEmail IS NOT NULL AND clientEmail != ''
+      UNION ALL
+      SELECT clientName as name, LOWER(clientEmail) as email, clientPhone as phone, createdAt as activityDate
+      FROM consultations 
+      WHERE lawyerId = ? AND clientEmail IS NOT NULL AND clientEmail != ''
+    )
+    SELECT 
+      name,
+      email,
+      phone,
+      (SELECT COUNT(*) FROM cases WHERE lawyerId = ? AND LOWER(clientEmail) = all_clients.email) as caseCount,
+      (SELECT COUNT(*) FROM consultations WHERE lawyerId = ? AND LOWER(clientEmail) = all_clients.email) as consultCount,
+      MAX(activityDate) as lastActivityDate
+    FROM all_clients
+    WHERE 1=1
+  `;
+  const params = [lawyerId, lawyerId, lawyerId, lawyerId];
+
+  if (search && search.trim()) {
+    const s = `%${search.trim().toLowerCase()}%`;
+    query += ' AND (LOWER(name) LIKE ? OR email LIKE ? OR phone LIKE ?)';
+    params.push(s, s, s);
+  }
+
+  query += ' GROUP BY email ORDER BY lastActivityDate DESC';
+
+  const clients = db.prepare(query).all(...params);
+  res.json({
+    success: true,
+    total: clients.length,
+    clients
+  });
+});
+
+// ── GET /api/lawyer/clients/:email/dossier (Advocate views full client dossier with litigation history) ──
+router.get('/clients/:email/dossier', authenticateLawyer, (req, res) => {
+  const lawyerId = req.lawyer.id;
+  const cleanEmail = req.params.email.toLowerCase().trim();
+
+  // Find client cases with this lawyer
+  const cases = db.prepare(`
+    SELECT * FROM cases 
+    WHERE lawyerId = ? AND LOWER(clientEmail) = ?
+    ORDER BY id DESC
+  `).all(lawyerId, cleanEmail);
+
+  // Find client consultations with this lawyer
+  const consultations = db.prepare(`
+    SELECT * FROM consultations 
+    WHERE lawyerId = ? AND LOWER(clientEmail) = ?
+    ORDER BY id DESC
+  `).all(lawyerId, cleanEmail);
+
+  // Find user account in users table
+  const userAccount = db.prepare('SELECT id, name, email, phone, isVerified, createdAt FROM users WHERE LOWER(email) = ?').get(cleanEmail);
+
+  const clientName = cases[0]?.clientName || consultations[0]?.clientName || userAccount?.name || 'Client';
+  const clientPhone = cases[0]?.clientPhone || consultations[0]?.clientPhone || userAccount?.phone || '';
+
+  res.json({
+    success: true,
+    client: {
+      name: clientName,
+      email: cleanEmail,
+      phone: clientPhone,
+      isRegistered: !!userAccount,
+      isVerified: userAccount ? userAccount.isVerified : 0,
+      registeredAt: userAccount ? userAccount.createdAt : null,
+      totalCases: cases.length,
+      totalConsultations: consultations.length,
+      cases,
+      consultations
+    }
+  });
+});
+
+// ── POST /api/lawyer/clients (Advocate registers/intakes a new client under chambers) ──
+router.post('/clients', authenticateLawyer, async (req, res) => {
+  const { name, email, phone, caseSummary, preferredDate } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ success: false, message: 'Client name and email are required.' });
+  }
+
+  const cleanEmail = email.toLowerCase().trim();
+  const bcrypt = require('bcryptjs');
+
+  // Find or create in users table
+  let user = db.prepare('SELECT id, name, email, phone FROM users WHERE LOWER(email) = ?').get(cleanEmail);
+  if (!user) {
+    const defaultPassword = 'demo1234';
+    const hash = await bcrypt.hash(defaultPassword, 10);
+    const r = db.prepare(`
+      INSERT INTO users (name, email, password, phone, role, isVerified)
+      VALUES (?, ?, ?, ?, 'user', 1)
+    `).run(name, cleanEmail, hash, phone || '');
+    user = { id: r.lastInsertRowid, name, email: cleanEmail, phone };
+  }
+
+  // Schedule an intake consultation if summary provided
+  let consult = null;
+  if (caseSummary) {
+    const cResult = db.prepare(`
+      INSERT INTO consultations (lawyerId, userId, clientName, clientEmail, clientPhone, preferredDate, caseSummary, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'confirmed')
+    `).run(
+      req.lawyer.id,
+      user.id,
+      name,
+      cleanEmail,
+      phone || '',
+      preferredDate || new Date().toISOString().split('T')[0] + ' 11:00 AM',
+      caseSummary
+    );
+    consult = db.prepare('SELECT * FROM consultations WHERE id = ?').get(cResult.lastInsertRowid);
+  }
+
+  res.status(201).json({
+    success: true,
+    message: `Client ${name} registered under Chambers of ${req.lawyer.name}.`,
+    client: user,
+    consultation: consult
   });
 });
 
