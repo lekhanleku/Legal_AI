@@ -118,10 +118,10 @@
     "divisions": "Environmental Jurisprudence, Maritime & Shipping, Paperless Court Benches, Fundamental Rights Writs, Service Appeals",
     "overview": "India's first fully paperless Smart Court with trailblazing environmental jurisprudence, maritime admiralty matters, and citizen-friendly digital justice initiatives.",
     "badge": "First Paperless Smart Court",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 9.9816,
+    "longitude": 76.2755,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=High+Court+of+Kerala+Marine+Drive+Ernakulam+Kochi+682031",
+    "mapEmbedUrl": "https://www.google.com/maps?q=High+Court+of+Kerala,+Marine+Drive,+Ernakulam,+Kochi&output=embed",
     "isAvailable": 1
   },
   {
@@ -168,10 +168,10 @@
     "divisions": "Civil Writs, Agrarian & Land Acquisition, Criminal Defense, Service Law, Commercial Disputes",
     "overview": "Situated in Le Corbusier's iconic UNESCO World Heritage Capitol Complex. Exercises jurisdiction over Punjab, Haryana, and Chandigarh across civil, agrarian, and constitutional disputes.",
     "badge": "UNESCO Capitol Complex Bench",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 30.7589,
+    "longitude": 76.8055,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=High+Court+of+Punjab+and+Haryana+Capitol+Complex+Chandigarh+160001",
+    "mapEmbedUrl": "https://www.google.com/maps?q=High+Court+of+Punjab+and+Haryana,+Sector+1,+Chandigarh&output=embed",
     "isAvailable": 1
   },
   {
@@ -218,10 +218,10 @@
     "divisions": "Pharma & Biotech IP, Commercial Division, IT Infrastructure, Constitutional Benches, Civil Appeals",
     "overview": "Located along the Musi River in Hyderabad's historic precinct. Foremost court for India's pharmaceutical capital, biotechnology IP disputes, and cyber technology infrastructure contracts.",
     "badge": "Pharma & Tech Judicial Center",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 17.3688,
+    "longitude": 78.4716,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=High+Court+for+the+State+of+Telangana+Hyderabad+500066",
+    "mapEmbedUrl": "https://www.google.com/maps?q=High+Court+for+the+State+of+Telangana,+Hyderabad&output=embed",
     "isAvailable": 1
   },
   {
@@ -250,7 +250,7 @@
     "isAvailable": 1
   },
   {
-    "id": 285,
+    "id": 290,
     "name": "High Court at Calcutta",
     "code": "CHC",
     "jurisdiction": "State High Court",
@@ -318,10 +318,10 @@
     "divisions": "Telecommunications, Spectrum Disputes, Broadcasting & Cable TV, Cyber & Airport Economic Regulatory Appeals",
     "overview": "Adjudicates disputes among telecom service providers, TRAI regulatory challenges, broadcasting & OTT content transmission, and spectrum allocation conflicts.",
     "badge": "Telecom & Broadcasting Tribunal",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 28.5925,
+    "longitude": 77.199,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=TDSAT+Hotel+Samrat+Chanakyapuri+New+Delhi+110021",
+    "mapEmbedUrl": "https://www.google.com/maps?q=TDSAT,+Hotel+Samrat,+Chanakyapuri,+New+Delhi&output=embed",
     "isAvailable": 1
   },
   {
@@ -343,10 +343,10 @@
     "divisions": "Direct Taxes, Transfer Pricing, Cross-Border Taxation, Corporate Surtax, Withholding Assessments",
     "overview": "Referred to as the \"Mother of Tribunals\" in India (established 1941). Final fact-finding authority in income tax matters under the Income Tax Act, 1961.",
     "badge": "Mother of Indian Tribunals",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 18.9388,
+    "longitude": 72.8258,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Income+Tax+Appellate+Tribunal+Old+CGO+Building+Maharshi+Karve+Road+Mumbai+400020",
+    "mapEmbedUrl": "https://www.google.com/maps?q=Income+Tax+Appellate+Tribunal,+Maharshi+Karve+Road,+Mumbai&output=embed",
     "isAvailable": 1
   },
   {
@@ -668,10 +668,10 @@
     "divisions": "Corporate Insolvency Resolution Process (CIRP), Liquidation, Mergers & Amalgamations, Oppression & Mismanagement",
     "overview": "Principal adjudicating authority under the Insolvency and Bankruptcy Code (IBC), 2016 and Section 241/242 of the Companies Act, presiding over mega corporate debt restructuring.",
     "badge": "Principal Corporate Tribunal",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 28.5892,
+    "longitude": 77.2372,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=National+Company+Law+Tribunal+CGO+Complex+Lodhi+Road+New+Delhi+110003",
+    "mapEmbedUrl": "https://www.google.com/maps?q=National+Company+Law+Tribunal,+CGO+Complex,+New+Delhi&output=embed",
     "isAvailable": 1
   },
   {
@@ -693,10 +693,10 @@
     "divisions": "Real Estate Homebuyer Claims, Medical Negligence, Insurance Claim Repudiation, Defective Products, Class Action",
     "overview": "Apex quasi-judicial commission under Consumer Protection Act 2019 hearing original claims exceeding ₹2 Crore and appeals against State Commissions across India.",
     "badge": "Apex Consumer Protection Forum",
-    "latitude": 0,
-    "longitude": 0,
-    "mapUrl": "",
-    "mapEmbedUrl": "",
+    "latitude": 28.5772,
+    "longitude": 77.2084,
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=National+Consumer+Disputes+Redressal+Commission+INA+New+Delhi+110023",
+    "mapEmbedUrl": "https://www.google.com/maps?q=National+Consumer+Disputes+Redressal+Commission,+INA,+New+Delhi&output=embed",
     "isAvailable": 1
   },
   {

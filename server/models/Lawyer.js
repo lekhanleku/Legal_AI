@@ -1,4 +1,6 @@
 const db = require('../db');
+const Consultation = require('./Consultation');
+const Notification = require('./Notification');
 
 class Lawyer {
   /**

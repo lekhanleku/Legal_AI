@@ -244,14 +244,14 @@ try {
 
   // Seed / Sync Lawyers table with authoritative Indian advocates with court affiliations
   const { INDIAN_LAWYERS } = require('./services/lawyersData');
-  const checkLawyer = db.prepare('SELECT id FROM lawyers WHERE barNumber = ?');
+  const checkLawyer = db.prepare('SELECT id FROM lawyers WHERE name = ? OR barNumber = ?');
   const updateLawyer = db.prepare(`
     UPDATE lawyers SET
-      name = ?, title = ?, specialty = ?, experienceYears = ?, education = ?,
+      name = ?, title = ?, specialty = ?, barNumber = ?, experienceYears = ?, education = ?,
       firmName = ?, city = ?, state = ?, hourlyRate = ?, rating = ?, reviewCount = ?,
       languages = ?, bio = ?, casesWon = ?, successRate = ?, phone = ?, email = ?,
       avatarUrl = ?, isAvailable = ?, courtCodes = ?, practicingCourts = ?, primaryCourt = ?
-    WHERE barNumber = ?
+    WHERE id = ?
   `);
   const insertLawyer = db.prepare(`
     INSERT INTO lawyers (
@@ -262,29 +262,32 @@ try {
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
+  const syncedLawyerIds = new Set();
   const syncLawyersTransaction = db.transaction((lawyers) => {
     let inserted = 0;
     let updated = 0;
     for (const l of lawyers) {
-      const existing = checkLawyer.get(l.barNumber);
+      const existing = checkLawyer.get(l.name, l.barNumber);
       if (existing) {
         updateLawyer.run(
-          l.name, l.title, l.specialty, l.experienceYears, l.education,
+          l.name, l.title, l.specialty, l.barNumber, l.experienceYears, l.education,
           l.firmName, l.city, l.state, l.hourlyRate, l.rating !== undefined ? l.rating : 5.0, l.reviewCount || 0,
           l.languages, l.bio, l.casesWon || 0, l.successRate || 95, l.phone, l.email,
           l.avatarUrl || '', l.isAvailable !== undefined ? l.isAvailable : 1,
           l.courtCodes || '', l.practicingCourts || '', l.primaryCourt || '',
-          l.barNumber
+          existing.id
         );
+        syncedLawyerIds.add(existing.id);
         updated++;
       } else {
-        insertLawyer.run(
+        const info = insertLawyer.run(
           l.name, l.title, l.specialty, l.barNumber, l.experienceYears, l.education,
           l.firmName, l.city, l.state, l.hourlyRate, l.rating !== undefined ? l.rating : 5.0, l.reviewCount || 0,
           l.languages, l.bio, l.casesWon || 0, l.successRate || 95, l.phone, l.email,
           l.avatarUrl || '', l.isAvailable !== undefined ? l.isAvailable : 1,
           l.courtCodes || '', l.practicingCourts || '', l.primaryCourt || ''
         );
+        syncedLawyerIds.add(Number(info.lastInsertRowid));
         inserted++;
       }
     }
@@ -292,6 +295,29 @@ try {
   });
 
   const lawyerSyncResult = syncLawyersTransaction(INDIAN_LAWYERS);
+
+  // Prune any duplicate or orphan lawyer records
+  if (syncedLawyerIds.size > 0) {
+    const idList = Array.from(syncedLawyerIds).join(',');
+    const canonicalAdvocates = db.prepare(`SELECT id, name FROM lawyers WHERE id IN (${idList})`).all();
+    const nameToCanonicalId = new Map();
+    canonicalAdvocates.forEach(a => nameToCanonicalId.set(a.name.toLowerCase().trim(), a.id));
+
+    const extraAdvocates = db.prepare(`SELECT id, name FROM lawyers WHERE id NOT IN (${idList})`).all();
+    for (const extra of extraAdvocates) {
+      const canonicalId = nameToCanonicalId.get(extra.name.toLowerCase().trim());
+      if (canonicalId) {
+        db.prepare('UPDATE cases SET lawyerId = ? WHERE lawyerId = ?').run(canonicalId, extra.id);
+        db.prepare('UPDATE consultations SET lawyerId = ? WHERE lawyerId = ?').run(canonicalId, extra.id);
+        db.prepare('UPDATE notifications SET lawyerId = ? WHERE lawyerId = ?').run(canonicalId, extra.id);
+        db.prepare('UPDATE users SET lawyerId = ? WHERE lawyerId = ?').run(canonicalId, extra.id);
+      }
+      db.prepare('DELETE FROM consultations WHERE lawyerId = ?').run(extra.id);
+      db.prepare('DELETE FROM notifications WHERE lawyerId = ?').run(extra.id);
+      db.prepare('DELETE FROM lawyers WHERE id = ?').run(extra.id);
+    }
+  }
+
   console.log(` Synchronized ${INDIAN_LAWYERS.length} Indian Advocates with Court Affiliations (Inserted: ${lawyerSyncResult.inserted}, Updated: ${lawyerSyncResult.updated}).`);
 
   // Purge legacy foreign/US courts to ensure only authentic Indian courts remain
