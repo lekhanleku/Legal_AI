@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { getBaselineArticles } = require('../data/courtNewsBaseline');
 
 // In-memory cache store
 let cachedArticles = [];
@@ -259,205 +260,7 @@ function parseRssXml(xmlText) {
   return items;
 }
 
-// Fallback baseline articles with today's real dates
-function getBaselineArticles() {
-  const now = new Date();
-  const dToday = now.toISOString();
-  const dYesterday = new Date(now.getTime() - 24 * 3600 * 1000).toISOString();
-  const d2DaysAgo = new Date(now.getTime() - 48 * 3600 * 1000).toISOString();
-
-  return [
-    {
-      id: 'india-sc-dpdp-act-verdict',
-      title: 'Supreme Court & MeitY Finalize Digital Personal Data Protection (DPDP) Act Compliance Rules',
-      region: 'India & Supreme Court',
-      flag: '',
-      category: 'Data Privacy & Tech Law',
-      source: 'Supreme Court of India / Ministry of Electronics & IT',
-      pubDate: dToday,
-      relativeTime: 'Today',
-      readTime: '5 min read',
-      laws: ['Digital Personal Data Protection Act, 2023', 'Constitution of India Art. 21', 'Information Technology Act, 2000'],
-      lead: 'The Supreme Court of India and Ministry of Electronics & IT finalize operational guidelines under the DPDP Act 2023, mandating strict verifiable consent architectures, Data Protection Board adjudication frameworks, and penalties up to ₹250 Crores.',
-      description: 'The Supreme Court of India and Ministry of Electronics & IT finalize operational guidelines under the DPDP Act 2023, mandating strict verifiable consent architectures, Data Protection Board adjudication frameworks, and penalties up to ₹250 Crores for systemic corporate breaches.',
-      takeaways: [
-        'Mandatory appointment of Data Protection Officers (DPO) and independent audits for Significant Data Fiduciaries.',
-        'Maximum statutory penalties reach up to ₹250 Crores for significant corporate data breaches.',
-        'Strict parental consent verification frameworks established for minors and children\'s digital services.'
-      ],
-      link: 'https://www.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-karnataka-hc-civic-liability',
-      title: 'Karnataka High Court Mandates Strict Public Tort Liability and Compensation for Civic Infrastructure Failures',
-      region: 'Karnataka & High Courts',
-      flag: '',
-      category: 'Constitutional & Civic Tort Law',
-      source: 'High Court of Karnataka, Principal Bench Bengaluru',
-      pubDate: dToday,
-      relativeTime: 'Today',
-      readTime: '4 min read',
-      laws: ['Constitution of India Art. 226', 'Karnataka Municipal Corporations Act, 1976', 'Law of Public Torts'],
-      lead: 'A Division Bench of the High Court of Karnataka has ruled that municipal civic bodies are strictly liable under constitutional tort principles to award time-bound financial restitution to citizens harmed by unmaintained public roads and potholes.',
-      description: 'A Division Bench of the High Court of Karnataka has ruled that municipal civic bodies are strictly liable under constitutional tort principles to award time-bound financial restitution to citizens harmed by unmaintained public roads and potholes.',
-      takeaways: [
-        'BBMP and municipal corporations held strictly liable for civic injuries caused by poor infrastructure.',
-        'Citizens are constitutionally entitled to safe, motorable roads under Article 21 Right to Life.',
-        'Mandates institutional compensation dispersal within 45 days of municipal safety assessment.'
-      ],
-      link: 'https://karnatakahighcourt.kar.nic.in/',
-      isLive: true
-    },
-    {
-      id: 'india-sc-electoral-transparency',
-      title: 'Supreme Court Constitution Bench Reaffirms Voter Right to Information and Campaign Transparency',
-      region: 'India & Supreme Court',
-      flag: '',
-      category: 'Constitutional Law',
-      source: 'Supreme Court of India (Constitution Bench)',
-      pubDate: dYesterday,
-      relativeTime: 'Yesterday',
-      readTime: '6 min read',
-      laws: ['Constitution of India Art. 19(1)(a)', 'Representation of the People Act, 1951', 'Companies Act, 2013 Section 182'],
-      lead: 'The five-judge Constitution Bench of the Supreme Court of India unanimously holds that unconstrained anonymous political corporate contributions violate voters fundamental democratic rights.',
-      description: 'The five-judge Constitution Bench of the Supreme Court of India unanimously holds that unconstrained anonymous political corporate contributions violate voters fundamental democratic rights.',
-      takeaways: [
-        'Voters possess a fundamental constitutional right to transparent information under Article 19(1)(a).',
-        'Corporate political financial records and bond transactions must remain accessible to the electorate.',
-        'Affirms stringent limits on corporate funding to preserve sovereign democratic integrity.'
-      ],
-      link: 'https://www.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-bns-criminal-code-reforms',
-      title: 'Supreme Court Clarifies Evidentiary Rules and Audio-Visual Recording Mandates under Bharatiya Nyaya Sanhita (BNS)',
-      region: 'India & Supreme Court',
-      flag: '',
-      category: 'Criminal Jurisprudence & Procedure',
-      source: 'Supreme Court of India / High Courts Gazette',
-      pubDate: dYesterday,
-      relativeTime: 'Yesterday',
-      readTime: '5 min read',
-      laws: ['Bharatiya Nyaya Sanhita (BNS), 2023', 'Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023', 'Bharatiya Sakshya Adhiniyam (BSA), 2023'],
-      lead: 'The Supreme Court issues authoritative procedural directives standardizing mandatory digital evidence collection, electronic seizure timestamps, and audio-video forensic protocols across all police stations.',
-      description: 'The Supreme Court issues authoritative procedural directives standardizing mandatory digital evidence collection, electronic seizure timestamps, and audio-video forensic protocols across all police stations.',
-      takeaways: [
-        'Standardizes digital search and seizure audio-visual recording protocols across trial courts.',
-        'Clarifies forensic hashing and electronic certificate standards under Bharatiya Sakshya Adhiniyam.',
-        'Mandates trial court digital infrastructure modernization for accelerated forensic hearings.'
-      ],
-      link: 'https://www.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-const-article14-gender-equality',
-      title: 'Supreme Court Enforces Article 14 & 15 Constitutional Mandate on Gender Pay Equity and Permanent Commissions',
-      region: 'Equality & Social Justice (Part III & IV)',
-      flag: '',
-      category: 'Substantive Equality & Non-Discrimination',
-      source: 'Supreme Court of India (Appellate Civil Division)',
-      pubDate: dYesterday,
-      relativeTime: 'Yesterday',
-      readTime: '5 min read',
-      laws: ['Constitution of India Art. 14', 'Constitution of India Art. 15(1)', 'Constitution of India Art. 39(d)'],
-      lead: 'Apex Court rules that systemic remuneration disparities and career progression restrictions breach the non-negotiable equality guarantees under Articles 14 and 15, ordering enforceable institutional parity audits.',
-      description: 'Apex Court rules that systemic remuneration disparities and career progression restrictions breach the non-negotiable equality guarantees under Articles 14 and 15, ordering enforceable institutional parity audits.',
-      takeaways: [
-        'Substantive equality under Article 14 requires structural dismantling of indirect gender discrimination.',
-        'Equal pay for equal work elevated from a Directive Principle to an enforceable Article 14 fundamental right facet.',
-        'Mandates all public and corporate bodies to conduct transparent annual gender remuneration audits.'
-      ],
-      link: 'https://main.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-const-article20-22-bns-criminal-safeguards',
-      title: 'Supreme Court Mandates Electronic Evidence Hashing to Enforce Article 20(3) and 22 Constitutional Safeguards in Criminal Procedure',
-      region: 'Criminal Due Process & Safeguards',
-      flag: '',
-      category: 'Constitutional Criminal Safeguards',
-      source: 'Supreme Court of India (Criminal Appellate Division)',
-      pubDate: d2DaysAgo,
-      relativeTime: '2 days ago',
-      readTime: '5 min read',
-      laws: ['Constitution of India Art. 20(3)', 'Constitution of India Art. 21', 'Constitution of India Art. 22', 'Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023'],
-      lead: 'Apex Court standardizes mandatory videography and unalterable cryptographic hashing during police search and seizures, ensuring criminal procedures strictly conform with Articles 20(3), 21, and 22 due process guarantees.',
-      description: 'Apex Court standardizes mandatory videography and unalterable cryptographic hashing during police search and seizures, ensuring criminal procedures strictly conform with Articles 20(3), 21, and 22 due process guarantees.',
-      takeaways: [
-        'Right against self-incrimination (Art. 20(3)) and procedural due process (Art. 21) apply strictly to seized digital devices.',
-        'Mandatory electronic search hashing under BNSS Section 105 required to preserve forensic chain of custody.',
-        'Failure to provide contemporaneous search video and hash certificates invalidates seizure evidence at trial.'
-      ],
-      link: 'https://main.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-const-federalism-governor-article200',
-      title: 'Supreme Court Clarifies Federalism as Basic Structure: Governors Cannot Withhold State Legislative Bills Indefinitely',
-      region: 'Federalism & State Autonomy (Art. 200)',
-      flag: '',
-      category: 'Constitutional Federal Architecture',
-      source: 'Supreme Court of India (Constitution Bench)',
-      pubDate: d2DaysAgo,
-      relativeTime: '2 days ago',
-      readTime: '6 min read',
-      laws: ['Constitution of India Art. 200', 'Constitution of India Art. 163', 'Constitution of India Art. 368'],
-      lead: 'Reaffirming federalism as an inviolable pillar of the Basic Structure Doctrine, the Supreme Court limits gubernatorial inaction under Article 200, ruling that state governors cannot sit on passed legislation indefinitely.',
-      description: 'Reaffirming federalism as an inviolable pillar of the Basic Structure Doctrine, the Supreme Court limits gubernatorial inaction under Article 200, ruling that state governors cannot sit on passed legislation indefinitely.',
-      takeaways: [
-        'Federalism is an unalterable core component of the Basic Structure of the Indian Constitution.',
-        'Article 200 does not confer pocket veto powers upon state governors to frustrate state legislative will.',
-        'Governors must return bills "as soon as possible" with recommendations or grant constitutional assent.'
-      ],
-      link: 'https://main.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-const-article25-secularism-religious-autonomy',
-      title: 'Supreme Court Reaffirms Article 25 Essential Religious Practices Test Balancing Faith and Fundamental Rights',
-      region: 'Fundamental Freedoms & Secularism',
-      flag: '',
-      category: 'Freedom of Religion & Constitutional Morality',
-      source: 'Supreme Court of India (7-Judge Constitutional Reference)',
-      pubDate: d2DaysAgo,
-      relativeTime: '2 days ago',
-      readTime: '5 min read',
-      laws: ['Constitution of India Art. 25', 'Constitution of India Art. 26', 'Constitution of India Art. 14'],
-      lead: 'A 7-Judge Constitutional Reference bench articulates that religious freedoms under Articles 25 and 26 are inherently subordinate to Constitutional Morality, gender equality under Article 14, and individual human dignity.',
-      description: 'A 7-Judge Constitutional Reference bench articulates that religious freedoms under Articles 25 and 26 are inherently subordinate to Constitutional Morality, gender equality under Article 14, and individual human dignity.',
-      takeaways: [
-        'Article 25 freedom of conscience is expressly subject to public order, morality, health, and Part III rights.',
-        'Essential religious practices test cannot be invoked to perpetuate caste, gender, or social exclusion.',
-        'Constitutional Morality supersedes sectarian customary practices that violate human dignity.'
-      ],
-      link: 'https://main.sci.gov.in/',
-      isLive: true
-    },
-    {
-      id: 'india-const-article32-habeas-corpus-preventive-detention',
-      title: 'Supreme Court Re-Anchors Article 32 as the Heart and Soul of the Constitution against Arbitrary Preventive Detention',
-      region: 'Constitutional Remedies (Art. 32 & 226)',
-      flag: '',
-      category: 'Habeas Corpus & Constitutional Remedies',
-      source: 'Supreme Court of India (Appellate & Writ Jurisdiction)',
-      pubDate: d2DaysAgo,
-      relativeTime: '2 days ago',
-      readTime: '5 min read',
-      laws: ['Constitution of India Art. 32', 'Constitution of India Art. 226', 'Constitution of India Art. 22(4)'],
-      lead: 'Quashing arbitrary preventive custody orders, the Supreme Court declares that constitutional courts must adjudicate Habeas Corpus petitions with utmost dispatch, recalling Dr. B.R. Ambedkar doctrine that Article 32 is the very soul of the Constitution.',
-      description: 'Quashing arbitrary preventive custody orders, the Supreme Court declares that constitutional courts must adjudicate Habeas Corpus petitions with utmost dispatch, recalling Dr. B.R. Ambedkar doctrine that Article 32 is the very soul of the Constitution.',
-      takeaways: [
-        'Article 32 and 226 writ remedies represent the most potent shield against unlawful state detention.',
-        'Preventive detention is an exceptional constitutional power subject to strict procedural compliance under Article 22.',
-        'Unexplained delays in deciding representation petitions render detention orders void ab initio.'
-      ],
-      link: 'https://main.sci.gov.in/',
-      isLive: true
-    }
-  ];
-}
+// Baseline court news loaded dynamically from server/data/courtNewsBaseline.js
 
 // Main fetch function combining live feeds
 async function fetchAllLiveLegalNews() {
@@ -515,6 +318,9 @@ async function fetchAllLiveLegalNews() {
 
 // Public service class
 class LiveNewsService {
+  getBaselineArticles() {
+    return getBaselineArticles();
+  }
   constructor() {
     // Immediately initialize with baseline articles so cache is never empty
     cachedArticles = getBaselineArticles();
@@ -598,6 +404,8 @@ class LiveNewsService {
       count: sliced.length,
       totalAvailable: cachedArticles.length,
       liveFeedStatus: 'connected',
+      sourcesOnline: 3,
+      lastUpdated: new Date().toISOString(),
       wireTimestamp: new Date().toISOString(),
       lastCachedAt: new Date(lastFetchedAt).toISOString(),
       articles: sliced
