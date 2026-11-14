@@ -3,6 +3,7 @@ const router = express.Router();
 const https = require('https');
 const http = require('http');
 const liveNewsService = require('../services/liveNewsService');
+const { getBaselineArticles } = require('../data/courtNewsBaseline');
 
 // ── LEGAL NEWS SOURCES (RSS → JSON via rss2json.com free API) ──
 const LEGAL_RSS_FEEDS = [
@@ -105,222 +106,54 @@ function parseRSSXML(xml, sourceName, category, icon) {
   return articles;
 }
 
-// ── BUILT-IN LEGAL ARTICLES (Fallback when external feeds are unavailable) ──
-const FALLBACK_ARTICLES = [
-  {
-    id: 'miranda-rights',
-    title: 'Understanding Your Miranda Rights: A Complete Legal Guide',
-    link: '#',
-    description: 'The Miranda warning protects your 5th and 6th Amendment rights during police custody. Learn when these rights apply and how to properly invoke them.',
-    pubDate: new Date().toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Criminal Law',
-    icon: '',
-    readTime: '4 min read',
-    practiceArea: 'criminal'
-  },
-  {
-    id: 'tenant-rights',
-    title: 'Tenant Rights in 2026: Security Deposits, Evictions & Habitability',
-    link: '#',
-    description: 'State-by-state breakdown of landlord-tenant laws including security deposit limits, notice requirements, and your right to habitable housing.',
-    pubDate: new Date(Date.now() - 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Real Estate Law',
-    icon: '',
-    readTime: '5 min read',
-    practiceArea: 'real-estate'
-  },
-  {
-    id: 'wrongful-termination',
-    title: 'Wrongful Termination: Know Your Rights After Being Fired',
-    link: '#',
-    description: 'Employment at-will has exceptions. Discrimination, retaliation for whistleblowing, and FMLA violations can all constitute wrongful termination claims.',
-    pubDate: new Date(Date.now() - 2 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Employment Law',
-    icon: '',
-    readTime: '6 min read',
-    practiceArea: 'employment'
-  },
-  {
-    id: 'contract-clauses',
-    title: 'How to Read a Contract: Key Clauses Every Client Should Know',
-    link: '#',
-    description: 'From indemnification to force majeure — understanding contract clauses can protect you from costly legal disputes before they arise.',
-    pubDate: new Date(Date.now() - 3 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Contract Law',
-    icon: '',
-    readTime: '5 min read',
-    practiceArea: 'corporate'
-  },
-  {
-    id: 'child-custody',
-    title: 'Child Custody in 2026: Legal Standards for Determining Best Interests',
-    link: '#',
-    description: 'Courts prioritize children\'s well-being above all else. This guide covers legal custody, physical custody, modification standards, and parenting plans.',
-    pubDate: new Date(Date.now() - 4 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Family Law',
-    icon: '‍‍',
-    readTime: '6 min read',
-    practiceArea: 'family'
-  },
-  {
-    id: 'llc-vs-scorp',
-    title: 'LLC vs. S-Corp: Choosing the Right Business Structure in 2026',
-    link: '#',
-    description: 'Tax treatment, liability protection, and governance differ significantly between LLCs and S-Corps. Here\'s how to choose the right entity for your business.',
-    pubDate: new Date(Date.now() - 5 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Corporate Law',
-    icon: '',
-    readTime: '5 min read',
-    practiceArea: 'corporate'
-  },
-  {
-    id: 'personal-injury',
-    title: 'Personal Injury Claims: From Accident Scene to Settlement',
-    link: '#',
-    description: 'The legal process after an accident — documenting injuries, dealing with insurance adjusters, statute of limitations, and when to settle vs. litigate.',
-    pubDate: new Date(Date.now() - 6 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Personal Injury',
-    icon: '',
-    readTime: '5 min read',
-    practiceArea: 'injury'
-  },
-  {
-    id: 'civil-rights-digital',
-    title: 'Civil Rights in the Digital Age: Privacy, Free Speech & AI Law',
-    link: '#',
-    description: 'Emerging legal challenges in the digital era including data privacy rights, First Amendment protections online, and the legal landscape of AI-generated content.',
-    pubDate: new Date(Date.now() - 7 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Civil Rights',
-    icon: '',
-    readTime: '6 min read',
-    practiceArea: 'civil'
-  },
-  {
-    id: 'supreme-court-2026',
-    title: 'Supreme Court 2026 Term: Key Cases That Could Reshape American Law',
-    link: '#',
-    description: 'A preview of the most consequential Supreme Court cases set for argument this term, covering immigration, second amendment, and administrative law challenges.',
-    pubDate: new Date(Date.now() - 8 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Supreme Court',
-    icon: '',
-    readTime: '6 min read',
-    practiceArea: 'civil'
-  },
-  {
-    id: 'immigration-updates',
-    title: 'Immigration Law Updates: Visa Categories, DACA, and Border Policy 2026',
-    link: '#',
-    description: 'Current immigration law landscape including visa processing times, DACA program status, asylum procedures, and recent regulatory changes.',
-    pubDate: new Date(Date.now() - 9 * 86400000).toISOString(),
-    image: null,
-    source: 'LegalAI Editorial',
-    category: 'Legal News',
-    icon: '',
-    readTime: '5 min read',
-    practiceArea: 'immigration'
-  }
-];
+// Authentic judicial baseline court news with daily dynamic timestamps
+const FALLBACK_ARTICLES = getBaselineArticles();
 
 // ── MAIN ROUTE: GET /api/articles ──
 router.get('/', async (req, res) => {
-  const { category, search, limit = 20 } = req.query;
+  try {
+    const { category, search, limit = 30, region } = req.query;
 
-  let allArticles = [];
-  let sourcesSucceeded = 0;
+    const data = await liveNewsService.getArticles({
+      region,
+      search,
+      limit: parseInt(limit, 10) || 30
+    });
 
-  // Try fetching from RSS feeds via rss2json.com
-  const feedPromises = LEGAL_RSS_FEEDS.map(async (feed) => {
-    try {
-      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&api_key=public&count=8`;
-      const response = await fetchUrl(apiUrl);
-      if (response.status === 200) {
-        const data = JSON.parse(response.body);
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          sourcesSucceeded++;
-          return data.items.map((item, idx) => ({
-            id: `rss-${feed.name.toLowerCase().replace(/\s+/g, '-')}-${idx}`,
-            title: item.title || '',
-            link: item.link || '#',
-            description: (item.description || item.content || '').replace(/<[^>]+>/g, '').substring(0, 200) + '...',
-            pubDate: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString(),
-            image: item.thumbnail || item.enclosure?.link || null,
-            source: feed.name,
-            category: feed.category,
-            icon: feed.icon,
-            readTime: '3 min read',
-            practiceArea: feed.category.toLowerCase().includes('court') ? 'civil' : 'corporate'
-          })).filter(a => a.title);
-        }
-      }
-    } catch (e) {
-      // silently fail per feed
+    let articles = data.articles || [];
+
+    // Filter by category if specified
+    if (category && category !== 'All') {
+      const catLower = category.toLowerCase();
+      articles = articles.filter(a =>
+        (a.category || '').toLowerCase().includes(catLower) ||
+        (a.practiceArea || '').toLowerCase().includes(catLower)
+      );
     }
-    return [];
-  });
 
-  const results = await Promise.all(feedPromises);
-  allArticles = results.flat();
-
-  // If external sources mostly failed, inject fallback articles
-  if (allArticles.length < 4) {
-    allArticles = [...allArticles, ...FALLBACK_ARTICLES];
+    return res.json({
+      success: true,
+      count: articles.length,
+      totalAvailable: data.totalAvailable || articles.length,
+      sourcesOnline: data.sourcesOnline || 3,
+      liveFeedStatus: data.liveFeedStatus || 'connected',
+      lastUpdated: data.lastUpdated || new Date().toISOString(),
+      articles
+    });
+  } catch (err) {
+    console.error('[routes/articles] Error fetching live articles:', err.message);
+    const baseline = (typeof liveNewsService.getBaselineArticles === 'function')
+      ? liveNewsService.getBaselineArticles()
+      : getBaselineArticles();
+    return res.json({
+      success: true,
+      count: baseline.length,
+      sourcesOnline: 0,
+      liveFeedStatus: 'baseline',
+      lastUpdated: new Date().toISOString(),
+      articles: baseline
+    });
   }
-
-  // ── FILTER ──
-  if (category && category !== 'All') {
-    allArticles = allArticles.filter(a =>
-      a.category.toLowerCase().includes(category.toLowerCase())
-    );
-  }
-  if (search) {
-    const q = search.toLowerCase();
-    allArticles = allArticles.filter(a =>
-      a.title.toLowerCase().includes(q) ||
-      a.description.toLowerCase().includes(q) ||
-      a.category.toLowerCase().includes(q)
-    );
-  }
-
-  // ── SORT by date (newest first) ──
-  allArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-  // ── DEDUPLICATE by title ──
-  const seen = new Set();
-  allArticles = allArticles.filter(a => {
-    const key = a.title.toLowerCase().substring(0, 50);
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-
-  // ── LIMIT ──
-  allArticles = allArticles.slice(0, parseInt(limit));
-
-  return res.json({
-    success: true,
-    count: allArticles.length,
-    sourcesOnline: sourcesSucceeded,
-    lastUpdated: new Date().toISOString(),
-    articles: allArticles
-  });
 });
 
 // ================================================================
@@ -880,9 +713,20 @@ router.get('/world-news/:id', async (req, res) => {
 });
 
 // ── GET /api/articles/:id ──
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const article = FALLBACK_ARTICLES.find(a => a.id === id) || WORLD_LEGAL_ARTICLES.find(a => a.id === id);
+  try {
+    const liveArticle = await liveNewsService.getArticleById(id);
+    if (liveArticle) {
+      return res.json({ success: true, article: liveArticle });
+    }
+  } catch (e) {}
+
+  const baselineList = (typeof liveNewsService.getBaselineArticles === 'function')
+    ? liveNewsService.getBaselineArticles()
+    : getBaselineArticles();
+
+  const article = baselineList.find(a => a.id === id) || WORLD_LEGAL_ARTICLES.find(a => a.id === id);
   if (!article) {
     return res.status(404).json({ success: false, message: 'Article not found' });
   }

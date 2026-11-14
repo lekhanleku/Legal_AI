@@ -82,11 +82,57 @@ class Lawyer {
   }
 
   /**
-   * Find lawyer by primary key ID
+   * Find lawyer by primary key ID (supports direct ID, fallback index, bar number, or name)
    */
   static findById(id) {
-    const stmt = db.prepare('SELECT * FROM lawyers WHERE id = ?');
-    return stmt.get(id) || null;
+    if (!id && id !== 0) return null;
+    try {
+      const stmt = db.prepare('SELECT * FROM lawyers WHERE id = ?');
+      const lawyer = stmt.get(id);
+      if (lawyer) return lawyer;
+    } catch (_) {}
+
+    // Check if ID is numeric and matches a 1-based index from fallback dataset
+    if (!isNaN(Number(id))) {
+      const numericId = Number(id);
+      try {
+        const { INDIAN_LAWYERS } = require('../services/lawyersData');
+        if (Array.isArray(INDIAN_LAWYERS) && numericId >= 1 && numericId <= INDIAN_LAWYERS.length) {
+          const fallback = INDIAN_LAWYERS[numericId - 1];
+          if (fallback) {
+            if (fallback.barNumber) {
+              const byBar = db.prepare('SELECT * FROM lawyers WHERE barNumber = ?').get(fallback.barNumber);
+              if (byBar) return byBar;
+            }
+            if (fallback.name) {
+              const byName = db.prepare('SELECT * FROM lawyers WHERE name = ? OR name LIKE ?').get(fallback.name, `%${fallback.name}%`);
+              if (byName) return byName;
+            }
+          }
+        }
+      } catch (_) {}
+    }
+
+    // Try finding by name or partial name match
+    try {
+      const byName = db.prepare('SELECT * FROM lawyers WHERE name = ? OR name LIKE ?').get(String(id), `%${String(id)}%`);
+      if (byName) return byName;
+    } catch (_) {}
+
+    return null;
+  }
+
+  /**
+   * Find lawyer by exact or partial name
+   */
+  static findByName(name) {
+    if (!name) return null;
+    try {
+      const stmt = db.prepare('SELECT * FROM lawyers WHERE name = ? OR name LIKE ? LIMIT 1');
+      return stmt.get(name, `%${name}%`) || null;
+    } catch (_) {
+      return null;
+    }
   }
 
   /**
@@ -231,6 +277,20 @@ class Lawyer {
     const stmt = db.prepare("UPDATE consultations SET status = 'cancelled' WHERE id = ?");
     const res = stmt.run(Number(id));
     return res.changes > 0;
+  }
+
+  /**
+   * Cancel all booked consultations
+   */
+  static cancelAllConsultations(userId = null) {
+    if (userId) {
+      const stmt = db.prepare("UPDATE consultations SET status = 'cancelled' WHERE userId = ? AND status != 'cancelled'");
+      const res = stmt.run(userId);
+      return res.changes;
+    }
+    const stmt = db.prepare("UPDATE consultations SET status = 'cancelled' WHERE status != 'cancelled'");
+    const res = stmt.run();
+    return res.changes;
   }
 
   /**

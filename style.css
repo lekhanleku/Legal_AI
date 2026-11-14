@@ -8267,6 +8267,8 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transition: opacity 0.28s var(--ease);
 }
 
@@ -8282,11 +8284,14 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   border-radius: 20px;
   width: 100%;
   max-width: 880px;
+  height: min(90vh, 850px);
   max-height: 90vh;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  margin: auto;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(184, 149, 106, 0.12);
   animation: modalFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -8310,6 +8315,7 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-shrink: 0;
 }
 
 .bookings-header-left {
@@ -8384,6 +8390,7 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .bookings-search-wrap {
@@ -8429,12 +8436,36 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 }
 
 .bookings-list-container {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(184, 149, 106, 0.45) rgba(255, 255, 255, 0.03);
+}
+
+.bookings-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.bookings-list-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+}
+
+.bookings-list-container::-webkit-scrollbar-thumb {
+  background: rgba(184, 149, 106, 0.45);
+  border-radius: 8px;
+}
+
+.bookings-list-container::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
 }
 
 /* ── BOOKED CONSULT CARD ── */
@@ -8925,6 +8956,7 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .bookings-explore-btn {
@@ -8968,6 +9000,11 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 }
 
 @media (max-width: 768px) {
+  .bookings-modal-card {
+    height: 94vh;
+    max-height: 94vh;
+    border-radius: 14px;
+  }
   .bookings-modal-header {
     padding: 18px 20px;
   }

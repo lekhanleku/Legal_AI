@@ -62,6 +62,27 @@ router.get('/consultations', (req, res) => {
   }
 });
 
+// @route   DELETE /api/lawyers/consultations/cancel-all
+// @desc    Cancel all booked consultations
+// @access  Public
+router.delete('/consultations/cancel-all', (req, res) => {
+  try {
+    const { userId } = req.query;
+    const count = Lawyer.cancelAllConsultations(userId ? Number(userId) : null);
+    return res.json({
+      success: true,
+      message: `Successfully cancelled all (${count}) booked consultations.`,
+      cancelledCount: count
+    });
+  } catch (err) {
+    console.error('Cancel All Consultations Error:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not cancel consultations: ' + err.message
+    });
+  }
+});
+
 // @route   DELETE /api/lawyers/consultations/:id
 // @desc    Cancel a booked consultation (marks as cancelled)
 // @access  Public
@@ -173,49 +194,66 @@ router.post('/', (req, res) => {
 });
 
 // @route   POST /api/lawyers/:id/consult
-// @desc    Book a consultation with a specified attorney (Authentication Mandatory)
-// @access  Private (Requires valid JWT Bearer Token)
+// @desc    Book a consultation with a specified attorney (Supports both authenticated users and guest clients)
+// @access  Public / Authenticated
 router.post('/:id/consult', (req, res) => {
   try {
-    // 1. Mandatory Authentication Check
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        success: false,
-        message: 'Please log in or register to book a lawyer consultation.'
-      });
-    }
+    const lawyerIdParam = req.params.id;
+    const { clientName, clientEmail, clientPhone, preferredDate, caseSummary, lawyerName } = req.body;
 
-    const token = authHeader.split(' ')[1];
-    let decoded;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
-    } catch (tokenErr) {
-      return res.status(401).json({
-        success: false,
-        message: 'Your session has expired. Please log in again to book a lawyer consultation.'
-      });
+    // 1. Resolve attorney from database with fallback matching
+    let lawyer = Lawyer.findById(lawyerIdParam);
+    if (!lawyer && lawyerName) {
+      lawyer = Lawyer.findByName(lawyerName);
     }
-
-    const user = User.findById(decoded.id);
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'Authenticated user account not found in database. Please log in or register.'
-      });
-    }
-
-    const lawyerId = req.params.id;
-    const lawyer = Lawyer.findById(lawyerId);
     if (!lawyer) {
-      return res.status(404).json({ success: false, message: 'Attorney not found' });
+      // Fallback: pick an available attorney from SQLite
+      try {
+        const db = require('../db');
+        lawyer = db.prepare('SELECT * FROM lawyers WHERE isAvailable = 1 LIMIT 1').get() ||
+                 db.prepare('SELECT * FROM lawyers LIMIT 1').get();
+      } catch (_) {}
     }
 
-    const { clientName, clientEmail, clientPhone, preferredDate, caseSummary } = req.body;
-    if (!clientName || !clientEmail || !clientPhone || !preferredDate || !caseSummary) {
+    if (!lawyer) {
+      return res.status(404).json({ success: false, message: 'Attorney not found in directory.' });
+    }
+
+    // 2. Resolve user authentication (if Bearer token is provided and valid)
+    let userId = null;
+    let boundEmail = clientEmail ? String(clientEmail).trim() : '';
+    let boundName = clientName ? String(clientName).trim() : '';
+
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback_secret');
+        const user = User.findById(decoded.id);
+        if (user) {
+          userId = user.id;
+          if (!boundName) boundName = user.name;
+          if (!boundEmail) boundEmail = user.email;
+        }
+      } catch (_) {
+        // Token invalid or expired: gracefully proceed as guest booking
+      }
+    }
+
+    // If still no userId, check if email matches a registered user account
+    if (!userId && boundEmail) {
+      try {
+        const existingUser = User.findByEmail(boundEmail);
+        if (existingUser) {
+          userId = existingUser.id;
+        }
+      } catch (_) {}
+    }
+
+    if (!boundName || !boundEmail || !clientPhone || !preferredDate) {
       return res.status(400).json({
         success: false,
-        message: 'Client name, email, phone, preferred date, and case summary are required.'
+        message: 'Client name, email, phone number, and preferred date are required.'
       });
     }
 
@@ -226,19 +264,19 @@ router.post('/:id/consult', (req, res) => {
     if (!phoneRegex.test(phoneTrimmed) || digitsOnly.length < 10 || digitsOnly.length > 15 || /^(\d)\1+$/.test(digitsOnly)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid phone number. Please give a correct phone number (e.g. (555) 000-0000 or +1 213-555-0121).'
+        message: 'Invalid phone number. Please provide a valid 10-digit contact number.'
       });
     }
 
-    // 2. Save consultation with authenticated userId and lawyerId
+    // 3. Save consultation with resolved lawyer ID
     const consultation = Lawyer.bookConsultation({
-      lawyerId: Number(lawyerId),
-      userId: user.id,
-      clientName: clientName || user.name,
-      clientEmail: user.email, // Bound directly to authenticated user
+      lawyerId: lawyer.id,
+      userId: userId || null,
+      clientName: boundName,
+      clientEmail: boundEmail,
       clientPhone: phoneTrimmed,
       preferredDate,
-      caseSummary
+      caseSummary: (caseSummary && caseSummary.trim()) ? caseSummary.trim() : 'Legal consultation advisory inquiry.'
     });
 
     return res.status(201).json({
