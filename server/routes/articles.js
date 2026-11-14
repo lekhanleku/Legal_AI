@@ -332,7 +332,7 @@ const WORLD_LEGAL_FEEDS = [
     name: 'UN News — Law & Crime',
     url: 'https://news.un.org/feed/subscribe/en/news/topic/law-and-crime-prevention/feed/rss.xml',
     region: 'International Courts',
-    icon: '🇺🇳'
+    icon: ''
   },
   {
     name: 'Jurist Global Legal News',
@@ -344,7 +344,7 @@ const WORLD_LEGAL_FEEDS = [
     name: 'Law Society Gazette UK',
     url: 'https://www.lawgazette.co.uk/rss',
     region: 'UK & Commonwealth',
-    icon: '🇬🇧'
+    icon: ''
   }
 ];
 
@@ -353,7 +353,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-eu-ai-act-enforcement',
     title: 'EU AI Act Enters Comprehensive Enforcement Phase with Global Corporate Penalties',
     region: 'European Union',
-    flag: '🇪🇺',
+    flag: '',
     category: 'AI & Tech Regulation',
     source: 'European Commission / Official Journal of the EU',
     pubDate: '2026-03-08T09:00:00.000Z',
@@ -395,7 +395,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-icj-climate-obligations',
     title: 'International Court of Justice Delivers Advisory Opinion on State Climate Obligations',
     region: 'International Courts',
-    flag: '🇺🇳',
+    flag: '',
     category: 'Public International Law',
     source: 'ICJ Registry / Peace Palace The Hague',
     pubDate: '2026-03-07T14:30:00.000Z',
@@ -435,7 +435,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-cjeu-cross-border-data',
     title: 'CJEU Upholds Stringent Technical Encryption Benchmarks for Transatlantic Cloud Transfers',
     region: 'European Union',
-    flag: '🇪🇺',
+    flag: '',
     category: 'Data Privacy & Cyber Law',
     source: 'Court of Justice of the European Union (Curia)',
     pubDate: '2026-03-05T11:15:00.000Z',
@@ -475,7 +475,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-uk-supreme-court-ai-patents',
     title: 'UK Supreme Court Decides Landmark Artificial Intelligence Patent Inventorship Case',
     region: 'UK & Commonwealth',
-    flag: '🇬🇧',
+    flag: '',
     category: 'Intellectual Property Law',
     source: 'Supreme Court of the United Kingdom (UKSC)',
     pubDate: '2026-03-04T16:00:00.000Z',
@@ -555,7 +555,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-icc-universal-jurisdiction',
     title: 'International Criminal Court Expands Universal Jurisdiction Dockets for State Actors',
     region: 'International Courts',
-    flag: '🇺🇳',
+    flag: '',
     category: 'International Criminal Law',
     source: 'Office of the Prosecutor, ICC The Hague',
     pubDate: '2026-02-28T13:20:00.000Z',
@@ -635,7 +635,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-un-cybercrime-treaty',
     title: 'UN General Assembly Adopts Comprehensive Multilateral Cybercrime Treaty',
     region: 'International Courts',
-    flag: '🇺🇳',
+    flag: '',
     category: 'Cyber Law & Multilateral Treaties',
     source: 'United Nations Headquarters New York',
     pubDate: '2026-02-22T17:40:00.000Z',
@@ -675,7 +675,7 @@ const WORLD_LEGAL_ARTICLES = [
     id: 'world-uk-high-court-sanctions-force-majeure',
     title: 'UK High Court Issues Decisive Ruling on Sanctions and Commercial Force Majeure Clauses',
     region: 'UK & Commonwealth',
-    flag: '🇬🇧',
+    flag: '',
     category: 'Commercial Litigation',
     source: 'High Court of Justice Commercial Division London',
     pubDate: '2026-02-18T12:10:00.000Z',

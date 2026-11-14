@@ -81,13 +81,13 @@ function detectRegionAndCategory(title, desc) {
 
   if (full.includes('european union') || full.includes('brussels') || full.includes('cjeu') || full.includes('echr') || full.includes('france') || full.includes('germany') || full.includes('eu court')) {
     region = 'European Union';
-    flag = '🇪🇺';
+    flag = '';
   } else if (full.includes('uk') || full.includes('britain') || full.includes('london') || full.includes('high court') || full.includes('crown court') || full.includes('privy council') || full.includes('commonwealth') || full.includes('australia') || full.includes('canada')) {
     region = 'UK & Commonwealth';
-    flag = '🇬🇧';
+    flag = '';
   } else if (full.includes('international court') || full.includes('icj') || full.includes('icc') || full.includes('the hague') || full.includes('united nations') || full.includes('treaty') || full.includes('un tribunal') || full.includes('war crimes')) {
     region = 'International Courts';
-    flag = '🇺🇳';
+    flag = '';
   } else if (full.includes('singapore') || full.includes('japan') || full.includes('tokyo') || full.includes('india') || full.includes('supreme court of india') || full.includes('hong kong') || full.includes('asia') || full.includes('china')) {
     region = 'Asia-Pacific';
     flag = '';
@@ -271,7 +271,7 @@ function getBaselineArticles() {
       id: 'india-sc-dpdp-act-verdict',
       title: 'Supreme Court & MeitY Finalize Digital Personal Data Protection (DPDP) Act Compliance Rules',
       region: 'India & Supreme Court',
-      flag: '🇮🇳',
+      flag: '',
       category: 'Data Privacy & Tech Law',
       source: 'Supreme Court of India / Ministry of Electronics & IT',
       pubDate: dToday,
@@ -313,7 +313,7 @@ function getBaselineArticles() {
       id: 'india-sc-electoral-transparency',
       title: 'Supreme Court Constitution Bench Reaffirms Voter Right to Information and Campaign Transparency',
       region: 'India & Supreme Court',
-      flag: '🇮🇳',
+      flag: '',
       category: 'Constitutional Law',
       source: 'Supreme Court of India (Constitution Bench)',
       pubDate: dYesterday,
@@ -334,7 +334,7 @@ function getBaselineArticles() {
       id: 'india-bns-criminal-code-reforms',
       title: 'Supreme Court Clarifies Evidentiary Rules and Audio-Visual Recording Mandates under Bharatiya Nyaya Sanhita (BNS)',
       region: 'India & Supreme Court',
-      flag: '🇮🇳',
+      flag: '',
       category: 'Criminal Jurisprudence & Procedure',
       source: 'Supreme Court of India / High Courts Gazette',
       pubDate: dYesterday,
@@ -376,7 +376,7 @@ function getBaselineArticles() {
       id: 'india-const-article20-22-bns-criminal-safeguards',
       title: 'Supreme Court Mandates Electronic Evidence Hashing to Enforce Article 20(3) and 22 Constitutional Safeguards in Criminal Procedure',
       region: 'Criminal Due Process & Safeguards',
-      flag: '🇮🇳',
+      flag: '',
       category: 'Constitutional Criminal Safeguards',
       source: 'Supreme Court of India (Criminal Appellate Division)',
       pubDate: d2DaysAgo,
@@ -418,7 +418,7 @@ function getBaselineArticles() {
       id: 'india-const-article25-secularism-religious-autonomy',
       title: 'Supreme Court Reaffirms Article 25 Essential Religious Practices Test Balancing Faith and Fundamental Rights',
       region: 'Fundamental Freedoms & Secularism',
-      flag: '🇮🇳',
+      flag: '',
       category: 'Freedom of Religion & Constitutional Morality',
       source: 'Supreme Court of India (7-Judge Constitutional Reference)',
       pubDate: d2DaysAgo,
