@@ -133,6 +133,7 @@ function showDashboard(profileData) {
 
   // Load User Consultations & Chats
   loadUserConsultations();
+  loadUserCases();
   loadUserChats();
 }
 
@@ -271,6 +272,78 @@ window.cancelConsultation = async function(id) {
     alert('Error cancelling consultation: ' + err.message);
   }
 };
+
+// ── LOAD USER COURT CASES & LITIGATION DOCKETS ──
+let userCases = [];
+async function loadUserCases() {
+  const container = document.getElementById('my-cases-container');
+  const badge = document.getElementById('tab-badge-cases');
+  if (!container) return;
+
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${SERVER_ORIGIN}/api/user/cases`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success && Array.isArray(data.cases)) {
+      userCases = data.cases;
+      if (badge) badge.textContent = userCases.length;
+      renderUserCases(userCases);
+    }
+  } catch (err) {
+    container.innerHTML = '<div style="text-align:center; padding:30px; color:#f87171; grid-column:1/-1;">Could not load court cases.</div>';
+  }
+}
+
+function renderUserCases(cases) {
+  const container = document.getElementById('my-cases-container');
+  if (!container) return;
+
+  if (cases.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column:1/-1; text-align:center; padding:50px; background:rgba(255,255,255,0.02); border:1px dashed var(--border); border-radius:12px;">
+        <h4 style="color:#fff; margin-bottom:8px;">No Active Court Proceedings Filed Yet</h4>
+        <p style="color:#94a3b8; font-size:0.88rem; max-width:480px; margin:0 auto 16px;">
+          When an advocate from LegalAI accepts your case and files a petition or cause list docket before a court, it will appear here in real time.
+        </p>
+        <a href="lawyers.html" class="btn-portal-primary" style="text-decoration:none; display:inline-flex;">
+          Find &amp; Retain an Advocate
+        </a>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = cases.map(cs => `
+    <div class="consult-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+          <span class="case-number-badge" style="font-size:0.75rem;">${escapeHtml(cs.caseNumber)}</span>
+          <span class="meta-pill meta-pill-emerald">${escapeHtml(cs.stage || 'Hearing')}</span>
+        </div>
+        <h4 style="font-family:var(--font-heading); color:#fff; font-size:1.05rem; margin-bottom:8px;">
+          ${escapeHtml(cs.title)}
+        </h4>
+        <div style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">
+          <strong>Court:</strong> ${escapeHtml(cs.courtName)}<br/>
+          <strong>Opposing Party:</strong> ${escapeHtml(cs.opposingParty || 'State / Opposing Party')}
+        </div>
+        <div style="background:rgba(0,0,0,0.25); border:1px solid var(--border); border-radius:6px; padding:10px; margin-bottom:12px; font-size:0.84rem; color:#cbd5e1;">
+          <div style="font-size:0.72rem; text-transform:uppercase; color:var(--gold-glow); font-weight:700; margin-bottom:4px;">Chambers Counsel</div>
+          <div style="font-weight:600; color:#fff;">${escapeHtml(cs.lawyerName)} (${escapeHtml(cs.lawyerSpecialty)})</div>
+          <div style="font-size:0.78rem; color:#94a3b8;">${escapeHtml(cs.lawyerFirm || '')}</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid var(--border); padding-top:10px; display:flex; justify-content:space-between; align-items:center; font-size:0.8rem;">
+        <span style="color:#dfb77c;">Next Hearing: <strong>${escapeHtml(cs.nextHearingDate || 'To Be Notified')}</strong></span>
+        <button class="portal-filter-btn" style="padding:4px 8px; font-size:0.75rem;" onclick="openLawyerModal(${cs.lawyerId})">
+          Contact Advocate
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
 
 // ── LOAD USER AI CHATS ──
 async function loadUserChats() {

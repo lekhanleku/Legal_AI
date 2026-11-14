@@ -425,6 +425,18 @@ body {
   border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
+.meta-pill-red {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.meta-pill-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
 .portal-hero-title {
   font-family: var(--font-heading);
   font-size: 1.85rem;

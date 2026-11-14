@@ -193,6 +193,39 @@ router.delete('/consultations/:id', requireUser, (req, res) => {
   }
 });
 
+// @route   GET /api/user/cases
+// @desc    Get all court litigation dockets where the user is represented by an advocate
+// @access  Private
+router.get('/cases', requireUser, (req, res) => {
+  try {
+    const user = req.user;
+    const cases = db.prepare(`
+      SELECT 
+        cs.*,
+        l.name as lawyerName,
+        l.title as lawyerTitle,
+        l.specialty as lawyerSpecialty,
+        l.firmName as lawyerFirm,
+        l.phone as lawyerPhone,
+        l.email as lawyerEmail,
+        l.avatarUrl as lawyerAvatar
+      FROM cases cs
+      JOIN lawyers l ON cs.lawyerId = l.id
+      WHERE LOWER(cs.clientEmail) = LOWER(?) OR LOWER(cs.clientName) = LOWER(?)
+      ORDER BY cs.nextHearingDate ASC, cs.id DESC
+    `).all(user.email, user.name);
+
+    return res.json({
+      success: true,
+      count: cases.length,
+      cases
+    });
+  } catch (err) {
+    console.error('User Cases Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   GET /api/user/chats
 // @desc    Get user past legal AI chats
 // @access  Private
