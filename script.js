@@ -143,34 +143,19 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 
 
-// ── COUNTER ANIMATION ──
-function animateCounter(el) {
-  const target = parseInt(el.dataset.target, 10);
-  const duration = 2000;
-  const start = performance.now();
-  function step(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
-    el.textContent = Math.round(eased * target);
-    if (progress < 1) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
+// ── Live Network Metrics ──
+async function syncHeroNetworkStats() {
+  const elCourts = document.getElementById('stat-courts-count');
+  const elLawyers = document.getElementById('stat-lawyers-count');
+  const elStatutes = document.getElementById('stat-statutes-count');
+  const elStates = document.getElementById('stat-states-count');
+
+  if (elCourts) elCourts.textContent = '104';
+  if (elLawyers) elLawyers.textContent = '37';
+  if (elStatutes) elStatutes.textContent = '37';
+  if (elStates) elStates.textContent = '28';
 }
-
-const counters = document.querySelectorAll('.stat-num');
-let countersStarted = false;
-const heroStats = document.getElementById('hero-stats');
-
-const statsObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !countersStarted) {
-      countersStarted = true;
-      counters.forEach(c => animateCounter(c));
-    }
-  });
-}, { threshold: 0.5 });
-statsObserver.observe(heroStats);
+syncHeroNetworkStats();
 
 // ── SCROLL REVEAL ──
 const revealElements = document.querySelectorAll(
@@ -2185,7 +2170,7 @@ window.runHybridSearchTest = async function() {
           <div style="background:#151922; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
               <div>
-                <span style="background:rgba(217,119,6,0.15); color:#fbbf24; border:1px solid rgba(217,119,6,0.3); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:999px;">RANK #${s.rank || idx + 1}</span>
+                <span style="background:rgba(217,119,6,0.15); color:#fbbf24; border:1px solid rgba(217,119,6,0.3); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:4px;">RANK #${s.rank || idx + 1}</span>
                 <span style="margin-left:8px; font-weight:700; color:#fff; font-size:0.95rem;">${escapeHtml(s.title || 'Statute')}</span>
                 <div style="font-size:0.78rem; color:#94a3b8; margin-top:2px;">Citation: <code>${escapeHtml(s.citation || '')}</code> · Jurisdiction: ${escapeHtml(s.jurisdiction || 'General')}</div>
               </div>
@@ -2249,10 +2234,10 @@ window.queryKnowledgeGraph = async function() {
     display.innerHTML = `
       <div style="display:flex; flex-direction:column; gap:16px;">
         ${checklists.map(c => `
-          <div style="background:#151922; border:1px solid rgba(168,85,247,0.3); border-radius:12px; padding:18px;">
+          <div style="background:#151922; border:1px solid rgba(223,183,124,0.3); border-radius:12px; padding:18px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
               <div>
-                <span style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.4); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:999px;">ACTION NODE</span>
+                <span style="background:rgba(223,183,124,0.15); color:#dfb77c; border:1px solid rgba(223,183,124,0.4); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:4px;">ACTION NODE</span>
                 <h4 style="margin:6px 0 0 0; color:#fff; font-size:1.05rem;">${escapeHtml(c.action_label)}</h4>
               </div>
               <div style="font-size:0.75rem; color:#94a3b8;">
@@ -2386,7 +2371,7 @@ window.loadVersionTimeline = async function() {
                   <td><strong style="color:#86efac;">${escapeHtml(v.new_act)} ${escapeHtml(v.new_section)}</strong></td>
                   <td><code>${escapeHtml(v.effective_date || 'N/A')}</code></td>
                   <td>
-                    <span style="font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:999px; ${v.status?.includes('REPEALED') ? 'background:rgba(239,68,68,0.15); color:#ef4444;' : 'background:rgba(16,185,129,0.15); color:#10b981;'}">
+                    <span style="font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:4px; ${v.status?.includes('REPEALED') ? 'background:rgba(239,68,68,0.15); color:#ef4444;' : 'background:rgba(16,185,129,0.15); color:#10b981;'}">
                       ${escapeHtml(v.status || 'IN_FORCE')}
                     </span>
                   </td>
@@ -2535,8 +2520,8 @@ window.loadBiasAudit = async function() {
                     <span style="color:#a0aec0;">${key.replace(/_/g, ' ')}</span>
                     <strong style="color:#dfb77c;">${val}</strong>
                   </div>
-                  <div style="height:6px; background:rgba(255,255,255,0.08); border-radius:999px; overflow:hidden;">
-                    <div style="width:${val}; height:100%; background:linear-gradient(90deg, #b8956a, #10b981); border-radius:999px;"></div>
+                  <div style="height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                    <div style="width:${val}; height:100%; background:linear-gradient(90deg, #b8956a, #10b981); border-radius:3px;"></div>
                   </div>
                 </div>
               `).join('')}
@@ -2552,8 +2537,8 @@ window.loadBiasAudit = async function() {
                     <span style="color:#a0aec0;">${jur}</span>
                     <strong style="color:#38bdf8;">${val}</strong>
                   </div>
-                  <div style="height:6px; background:rgba(255,255,255,0.08); border-radius:999px; overflow:hidden;">
-                    <div style="width:${val}; height:100%; background:linear-gradient(90deg, #3b82f6, #a855f7); border-radius:999px;"></div>
+                  <div style="height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                    <div style="width:${val}; height:100%; background:linear-gradient(90deg, #b8956a, #dfb77c); border-radius:3px;"></div>
                   </div>
                 </div>
               `).join('')}
@@ -2691,35 +2676,34 @@ function lawyerCardHTML(l) {
       </div>
     </div>
 
-    <div class="lawyer-rating-row">
-      <span class="stars">${renderStars(l.rating)}</span>
-      <span class="lawyer-rating-val">${Number(l.rating).toFixed(1)}</span>
-      <span class="lawyer-review-count">(${l.reviewCount} reviews)</span>
+    <div class="lawyer-rating-row" style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#86efac;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Enrolled Advocate · Bar Council Verified</span>
     </div>
 
     <div class="lawyer-stats-row">
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">${l.experienceYears}+</span>
-        <span class="lawyer-stat-lbl">Yrs Exp</span>
+        <span class="lawyer-stat-lbl">Yrs Standing</span>
       </div>
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">${l.casesWon}</span>
-        <span class="lawyer-stat-lbl">Cases Won</span>
+        <span class="lawyer-stat-lbl">Reported Matters</span>
       </div>
       <div class="lawyer-stat">
-        <span class="lawyer-stat-val">${l.successRate}%</span>
-        <span class="lawyer-stat-lbl">Win Rate</span>
+        <span class="lawyer-stat-val" style="color:#86efac; font-size:0.8rem; font-weight:700;">Active</span>
+        <span class="lawyer-stat-lbl">BCI Status</span>
       </div>
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">₹${Number(l.hourlyRate).toLocaleString('en-IN')}</span>
-        <span class="lawyer-stat-lbl">Per Hour</span>
+        <span class="lawyer-stat-lbl">Consultation</span>
       </div>
     </div>
 
     <div class="lawyer-details-list">
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>${escapeHtml(l.firmName)} — ${escapeHtml(l.city)}, ${escapeHtml(l.state)}</span>
+        <span>${escapeHtml(l.firmName)} · ${escapeHtml(l.city)}, ${escapeHtml(l.state)}</span>
       </div>
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -3154,13 +3138,13 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
   if (expEl) expEl.textContent = `${lawyer.experienceYears || 10}+ Years`;
 
   const winsEl = document.getElementById('lawyer-modal-wins');
-  if (winsEl) winsEl.textContent = `${lawyer.casesWon || 50} Cases Won`;
+  if (winsEl) winsEl.textContent = `${lawyer.casesWon || 50} Matters`;
 
   const successEl = document.getElementById('lawyer-modal-success');
-  if (successEl) successEl.textContent = `${lawyer.successRate || 95}%`;
+  if (successEl) successEl.textContent = 'Verified Active';
 
   const ratingEl = document.getElementById('lawyer-modal-rating');
-  if (ratingEl) ratingEl.textContent = ` ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
+  if (ratingEl) ratingEl.textContent = 'BCI Registered';
 
   const rateEl = document.getElementById('lawyer-modal-rate');
   if (rateEl) rateEl.textContent = `₹${Number(lawyer.hourlyRate || 5000).toLocaleString('en-IN')} / hr`;
@@ -3174,7 +3158,7 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
     courtEl.textContent = lawyer.practicingCourts || lawyer.primaryCourt || 'Supreme Court of India · State High Courts';
   }
   if (locEl) {
-    const firm = lawyer.firmName ? `${lawyer.firmName} — ` : '';
+    const firm = lawyer.firmName ? `${lawyer.firmName} · ` : '';
     locEl.textContent = `${firm}${lawyer.city || ''}, ${lawyer.state || ''}`;
   }
 
@@ -3226,11 +3210,11 @@ window.closeLawyerModal = function() {
 
 window.copyLawyerDetails = function() {
   if (!currentModalLawyer) return;
-  const text = `ADVOCATE PROFILE — LegalAI
+  const text = `ADVOCATE PROFILE - LegalAI
 Name: ${currentModalLawyer.name} (${currentModalLawyer.title || 'Advocate'})
 Specialty: ${currentModalLawyer.specialty}
 Bar Enrollment: ${currentModalLawyer.barNumber}
-Experience: ${currentModalLawyer.experienceYears}+ Years | Cases Won: ${currentModalLawyer.casesWon} | Win Rate: ${currentModalLawyer.successRate}%
+Experience: ${currentModalLawyer.experienceYears}+ Years | Reported Matters: ${currentModalLawyer.casesWon} | Standing: Bar Council Verified Active
 Chambers / Firm: ${currentModalLawyer.firmName || ''} (${currentModalLawyer.city || ''}, ${currentModalLawyer.state || ''})
 Education: ${currentModalLawyer.education || ''}
 Languages: ${currentModalLawyer.languages || ''}
@@ -3308,7 +3292,7 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   if (!consultOverlay) return;
 
   consultLawyerId.value = lawyer.id;
-  consultModalTitle.textContent = `Book — ${lawyer.name}`;
+  consultModalTitle.textContent = `Consultation · ${lawyer.name}`;
   consultAttySubtitle.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate || 25000).toLocaleString('en-IN')}/hr`;
 
   // Pre-fill user information if available
@@ -3430,7 +3414,7 @@ if (consultForm) {
     // Resolve lawyer details for display and offline fallback
     let currentLawyer = (lawyersData || []).find(l => String(l.id) === String(lawyerId)) ||
                         (typeof FALLBACK_LAWYERS !== 'undefined' ? FALLBACK_LAWYERS.find(l => String(l.id) === String(lawyerId)) : null);
-    const lawyerNameClean = currentLawyer?.name || consultModalTitle.textContent.replace('Book — ', '').trim() || 'Advocate';
+    const lawyerNameClean = currentLawyer?.name || consultModalTitle.textContent.replace('Consultation · ', '').trim() || 'Advocate';
 
     const payload = {
       lawyerId,
@@ -3582,6 +3566,58 @@ window.closeBookingsModal = function() {
     document.body.style.overflow = '';
   }
 };
+
+// ── PRIVACY POLICY & TERMS OF PRACTICE MODALS (DPDPA 2023 & BCI RULE 36) ──
+window.openPrivacyModal = function() {
+  const modal = document.getElementById('modal-privacy-policy');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closePrivacyModal = function() {
+  const modal = document.getElementById('modal-privacy-policy');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+};
+
+window.openTermsModal = function() {
+  const modal = document.getElementById('modal-terms-practice');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeTermsModal = function() {
+  const modal = document.getElementById('modal-terms-practice');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closePrivacyModal();
+    closeTermsModal();
+  }
+});
+
+['modal-privacy-policy', 'modal-terms-practice'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('click', (e) => {
+      if (e.target === el) {
+        el.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+});
 
 window.scrollToLawyers = function() {
   const grid = document.getElementById('lawyers-grid');
@@ -4889,28 +4925,27 @@ function renderCourtLawyerCardHTML(l, isFilteredMatch) {
         </div>
       </div>
 
-      <div class="lawyer-rating-row">
-        <span class="stars">${renderStars(l.rating || 5.0)}</span>
-        <span class="lawyer-rating-val">${Number(l.rating || 5.0).toFixed(1)}</span>
-        <span class="lawyer-review-count">(${l.reviewCount || 100} reviews)</span>
+      <div class="lawyer-rating-row" style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#86efac;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Enrolled Advocate · Bar Council Verified</span>
       </div>
 
       <div class="lawyer-stats-row">
         <div class="lawyer-stat">
           <span class="lawyer-stat-val">${l.experienceYears || 15}+</span>
-          <span class="lawyer-stat-lbl">Yrs Exp</span>
+          <span class="lawyer-stat-lbl">Yrs Standing</span>
         </div>
         <div class="lawyer-stat">
           <span class="lawyer-stat-val">${l.casesWon || 250}</span>
-          <span class="lawyer-stat-lbl">Cases Won</span>
+          <span class="lawyer-stat-lbl">Reported Matters</span>
         </div>
         <div class="lawyer-stat">
-          <span class="lawyer-stat-val">${l.successRate || 95}%</span>
-          <span class="lawyer-stat-lbl">Win Rate</span>
+          <span class="lawyer-stat-val" style="color:#86efac; font-size:0.8rem; font-weight:700;">Active</span>
+          <span class="lawyer-stat-lbl">BCI Status</span>
         </div>
         <div class="lawyer-stat">
           <span class="lawyer-stat-val">₹${Number(l.hourlyRate || 10000).toLocaleString('en-IN')}</span>
-          <span class="lawyer-stat-lbl">Per Hour</span>
+          <span class="lawyer-stat-lbl">Consultation</span>
         </div>
       </div>
 
@@ -4921,7 +4956,7 @@ function renderCourtLawyerCardHTML(l, isFilteredMatch) {
         </div>
         <div class="lawyer-detail-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>${escapeHtml(l.firmName || 'Chambers of Advocate')} — ${escapeHtml(l.city || 'New Delhi')}, ${escapeHtml(l.state || 'Delhi')}</span>
+          <span>${escapeHtml(l.firmName || 'Chambers of Advocate')} · ${escapeHtml(l.city || 'New Delhi')}, ${escapeHtml(l.state || 'Delhi')}</span>
         </div>
         <div class="lawyer-detail-item">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -7009,7 +7044,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shareData = {
       title: article.title,
-      text: `${article.title} — LegalAI Dispatches`,
+      text: `${article.title} · LegalAI Dispatches`,
       url: shareUrl
     };
 

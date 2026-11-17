@@ -488,3 +488,55 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
   }
 });
+
+// ── PRIVACY POLICY & TERMS OF PRACTICE MODALS (DPDPA 2023 & BCI RULE 36) ──
+window.openPrivacyModal = function() {
+  const modal = document.getElementById('modal-privacy-policy');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closePrivacyModal = function() {
+  const modal = document.getElementById('modal-privacy-policy');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+};
+
+window.openTermsModal = function() {
+  const modal = document.getElementById('modal-terms-practice');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeTermsModal = function() {
+  const modal = document.getElementById('modal-terms-practice');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (typeof closePrivacyModal === 'function') closePrivacyModal();
+    if (typeof closeTermsModal === 'function') closeTermsModal();
+  }
+});
+
+['modal-privacy-policy', 'modal-terms-practice'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('click', (e) => {
+      if (e.target === el) {
+        el.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+});

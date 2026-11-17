@@ -224,28 +224,27 @@ function lawyerCardHTML(l) {
       </div>
     </div>
 
-    <div class="lawyer-rating-row">
-      <span class="stars">${renderStars(l.rating)}</span>
-      <span class="lawyer-rating-val">${Number(l.rating).toFixed(1)}</span>
-      <span class="lawyer-review-count">(${l.reviewCount} reviews)</span>
+    <div class="lawyer-rating-row" style="display:flex; align-items:center; gap:6px; font-size:0.78rem; color:#86efac; margin-bottom:8px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Enrolled Advocate &middot; Bar Council Verified</span>
     </div>
 
     <div class="lawyer-stats-row">
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">${l.experienceYears}+</span>
-        <span class="lawyer-stat-lbl">Yrs Exp</span>
+        <span class="lawyer-stat-lbl">Yrs Standing</span>
       </div>
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">${l.casesWon}</span>
-        <span class="lawyer-stat-lbl">Cases Won</span>
+        <span class="lawyer-stat-lbl">Reported Matters</span>
       </div>
       <div class="lawyer-stat">
-        <span class="lawyer-stat-val">${l.successRate}%</span>
-        <span class="lawyer-stat-lbl">Win Rate</span>
+        <span class="lawyer-stat-val" style="color:#86efac; font-size:0.8rem; font-weight:700;">Active</span>
+        <span class="lawyer-stat-lbl">BCI Status</span>
       </div>
       <div class="lawyer-stat">
         <span class="lawyer-stat-val">₹${Number(l.hourlyRate).toLocaleString('en-IN')}</span>
-        <span class="lawyer-stat-lbl">Per Hour</span>
+        <span class="lawyer-stat-lbl">Consultation</span>
       </div>
     </div>
 
@@ -256,7 +255,7 @@ function lawyerCardHTML(l) {
       </div>
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>${escapeHtml(l.firmName)} — ${escapeHtml(l.city)}, ${escapeHtml(l.state)}</span>
+        <span>${escapeHtml(l.firmName)} · ${escapeHtml(l.city)}, ${escapeHtml(l.state)}</span>
       </div>
       <div class="lawyer-detail-item">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -340,7 +339,7 @@ function updateDirectoryJurisdictionRule() {
 
   if (dirRuleBannerTitle) {
     if (hasCourt && courtObj) {
-      dirRuleBannerTitle.textContent = `${courtObj.name} — ${jurRule.title || 'Jurisdiction & Practice Rules'}`;
+      dirRuleBannerTitle.textContent = `${courtObj.name} · ${jurRule.title || 'Jurisdiction & Practice Rules'}`;
     } else {
       dirRuleBannerTitle.textContent = jurRule.title || 'Jurisdiction & Practice Rules';
     }
@@ -722,13 +721,13 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
   if (expEl) expEl.textContent = `${lawyer.experienceYears || 10}+ Years`;
 
   const winsEl = document.getElementById('lawyer-modal-wins');
-  if (winsEl) winsEl.textContent = `${lawyer.casesWon || 50} Cases Won`;
+  if (winsEl) winsEl.textContent = `${lawyer.casesWon || 50} Matters`;
 
   const successEl = document.getElementById('lawyer-modal-success');
-  if (successEl) successEl.textContent = `${lawyer.successRate || 95}%`;
+  if (successEl) successEl.textContent = 'Verified Active';
 
   const ratingEl = document.getElementById('lawyer-modal-rating');
-  if (ratingEl) ratingEl.textContent = ` ${Number(lawyer.rating || 5.0).toFixed(1)} (${lawyer.reviewCount || 40} reviews)`;
+  if (ratingEl) ratingEl.textContent = 'BCI Registered';
 
   const rateEl = document.getElementById('lawyer-modal-rate');
   if (rateEl) rateEl.textContent = `₹${Number(lawyer.hourlyRate || 5000).toLocaleString('en-IN')} / hr`;
@@ -742,7 +741,7 @@ window.openLawyerModal = async function(lawyerId, fallbackLawyer = null) {
   // Chambers & Location
   const locEl = document.getElementById('lawyer-modal-location');
   if (locEl) {
-    const firm = lawyer.firmName ? `${lawyer.firmName} — ` : '';
+    const firm = lawyer.firmName ? `${lawyer.firmName} · ` : '';
     locEl.textContent = `${firm}${lawyer.city || ''}, ${lawyer.state || ''}`;
   }
 
@@ -792,11 +791,11 @@ window.closeLawyerModal = function() {
 
 window.copyLawyerDetails = function() {
   if (!currentModalLawyer) return;
-  const text = `ADVOCATE PROFILE — LegalAI
+  const text = `ADVOCATE PROFILE - LegalAI
 Name: ${currentModalLawyer.name} (${currentModalLawyer.title || 'Advocate'})
 Specialty: ${currentModalLawyer.specialty}
 Bar Enrollment: ${currentModalLawyer.barNumber}
-Experience: ${currentModalLawyer.experienceYears}+ Years | Cases Won: ${currentModalLawyer.casesWon} | Win Rate: ${currentModalLawyer.successRate}%
+Experience: ${currentModalLawyer.experienceYears}+ Years | Reported Matters: ${currentModalLawyer.casesWon} | Standing: Bar Council Verified Active
 Chambers / Firm: ${currentModalLawyer.firmName || ''} (${currentModalLawyer.city || ''}, ${currentModalLawyer.state || ''})
 Education: ${currentModalLawyer.education || ''}
 Languages: ${currentModalLawyer.languages || ''}
@@ -947,7 +946,7 @@ window.openConsultModal = function(lawyerId, fallbackLawyer = null) {
   const idInput = consultLawyerId || document.getElementById('consult-lawyer-id');
 
   if (idInput) idInput.value = lawyer.id;
-  if (titleEl) titleEl.textContent = `Book — ${lawyer.name}`;
+  if (titleEl) titleEl.textContent = `Consultation · ${lawyer.name}`;
   if (subtitleEl) subtitleEl.textContent = `${lawyer.title || 'Advocate'} · ${lawyer.specialty} · ₹${Number(lawyer.hourlyRate || 25000).toLocaleString('en-IN')}/hr`;
 
   // Pre-fill authenticated user details if available
@@ -1073,7 +1072,7 @@ if (formEl) {
     let currentLawyer = (lawyersData || []).find(l => String(l.id) === String(lawyerId)) ||
                         (typeof FALLBACK_LAWYERS !== 'undefined' ? FALLBACK_LAWYERS.find(l => String(l.id) === String(lawyerId)) : null);
     const titleEl = consultModalTitle || document.getElementById('consult-modal-title');
-    const lawyerNameClean = currentLawyer?.name || titleEl?.textContent.replace('Book — ', '').trim() || 'Advocate';
+    const lawyerNameClean = currentLawyer?.name || titleEl?.textContent.replace('Consultation · ', '').trim() || 'Advocate';
 
     const payload = {
       lawyerId,

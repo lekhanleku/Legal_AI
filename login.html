@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portal Access &amp; Authentication — LegalAI</title>
+  <title>Portal Access &amp; Authentication - LegalAI</title>
   <meta name="description" content="Sign in to your dedicated LegalAI portal: Client Case Portal, Advocate Chambers Litigation Desk, or Master Administrator Console."/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet"/>
@@ -542,7 +543,7 @@
           <label class="checkbox-label">
             <input type="checkbox" id="page-reg-terms" required checked/>
             <span class="custom-checkbox"></span>
-            I agree to the LegalAI <a href="#" class="inline-link" style="color:var(--gold);">Terms of Practice</a>
+            I agree to the LegalAI <a href="#" class="inline-link" style="color:var(--gold);" onclick="openTermsModal(); return false;">Terms of Practice</a> &amp; <a href="#" class="inline-link" style="color:var(--gold);" onclick="openPrivacyModal(); return false;">Privacy Policy</a>
           </label>
         </div>
 
@@ -561,8 +562,93 @@
   <!-- TOAST CONTAINER -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
+  <!-- PRIVACY POLICY MODAL (DPDP ACT 2023 COMPLIANT) -->
+  <div class="legal-modal-overlay hidden" id="modal-privacy-policy" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title">
+    <div class="legal-modal-card">
+      <div class="legal-modal-header">
+        <div class="legal-modal-title-wrap">
+          <div class="legal-modal-badge">STATUTORY COMPLIANCE</div>
+          <h3 class="legal-modal-title" id="privacy-modal-title">Privacy Policy &amp; Data Protection</h3>
+          <p class="legal-modal-sub">Pursuant to the Digital Personal Data Protection Act, 2023 (DPDP Act 2023, Act No. 22 of 2023)</p>
+        </div>
+        <button type="button" class="legal-modal-close" onclick="closePrivacyModal();" aria-label="Close Privacy Modal">&times;</button>
+      </div>
+      <div class="legal-modal-body">
+        <div class="legal-section-block">
+          <h4>1. Scope &amp; Legal Framework</h4>
+          <p>This Privacy Policy outlines how LegalAI collects, processes, and protects digital personal data in strict alignment with the <strong>Digital Personal Data Protection Act, 2023 (DPDPA)</strong> and the Information Technology Rules, 2021. This policy applies to all citizens, clients, advocates, and judicial researchers accessing our services.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>2. Privileged Client - Advocate Communications</h4>
+          <p>Under <strong>Section 126 and Section 129 of the Indian Evidence Act, 1872</strong> (and Section 132 of the Bharatiya Sakshya Adhiniyam, 2023), consultations booked between clients and enrolled advocates constitute privileged communications. LegalAI enforces encrypted session boundaries ensuring consultation briefs and client disclosures are accessible only to the designated advocate chambers.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>3. Lawful Basis &amp; Explicit Consent</h4>
+          <p>We process personal data solely on lawful grounds under Section 4 and Section 6 of the DPDP Act 2023:
+          <br>&bull; <em>Consent:</em> Freely given, specific, informed, and unambiguous consent obtained at the point of account registration and consultation booking.
+          <br>&bull; <em>Legitimate Uses:</em> Compliance with judicial summons, statutory verification of Bar Council enrollment numbers, and prevention of fraudulent claims.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>4. Data Minimization &amp; Zero Retention of AI Queries</h4>
+          <p>Legal query drafts submitted to our Hybrid-RAG assistant are processed in ephemeral memory for the duration of statutory retrieval and are not utilized to train public machine learning weights without explicit enterprise consent.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>5. Data Principal Rights &amp; Grievance Redressal</h4>
+          <p>Under Chapter III of the DPDP Act 2023, you hold the right to:
+          <br>&bull; Access summaries of personal data processed by LegalAI.
+          <br>&bull; Correction, completion, and updating of profile information.
+          <br>&bull; Erasure of consultation history and account records upon settlement of active proceedings.
+          <br>&bull; Nominate an authorized representative in the event of death or incapacity.</p>
+          <p>For data inquiries or statutory grievances, contact our designated Grievance Officer: <code>privacy@legalai.in</code>.</p>
+        </div>
+      </div>
+      <div class="legal-modal-footer">
+        <button type="button" class="btn-legal-confirm" onclick="closePrivacyModal();">Understood &amp; Acknowledged</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TERMS OF PRACTICE MODAL (BAR COUNCIL OF INDIA COMPLIANT) -->
+  <div class="legal-modal-overlay hidden" id="modal-terms-practice" role="dialog" aria-modal="true" aria-labelledby="terms-modal-title">
+    <div class="legal-modal-card">
+      <div class="legal-modal-header">
+        <div class="legal-modal-title-wrap">
+          <div class="legal-modal-badge">PROFESSIONAL STANDARDS</div>
+          <h3 class="legal-modal-title" id="terms-modal-title">Terms of Practice &amp; Platform Guidelines</h3>
+          <p class="legal-modal-sub">Bar Council of India Rule 36 Disclaimer and Service Regulations</p>
+        </div>
+        <button type="button" class="legal-modal-close" onclick="closeTermsModal();" aria-label="Close Terms Modal">&times;</button>
+      </div>
+      <div class="legal-modal-body">
+        <div class="legal-section-block statutory-alert">
+          <h4>Statutory Bar Council of India Rule 36 Disclaimer</h4>
+          <p>Under the Advocates Act, 1961 and the Bar Council of India Rules (Part VI, Chapter II, Section IV, Rule 36), advocates in India are statutorily prohibited from advertising or soliciting clients directly or indirectly. By proceeding, you acknowledge that you are seeking legal and court information of your own accord, without solicitation or advertisement by any listed advocate.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>1. Non-Solicitation &amp; Directory Purpose</h4>
+          <p>The profiles displayed in the Verified Advocates Directory are intended solely to provide authentic enrollment verification, official court practice venues, and scheduling access. No content on this platform constitutes an advertisement, personal communication, or solicitation of professional engagement.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>2. AI Research Advisory Disclaimer</h4>
+          <p>The AI Legal Assistant provides informational statutory research and procedural rights analysis derived from official Indian legislation (including BNS, BNSS, BSA, and CPC). <strong>The AI assistant does not provide binding legal opinions and does not create an attorney-client relationship.</strong> Users facing active legal proceedings must seek direct counsel from an enrolled advocate.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>3. No Guarantee of Case Outcomes</h4>
+          <p>Litigation outcomes are determined strictly by courts and judicial tribunals based upon evidence, merits, and applicable statutory provisions. Neither LegalAI nor any enrolled advocate guarantees favorable rulings, orders, or judgments.</p>
+        </div>
+        <div class="legal-section-block">
+          <h4>4. Jurisdiction &amp; Governing Law</h4>
+          <p>These terms and all platform usage are governed exclusively by the laws of the Republic of India. Any disputes arising out of the use of this portal shall be subject to the exclusive jurisdiction of the competent courts in India.</p>
+        </div>
+      </div>
+      <div class="legal-modal-footer">
+        <button type="button" class="btn-legal-confirm" onclick="closeTermsModal();">Accept Terms of Practice</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="auth-page-footer">
-    &copy; 2026 LegalAI. Certified Indian Legal Consultation &amp; AI Intelligence Suite.
+    &copy; 2026 LegalAI. Certified Indian Legal Consultation &amp; AI Intelligence Suite. &middot; <a href="#" onclick="openPrivacyModal(); return false;" style="color:#dfb77c; text-decoration:none;">Privacy Policy</a> &middot; <a href="#" onclick="openTermsModal(); return false;" style="color:#dfb77c; text-decoration:none;">Terms of Practice</a>
   </footer>
 
   <script src="login.js"></script>

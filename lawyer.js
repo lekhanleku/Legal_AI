@@ -320,8 +320,8 @@ function showDashboard(lawyer, stats = {}) {
   document.getElementById('lawyer-bar-badge').textContent = `Bar: ${lawyer.barNumber || 'Verified'}`;
   document.getElementById('lawyer-court-badge').textContent = lawyer.primaryCourt || 'Supreme Court of India';
   document.getElementById('lawyer-specialty-badge').textContent = lawyer.specialty || 'General Practice';
-  document.getElementById('lawyer-display-winrate').textContent = `${lawyer.successRate || 95}%`;
-  document.getElementById('lawyer-display-caseswon').textContent = `${lawyer.casesWon || 100} Favorable Judgments`;
+  document.getElementById('lawyer-display-winrate').textContent = 'Verified Active';
+  document.getElementById('lawyer-display-caseswon').textContent = `Enrolled Advocate · ${lawyer.barNumber || 'BCI Verified'}`;
 
   // Update Stats Counters
   updateKPIStats(stats);
@@ -1138,20 +1138,24 @@ async function checkSessionAndLoad() {
 // ── Admin Impersonation Bar ──
 function checkAdminImpersonationBar() {
   const imp = localStorage.getItem('legalai_admin_impersonating');
-  if (!imp) return;
+  const backup = localStorage.getItem('legalai_admin_backup_token');
+  if (!imp || !backup) {
+    localStorage.removeItem('legalai_admin_impersonating');
+    return;
+  }
   try {
     const data = JSON.parse(imp);
     if (document.getElementById('admin-impersonation-bar')) return;
     const bar = document.createElement('div');
     bar.id = 'admin-impersonation-bar';
-    bar.style.cssText = 'position:sticky; top:0; z-index:99999; background:linear-gradient(90deg, #7c3aed, #4f46e5); color:#fff; padding:10px 20px; font-size:0.85rem; display:flex; align-items:center; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.4);';
+    bar.style.cssText = 'position:sticky; top:0; z-index:99999; background:#0f172a; border-bottom:2px solid #dfb77c; color:#fff; padding:10px 20px; font-size:0.85rem; display:flex; align-items:center; justify-content:space-between; box-shadow:0 3px 12px rgba(0,0,0,0.4);';
     bar.innerHTML = `
       <div style="display:flex; align-items:center; gap:10px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        <span><strong>ADMINISTRATOR FULL ACCESS MODE:</strong> Viewing advocate portal as <strong>${escapeHtml(data.name)}</strong></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dfb77c" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span><strong style="color:#dfb77c;">ADMINISTRATOR DELEGATED VIEW:</strong> Viewing advocate portal as <strong>${escapeHtml(data.name)}</strong></span>
       </div>
-      <button id="btn-return-admin" style="background:#fff; color:#4f46e5; border:none; padding:6px 14px; border-radius:6px; font-weight:700; font-size:0.82rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
-        <span>Return to Master Admin Suite</span>
+      <button id="btn-return-admin" style="background:#dfb77c; color:#0f172a; border:none; padding:6px 14px; border-radius:6px; font-weight:700; font-size:0.82rem; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+        <span>Return to Admin Console</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     `;
