@@ -246,6 +246,24 @@ router.delete('/consultations/:id', requireAdmin, (req, res) => {
   }
 });
 
+// @route   DELETE /api/admin/consultations/all
+// @route   DELETE /api/admin/consultations/clear-all
+// @desc    Permanently delete all consultations platform-wide
+// @access  Admin
+router.delete(['/consultations/all', '/consultations/clear-all'], requireAdmin, (req, res) => {
+  try {
+    const count = Lawyer.clearAllConsultations();
+    return res.json({
+      success: true,
+      message: `Successfully removed all (${count}) consultations platform-wide.`,
+      purgedCount: count
+    });
+  } catch (err) {
+    console.error('Admin Clear All Consultations Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   GET /api/admin/lawyers
 // @desc    Get all lawyers in the directory with administrative and account credentials status
 // @access  Admin

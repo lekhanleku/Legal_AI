@@ -473,19 +473,21 @@ function syncLawyerCasesAndAccounts(db) {
         );
       }
 
-      // Check cases for this lawyer
-      const existingCasesCount = countCasesForLawyer.get(lawyer.id).c;
-      if (existingCasesCount === 0) {
-        const generatedCases = generateCasesForLawyer(lawyer);
-        for (const cs of generatedCases) {
-          if (!checkCaseByNum.get(cs.caseNumber)) {
-            insertCaseStmt.run(
-              cs.caseNumber, cs.title, cs.lawyerId, cs.clientName, cs.clientEmail, cs.clientPhone,
-              cs.opposingParty, cs.opposingCounsel, cs.courtCode, cs.courtName, cs.bench,
-              cs.practiceArea, cs.relevantActs, cs.nextHearingDate, cs.hearingTime, cs.stage,
-              cs.status, cs.disputeValue, cs.caseSummary, cs.lawyerNotes, cs.filingDate
-            );
-            casesCreated++;
+      // Court dockets are not auto-seeded by default to allow empty slate; can be added via lawyer or admin portals
+      if (process.env.SEED_CASES === 'true') {
+        const existingCasesCount = countCasesForLawyer.get(lawyer.id).c;
+        if (existingCasesCount === 0) {
+          const generatedCases = generateCasesForLawyer(lawyer);
+          for (const cs of generatedCases) {
+            if (!checkCaseByNum.get(cs.caseNumber)) {
+              insertCaseStmt.run(
+                cs.caseNumber, cs.title, cs.lawyerId, cs.clientName, cs.clientEmail, cs.clientPhone,
+                cs.opposingParty, cs.opposingCounsel, cs.courtCode, cs.courtName, cs.bench,
+                cs.practiceArea, cs.relevantActs, cs.nextHearingDate, cs.hearingTime, cs.stage,
+                cs.status, cs.disputeValue, cs.caseSummary, cs.lawyerNotes, cs.filingDate
+              );
+              casesCreated++;
+            }
           }
         }
       }

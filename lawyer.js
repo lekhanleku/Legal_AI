@@ -746,6 +746,27 @@ window.deleteActiveConsultation = async function() {
   }
 };
 
+window.clearAllLawyerConsultations = async function() {
+  if (!confirm('Are you sure you want to remove all client consultation requests from your chambers docket?')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/consultations/clear-all`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'All consultations cleared from chambers docket', 'info');
+      fetchAndRenderConsultations();
+      fetchAndRenderClients();
+    } else {
+      showToast(data.message || 'Could not clear consultations', 'error');
+    }
+  } catch (err) {
+    showToast('Network error clearing consultations: ' + err.message, 'error');
+  }
+};
+
 // ── Fetch & Render Represented Clients ──
 let currentClients = [];
 async function fetchAndRenderClients() {

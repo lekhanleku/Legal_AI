@@ -1,6 +1,6 @@
 [
   {
-    "id": 22,
+    "id": 1,
     "name": "Supreme Court of India",
     "code": "SCI",
     "jurisdiction": "Apex Supreme Court",
@@ -25,7 +25,7 @@
     "isAvailable": 1
   },
   {
-    "id": 23,
+    "id": 2,
     "name": "High Court of Delhi",
     "code": "DHC",
     "jurisdiction": "State High Court",
@@ -50,7 +50,7 @@
     "isAvailable": 1
   },
   {
-    "id": 29,
+    "id": 8,
     "name": "High Court of Gujarat",
     "code": "GHC",
     "jurisdiction": "State High Court",
@@ -75,7 +75,7 @@
     "isAvailable": 1
   },
   {
-    "id": 27,
+    "id": 6,
     "name": "High Court of Karnataka",
     "code": "KHC",
     "jurisdiction": "State High Court",
@@ -100,7 +100,7 @@
     "isAvailable": 1
   },
   {
-    "id": 32,
+    "id": 98,
     "name": "High Court of Kerala",
     "code": "KERHC",
     "jurisdiction": "State High Court",
@@ -125,7 +125,7 @@
     "isAvailable": 1
   },
   {
-    "id": 24,
+    "id": 3,
     "name": "High Court of Judicature at Bombay",
     "code": "BHC",
     "jurisdiction": "State High Court",
@@ -150,7 +150,7 @@
     "isAvailable": 1
   },
   {
-    "id": 30,
+    "id": 99,
     "name": "High Court of Punjab and Haryana",
     "code": "PHHC",
     "jurisdiction": "State High Court",
@@ -175,7 +175,7 @@
     "isAvailable": 1
   },
   {
-    "id": 26,
+    "id": 4,
     "name": "High Court of Judicature at Madras",
     "code": "MHC",
     "jurisdiction": "State High Court",
@@ -200,7 +200,7 @@
     "isAvailable": 1
   },
   {
-    "id": 31,
+    "id": 100,
     "name": "High Court for the State of Telangana",
     "code": "THC",
     "jurisdiction": "State High Court",
@@ -225,7 +225,7 @@
     "isAvailable": 1
   },
   {
-    "id": 28,
+    "id": 7,
     "name": "High Court of Judicature at Allahabad",
     "code": "AHC",
     "jurisdiction": "State High Court",
@@ -250,7 +250,7 @@
     "isAvailable": 1
   },
   {
-    "id": 367,
+    "id": 114,
     "name": "High Court at Calcutta",
     "code": "CHC",
     "jurisdiction": "State High Court",
@@ -275,7 +275,7 @@
     "isAvailable": 1
   },
   {
-    "id": 33,
+    "id": 9,
     "name": "National Company Law Appellate Tribunal",
     "code": "NCLAT",
     "jurisdiction": "Specialized Tribunal",
@@ -300,7 +300,7 @@
     "isAvailable": 1
   },
   {
-    "id": 37,
+    "id": 101,
     "name": "Telecom Disputes Settlement and Appellate Tribunal",
     "code": "TDSAT",
     "jurisdiction": "Specialized Tribunal",
@@ -325,7 +325,7 @@
     "isAvailable": 1
   },
   {
-    "id": 36,
+    "id": 102,
     "name": "Income Tax Appellate Tribunal - Presidential Bench",
     "code": "ITAT",
     "jurisdiction": "Specialized Tribunal",
@@ -350,7 +350,7 @@
     "isAvailable": 1
   },
   {
-    "id": 156,
+    "id": 92,
     "name": "District & Sessions Court, Port Blair",
     "code": "AN-PB-DC",
     "jurisdiction": "District & Sessions Court",
@@ -375,7 +375,7 @@
     "isAvailable": 1
   },
   {
-    "id": 114,
+    "id": 50,
     "name": "Visakhapatnam Metropolitan District & Sessions Court",
     "code": "AP-VIZ-DC",
     "jurisdiction": "District & Sessions Court",
@@ -400,7 +400,7 @@
     "isAvailable": 1
   },
   {
-    "id": 115,
+    "id": 51,
     "name": "District & Sessions Court, Papum Pare (Yupia)",
     "code": "AR-YUP-DC",
     "jurisdiction": "District & Sessions Court",
@@ -425,7 +425,7 @@
     "isAvailable": 1
   },
   {
-    "id": 116,
+    "id": 52,
     "name": "Kamrup Metropolitan District & Sessions Court",
     "code": "ASM-KAM-DC",
     "jurisdiction": "District & Sessions Court",
@@ -450,7 +450,7 @@
     "isAvailable": 1
   },
   {
-    "id": 117,
+    "id": 53,
     "name": "Patna District & Sessions Court",
     "code": "BIH-PAT-DC",
     "jurisdiction": "District & Sessions Court",
@@ -475,7 +475,7 @@
     "isAvailable": 1
   },
   {
-    "id": 154,
+    "id": 90,
     "name": "Chandigarh District & Sessions Court",
     "code": "CH-SEC43-DC",
     "jurisdiction": "District & Sessions Court",
@@ -500,7 +500,7 @@
     "isAvailable": 1
   },
   {
-    "id": 118,
+    "id": 54,
     "name": "Raipur District & Sessions Court",
     "code": "CG-RAI-DC",
     "jurisdiction": "District & Sessions Court",
@@ -525,7 +525,7 @@
     "isAvailable": 1
   },
   {
-    "id": 157,
+    "id": 93,
     "name": "District & Sessions Court, Daman",
     "code": "DD-DAM-DC",
     "jurisdiction": "District & Sessions Court",
@@ -550,7 +550,7 @@
     "isAvailable": 1
   },
   {
-    "id": 159,
+    "id": 95,
     "name": "Karkardooma District Courts Complex",
     "code": "DEL-KKD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -575,7 +575,7 @@
     "isAvailable": 1
   },
   {
-    "id": 160,
+    "id": 96,
     "name": "Rohini District Courts Complex",
     "code": "DEL-ROH-DC",
     "jurisdiction": "District & Sessions Court",
@@ -600,7 +600,7 @@
     "isAvailable": 1
   },
   {
-    "id": 161,
+    "id": 97,
     "name": "Dwarka District Courts Complex",
     "code": "DEL-DWA-DC",
     "jurisdiction": "District & Sessions Court",
@@ -625,7 +625,7 @@
     "isAvailable": 1
   },
   {
-    "id": 85,
+    "id": 37,
     "name": "Karkardooma District & Metropolitan Magistrate Court Complex",
     "code": "DEL-KKD-MM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -650,7 +650,7 @@
     "isAvailable": 1
   },
   {
-    "id": 34,
+    "id": 103,
     "name": "National Company Law Tribunal - Principal Bench",
     "code": "NCLT-DEL",
     "jurisdiction": "Specialized Tribunal",
@@ -675,7 +675,7 @@
     "isAvailable": 1
   },
   {
-    "id": 38,
+    "id": 104,
     "name": "National Consumer Disputes Redressal Commission",
     "code": "NCDRC",
     "jurisdiction": "Specialized Tribunal",
@@ -700,7 +700,7 @@
     "isAvailable": 1
   },
   {
-    "id": 35,
+    "id": 10,
     "name": "National Green Tribunal - Principal Bench",
     "code": "NGT",
     "jurisdiction": "Specialized Tribunal",
@@ -725,7 +725,7 @@
     "isAvailable": 1
   },
   {
-    "id": 40,
+    "id": 12,
     "name": "Patiala House District Courts",
     "code": "DEL-PAT",
     "jurisdiction": "District & Sessions Court",
@@ -750,7 +750,7 @@
     "isAvailable": 1
   },
   {
-    "id": 86,
+    "id": 38,
     "name": "Saket District & Metropolitan Magistrate Court Complex",
     "code": "DEL-SAK-MM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -775,7 +775,7 @@
     "isAvailable": 1
   },
   {
-    "id": 158,
+    "id": 94,
     "name": "Saket District Courts Complex",
     "code": "DEL-SAK-DC",
     "jurisdiction": "District & Sessions Court",
@@ -800,7 +800,7 @@
     "isAvailable": 1
   },
   {
-    "id": 39,
+    "id": 11,
     "name": "Tis Hazari District & Sessions Court",
     "code": "DEL-TIS",
     "jurisdiction": "District & Sessions Court",
@@ -825,7 +825,7 @@
     "isAvailable": 1
   },
   {
-    "id": 119,
+    "id": 55,
     "name": "North Goa District & Sessions Court",
     "code": "GOA-PAN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -850,7 +850,7 @@
     "isAvailable": 1
   },
   {
-    "id": 66,
+    "id": 18,
     "name": "Court of Small Causes, Ahmedabad",
     "code": "GUJ-SCCH-AHD",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -875,7 +875,7 @@
     "isAvailable": 1
   },
   {
-    "id": 93,
+    "id": 45,
     "name": "Sanand Taluka Civil Judge & JMFC Court",
     "code": "GUJ-SAN-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -900,7 +900,7 @@
     "isAvailable": 1
   },
   {
-    "id": 120,
+    "id": 56,
     "name": "Vadodara District & Sessions Court",
     "code": "GUJ-VAD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -925,7 +925,7 @@
     "isAvailable": 1
   },
   {
-    "id": 121,
+    "id": 57,
     "name": "Gurugram District & Sessions Court",
     "code": "HAR-GUR-DC",
     "jurisdiction": "District & Sessions Court",
@@ -950,7 +950,7 @@
     "isAvailable": 1
   },
   {
-    "id": 122,
+    "id": 58,
     "name": "Shimla District & Sessions Court",
     "code": "HP-SHI-DC",
     "jurisdiction": "District & Sessions Court",
@@ -975,7 +975,7 @@
     "isAvailable": 1
   },
   {
-    "id": 152,
+    "id": 88,
     "name": "Jammu Principal District & Sessions Court",
     "code": "JK-JAM-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1000,7 +1000,7 @@
     "isAvailable": 1
   },
   {
-    "id": 151,
+    "id": 87,
     "name": "Srinagar Principal District & Sessions Court",
     "code": "JK-SGR-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1025,7 +1025,7 @@
     "isAvailable": 1
   },
   {
-    "id": 123,
+    "id": 59,
     "name": "Ranchi District & Sessions Court",
     "code": "JH-RAN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1050,7 +1050,7 @@
     "isAvailable": 1
   },
   {
-    "id": 77,
+    "id": 29,
     "name": "Taluk Civil Judge & JMFC Court, Aland",
     "code": "KAR-ALD-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1075,7 +1075,7 @@
     "isAvailable": 1
   },
   {
-    "id": 69,
+    "id": 21,
     "name": "Principal Civil Judge & JMFC Court, Anekal",
     "code": "KAR-ANE-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1100,7 +1100,7 @@
     "isAvailable": 1
   },
   {
-    "id": 62,
+    "id": 14,
     "name": "City Civil and Sessions Court, Bengaluru",
     "code": "KAR-BLR-CIV",
     "jurisdiction": "District & Sessions Court",
@@ -1125,7 +1125,7 @@
     "isAvailable": 1
   },
   {
-    "id": 63,
+    "id": 15,
     "name": "Court of Small Causes, Bengaluru (SCCH)",
     "code": "KAR-SCCH-BLR",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -1150,7 +1150,7 @@
     "isAvailable": 1
   },
   {
-    "id": 64,
+    "id": 16,
     "name": "Mayo Hall Court of Small Causes & Civil Court",
     "code": "KAR-MAYO-BLR",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -1175,7 +1175,7 @@
     "isAvailable": 1
   },
   {
-    "id": 75,
+    "id": 27,
     "name": "Senior Civil Judge & JMFC Court, Channapatna",
     "code": "KAR-CHN-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1200,7 +1200,7 @@
     "isAvailable": 1
   },
   {
-    "id": 70,
+    "id": 22,
     "name": "Senior Civil Judge & JMFC Court, Devanahalli",
     "code": "KAR-DEV-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1225,7 +1225,7 @@
     "isAvailable": 1
   },
   {
-    "id": 72,
+    "id": 24,
     "name": "Senior Civil Judge & JMFC Court, Doddaballapura",
     "code": "KAR-DOD-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1250,7 +1250,7 @@
     "isAvailable": 1
   },
   {
-    "id": 71,
+    "id": 23,
     "name": "Principal Civil Judge & JMFC Court, Hoskote",
     "code": "KAR-HOS-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1275,7 +1275,7 @@
     "isAvailable": 1
   },
   {
-    "id": 78,
+    "id": 30,
     "name": "Principal Civil Judge & JMFC Court, Hubballi",
     "code": "KAR-HUB-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1300,7 +1300,7 @@
     "isAvailable": 1
   },
   {
-    "id": 76,
+    "id": 28,
     "name": "Principal Civil Judge & JMFC Court, Kanakapura",
     "code": "KAR-KAN-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1325,7 +1325,7 @@
     "isAvailable": 1
   },
   {
-    "id": 79,
+    "id": 31,
     "name": "Senior Civil Judge & JMFC Court, Kundapura",
     "code": "KAR-KUN-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1350,7 +1350,7 @@
     "isAvailable": 1
   },
   {
-    "id": 124,
+    "id": 60,
     "name": "Mysuru District & Sessions Court",
     "code": "KAR-MYS-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1375,7 +1375,7 @@
     "isAvailable": 1
   },
   {
-    "id": 73,
+    "id": 25,
     "name": "Principal Civil Judge & JMFC Court, Nelamangala",
     "code": "KAR-NEL-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1400,7 +1400,7 @@
     "isAvailable": 1
   },
   {
-    "id": 74,
+    "id": 26,
     "name": "Principal District & Sessions and JMFC Court, Ramanagara",
     "code": "KAR-RAM-JMFC",
     "jurisdiction": "District & Sessions Court",
@@ -1425,7 +1425,7 @@
     "isAvailable": 1
   },
   {
-    "id": 96,
+    "id": 48,
     "name": "Aluva Munsiff & Judicial First Class Magistrate Court",
     "code": "KL-ALU-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1450,7 +1450,7 @@
     "isAvailable": 1
   },
   {
-    "id": 125,
+    "id": 61,
     "name": "Ernakulam Principal District & Sessions Court",
     "code": "KER-ERN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1475,7 +1475,7 @@
     "isAvailable": 1
   },
   {
-    "id": 153,
+    "id": 89,
     "name": "Leh District & Sessions Court",
     "code": "LA-LEH-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1500,7 +1500,7 @@
     "isAvailable": 1
   },
   {
-    "id": 127,
+    "id": 63,
     "name": "Bhopal District & Sessions Court",
     "code": "MP-BHO-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1525,7 +1525,7 @@
     "isAvailable": 1
   },
   {
-    "id": 126,
+    "id": 62,
     "name": "Indore District & Sessions Court",
     "code": "MP-IND-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1550,7 +1550,7 @@
     "isAvailable": 1
   },
   {
-    "id": 81,
+    "id": 33,
     "name": "Andheri Metropolitan Magistrate Court (10th & 65th Court)",
     "code": "MH-AND-MM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1575,7 +1575,7 @@
     "isAvailable": 1
   },
   {
-    "id": 41,
+    "id": 13,
     "name": "City Civil and Sessions Court, Mumbai",
     "code": "MUM-SES",
     "jurisdiction": "District & Sessions Court",
@@ -1600,7 +1600,7 @@
     "isAvailable": 1
   },
   {
-    "id": 65,
+    "id": 17,
     "name": "Court of Small Causes, Mumbai",
     "code": "MUM-SCCH-BOM",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -1625,7 +1625,7 @@
     "isAvailable": 1
   },
   {
-    "id": 80,
+    "id": 32,
     "name": "Esplanade Chief Metropolitan Magistrate (CMM) Court",
     "code": "MH-ESP-CMM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1650,7 +1650,7 @@
     "isAvailable": 1
   },
   {
-    "id": 82,
+    "id": 34,
     "name": "Kurla Metropolitan Magistrate Court",
     "code": "MH-KUR-MM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1675,7 +1675,7 @@
     "isAvailable": 1
   },
   {
-    "id": 128,
+    "id": 64,
     "name": "Pune District & Sessions Court",
     "code": "MH-PUN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1700,7 +1700,7 @@
     "isAvailable": 1
   },
   {
-    "id": 84,
+    "id": 36,
     "name": "Shivajinagar Court of Small Causes & JMFC, Pune",
     "code": "MH-PUN-JMFC",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -1725,7 +1725,7 @@
     "isAvailable": 1
   },
   {
-    "id": 83,
+    "id": 35,
     "name": "Thane Civil Judge Senior Division & JMFC Court",
     "code": "MH-THA-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -1750,7 +1750,7 @@
     "isAvailable": 1
   },
   {
-    "id": 129,
+    "id": 65,
     "name": "Imphal West District & Sessions Court",
     "code": "MN-IMP-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1775,7 +1775,7 @@
     "isAvailable": 1
   },
   {
-    "id": 130,
+    "id": 66,
     "name": "East Khasi Hills District & Sessions Court",
     "code": "ML-SHI-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1800,7 +1800,7 @@
     "isAvailable": 1
   },
   {
-    "id": 131,
+    "id": 67,
     "name": "Aizawl District & Sessions Court",
     "code": "MZ-AIZ-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1825,7 +1825,7 @@
     "isAvailable": 1
   },
   {
-    "id": 132,
+    "id": 68,
     "name": "Kohima District & Sessions Court",
     "code": "NL-KOH-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1850,7 +1850,7 @@
     "isAvailable": 1
   },
   {
-    "id": 134,
+    "id": 70,
     "name": "Khordha District & Sessions Court (Bhubaneswar)",
     "code": "OD-KHO-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1875,7 +1875,7 @@
     "isAvailable": 1
   },
   {
-    "id": 133,
+    "id": 69,
     "name": "Cuttack District & Sessions Court",
     "code": "OD-CUT-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1900,7 +1900,7 @@
     "isAvailable": 1
   },
   {
-    "id": 155,
+    "id": 91,
     "name": "Puducherry Combined Court & Sessions Complex",
     "code": "PY-PUD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1925,7 +1925,7 @@
     "isAvailable": 1
   },
   {
-    "id": 136,
+    "id": 72,
     "name": "Amritsar District & Sessions Court",
     "code": "PB-AMR-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1950,7 +1950,7 @@
     "isAvailable": 1
   },
   {
-    "id": 135,
+    "id": 71,
     "name": "Ludhiana District & Sessions Court",
     "code": "PB-LUD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -1975,7 +1975,7 @@
     "isAvailable": 1
   },
   {
-    "id": 137,
+    "id": 73,
     "name": "Jaipur Metropolitan District & Sessions Court",
     "code": "RJ-JAI-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2000,7 +2000,7 @@
     "isAvailable": 1
   },
   {
-    "id": 97,
+    "id": 49,
     "name": "Sanganer Additional Civil Judge & JMFC Court",
     "code": "RJ-SAN-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2025,7 +2025,7 @@
     "isAvailable": 1
   },
   {
-    "id": 138,
+    "id": 74,
     "name": "Jodhpur District & Sessions Court",
     "code": "RJ-JOD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2050,7 +2050,7 @@
     "isAvailable": 1
   },
   {
-    "id": 139,
+    "id": 75,
     "name": "East Sikkim District & Sessions Court (Gangtok)",
     "code": "SK-GAN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2075,7 +2075,7 @@
     "isAvailable": 1
   },
   {
-    "id": 140,
+    "id": 76,
     "name": "Chennai Principal District & Sessions Court",
     "code": "TN-CHE-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2100,7 +2100,7 @@
     "isAvailable": 1
   },
   {
-    "id": 67,
+    "id": 19,
     "name": "Court of Small Causes, Chennai",
     "code": "TN-SCCH-CHE",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -2125,7 +2125,7 @@
     "isAvailable": 1
   },
   {
-    "id": 87,
+    "id": 39,
     "name": "Egmore Chief Metropolitan Magistrate Court",
     "code": "TN-EGM-CMM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2150,7 +2150,7 @@
     "isAvailable": 1
   },
   {
-    "id": 141,
+    "id": 77,
     "name": "Coimbatore District & Sessions Court",
     "code": "TN-CBE-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2175,7 +2175,7 @@
     "isAvailable": 1
   },
   {
-    "id": 88,
+    "id": 40,
     "name": "Tambaram Principal Subordinate & JMFC Court",
     "code": "TN-TAM-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2200,7 +2200,7 @@
     "isAvailable": 1
   },
   {
-    "id": 142,
+    "id": 78,
     "name": "Hyderabad City Civil & Sessions Court",
     "code": "TG-HYD-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2225,7 +2225,7 @@
     "isAvailable": 1
   },
   {
-    "id": 95,
+    "id": 47,
     "name": "Kukatpally Junior Civil Judge & JMFC Court",
     "code": "TG-KUK-JMFC",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2250,7 +2250,7 @@
     "isAvailable": 1
   },
   {
-    "id": 94,
+    "id": 46,
     "name": "Nampally Criminal Courts & Metropolitan Magistrate Complex",
     "code": "TG-NAM-MM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2275,7 +2275,7 @@
     "isAvailable": 1
   },
   {
-    "id": 143,
+    "id": 79,
     "name": "Ranga Reddy District & Sessions Court",
     "code": "TG-RR-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2300,7 +2300,7 @@
     "isAvailable": 1
   },
   {
-    "id": 144,
+    "id": 80,
     "name": "West Tripura District & Sessions Court (Agartala)",
     "code": "TR-AGA-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2325,7 +2325,7 @@
     "isAvailable": 1
   },
   {
-    "id": 145,
+    "id": 81,
     "name": "Gautam Buddha Nagar District & Sessions Court (Surajpur)",
     "code": "UP-GBN-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2350,7 +2350,7 @@
     "isAvailable": 1
   },
   {
-    "id": 91,
+    "id": 43,
     "name": "Surajpur District & Tehsil Civil Court, Gautam Buddha Nagar",
     "code": "UP-GBN-TEH",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2375,7 +2375,7 @@
     "isAvailable": 1
   },
   {
-    "id": 147,
+    "id": 83,
     "name": "Kanpur Nagar District & Sessions Court",
     "code": "UP-KNP-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2400,7 +2400,7 @@
     "isAvailable": 1
   },
   {
-    "id": 146,
+    "id": 82,
     "name": "Lucknow District & Sessions Court",
     "code": "UP-LKO-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2425,7 +2425,7 @@
     "isAvailable": 1
   },
   {
-    "id": 92,
+    "id": 44,
     "name": "Modinagar Tehsil & Civil Court, Ghaziabad",
     "code": "UP-GZB-MOD",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2450,7 +2450,7 @@
     "isAvailable": 1
   },
   {
-    "id": 148,
+    "id": 84,
     "name": "Dehradun District & Sessions Court",
     "code": "UK-DEH-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2475,7 +2475,7 @@
     "isAvailable": 1
   },
   {
-    "id": 150,
+    "id": 86,
     "name": "North 24 Parganas District & Sessions Court (Barasat)",
     "code": "WB-BAR-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2500,7 +2500,7 @@
     "isAvailable": 1
   },
   {
-    "id": 90,
+    "id": 42,
     "name": "Bidhannagar (Salt Lake) ACJM & Sub-Divisional Court",
     "code": "WB-BID-ACJM",
     "jurisdiction": "Taluka & Subordinate Courts",
@@ -2525,7 +2525,7 @@
     "isAvailable": 1
   },
   {
-    "id": 149,
+    "id": 85,
     "name": "City Civil & Sessions Court, Calcutta",
     "code": "WB-CAL-DC",
     "jurisdiction": "District & Sessions Court",
@@ -2550,7 +2550,7 @@
     "isAvailable": 1
   },
   {
-    "id": 68,
+    "id": 20,
     "name": "Court of Small Causes & Bankshall Court, Kolkata",
     "code": "WB-SCCH-KOL",
     "jurisdiction": "Small Causes & JMFC Courts",
@@ -2575,7 +2575,7 @@
     "isAvailable": 1
   },
   {
-    "id": 89,
+    "id": 41,
     "name": "Sealdah Metropolitan Magistrate & ACJM Court",
     "code": "WB-SEA-MM",
     "jurisdiction": "Taluka & Subordinate Courts",

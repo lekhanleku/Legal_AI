@@ -251,6 +251,17 @@ router.delete('/consultations/:id', authenticateLawyer, (req, res) => {
   });
 });
 
+// ── DELETE /api/lawyer/consultations/all (Advocate clears all consultations for their chambers) ──
+router.delete(['/consultations/all', '/consultations/clear-all'], authenticateLawyer, (req, res) => {
+  const count = db.prepare('DELETE FROM consultations WHERE lawyerId = ?').run(req.lawyer.id).changes;
+  db.prepare('DELETE FROM notifications WHERE lawyerId = ? AND (type = "booking" OR consultationId IS NOT NULL)').run(req.lawyer.id);
+  res.json({
+    success: true,
+    message: `All (${count}) consultations cleared from chambers docket`,
+    clearedCount: count
+  });
+});
+
 // ── GET /api/lawyer/clients (Advocate lists all clients represented by or consulting with their chambers) ──
 router.get('/clients', authenticateLawyer, (req, res) => {
   const lawyerId = req.lawyer.id;

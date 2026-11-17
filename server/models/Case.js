@@ -188,6 +188,18 @@ class Case {
   }
 
   /**
+   * Permanently delete all cases / court dockets across all lawyers
+   */
+  static clearAll(lawyerId = null) {
+    if (lawyerId) {
+      const res = db.prepare('DELETE FROM cases WHERE lawyerId = ?').run(Number(lawyerId));
+      return res.changes;
+    }
+    const res = db.prepare('DELETE FROM cases').run();
+    return res.changes;
+  }
+
+  /**
    * Find all platform cases for master admin with joins to lawyer details
    */
   static findAllAdmin({ search = '', status = '', court = '', lawyerId = null, limit = 100, offset = 0 } = {}) {

@@ -79,6 +79,18 @@ const bookingsListContainer= document.getElementById('bookings-list-container');
 const bookingsSearchInput  = document.getElementById('bookings-search-input');
 const bookingsRefreshBtn   = document.getElementById('bookings-refresh-btn');
 
+// Ensure any stale booked consultations from prior sessions are cleared
+(function checkAndPurgeStoredConsultations() {
+  try {
+    if (!localStorage.getItem('legalai_consultations_purged_v2')) {
+      localStorage.removeItem('legalai_consultations');
+      localStorage.removeItem('legalai_offline_bookings');
+      localStorage.removeItem('legalai_recent_bookings');
+      localStorage.setItem('legalai_consultations_purged_v2', 'true');
+    }
+  } catch (_) {}
+})();
+
 let currentModalLawyer = null;
 let bookingsData = [];
 let currentBookingTab = 'all';
@@ -1349,11 +1361,53 @@ window.cancelConsultationBooking = async function(id) {
   } catch (_) {}
   const b = bookingsData.find(item => item.id === id);
   if (b) b.status = 'cancelled';
-  try { localStorage.setItem('legalai_consultations', JSON.stringify(bookingsData)); } catch (_) {}
+  try {
+    const stored = JSON.parse(localStorage.getItem('legalai_consultations') || '[]');
+    const filtered = stored.filter(x => x.id !== id);
+    localStorage.setItem('legalai_consultations', JSON.stringify(filtered));
+  } catch (_) {}
   updateBookingsCounters(bookingsData.filter(x => x.status !== 'cancelled').length);
   renderBookingsList(bookingsData);
   renderLawyers(lawyersData);
 };
+
+// ── Cancel / Remove All Booked Consultations ──
+window.cancelAllBookings = async function() {
+  if (typeof confirm === 'function' && !confirm('Are you sure you want to remove all booked consultations for all lawyers?')) return;
+  try {
+    const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+    const url = user && user.id
+      ? `${LAWYERS_API}/consultations/clear-all?userId=${user.id}`
+      : `${LAWYERS_API}/consultations/clear-all`;
+
+    try {
+      await fetch(url, { method: 'DELETE' });
+    } catch (_) {}
+
+    try {
+      const cancelUrl = user && user.id
+        ? `${LAWYERS_API}/consultations/cancel-all?userId=${user.id}&purge=true`
+        : `${LAWYERS_API}/consultations/cancel-all?purge=true`;
+      await fetch(cancelUrl, { method: 'DELETE' });
+    } catch (_) {}
+  } catch (err) {
+    console.warn('Network error clearing bookings:', err);
+  }
+
+  // Clear local storage completely
+  try { localStorage.removeItem('legalai_consultations'); } catch (_) {}
+  try { localStorage.removeItem('legalai_offline_bookings'); } catch (_) {}
+  try { localStorage.removeItem('legalai_recent_bookings'); } catch (_) {}
+
+  bookingsData = [];
+  updateBookingsCounters(0);
+  renderBookingsList([]);
+  if (typeof lawyersData !== 'undefined' && Array.isArray(lawyersData) && lawyersData.length > 0) {
+    renderLawyers(lawyersData);
+  }
+  showToast('All booked consultations have been removed.', 'info');
+};
+window.removeAllBookings = window.cancelAllBookings;
 
 // Bookings Tabs
 document.querySelectorAll('.bookings-tab-btn').forEach(btn => {

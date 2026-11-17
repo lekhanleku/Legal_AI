@@ -3603,6 +3603,18 @@ if (navDirTrigger) {
 // BOOKED CONSULTATIONS MANAGEMENT MODULE
 // ================================================================
 
+// Ensure any stale booked consultations from prior sessions are cleared
+(function checkAndPurgeStoredConsultations() {
+  try {
+    if (!localStorage.getItem('legalai_consultations_purged_v2')) {
+      localStorage.removeItem('legalai_consultations');
+      localStorage.removeItem('legalai_offline_bookings');
+      localStorage.removeItem('legalai_recent_bookings');
+      localStorage.setItem('legalai_consultations_purged_v2', 'true');
+    }
+  } catch (_) {}
+})();
+
 let bookingsData = [];
 
 // DOM References for Bookings Modal
@@ -4110,27 +4122,43 @@ window.deleteConsultationPermanent = async function(id) {
   }
 };
 
-// ── Cancel All Booked Consultations ──
+// ── Cancel / Remove All Booked Consultations ──
 window.cancelAllBookings = async function() {
+  if (typeof confirm === 'function' && !confirm('Are you sure you want to remove all booked consultations for all lawyers?')) return;
   try {
     const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
     const url = user && user.id
-      ? `${LAWYERS_API}/consultations/cancel-all?userId=${user.id}`
-      : `${LAWYERS_API}/consultations/cancel-all`;
+      ? `${LAWYERS_API}/consultations/clear-all?userId=${user.id}`
+      : `${LAWYERS_API}/consultations/clear-all`;
 
-    const resp = await fetch(url, { method: 'DELETE' });
-    const data = await resp.json();
-    if (data.success) {
-      showToast(data.message || 'All booked consultations have been cancelled.', 'info');
-      await fetchAndRenderBookings();
-    } else {
-      showToast(data.message || 'Could not cancel bookings.', 'error');
-    }
+    try {
+      await fetch(url, { method: 'DELETE' });
+    } catch (_) {}
+
+    try {
+      const cancelUrl = user && user.id
+        ? `${LAWYERS_API}/consultations/cancel-all?userId=${user.id}&purge=true`
+        : `${LAWYERS_API}/consultations/cancel-all?purge=true`;
+      await fetch(cancelUrl, { method: 'DELETE' });
+    } catch (_) {}
   } catch (err) {
-    console.error('Cancel all bookings error:', err);
-    showToast('Failed to cancel bookings. Please check server connection.', 'error');
+    console.warn('Network error clearing bookings:', err);
   }
+
+  // Clear local storage completely
+  try { localStorage.removeItem('legalai_consultations'); } catch (_) {}
+  try { localStorage.removeItem('legalai_offline_bookings'); } catch (_) {}
+  try { localStorage.removeItem('legalai_recent_bookings'); } catch (_) {}
+
+  bookingsData = [];
+  updateBookingsCounters(0);
+  renderBookingsList([]);
+  if (typeof lawyersData !== 'undefined' && Array.isArray(lawyersData) && lawyersData.length > 0) {
+    renderLawyers(lawyersData);
+  }
+  showToast('All booked consultations have been removed.', 'info');
 };
+window.removeAllBookings = window.cancelAllBookings;
 
 /* ================================================================
    COURT DIRECTORY MODULE

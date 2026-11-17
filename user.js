@@ -270,6 +270,26 @@ window.cancelConsultation = async function(id) {
   }
 };
 
+window.clearAllUserConsultations = async function() {
+  if (!confirm('Are you sure you want to remove all your scheduled consultations?')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${SERVER_ORIGIN}/api/user/consultations/clear-all`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert('All consultations removed successfully.');
+      loadUserConsultations();
+    } else {
+      alert(data.message || 'Could not remove consultations.');
+    }
+  } catch (err) {
+    alert('Error removing consultations: ' + err.message);
+  }
+};
+
 // ── LOAD USER COURT CASES & LITIGATION DOCKETS ──
 let userCases = [];
 async function loadUserCases() {

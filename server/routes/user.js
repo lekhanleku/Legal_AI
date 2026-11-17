@@ -193,6 +193,20 @@ router.delete('/consultations/:id', requireUser, (req, res) => {
   }
 });
 
+// @route   DELETE /api/user/consultations/clear-all
+// @desc    Permanently delete all consultations for the authenticated user
+// @access  Private
+router.delete(['/consultations/clear-all', '/consultations/all'], requireUser, (req, res) => {
+  try {
+    const user = req.user;
+    const count = db.prepare('DELETE FROM consultations WHERE userId = ? OR LOWER(clientEmail) = LOWER(?)').run(user.id, user.email).changes;
+    return res.json({ success: true, message: `Removed all (${count}) consultations.` });
+  } catch (err) {
+    console.error('Clear All User Consultations Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   GET /api/user/cases
 // @desc    Get all court litigation dockets where the user is represented by an advocate
 // @access  Private

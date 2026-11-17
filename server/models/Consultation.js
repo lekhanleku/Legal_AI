@@ -159,6 +159,24 @@ class Consultation {
   }
 
   /**
+   * Permanently delete all consultations across all lawyers
+   */
+  static clearAll(userId = null) {
+    if (userId) {
+      const res = db.prepare('DELETE FROM consultations WHERE userId = ?').run(Number(userId));
+      return res.changes;
+    }
+    try {
+      db.prepare("DELETE FROM notifications WHERE type = 'booking' OR consultationId IS NOT NULL").run();
+    } catch (_) {}
+    const res = db.prepare('DELETE FROM consultations').run();
+    try {
+      db.prepare('UPDATE lawyers SET isAvailable = 1').run();
+    } catch (_) {}
+    return res.changes;
+  }
+
+  /**
    * Get aggregate consultation statistics
    */
   static getStats() {

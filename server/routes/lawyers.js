@@ -63,11 +63,19 @@ router.get('/consultations', (req, res) => {
 });
 
 // @route   DELETE /api/lawyers/consultations/cancel-all
-// @desc    Cancel all booked consultations
+// @desc    Cancel or purge all booked consultations
 // @access  Public
 router.delete('/consultations/cancel-all', (req, res) => {
   try {
-    const { userId } = req.query;
+    const { userId, purge } = req.query;
+    if (purge === 'true' || purge === '1') {
+      const count = Lawyer.clearAllConsultations(userId ? Number(userId) : null);
+      return res.json({
+        success: true,
+        message: `Successfully removed all (${count}) booked consultations.`,
+        removedCount: count
+      });
+    }
     const count = Lawyer.cancelAllConsultations(userId ? Number(userId) : null);
     return res.json({
       success: true,
@@ -78,7 +86,28 @@ router.delete('/consultations/cancel-all', (req, res) => {
     console.error('Cancel All Consultations Error:', err);
     return res.status(500).json({
       success: false,
-      message: 'Could not cancel consultations: ' + err.message
+      message: 'Could not process consultations: ' + err.message
+    });
+  }
+});
+
+// @route   DELETE /api/lawyers/consultations/clear-all
+// @desc    Permanently delete all booked consultations across all lawyers
+// @access  Public
+router.delete(['/consultations/clear-all', '/consultations/all'], (req, res) => {
+  try {
+    const { userId } = req.query;
+    const count = Lawyer.clearAllConsultations(userId ? Number(userId) : null);
+    return res.json({
+      success: true,
+      message: `Successfully removed all (${count}) booked consultations.`,
+      removedCount: count
+    });
+  } catch (err) {
+    console.error('Clear All Consultations Error:', err);
+    return res.status(500).json({
+      success: false,
+      message: 'Could not remove consultations: ' + err.message
     });
   }
 });

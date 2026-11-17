@@ -409,6 +409,27 @@ window.deleteConsultation = async function(id) {
   }
 };
 
+window.clearAllConsultations = async function() {
+  if (!confirm('Are you sure you want to permanently delete all consultations platform-wide? This cannot be undone.')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${SERVER_ORIGIN}/api/admin/consultations/clear-all`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message || 'All consultations removed successfully');
+      loadAdminConsultations();
+      loadAdminStats();
+    } else {
+      alert(data.message || 'Failed to remove consultations');
+    }
+  } catch (err) {
+    alert('Server error: ' + err.message);
+  }
+};
+
 // ── TAB 3: LAWYERS DIRECTORY CONTROL ──
 async function loadAdminLawyers(search = '') {
   const tbody = document.getElementById('admin-lawyers-tbody');

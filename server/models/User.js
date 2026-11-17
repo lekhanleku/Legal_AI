@@ -58,7 +58,7 @@ class User {
    */
   static findAll({ search = '', role = '', limit = 50, offset = 0 } = {}) {
     let query = `
-      SELECT u.id, u.name, u.email, u.phone, u.role, u.isVerified, u.lawyerId, u.createdAt, u.updatedAt,
+      SELECT u.id, u.name, u.email, u.phone, u.role, u.isVerified, u.createdAt, u.updatedAt,
         (SELECT COUNT(*) FROM consultations c WHERE c.userId = u.id OR LOWER(c.clientEmail) = LOWER(u.email)) as consultationCount,
         (SELECT COUNT(*) FROM cases cs WHERE LOWER(cs.clientEmail) = LOWER(u.email) OR LOWER(cs.clientName) = LOWER(u.name)) as caseCount
       FROM users u
