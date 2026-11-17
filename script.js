@@ -432,6 +432,15 @@ function setLoggedInState(user) {
     document.querySelectorAll('.auth-protected-nav, .auth-protected-feature').forEach(el => {
       el.classList.add('hidden');
     });
+
+    // Ensure AI assistant drawer and floating button are completely hidden without login
+    if (typeof closeAIDrawer === 'function') {
+      closeAIDrawer();
+    }
+    const drawerEl = document.getElementById('ai-drawer');
+    const fabEl = document.getElementById('ai-fab-btn');
+    if (drawerEl) drawerEl.classList.add('hidden');
+    if (fabEl) fabEl.classList.add('hidden');
     return;
   }
 
@@ -444,6 +453,13 @@ function setLoggedInState(user) {
   document.querySelectorAll('.auth-protected-nav, .auth-protected-feature').forEach(el => {
     el.classList.remove('hidden');
   });
+
+  // Reveal AI Assistant FAB button only when user is authenticated
+  const authFabEl = document.getElementById('ai-fab-btn');
+  const authDrawerEl = document.getElementById('ai-drawer');
+  if (authFabEl && (!authDrawerEl || authDrawerEl.classList.contains('hidden'))) {
+    authFabEl.classList.remove('hidden');
+  }
 
   const initial = user.name ? user.name.charAt(0).toUpperCase() : 'U';
   if (userAvatarEl) userAvatarEl.textContent = initial;
@@ -746,6 +762,7 @@ registerForm?.addEventListener('submit', async (e) => {
 btnLogout?.addEventListener('click', () => {
   localStorage.removeItem('legalai_token');
   localStorage.removeItem('legalai_user');
+  if (typeof closeAIDrawer === 'function') closeAIDrawer();
   setLoggedInState(null);
   showToast('You have been logged out.', 'info');
 });
@@ -876,7 +893,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 34000,
       rating: 4.9,
       reviewCount: 160,
-      avatarUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/0f/Shyam_Divan.jpg',
       casesWon: 520,
       successRate: 97,
       matchReason: 'Authoritative specialist in landlord-tenant disputes, leases, and property rights with 40 years of bar leadership.'
@@ -930,7 +947,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 38000,
       rating: 4.8,
       reviewCount: 150,
-      avatarUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/31/Mahesh_Jthmalani_-_Flickr_-_Al_Jazeera_English.jpg',
       casesWon: 640,
       successRate: 96,
       matchReason: 'Recognized criminal trial advocate with 44 years defending constitutional liberties and 640+ successful verdicts.'
@@ -984,7 +1001,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 45000,
       rating: 5.0,
       reviewCount: 248,
-      avatarUrl: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/1/16/Harish_Salve_Indian_Senior_Advocate.jpg',
       casesWon: 860,
       successRate: 99,
       matchReason: 'Former Solicitor General of India & King\'s Counsel specializing in corporate governance, M&A, and arbitration.'
@@ -1038,7 +1055,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 32000,
       rating: 4.8,
       reviewCount: 168,
-      avatarUrl: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://skoch-assets.s3.amazonaws.com/main/uploads/Pinky-Anand.png',
       casesWon: 480,
       successRate: 96,
       matchReason: 'Former Additional Solicitor General of India with 44 years resolving complex family disputes, asset division, and custody.'
@@ -1092,7 +1109,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 26000,
       rating: 4.8,
       reviewCount: 112,
-      avatarUrl: 'https://images.unsplash.com/photo-1573497019418-b400bb3ab074?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://www.legaleraonline.com/h-upload/2022/04/27/702326-poornima-hatti.webp',
       casesWon: 310,
       successRate: 96,
       matchReason: 'Partner specializing in POSH compliance, executive relations, workplace rights, and employee dispute resolution.'
@@ -1146,7 +1163,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 42000,
       rating: 4.9,
       reviewCount: 175,
-      avatarUrl: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://3vb.com/wp-content/uploads/2025/10/Gopal.Subramanium.jpg',
       casesWon: 740,
       successRate: 97,
       matchReason: 'Former Solicitor General of India and international arbitrator with 44 years enforcing commercial agreements and contract awards.'
@@ -1200,7 +1217,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 32000,
       rating: 4.9,
       reviewCount: 156,
-      avatarUrl: 'https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://ifit-transitions.org/wp-content/uploads/2022/05/MENAKA-GURUSWAMY-copy.jpg',
       casesWon: 360,
       successRate: 98,
       matchReason: 'TIME 100 honoree and Rhodes Scholar with landmark record defending civil rights and constitutional protections.'
@@ -1254,7 +1271,7 @@ const CLIENT_LEGAL_DOMAINS = [
       hourlyRate: 22000,
       rating: 4.9,
       reviewCount: 182,
-      avatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
+      avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/ad/Colin-gonsalves.jpg',
       casesWon: 600,
       successRate: 97,
       matchReason: 'Senior Advocate specializing in catastrophic injury, MACT claims, and victim compensation before high courts and the Supreme Court.'
@@ -1417,8 +1434,17 @@ function scrollAIToBottom() {
   });
 }
 
-// Open / Close Drawer
+// Open / Close Drawer (Requires Authentication)
 function openAIDrawer() {
+  if (!isUserLoggedIn()) {
+    if (typeof openModal === 'function') {
+      openModal('login');
+    }
+    if (typeof showToast === 'function') {
+      showToast('Please sign in to access the LegalAI Assistant.', 'info');
+    }
+    return;
+  }
   if (!aiDrawer) return;
   aiDrawer.classList.remove('hidden');
   aiFabBtn?.classList.add('hidden');
@@ -1431,6 +1457,8 @@ function closeAIDrawer() {
   aiDrawer.classList.add('hidden');
   if (isUserLoggedIn()) {
     aiFabBtn?.classList.remove('hidden');
+  } else {
+    aiFabBtn?.classList.add('hidden');
   }
 }
 
@@ -6784,6 +6812,15 @@ window.getCuratedLegalImage = getCuratedLegalImage;
 
   // ── ASK AI ABOUT TOPIC ──
   window.askAIAboutTopic = function (topicTitle) {
+    if (!isUserLoggedIn()) {
+      if (typeof openModal === 'function') {
+        openModal('login');
+      }
+      if (typeof showToast === 'function') {
+        showToast('Please sign in to access the LegalAI Assistant.', 'info');
+      }
+      return;
+    }
     window.closeArticleReader();
     closeArticlesModal();
 
@@ -6800,7 +6837,7 @@ window.getCuratedLegalImage = getCuratedLegalImage;
       aiInput.focus();
     }
 
-    showToast(' Ask LegalAI about this article', 'info');
+    showToast('Ask LegalAI about this article', 'info');
   };
 
   // ── RESILIENT ACTIVE ARTICLE RESOLVER ──
