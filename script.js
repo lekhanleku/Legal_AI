@@ -612,6 +612,11 @@ loginForm?.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (data.success) {
+      if (data.user.role === 'user' || data.user.role === 'lawyer') {
+        localStorage.removeItem('legalai_admin_impersonating');
+        localStorage.removeItem('legalai_admin_backup_token');
+        localStorage.removeItem('legalai_admin_backup_user');
+      }
       localStorage.setItem('legalai_token', data.token);
       localStorage.setItem('legalai_user', JSON.stringify(data.user));
       setLoggedInState(data.user);
@@ -668,6 +673,11 @@ registerForm?.addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (data.success) {
+      if (data.user.role === 'user' || data.user.role === 'lawyer') {
+        localStorage.removeItem('legalai_admin_impersonating');
+        localStorage.removeItem('legalai_admin_backup_token');
+        localStorage.removeItem('legalai_admin_backup_user');
+      }
       localStorage.setItem('legalai_token', data.token);
       localStorage.setItem('legalai_user', JSON.stringify(data.user));
       setLoggedInState(data.user);

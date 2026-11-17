@@ -292,6 +292,11 @@ function checkConsultationTrigger() {
 
 // Redirect after successful authentication
 function handleAuthSuccess(user, token, serverRedirectUrl) {
+  if (user.role === 'user' || user.role === 'lawyer') {
+    localStorage.removeItem('legalai_admin_impersonating');
+    localStorage.removeItem('legalai_admin_backup_token');
+    localStorage.removeItem('legalai_admin_backup_user');
+  }
   localStorage.setItem('legalai_token', token);
   localStorage.setItem('legalai_user', JSON.stringify(user));
 
