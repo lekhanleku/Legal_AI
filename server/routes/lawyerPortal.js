@@ -183,6 +183,34 @@ router.post('/cases', authenticateLawyer, (req, res) => {
   });
 });
 
+// ── DELETE /api/lawyer/cases/all (Advocate clears all court dockets for their chambers) ──
+router.delete(['/cases/all', '/cases/clear-all'], authenticateLawyer, (req, res) => {
+  try {
+    const count = Case.clearAll(req.lawyer.id);
+    res.json({
+      success: true,
+      message: `All (${count}) court case dockets removed from chambers docket`,
+      clearedCount: count
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ── DELETE /api/lawyer/cases/:id (Advocate removes single court docket) ──
+router.delete('/cases/:id', authenticateLawyer, (req, res) => {
+  try {
+    const cs = Case.findById(req.params.id);
+    if (!cs || Number(cs.lawyerId) !== Number(req.lawyer.id)) {
+      return res.status(404).json({ success: false, message: 'Case not found or does not belong to this lawyer' });
+    }
+    Case.delete(req.params.id);
+    res.json({ success: true, message: `Court case docket #${req.params.id} removed successfully` });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // ── GET /api/lawyer/consultations ──
 router.get('/consultations', authenticateLawyer, (req, res) => {
   const consults = db.prepare(`

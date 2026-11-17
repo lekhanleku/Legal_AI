@@ -728,6 +728,24 @@ router.delete('/cases/:id', requireAdmin, (req, res) => {
   }
 });
 
+// @route   DELETE /api/admin/cases/all
+// @route   DELETE /api/admin/cases/clear-all
+// @desc    Permanently delete all court dockets / cases platform-wide
+// @access  Admin
+router.delete(['/cases/all', '/cases/clear-all'], requireAdmin, (req, res) => {
+  try {
+    const count = Case.clearAll();
+    return res.json({
+      success: true,
+      message: `Successfully removed all (${count}) court case dockets platform-wide.`,
+      purgedCount: count
+    });
+  } catch (err) {
+    console.error('Admin Clear All Cases Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // ================================================================
 // CLIENT & LAWYER FULL DOSSIER INSPECTION
 // ================================================================
