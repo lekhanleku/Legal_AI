@@ -130,6 +130,20 @@ async function runTestSuite() {
     const advocateToken = advocateAuthRes.json?.token;
     assert(Boolean(advocateToken), 'Advocate issued valid JWT token');
 
+    // 2B-2. Advocate Testing Account Login (lekhanleku017@gmail.com)
+    const testAdvAuthRes = await invokeRoute(authRouter, {
+      method: 'POST',
+      url: '/login',
+      body: {
+        email: 'lekhanleku017@gmail.com',
+        password: '12345678',
+        role: 'lawyer'
+      }
+    });
+    assert(testAdvAuthRes.statusCode === 200, 'Test advocate lekhanleku017@gmail.com login returns 200 OK');
+    assert(testAdvAuthRes.json?.user?.role === 'lawyer', 'Test advocate authenticated with role "lawyer"');
+    assert(testAdvAuthRes.json?.redirectUrl === 'lawyer.html', 'Test advocate redirects to lawyer.html');
+
     // 2C. Admin Login (admin@legalai.com)
     const adminAuthRes = await invokeRoute(authRouter, {
       method: 'POST',

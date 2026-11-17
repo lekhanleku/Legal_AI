@@ -50,15 +50,15 @@ const ROLE_CONFIG = {
     title: 'Advocate Chambers Sign In',
     subtitle: 'Sign in with your Bar Council registered chambers email to manage courtroom dockets, hearings & client consultations.',
     emailLabel: 'Advocate Chambers Email / Bar ID',
-    emailPlaceholder: 'h.salve@chambersofsalve.in (or advocate@chambers.in)',
+    emailPlaceholder: 'lekhanleku017@gmail.com (or advocate@chambers.in)',
     passwordLabel: 'Chambers Access Password',
     submitText: 'Sign In to Advocate Chambers',
     themeClass: 'role-theme-lawyer',
     buttonClass: 'btn-role-lawyer',
     helperNote: 'Advocate Chambers: Manage court dockets, hearing schedules, and client consultation bookings.',
     helperClass: 'advocate',
-    demoEmail: 'h.salve@chambersofsalve.in',
-    demoPass: 'lawyer1234'
+    demoEmail: 'lekhanleku017@gmail.com',
+    demoPass: '12345678'
   },
   admin: {
     badgeClass: 'badge-admin',

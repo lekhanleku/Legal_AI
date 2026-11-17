@@ -323,12 +323,6 @@ function showDashboard(lawyer, stats = {}) {
   document.getElementById('lawyer-display-winrate').textContent = `${lawyer.successRate || 95}%`;
   document.getElementById('lawyer-display-caseswon').textContent = `${lawyer.casesWon || 100} Favorable Judgments`;
 
-  // Sync Dropdown Selection
-  const select = document.getElementById('select-active-lawyer');
-  if (select && select.value !== String(lawyer.id)) {
-    select.value = String(lawyer.id);
-  }
-
   // Update Stats Counters
   updateKPIStats(stats);
   fetchAndRenderNotifications();
@@ -1014,15 +1008,6 @@ async function handleNewCaseSubmit(e) {
 
 // ── Initialize Portal ──
 async function initLawyerPortal() {
-  await loadAllLawyersDropdown();
-
-  // Setup Event Listeners
-  document.getElementById('select-active-lawyer')?.addEventListener('change', (e) => {
-    if (e.target.value) {
-      switchActiveLawyer(e.target.value);
-    }
-  });
-
   // Tab switching
   document.querySelectorAll('.portal-tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1101,19 +1086,6 @@ async function initLawyerPortal() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, role: 'lawyer' })
       });
-      const data = await res.json();
-      if (data.success) {
-        setAuthSession(data.token, data.user);
-        checkSessionAndLoad();
-      } else {
-        alertEl.textContent = data.message || 'Invalid email or password.';
-        alertEl.style.display = 'block';
-      }
-    } catch (err) {
-      alertEl.textContent = 'Network error connecting to authentication server.';
-      alertEl.style.display = 'block';
-    }
-  });
       const data = await res.json();
       if (data.success) {
         setAuthSession(data.token, data.user);

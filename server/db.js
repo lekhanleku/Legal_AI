@@ -468,6 +468,48 @@ try {
     console.warn('Demo user seed notice:', uErr.message);
   }
 
+  // Ensure Advocate Testing Account exists with lekhanleku017@gmail.com / 12345678
+  try {
+    const advEmail = 'lekhanleku017@gmail.com';
+    const advPass = '12345678';
+    const bcrypt = require('bcryptjs');
+    const advPassHash = bcrypt.hashSync(advPass, 10);
+
+    // 1. Ensure lawyer record exists in lawyers table
+    let lawyerRec = db.prepare('SELECT id FROM lawyers WHERE LOWER(email) = ?').get(advEmail);
+    if (!lawyerRec) {
+      const insLawyer = db.prepare(`
+        INSERT INTO lawyers (
+          name, title, specialty, barNumber, experienceYears, education,
+          firmName, city, state, hourlyRate, rating, reviewCount,
+          languages, bio, casesWon, successRate, phone, email,
+          courtCodes, practicingCourts, primaryCourt, isAvailable
+        ) VALUES (
+          'Adv. Lekhan Leku', 'Advocate & Legal Counsel', 'Constitutional & Criminal Defense', 'KAR/1017/2018', 8, 'National Law School of India University (NLSIU), LL.B.',
+          'Chambers of Lekhan Leku', 'Bengaluru', 'Karnataka', 15000, 5.0, 120,
+          'English, Kannada, Hindi', 'Trial defense and constitutional advocate practicing before the High Court of Karnataka and Supreme Court of India.', 95, 96, '+91 98765 43210', ?,
+          'SCI,KHC,KAR-BLR-CITY-CC,KAR-BLR-RUR-DC', 'Supreme Court of India · High Court of Karnataka · City Civil Court Bengaluru', 'High Court of Karnataka', 1
+        )
+      `).run(advEmail);
+      lawyerRec = { id: insLawyer.lastInsertRowid };
+    }
+
+    // 2. Ensure advocate account exists in advocate_accounts table with 12345678
+    const advCheck = db.prepare('SELECT id FROM advocate_accounts WHERE LOWER(email) = ? OR lawyerId = ?').get(advEmail, lawyerRec.id);
+    if (!advCheck) {
+      db.prepare(`
+        INSERT INTO advocate_accounts (lawyerId, name, email, password, phone, barNumber, specialty, role, isVerified)
+        VALUES (?, 'Adv. Lekhan Leku', ?, ?, '+91 98765 43210', 'KAR/1017/2018', 'Constitutional & Criminal Defense', 'lawyer', 1)
+      `).run(lawyerRec.id, advEmail, advPassHash);
+    } else {
+      db.prepare(`
+        UPDATE advocate_accounts SET password = ?, lawyerId = ?, email = ? WHERE id = ?
+      `).run(advPassHash, lawyerRec.id, advEmail, advCheck.id);
+    }
+  } catch (advErr) {
+    console.warn('Advocate test account seed notice:', advErr.message);
+  }
+
   console.log(` SQLite Database connected & initialized: ${dbPath}`);
 } catch (err) {
   console.error(` SQLite Connection Error: ${err.message}`);

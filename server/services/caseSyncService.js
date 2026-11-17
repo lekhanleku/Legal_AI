@@ -450,11 +450,12 @@ function syncLawyerCasesAndAccounts(db) {
       let account = findAdvocateAccount.get(lawyer.id, email);
 
       if (!account) {
+        const passHash = (email === 'lekhanleku017@gmail.com') ? bcrypt.hashSync('12345678', 8) : defaultPasswordHash;
         insertAdvocateAccount.run(
           lawyer.id,
           lawyer.name,
           email,
-          defaultPasswordHash,
+          passHash,
           lawyer.phone || '+91 98765 43210',
           lawyer.barNumber || 'D/BCI/VERIFIED',
           lawyer.specialty || 'General Litigation'

@@ -23,29 +23,6 @@
       color: #dfb77c;
       border: 1px solid rgba(223, 183, 124, 0.4);
     }
-    .lawyer-switcher-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-gold);
-      padding: 6px 12px;
-      border-radius: var(--radius-md);
-    }
-    .lawyer-switcher-select {
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 600;
-      outline: none;
-      cursor: pointer;
-      max-width: 260px;
-    }
-    .lawyer-switcher-select option {
-      background: #131823;
-      color: #fff;
-    }
     .case-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -294,14 +271,6 @@
             <span class="portal-brand-sub">Chambers Case Management &amp; Cause List</span>
           </div>
         </a>
-
-        <!-- QUICK ADVOCATE SELECTOR (Proof that this applies to ALL 54 lawyers) -->
-        <div class="lawyer-switcher-wrap" id="lawyer-switcher-box" title="Switch between any of the 54 verified Indian advocates to view their personal caseload">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold-glow);"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
-          <select id="select-active-lawyer" class="lawyer-switcher-select" aria-label="Switch active lawyer account">
-            <option value="">Loading 54 Indian Advocates...</option>
-          </select>
-        </div>
       </div>
 
       <nav class="portal-nav-links">
@@ -385,7 +354,7 @@
       <div style="font-size:0.78rem; font-weight:700; color:#dfb77c; text-transform:uppercase; margin-bottom:6px;">Enrolled Advocate Access</div>
       <div style="font-size:0.82rem; color:#cbd5e1; line-height:1.45;">
         Please sign in with your verified Bar Council enrollment email and password.<br>
-        <span style="color:#94a3b8; font-size:0.78rem;">Demo Advocate: <code style="color:#dfb77c;">h.salve@chambersofsalve.in</code> &middot; Pass: <code style="color:#dfb77c;">lawyer1234</code></span>
+        <span style="color:#94a3b8; font-size:0.78rem;">Demo Advocate: <code style="color:#dfb77c;">lekhanleku017@gmail.com</code> &middot; Pass: <code style="color:#dfb77c;">12345678</code></span>
       </div>
     </div>
 
@@ -393,7 +362,7 @@
     <form id="lawyer-login-form" style="text-align:left;">
       <div class="portal-form-group">
         <label for="gate-lawyer-email">Advocate Email Address</label>
-        <input type="email" id="gate-lawyer-email" class="portal-form-input" placeholder="h.salve@chambersofsalve.in" required/>
+        <input type="email" id="gate-lawyer-email" class="portal-form-input" placeholder="lekhanleku017@gmail.com" required/>
       </div>
       <div class="portal-form-group">
         <label for="gate-lawyer-password">Password</label>

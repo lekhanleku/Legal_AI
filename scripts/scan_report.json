@@ -432,19 +432,25 @@
     {
       "htmlFile": "lawyer.html",
       "jsFile": "lawyer.js",
-      "line": 1150,
+      "line": 253,
+      "elementId": "select-active-lawyer"
+    },
+    {
+      "htmlFile": "lawyer.html",
+      "jsFile": "lawyer.js",
+      "line": 1122,
       "elementId": "admin-impersonation-bar"
     },
     {
       "htmlFile": "lawyer.html",
       "jsFile": "lawyer.js",
-      "line": 1172,
+      "line": 1144,
       "elementId": "admin-impersonation-bar"
     },
     {
       "htmlFile": "lawyer.html",
       "jsFile": "lawyer.js",
-      "line": 1188,
+      "line": 1160,
       "elementId": "btn-return-admin"
     },
     {
