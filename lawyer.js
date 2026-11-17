@@ -317,11 +317,16 @@ function showDashboard(lawyer, stats = {}) {
   document.getElementById('lawyer-header-bar').textContent = `Bar: ${lawyer.barNumber || 'Enrolled'}`;
   document.getElementById('lawyer-display-name').textContent = lawyer.name;
   document.getElementById('lawyer-display-firm').textContent = `${lawyer.firmName || 'Chambers of Advocate'} · ${lawyer.city || ''}, ${lawyer.state || ''} · ${lawyer.experienceYears || 20}+ Yrs Courtroom Practice`;
-  document.getElementById('lawyer-bar-badge').textContent = `Bar: ${lawyer.barNumber || 'Verified'}`;
-  document.getElementById('lawyer-court-badge').textContent = lawyer.primaryCourt || 'Supreme Court of India';
-  document.getElementById('lawyer-specialty-badge').textContent = lawyer.specialty || 'General Practice';
-  document.getElementById('lawyer-display-winrate').textContent = 'Verified Active';
-  document.getElementById('lawyer-display-caseswon').textContent = `Enrolled Advocate · ${lawyer.barNumber || 'BCI Verified'}`;
+  const barBadge = document.getElementById('lawyer-bar-badge');
+  if (barBadge) barBadge.textContent = `Bar: ${lawyer.barNumber || 'Verified'}`;
+  const courtBadge = document.getElementById('lawyer-court-badge');
+  if (courtBadge) courtBadge.textContent = lawyer.primaryCourt || 'Supreme Court of India';
+  const specBadge = document.getElementById('lawyer-specialty-badge');
+  if (specBadge) specBadge.textContent = lawyer.specialty || 'General Practice';
+  const winrateEl = document.getElementById('lawyer-display-winrate');
+  if (winrateEl) winrateEl.textContent = 'Verified Active';
+  const caseswonEl = document.getElementById('lawyer-display-caseswon');
+  if (caseswonEl) caseswonEl.textContent = `Enrolled Advocate · ${lawyer.barNumber || 'BCI Verified'}`;
 
   // Update Stats Counters
   updateKPIStats(stats);
