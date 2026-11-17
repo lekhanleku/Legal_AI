@@ -228,10 +228,6 @@ async function loadAdminUsers(search = '', role = 'all') {
         <td style="font-size:0.78rem; color:#94a3b8;">${new Date(u.createdAt).toLocaleDateString()}</td>
         <td>
           <div style="display:flex; align-items:center; gap:6px;">
-            <button type="button" class="btn-portal-primary" style="padding:4px 8px; font-size:0.74rem; background:linear-gradient(135deg, #10b981, #059669); white-space:nowrap;" title="Log into portal as this client" onclick="accessPortalAs('${u.role === 'lawyer' ? 'lawyer' : 'user'}', ${u.role === 'lawyer' ? (u.lawyerId || u.id) : u.id})">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-              <span>Access Portal</span>
-            </button>
             <button type="button" class="btn-action-icon" title="View Full Client Dossier" onclick="openClientDossierModal(${u.id})">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
             </button>
@@ -462,10 +458,6 @@ async function loadAdminLawyers(search = '') {
         </td>
         <td>
           <div style="display:flex; align-items:center; gap:6px;">
-            <button type="button" class="btn-portal-primary" style="padding:4px 8px; font-size:0.74rem; background:linear-gradient(135deg, #dfb77c, #b8956a); color:#000; font-weight:700; white-space:nowrap;" title="Log into advocate portal as this attorney" onclick="accessPortalAs('lawyer', ${l.id})">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-              <span>Access Portal</span>
-            </button>
             <button type="button" class="btn-action-icon" title="View Full Caseload & Dossier" onclick="openLawyerDossierModal(${l.id})">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
             </button>
@@ -657,9 +649,6 @@ async function loadAdminCases(search = '', status = 'all', lawyerId = 'all') {
             <div style="display:flex; align-items:center; gap:6px;">
               <button type="button" class="btn-action-icon" title="Edit Court Case Docket" onclick="openEditCaseModal(${c.id})">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-              </button>
-              <button type="button" class="btn-portal-primary" style="padding:4px 7px; font-size:0.72rem; background:linear-gradient(135deg, #dfb77c, #b8956a); color:#000; font-weight:700;" title="Access advocate portal directly for this case" onclick="accessPortalAs('lawyer', ${c.lawyerId})">
-                <span>View Case as Lawyer</span>
               </button>
               <button type="button" class="btn-action-icon danger" title="Delete Case Docket" onclick="deleteCase(${c.id})">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>

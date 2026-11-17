@@ -1145,6 +1145,11 @@ async function checkSessionAndLoad() {
     });
     const data = await res.json();
     if (data.success && data.lawyer) {
+      if (!localStorage.getItem('legalai_admin_backup_token')) {
+        localStorage.removeItem('legalai_admin_impersonating');
+        const existingBar = document.getElementById('admin-impersonation-bar');
+        if (existingBar) existingBar.remove();
+      }
       showDashboard(data.lawyer, data.stats);
       fetchAndRenderCases();
       fetchAndRenderConsultations();

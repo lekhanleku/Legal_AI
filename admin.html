@@ -50,8 +50,6 @@
       <nav class="portal-nav-links">
         <a href="index.html" class="portal-nav-link">Main Site</a>
         <a href="lawyers.html" class="portal-nav-link">Advocates Directory</a>
-        <a href="lawyer.html" class="portal-nav-link" style="color:var(--gold-glow);">Advocate Portal</a>
-        <a href="user.html" class="portal-nav-link">Client Portal</a>
       </nav>
 
       <div class="portal-user-menu" id="admin-user-menu">
@@ -297,52 +295,34 @@
         <div class="kpi-sub" id="kpi-admin-cases-sub">0 Active Hearings · 0 Disposed</div>
       </div>
 
-      <div class="kpi-card">
-        <div class="kpi-card-header">
-          <span class="kpi-label">AI Queries Processed</span>
-          <div class="kpi-icon kpi-icon-emerald"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-        </div>
-        <div class="kpi-value" id="kpi-admin-ai-queries">0</div>
-        <div class="kpi-sub">Adaptive RAG sessions</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-card-header">
-          <span class="kpi-label">Courts &amp; Venues</span>
-          <div class="kpi-icon kpi-icon-purple"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 10v11M19 10v11M9 10v11M15 10v11M12 2L2 7h20L12 2z"/></svg></div>
-        </div>
-        <div class="kpi-value" id="kpi-admin-courts">0</div>
-        <div class="kpi-sub" id="kpi-admin-courts-sub">Authoritative trial forums</div>
-      </div>
     </section>
 
     <!-- NAVIGATION TABS -->
     <div class="portal-tabs-nav">
       <button class="portal-tab-btn active" data-tab="tab-users-mgmt">
-        <span>User Accounts</span>
+        <span>Client Accounts</span>
         <span class="tab-badge" id="tab-badge-users">0</span>
       </button>
-      <button class="portal-tab-btn" data-tab="tab-consults-mgmt">
-        <span>Consultations &amp; Bookings</span>
-        <span class="tab-badge" id="tab-badge-bookings">0</span>
-      </button>
       <button class="portal-tab-btn" data-tab="tab-lawyers-mgmt">
-        <span>Attorney Directory</span>
+        <span>Advocate Directory</span>
         <span class="tab-badge" id="tab-badge-attorneys">0</span>
       </button>
+      <button class="portal-tab-btn" data-tab="tab-consults-mgmt">
+        <span>Consultations Oversight</span>
+        <span class="tab-badge" id="tab-badge-bookings">0</span>
+      </button>
       <button class="portal-tab-btn" data-tab="tab-cases-mgmt">
-        <span>Court Cases &amp; Dockets</span>
+        <span>Court Dockets</span>
         <span class="tab-badge" id="tab-badge-cases">0</span>
-      </button>
-      <button class="portal-tab-btn" data-tab="tab-courts-mgmt">
-        <span>Courts Directory</span>
-        <span class="tab-badge" id="tab-badge-courts">0</span>
-      </button>
-      <button class="portal-tab-btn" data-tab="tab-ai-ops">
-        <span>AI Engine &amp; RAG Logs</span>
       </button>
       <button class="portal-tab-btn" data-tab="tab-system-diag">
         <span>System Diagnostics</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-courts-mgmt" style="display:none;">
+        <span>Courts</span>
+      </button>
+      <button class="portal-tab-btn" data-tab="tab-ai-ops" style="display:none;">
+        <span>AI Engine</span>
       </button>
     </div>
 

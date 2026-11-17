@@ -15,7 +15,6 @@ const dashboardContent = document.getElementById('user-dashboard-content');
 const loginForm = document.getElementById('portal-login-form');
 const btnQuickDemo = document.getElementById('btn-quick-demo-login');
 const btnLogout = document.getElementById('btn-user-logout');
-const navAdminLink = document.getElementById('nav-admin-link');
 
 // ── SESSION MANAGEMENT ──
 function getAuthToken() {
@@ -50,6 +49,11 @@ async function initUserPortal() {
     const data = await res.json();
     if (data.success) {
       currentUser = data.user;
+      if (currentUser.role === 'user') {
+        localStorage.removeItem('legalai_admin_impersonating');
+        const existingBar = document.getElementById('admin-impersonation-bar');
+        if (existingBar) existingBar.remove();
+      }
       showDashboard(data);
     } else {
       clearAuthSession();
@@ -88,22 +92,15 @@ function showDashboard(profileData) {
   const elRole = document.getElementById('user-header-role');
   if (elAvatar) elAvatar.textContent = initial;
   if (elName) elName.textContent = u.name;
-  if (elRole) elRole.textContent = u.role === 'admin' ? 'Administrator' : (u.isVerified ? 'Verified Client' : 'Client Account');
-
-  // Show Admin Link if user is an admin
-  if (u.role === 'admin' && navAdminLink) {
-    navAdminLink.style.display = 'inline-block';
-  }
+  if (elRole) elRole.textContent = u.isVerified ? 'Verified Client' : 'Client Account';
 
   // Update Drawer Info
   const drawerName = document.getElementById('drawer-user-name');
   const drawerEmail = document.getElementById('drawer-user-email');
   const drawerRoleBadge = document.getElementById('drawer-user-role-badge');
-  const drawerAdminLink = document.getElementById('drawer-admin-link');
   if (drawerName) drawerName.textContent = u.name || 'Client Account';
   if (drawerEmail) drawerEmail.textContent = u.email || '';
-  if (drawerRoleBadge) drawerRoleBadge.textContent = u.role === 'admin' ? ' Admin' : (u.isVerified ? ' Verified Client' : 'Client');
-  if (u.role === 'admin' && drawerAdminLink) drawerAdminLink.style.display = 'flex';
+  if (drawerRoleBadge) drawerRoleBadge.textContent = u.isVerified ? ' Verified Client' : 'Client';
 
   // Update Hero Banner
   const elWelcome = document.getElementById('user-welcome-title');
