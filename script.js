@@ -5280,15 +5280,42 @@ if (btnLiveCourtRules) {
   });
 }
 
-// ── Navbar "Courts" link scroll handler ──
+// ── Courts Modal open/close ──
+function openCourtsModal() {
+  const overlay = document.getElementById('courts-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+}
+window.openCourtsModal = openCourtsModal;
+
+function closeCourtsModal() {
+  const overlay = document.getElementById('courts-modal-overlay');
+  if (overlay) {
+    overlay.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+window.closeCourtsModal = closeCourtsModal;
+
+const courtsModalCloseBtn = document.getElementById('courts-modal-close-btn');
+if (courtsModalCloseBtn) {
+  courtsModalCloseBtn.addEventListener('click', closeCourtsModal);
+}
+const courtsModalOverlay = document.getElementById('courts-modal-overlay');
+if (courtsModalOverlay) {
+  courtsModalOverlay.addEventListener('click', (e) => {
+    if (e.target === courtsModalOverlay) closeCourtsModal();
+  });
+}
+
+// ── Navbar "Courts" link handler ──
 const navCourtsLink = document.getElementById('nav-courts');
 if (navCourtsLink) {
   navCourtsLink.addEventListener('click', (e) => {
     e.preventDefault();
-    const courtsSection = document.getElementById('courts');
-    if (courtsSection) {
-      courtsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    openCourtsModal();
   });
 }
 
@@ -6269,6 +6296,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── RENDER ARTICLES GRID ──
+// ── Curated legal image fallback by category/keyword ──
+function getCuratedLegalImage(title, category) {
+  const t = (title || '').toLowerCase();
+  const c = (category || '').toLowerCase();
+  if (c.includes('criminal') || c.includes('bail') || c.includes('ndps') || c.includes('prison') || t.includes('bail') || t.includes('ndps') || t.includes('arrest') || t.includes('custody')) {
+    return 'https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=800&q=80';
+  }
+  if (c.includes('family') || c.includes('ivf') || c.includes('matrimonial') || t.includes('ivf') || t.includes('divorce') || t.includes('custody') || t.includes('art act')) {
+    return 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=800&q=80';
+  }
+  if (c.includes('tech') || c.includes('data') || c.includes('digital') || c.includes('ai') || c.includes('ip') || t.includes('dpdp') || t.includes('data protection') || t.includes('artificial intelligence')) {
+    return 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80';
+  }
+  if (c.includes('corporate') || c.includes('insolvency') || c.includes('ibc') || c.includes('company') || t.includes('nclat') || t.includes('sebi') || t.includes('whistleblower')) {
+    return 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80';
+  }
+  if (c.includes('property') || c.includes('real estate') || c.includes('tort') || t.includes('pothole') || t.includes('civic') || t.includes('municipal')) {
+    return 'https://images.unsplash.com/photo-1479142506502-19b3a3b7ff33?auto=format&fit=crop&w=800&q=80';
+  }
+  if (c.includes('high court') || c.includes('rti') || c.includes('governance') || t.includes('high court') || t.includes('rti')) {
+    return 'https://images.unsplash.com/photo-1479142506502-19b3a3b7ff33?auto=format&fit=crop&w=800&q=80';
+  }
+  return 'https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=800&q=80';
+}
+window.getCuratedLegalImage = getCuratedLegalImage;
+
   function renderArticles() {
     if (!articlesGrid) return;
     const filtered = getFilteredArticles();
@@ -6286,9 +6339,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (articlesEmpty) articlesEmpty.classList.add('hidden');
 
     articlesGrid.innerHTML = filtered.map((article, i) => {
-      const imgHtml = article.image
-        ? `<div class="article-card-img" style="background-image:url('${article.image}')"><div class="article-img-overlay"></div></div>`
-        : `<div class="article-card-img no-img"><span>${article.icon || ''}</span></div>`;
+      const rawImg = article.image || getCuratedLegalImage(article.title, article.category);
+      const imgHtml = `<div class="article-card-img" style="background-image:url('${rawImg}')"><div class="article-img-overlay"></div><img src="${rawImg}" alt="" style="display:none" onerror="this.parentElement.style.backgroundImage='url(/hero.jpg)'" /></div>`;
 
       const loc = (typeof window.getLocalizedArticle === 'function')
         ? window.getLocalizedArticle(article, window.currentNewsLanguage || 'en')
