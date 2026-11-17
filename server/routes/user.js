@@ -240,6 +240,21 @@ router.get('/cases', requireUser, (req, res) => {
   }
 });
 
+// @route   DELETE /api/user/cases/all
+// @route   DELETE /api/user/cases/clear-all
+// @desc    Clear all court dockets associated with current user
+// @access  Private
+router.delete(['/cases/all', '/cases/clear-all'], requireUser, (req, res) => {
+  try {
+    const user = req.user;
+    const count = db.prepare('DELETE FROM cases WHERE LOWER(clientEmail) = LOWER(?) OR LOWER(clientName) = LOWER(?)').run(user.email, user.name).changes;
+    return res.json({ success: true, message: `Removed all (${count}) linked court litigation dockets.` });
+  } catch (err) {
+    console.error('Clear All User Cases Error:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // @route   GET /api/user/chats
 // @desc    Get user past legal AI chats
 // @access  Private

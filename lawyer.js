@@ -767,6 +767,26 @@ window.clearAllLawyerConsultations = async function() {
   }
 };
 
+window.clearAllLawyerCases = async function() {
+  if (!confirm('Are you sure you want to remove all court case dockets from your chambers? This cannot be undone.')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${API_BASE}/lawyer/cases/clear-all`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.message || 'All court dockets cleared from chambers docket', 'info');
+      fetchAndRenderCases();
+    } else {
+      showToast(data.message || 'Could not clear court dockets', 'error');
+    }
+  } catch (err) {
+    showToast('Network error clearing court dockets: ' + err.message, 'error');
+  }
+};
+
 // ── Fetch & Render Represented Clients ──
 let currentClients = [];
 async function fetchAndRenderClients() {

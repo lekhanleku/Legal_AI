@@ -716,6 +716,27 @@ window.deleteCase = async function(id) {
   }
 };
 
+window.clearAllCases = async function() {
+  if (!confirm('Are you sure you want to permanently delete all court case dockets platform-wide? This cannot be undone.')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${SERVER_ORIGIN}/api/admin/cases/clear-all`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message || 'All court case dockets removed successfully');
+      loadAdminCases('', activeCaseFilterStatus, activeCaseFilterLawyer);
+      loadAdminStats();
+    } else {
+      alert(data.message || 'Failed to remove court case dockets');
+    }
+  } catch (err) {
+    alert('Server error: ' + err.message);
+  }
+};
+
 window.openEditCaseModal = async function(id) {
   const token = getAuthToken();
   try {

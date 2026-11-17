@@ -290,6 +290,26 @@ window.clearAllUserConsultations = async function() {
   }
 };
 
+window.clearAllUserCases = async function() {
+  if (!confirm('Are you sure you want to remove all your linked court case dockets?')) return;
+  const token = getAuthToken();
+  try {
+    const res = await fetch(`${SERVER_ORIGIN}/api/user/cases/clear-all`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      alert(data.message || 'All court cases removed successfully.');
+      loadUserCases();
+    } else {
+      alert(data.message || 'Could not remove court cases.');
+    }
+  } catch (err) {
+    alert('Error removing court cases: ' + err.message);
+  }
+};
+
 // ── LOAD USER COURT CASES & LITIGATION DOCKETS ──
 let userCases = [];
 async function loadUserCases() {
