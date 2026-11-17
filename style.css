@@ -10451,10 +10451,17 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   color: var(--gold);
 }
 
-[data-theme="light"] .nav-dropdown {
+[data-theme="light"] .nav-dropdown,
+[data-theme="light"] .nav-dropdown-menu {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .dropdown-item-icon-box {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: var(--gold-dark);
 }
 
 [data-theme="light"] .nav-dropdown-item {
@@ -10500,8 +10507,25 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="light"] .user-menu-header {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
 [data-theme="light"] .user-menu-name {
   color: #0f172a;
+}
+
+[data-theme="light"] .user-menu-email {
+  color: #64748b;
+}
+
+[data-theme="light"] .user-menu-role {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .user-menu-divider {
+  background: #e2e8f0;
 }
 
 [data-theme="light"] .user-menu-item {
@@ -10510,7 +10534,16 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 
 [data-theme="light"] .user-menu-item:hover {
   background: #f8fafc;
-  color: var(--gold);
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .user-menu-logout-btn {
+  color: #ef4444;
+}
+
+[data-theme="light"] .user-menu-logout-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 /* Hero Section in light theme */
@@ -10527,7 +10560,15 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   );
 }
 
+[data-theme="light"] .hero-tag .tag-text {
+  color: var(--gold-dark);
+}
+
 [data-theme="light"] .hero-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .hero-line {
   color: #0f172a;
 }
 
@@ -10535,14 +10576,80 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   color: #334155;
 }
 
-[data-theme="light"] .stat-strip {
+[data-theme="light"] .hero-ai-input-wrap {
+  background: #ffffff;
+  border: 1.5px solid rgba(162, 125, 76, 0.45);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .hero-ai-input-wrap:focus-within {
+  border-color: var(--gold);
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .hero-ai-input {
+  color: #0f172a;
+}
+
+[data-theme="light"] .hero-ai-input::placeholder {
+  color: #64748b;
+}
+
+[data-theme="light"] .hero-ai-label {
+  color: #475569;
+}
+
+[data-theme="light"] .hero-ai-chip {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .hero-ai-chip:hover {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: var(--gold);
+  color: #0f172a;
+}
+
+[data-theme="light"] .cta-secondary {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--gold-dark);
+  border-color: rgba(162, 125, 76, 0.45);
+}
+
+[data-theme="light"] .cta-secondary:hover {
+  background: rgba(162, 125, 76, 0.12);
+  color: var(--gold-dark);
+  border-color: var(--gold);
+}
+
+[data-theme="light"] .stat-strip,
+[data-theme="light"] .hero-stats {
   background: rgba(255, 255, 255, 0.95);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme="light"] .stat-item .stat-label {
+[data-theme="light"] .hero-stats .stat-item .stat-num,
+[data-theme="light"] .stat-strip .stat-item .stat-num {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .hero-stats .stat-item .stat-suffix,
+[data-theme="light"] .stat-strip .stat-item .stat-suffix {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .hero-stats .stat-item .stat-label,
+[data-theme="light"] .stat-strip .stat-item .stat-label {
   color: #64748b;
+}
+
+[data-theme="light"] .hero-stats .stat-divider,
+[data-theme="light"] .stat-strip .stat-divider {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 /* Why choose us & feature cards */
@@ -10702,6 +10809,18 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   color: #0f172a;
 }
 
+[data-theme="light"] .btn-profile {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme="light"] .btn-profile:hover {
+  background: #f1f5f9;
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}
+
 /* Courts Section in light theme */
 [data-theme="light"] .courts-section {
   background: #f8fafc;
@@ -10722,6 +10841,10 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   color: #0f172a;
 }
 
+[data-theme="light"] .court-search-box input::placeholder {
+  color: #94a3b8;
+}
+
 [data-theme="light"] .court-select {
   background-color: #ffffff;
   border: 1px solid #cbd5e1;
@@ -10731,6 +10854,30 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 [data-theme="light"] .court-select option {
   background-color: #ffffff;
   color: #0f172a;
+}
+
+[data-theme="light"] .court-pill-chip {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .court-pill-chip:hover {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: var(--gold);
+  color: #0f172a;
+}
+
+[data-theme="light"] .court-pill-chip.active {
+  background: rgba(162, 125, 76, 0.2);
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .court-count-badge {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
 }
 
 [data-theme="light"] .court-card {
@@ -10749,9 +10896,41 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   color: #0f172a;
 }
 
+[data-theme="light"] .court-circuit-text {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .court-desc-text {
+  color: #475569;
+}
+
 [data-theme="light"] .court-jurisdiction,
 [data-theme="light"] .court-overview {
   color: #475569;
+}
+
+[data-theme="light"] .court-meta-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .court-meta-item {
+  color: #334155;
+}
+
+[data-theme="light"] .court-card-actions {
+  border-top-color: #f1f5f9;
+}
+
+[data-theme="light"] .btn-court-details {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: rgba(162, 125, 76, 0.35);
+  color: #0f172a;
+}
+
+[data-theme="light"] .btn-court-details:hover {
+  background: rgba(162, 125, 76, 0.22);
+  color: var(--gold-dark);
 }
 
 [data-theme="light"] .court-stat-box {
@@ -10821,15 +11000,23 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 /* Modals in light theme */
 [data-theme="light"] .modal-overlay,
 [data-theme="light"] .auth-modal-overlay,
-[data-theme="light"] .bookings-modal-overlay {
+[data-theme="light"] .bookings-modal-overlay,
+[data-theme="light"] .lawyer-modal-overlay,
+[data-theme="light"] .court-modal-overlay,
+[data-theme="light"] .pa-modal-overlay,
+[data-theme="light"] .legal-modal-overlay {
   background: rgba(15, 23, 42, 0.55);
 }
 
 [data-theme="light"] .modal-box,
 [data-theme="light"] .auth-modal-card,
 [data-theme="light"] .bookings-modal-card,
+[data-theme="light"] .lawyer-modal,
 [data-theme="light"] .lawyer-modal-card,
-[data-theme="light"] .court-modal-box {
+[data-theme="light"] .court-modal,
+[data-theme="light"] .court-modal-box,
+[data-theme="light"] .pa-modal,
+[data-theme="light"] .legal-modal-card {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
@@ -10838,19 +11025,29 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 
 [data-theme="light"] .modal-title,
 [data-theme="light"] .bookings-modal-title,
-[data-theme="light"] .lawyer-mheader-name {
+[data-theme="light"] .lawyer-modal-name,
+[data-theme="light"] .lawyer-mheader-name,
+[data-theme="light"] .court-modal-title,
+[data-theme="light"] .pa-modal-title,
+[data-theme="light"] .legal-modal-title {
   color: #0f172a;
 }
 
 [data-theme="light"] .modal-subtitle,
 [data-theme="light"] .bookings-modal-subtitle,
-[data-theme="light"] .lawyer-mheader-title {
+[data-theme="light"] .lawyer-modal-title,
+[data-theme="light"] .lawyer-mheader-title,
+[data-theme="light"] .court-modal-circuit,
+[data-theme="light"] .pa-modal-subtitle,
+[data-theme="light"] .legal-modal-sub {
   color: #64748b;
 }
 
 [data-theme="light"] .modal-close,
 [data-theme="light"] .modal-close-btn,
-[data-theme="light"] .bookings-modal-close {
+[data-theme="light"] .bookings-modal-close,
+[data-theme="light"] .pa-modal-close,
+[data-theme="light"] .legal-modal-close {
   background: #f1f5f9;
   border-color: #cbd5e1;
   color: #475569;
@@ -10858,11 +11055,143 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 
 [data-theme="light"] .modal-close:hover,
 [data-theme="light"] .modal-close-btn:hover,
-[data-theme="light"] .bookings-modal-close:hover {
+[data-theme="light"] .bookings-modal-close:hover,
+[data-theme="light"] .pa-modal-close:hover,
+[data-theme="light"] .legal-modal-close:hover {
   background: #e2e8f0;
   color: #0f172a;
 }
 
+/* Lawyer Modal Details in Light Theme */
+[data-theme="light"] .lawyer-modal-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .lawyer-modal-stats-grid {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .lawyer-mstat-val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .lawyer-mstat-val.highlight {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .lawyer-mstat-lbl {
+  color: #64748b;
+}
+
+[data-theme="light"] .lawyer-minfo-row {
+  color: #334155;
+}
+
+[data-theme="light"] .lawyer-modal-bio {
+  color: #334155;
+}
+
+[data-theme="light"] .lawyer-contact-link {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme="light"] .lawyer-contact-link:hover {
+  background: #f1f5f9;
+  border-color: var(--gold);
+}
+
+[data-theme="light"] .lawyer-modal-footer {
+  border-top-color: #e2e8f0;
+}
+
+[data-theme="light"] .btn-court-close {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .btn-court-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Court Modal Details in Light Theme */
+[data-theme="light"] .court-modal-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .court-modal-stats-grid {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .court-modal-stat-val {
+  color: #0f172a;
+}
+
+[data-theme="light"] .court-modal-stat-lbl {
+  color: #64748b;
+}
+
+[data-theme="light"] .court-modal-desc {
+  color: #334155;
+}
+
+[data-theme="light"] .court-modal-tab {
+  color: #475569;
+}
+
+[data-theme="light"] .court-modal-tab:hover {
+  color: #0f172a;
+}
+
+[data-theme="light"] .court-modal-tab.active {
+  color: var(--gold-dark);
+  border-bottom-color: var(--gold);
+}
+
+[data-theme="light"] .court-modal-footer {
+  border-top-color: #e2e8f0;
+}
+
+/* Practice Areas Modal in Light Theme */
+[data-theme="light"] .pa-modal-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .pa-stat {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .pa-stat-lbl {
+  color: #64748b;
+}
+
+[data-theme="light"] .pa-overview-text,
+[data-theme="light"] .pa-when-text {
+  color: #334155;
+}
+
+[data-theme="light"] .pa-rights-list li {
+  color: #334155;
+}
+
+[data-theme="light"] .pa-case-chip {
+  background: rgba(162, 125, 76, 0.1);
+  border-color: rgba(162, 125, 76, 0.25);
+  color: #334155;
+}
+
+[data-theme="light"] .pa-modal-footer {
+  background: #f8fafc;
+  border-top-color: #e2e8f0;
+}
+
+/* Form Inputs in Light Theme */
 [data-theme="light"] .input-wrapper input,
 [data-theme="light"] .input-wrapper select,
 [data-theme="light"] .consult-form input,
@@ -10889,6 +11218,446 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 
 [data-theme="light"] .switch-mode-text {
   color: #64748b;
+}
+
+/* Bookings filter & search bar in Light Theme */
+[data-theme="light"] .bookings-filter-bar {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .bookings-search-wrap input {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme="light"] .bookings-search-wrap input::placeholder {
+  color: #94a3b8;
+}
+
+/* ── LEGAL NEWS & ARTICLES MODAL (LIGHT THEME) ── */
+[data-theme="light"] .articles-modal-overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .articles-modal {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+[data-theme="light"] .articles-modal-header {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .articles-modal-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .articles-modal-sub {
+  color: #64748b;
+}
+
+[data-theme="light"] .articles-refresh-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .articles-refresh-btn:hover:not(:disabled) {
+  background: rgba(162, 125, 76, 0.15);
+  border-color: var(--gold);
+}
+
+[data-theme="light"] .articles-close-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+}
+
+[data-theme="light"] .articles-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme="light"] .articles-controls {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .articles-search-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+}
+
+[data-theme="light"] .articles-search-box input {
+  color: #0f172a;
+}
+
+[data-theme="light"] .articles-search-box input::placeholder {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .articles-live-badge {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+[data-theme="light"] .articles-category-pills {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .articles-pill {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+[data-theme="light"] .articles-pill:hover {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: var(--gold);
+  color: #0f172a;
+}
+
+[data-theme="light"] .articles-pill.active {
+  background: rgba(162, 125, 76, 0.2);
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .articles-body {
+  background: #f8fafc;
+}
+
+[data-theme="light"] .article-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .article-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 32px rgba(162, 125, 76, 0.15);
+}
+
+[data-theme="light"] .article-card-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .article-card-desc {
+  color: #475569;
+}
+
+[data-theme="light"] .article-card-meta {
+  border-top: 1px solid #f1f5f9;
+  color: #64748b;
+}
+
+[data-theme="light"] .article-card-time {
+  color: #94a3b8;
+}
+
+[data-theme="light"] .articles-modal-footer {
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .articles-count-text {
+  color: #64748b;
+}
+
+[data-theme="light"] .articles-auto-refresh {
+  color: #94a3b8;
+}
+
+/* ── ARTICLE READER MODAL (LIGHT THEME) ── */
+[data-theme="light"] .article-reader-overlay {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+[data-theme="light"] .article-reader-modal {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-topbar {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .reader-back-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .reader-back-btn:hover {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: var(--gold);
+}
+
+[data-theme="light"] .reader-action-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .reader-action-btn:hover {
+  background: rgba(162, 125, 76, 0.12);
+  border-color: var(--gold);
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-action-btn.active {
+  background: rgba(162, 125, 76, 0.18);
+  border-color: var(--gold);
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .reader-lang-select {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-lang-select option {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-close-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+}
+
+[data-theme="light"] .reader-close-btn:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+[data-theme="light"] .reader-scroll-area {
+  background: #ffffff;
+}
+
+[data-theme="light"] .reader-read-time,
+[data-theme="light"] .reader-source-badge,
+[data-theme="light"] .reader-pub-date {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+[data-theme="light"] .reader-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-lead {
+  color: #334155;
+  border-left-color: var(--gold);
+}
+
+[data-theme="light"] .reader-takeaways-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .takeaways-header h4 {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .takeaways-list li {
+  color: #334155;
+}
+
+[data-theme="light"] .reader-body-content {
+  color: #1e293b;
+}
+
+[data-theme="light"] .reader-body-content h3 {
+  color: #0f172a;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .reader-body-content h4 {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .reader-body-content p {
+  color: #334155;
+}
+
+[data-theme="light"] .reader-body-content blockquote {
+  background: #f1f5f9;
+  border-left: 4px solid var(--gold);
+  color: #1e293b;
+}
+
+[data-theme="light"] .reader-body-content strong {
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-law-chip {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+[data-theme="light"] .reader-check-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .reader-check-item span {
+  color: #334155;
+}
+
+[data-theme="light"] .reader-warning-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="light"] .reader-warning-box .warning-content p {
+  color: #78350f;
+}
+
+[data-theme="light"] .reader-footer-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .reader-footer-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .reader-footer-desc {
+  color: #64748b;
+}
+
+[data-theme="light"] .reader-nav-btn {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .nav-title {
+  color: #0f172a;
+}
+
+/* ── FOOTER & LEGAL MODALS (LIGHT THEME) ── */
+[data-theme="light"] .site-footer {
+  background: #f1f5f9;
+  border-top: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+[data-theme="light"] .footer-brand-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .footer-mission-text {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-col-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .footer-link {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-link:hover {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .footer-statutory-notice {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  border-left: 3px solid var(--gold);
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-statutory-notice strong {
+  color: #0f172a;
+}
+
+[data-theme="light"] .footer-bottom-row {
+  border-top-color: #e2e8f0;
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-bottom-links a {
+  color: #64748b;
+}
+
+[data-theme="light"] .footer-bottom-links a:hover {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .legal-modal-overlay {
+  background: rgba(15, 23, 42, 0.55);
+}
+
+[data-theme="light"] .legal-modal-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+  color: #0f172a;
+}
+
+[data-theme="light"] .legal-modal-header {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .legal-modal-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .legal-modal-sub {
+  color: #64748b;
+}
+
+[data-theme="light"] .legal-modal-close {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="light"] .legal-modal-close:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+[data-theme="light"] .legal-modal-body {
+  color: #334155;
+}
+
+[data-theme="light"] .legal-section-block {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme="light"] .legal-section-block.statutory-alert {
+  background: rgba(162, 125, 76, 0.08);
+  border-color: rgba(162, 125, 76, 0.25);
+  border-left-color: var(--gold);
+}
+
+[data-theme="light"] .legal-section-block h4 {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .legal-modal-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
 }
 
 /* AI Assistant Drawer in light theme */
@@ -10995,6 +11764,41 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
 }
 
 [data-theme="light"] .side-menu-section-label {
+  color: #64748b;
+}
+
+[data-theme="light"] .side-menu-ai-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .side-menu-ai-desc {
+  color: #475569;
+}
+
+[data-theme="light"] .side-help-title {
+  color: #0f172a;
+}
+
+[data-theme="light"] .side-help-sub {
+  color: #64748b;
+}
+
+[data-theme="light"] .side-menu-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .side-user-chip {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .side-user-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .side-user-email {
   color: #64748b;
 }
 
