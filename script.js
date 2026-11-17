@@ -1342,8 +1342,8 @@ function generateClientLegalAssessment(prompt, userName) {
     return {
       category: 'General Legal Advisory',
       text: `${userGreeting}this legal situation:\n\n###  Initial Assessment & Issue Spotting\nYour situation touches upon general civil and administrative legal principles. Because legal outcomes are highly fact-dependent and subject to jurisdiction-specific statutes, establishing the factual timeline is your primary objective.\n\n###  Universal Legal Protections\n* **Due Process:** Any formal adverse legal action typically requires formal written notice and an opportunity to respond.\n* **Statute of Limitations:** All claims have strict time limits. Delaying action can permanently forfeit your right to relief.\n* **Duty to Mitigate:** In financial or contract disputes, parties are expected to take reasonable steps to minimize escalating damages.\n\n###  Immediate Actionable Recommendations\n1. **Establish a Chronological Record:** Write down a detailed, dated sequence of all events, communications, and promises made.\n2. **Preserve All Written Evidence:** Back up emails, text messages, receipts, and contracts in a secure offsite location.\n3. **Avoid Speculative Statements:** Do not make written admissions or discuss case merits on social media.\n\n>  *Disclaimer: LegalAI Assistant provides informational analysis and legal information, not formal attorney-client representation. For binding legal advice tailored to your state and jurisdiction, always consult a licensed attorney.*`,
-      suggestedLawyer: isLawyerQuery ? CLIENT_LEGAL_DOMAINS[2].fallbackLawyer : null,
-      suggestedCourt: isCourtQuery ? CLIENT_LEGAL_DOMAINS[5].fallbackCourt : null
+      suggestedLawyer: bestDomain?.fallbackLawyer || CLIENT_LEGAL_DOMAINS[2].fallbackLawyer,
+      suggestedCourt: bestDomain?.fallbackCourt || CLIENT_LEGAL_DOMAINS[5].fallbackCourt
     };
   }
 
@@ -1351,13 +1351,13 @@ function generateClientLegalAssessment(prompt, userName) {
   const actionsList = bestDomain.actions.map((a, i) => `${i + 1}. **${a.split(':')[0] || a.slice(0, 30)}**: ${a}`).join('\n');
   const docsList = bestDomain.documents.map(d => `* ${d}`).join('\n');
 
-  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n###  Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n###  Key Rights & Statutory Principles\n${rightsList}\n\n###  Immediate Action Steps\n${actionsList}\n\n###  Critical Evidence & Documents to Preserve\n${docsList}\n\n>  *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
+  const text = `${userGreeting}**${bestDomain.name}**, here is an executive legal assessment and strategic checklist:\n\n### Legal Analysis & Key Issues\nYour situation involves core provisions of **${bestDomain.name}**. In these matters, courts and tribunals scrutinize documentation, compliance with notice rules, and procedural timelines above all else.\n\n### Key Rights & Statutory Principles\n${rightsList}\n\n### Immediate Action Steps\n${actionsList}\n\n### Critical Evidence & Documents to Preserve\n${docsList}\n\n> *Disclaimer: Information provided by LegalAI Assistant is for educational and guidance purposes only and does not create an attorney-client relationship. Laws vary by state and municipality. Consult a licensed attorney before taking legal action.*`;
 
   return {
     category: bestDomain.name,
     text,
-    suggestedLawyer: isLawyerQuery ? bestDomain.fallbackLawyer : null,
-    suggestedCourt: isCourtQuery ? bestDomain.fallbackCourt : null
+    suggestedLawyer: bestDomain.fallbackLawyer || CLIENT_LEGAL_DOMAINS[2].fallbackLawyer,
+    suggestedCourt: bestDomain.fallbackCourt || CLIENT_LEGAL_DOMAINS[5].fallbackCourt
   };
 }
 
@@ -1448,8 +1448,10 @@ function renderSuggestedLawyerCardHTML(lawyer) {
   const initials = getInitials(lawyer.name);
   const ratingVal = lawyer.rating ? Number(lawyer.rating).toFixed(1) : '4.9';
   const reviewsText = lawyer.reviewCount ? `(${lawyer.reviewCount} reviews)` : '(45+ reviews)';
-  const rateText = lawyer.hourlyRate ? `$${lawyer.hourlyRate}/hr` : 'Competitive Hourly';
+  const rateText = lawyer.hourlyRate ? `₹${Number(lawyer.hourlyRate).toLocaleString('en-IN')}/hr` : 'Competitive Hourly';
   const matchReason = lawyer.matchReason || `Top-rated specialist in ${lawyer.specialty || 'this domain'} with a high success rate.`;
+  const barNo = lawyer.barNumber || '';
+  const primaryCourt = lawyer.primaryCourt || '';
 
   return `
     <div class="ai-recommend-card ai-lawyer-card" id="ai-matched-lawyer-${lawyer.id}">
@@ -1465,10 +1467,15 @@ function renderSuggestedLawyerCardHTML(lawyer) {
           <div class="ai-card-avatar-fallback">${initials}</div>
         `}
         <div class="ai-card-details">
-          <h4 class="ai-card-name">${escapeHtml(lawyer.name)} <span class="ai-card-verified-badge" title="State Bar Verified Advocate"> Verified</span></h4>
+          <h4 class="ai-card-name">${escapeHtml(lawyer.name)} <span class="ai-card-verified-badge" title="State Bar Verified Advocate">Verified</span></h4>
           <div class="ai-card-specialty">${escapeHtml(lawyer.specialty || 'General Counsel')} · ${lawyer.experienceYears || 10}+ Yrs Experience</div>
+          <div class="ai-card-badges-row" style="display:flex; flex-wrap:wrap; gap:5px; margin:4px 0 6px;">
+            <span class="meta-pill meta-pill-emerald" style="font-size:0.68rem; padding:1px 6px;">Verified Bar Enrolled</span>
+            ${barNo ? `<span class="meta-pill meta-pill-gold" style="font-size:0.68rem; padding:1px 6px;">Bar: ${escapeHtml(barNo)}</span>` : ''}
+            ${primaryCourt ? `<span class="meta-pill meta-pill-blue" style="font-size:0.68rem; padding:1px 6px;">${escapeHtml(primaryCourt)}</span>` : ''}
+          </div>
           <div class="ai-card-meta-row">
-            <span class="ai-card-rating"> ${ratingVal} <span class="ai-card-reviews">${reviewsText}</span></span>
+            <span class="ai-card-rating"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="color:#f59e0b; vertical-align:-1px; margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${ratingVal} <span class="ai-card-reviews">${reviewsText}</span></span>
             <span class="ai-card-rate">${rateText}</span>
           </div>
         </div>

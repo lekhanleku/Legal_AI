@@ -12485,3 +12485,106 @@ body.user-logged-in .side-menu-ai-card.auth-protected-feature {
   background: #f1cf99;
   transform: translateY(-1px);
 }
+
+/* AI Recommendations Card Light Mode High-Contrast Rules */
+[data-theme="light"] .ai-recommend-card {
+  background: #ffffff;
+  border: 1.5px solid rgba(184, 149, 106, 0.45);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .ai-recommend-card:hover {
+  border-color: var(--gold-dark);
+  box-shadow: 0 8px 22px rgba(184, 149, 106, 0.2);
+}
+
+[data-theme="light"] .ai-recommend-card.ai-court-card {
+  border-color: rgba(59, 130, 246, 0.45);
+}
+
+[data-theme="light"] .ai-recommend-card.ai-court-card:hover {
+  border-color: #2563eb;
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.2);
+}
+
+[data-theme="light"] .ai-card-header {
+  background: rgba(184, 149, 106, 0.12);
+  border-bottom: 1px solid rgba(184, 149, 106, 0.25);
+}
+
+[data-theme="light"] .ai-card-tag {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .ai-court-card .ai-card-header {
+  background: rgba(59, 130, 246, 0.1);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+[data-theme="light"] .ai-card-tag.court-tag {
+  color: #1d4ed8;
+}
+
+[data-theme="light"] .ai-card-body.ai-card-body-clickable:hover {
+  background: rgba(184, 149, 106, 0.06);
+}
+
+[data-theme="light"] .ai-card-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .ai-card-specialty {
+  color: var(--gold-dark);
+}
+
+[data-theme="light"] .ai-card-rate {
+  color: #0f172a;
+  background: rgba(184, 149, 106, 0.18);
+}
+
+[data-theme="light"] .ai-card-reviews {
+  color: #64748b;
+}
+
+[data-theme="light"] .ai-court-name {
+  color: #0f172a;
+}
+
+[data-theme="light"] .ai-court-jurisdiction {
+  color: #475569;
+}
+
+[data-theme="light"] .ai-filing-pill {
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #1e40af;
+}
+
+[data-theme="light"] .ai-loc-text {
+  color: #64748b;
+}
+
+[data-theme="light"] .ai-card-reason,
+[data-theme="light"] .ai-court-guidance {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+[data-theme="light"] .ai-card-actions {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .ai-btn-secondary {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+[data-theme="light"] .ai-btn-secondary:hover {
+  background: #f1f5f9;
+  border-color: var(--gold-dark);
+  color: #0f172a;
+}

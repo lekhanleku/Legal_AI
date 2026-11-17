@@ -576,6 +576,8 @@ function getBestLawyerAndCourt(domain, cleanPrompt = '') {
           avatarUrl: topLawyer.avatarUrl,
           casesWon: topLawyer.casesWon,
           successRate: topLawyer.successRate,
+          primaryCourt: topLawyer.primaryCourt || targetCourt.name,
+          standing: 'Verified Active',
           matchReason: `Associated with ${targetCourt.name} specializing in ${topLawyer.specialty} (${topLawyer.experienceYears}+ yrs, ${topLawyer.successRate}% win rate). Rule: ${jurRule.title} under ${jurRule.governingActs}.`
         };
       }
@@ -697,7 +699,7 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
   // 5. Branch based on Intent:
   // A) LAWYER QUERY ONLY (User explicitly asked to find/recommend a lawyer)
   if (intent.type === 'LAWYER_QUERY') {
-    const { suggestedLawyer } = getBestLawyerAndCourt(domain, cleanPrompt);
+    const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
     const lawyerInfo = suggestedLawyer
       ? `### Recommended Verified Advocate\nBased on your requirement in **${suggestedLawyer.specialty}**, we recommend consulting **${suggestedLawyer.name}** (${suggestedLawyer.title}).\n\n* **Bar Registration:** ${suggestedLawyer.barNumber}\n* **Chambers:** ${suggestedLawyer.firmName} (${suggestedLawyer.city}, ${suggestedLawyer.state})\n* **Experience:** ${suggestedLawyer.experienceYears}+ years with a verified ${suggestedLawyer.successRate}% courtroom win rate.\n* **Match Justification:** ${suggestedLawyer.matchReason}\n\nYou can book a direct consultation or view full bar credentials using the card below.`
       : `### Advocate Directory Guidance\nWe recommend engaging a verified advocate specializing in **${domain ? domain.specialty : 'this practice area'}**. You can browse all verified bar council advocates on our dedicated Find Lawyers page.`;
@@ -706,7 +708,7 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
       text: lawyerInfo,
       category: domain ? domain.name : 'Advocate Recommendation',
       suggestedLawyer,
-      suggestedCourt: null, // DO NOT return court when only lawyer was asked
+      suggestedCourt,
       retrievedSources: [],
       timestamp: new Date().toISOString()
     };
@@ -714,15 +716,15 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
 
   // B) COURT QUERY ONLY (User explicitly asked which court / where to file)
   if (intent.type === 'COURT_QUERY') {
-    const { suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
+    const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
     const courtInfo = suggestedCourt
-      ? `###  Competent Court & Jurisdictional Venue\nFor matters involving **${domain ? domain.name : 'this dispute'}**, the competent judicial forum is **${suggestedCourt.name}**.\n\n* **Court Level:** ${suggestedCourt.level || suggestedCourt.jurisdiction}\n* **Territorial Forum:** ${suggestedCourt.city}, ${suggestedCourt.state}\n* **Statutory Guidance:** ${suggestedCourt.jurisdictionGuidance}\n* **E-Filing Portal:** ${suggestedCourt.filingSystem || 'State e-Courts portal'}\n\nYou can inspect court profile, map coordinates, and e-filing details using the court card below.`
-      : `###  Jurisdictional Guidance\nJurisdiction is governed by territorial situs and pecuniary limits under the Code of Civil Procedure, 1908 or Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023. You can explore all 97 courts across India in our Courts Directory.`;
+      ? `### Competent Court & Jurisdictional Venue\nFor matters involving **${domain ? domain.name : 'this dispute'}**, the competent judicial forum is **${suggestedCourt.name}**.\n\n* **Court Level:** ${suggestedCourt.level || suggestedCourt.jurisdiction}\n* **Territorial Forum:** ${suggestedCourt.city}, ${suggestedCourt.state}\n* **Statutory Guidance:** ${suggestedCourt.jurisdictionGuidance}\n* **E-Filing Portal:** ${suggestedCourt.filingSystem || 'State e-Courts portal'}\n\nYou can inspect court profile, map coordinates, and e-filing details using the court card below.`
+      : `### Jurisdictional Guidance\nJurisdiction is governed by territorial situs and pecuniary limits under the Code of Civil Procedure, 1908 or Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023. You can explore all 97 courts across India in our Courts Directory.`;
 
     return {
       text: courtInfo,
       category: domain ? domain.name : 'Judicial Jurisdiction',
-      suggestedLawyer: null, // DO NOT return lawyer when only court was asked
+      suggestedLawyer,
       suggestedCourt,
       retrievedSources: [],
       timestamp: new Date().toISOString()
@@ -732,7 +734,7 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
   // C) MIXED QUERY (User explicitly asked for BOTH lawyer and court)
   if (intent.type === 'MIXED_LAWYER_COURT') {
     const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
-    const mixedInfo = `###  Recommended Counsel & Competent Court Venue\n\n* **Recommended Advocate:** ${suggestedLawyer ? suggestedLawyer.name + ' (' + suggestedLawyer.specialty + ')' : 'Specialist counsel in ' + (domain ? domain.specialty : 'this field')}\n* **Competent Court:** ${suggestedCourt ? suggestedCourt.name + ' (' + suggestedCourt.jurisdiction + ')' : 'District & Sessions Court'}\n\nReview the interactive cards below for consultation booking and court details.`;
+    const mixedInfo = `### Recommended Counsel & Competent Court Venue\n\n* **Recommended Advocate:** ${suggestedLawyer ? suggestedLawyer.name + ' (' + suggestedLawyer.specialty + ')' : 'Specialist counsel in ' + (domain ? domain.specialty : 'this field')}\n* **Competent Court:** ${suggestedCourt ? suggestedCourt.name + ' (' + suggestedCourt.jurisdiction + ')' : 'District & Sessions Court'}\n\nReview the interactive cards below for consultation booking and court details.`;
 
     return {
       text: mixedInfo,
@@ -744,17 +746,16 @@ async function processLegalQuery({ prompt, user = null, history = [] }) {
     };
   }
 
-  // D) GENERAL LEGAL QUESTION OR FOLLOW-UP (The core user request)
-  // MUST answer the actual question using the knowledge base.
-  // MUST NOT automatically display lawyer or court cards!
+  // D) GENERAL LEGAL QUESTION OR FOLLOW-UP (AI Search suggests the best lawyer and court)
   const answer = synthesizeLegalAnswer(cleanPrompt, topSource, domain, userName);
   const finalText = previousTopicNote + answer.text;
+  const { suggestedLawyer, suggestedCourt } = getBestLawyerAndCourt(domain, cleanPrompt);
 
   return {
     text: finalText,
     category: answer.category,
-    suggestedLawyer: null, // Crucial: No automatic lawyer card!
-    suggestedCourt: null,  // Crucial: No automatic court card!
+    suggestedLawyer,
+    suggestedCourt,
     retrievedSources: answer.retrievedSources || [],
     timestamp: new Date().toISOString()
   };
