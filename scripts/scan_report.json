@@ -1,0 +1,497 @@
+{
+  "sqlInjectionRisks": [
+    {
+      "file": "server\\db.js",
+      "line": 333,
+      "code": "const canonicalAdvocates = db.prepare(`SELECT id, name FROM lawyers WHERE id IN (${idList})`).all();"
+    },
+    {
+      "file": "server\\db.js",
+      "line": 337,
+      "code": "const extraAdvocates = db.prepare(`SELECT id, name FROM lawyers WHERE id NOT IN (${idList})`).all();"
+    },
+    {
+      "file": "server\\exportDb.js",
+      "line": 9,
+      "code": "dump[t.name] = db.prepare(`SELECT * FROM ${t.name}`).all();"
+    },
+    {
+      "file": "server\\models\\Case.js",
+      "line": 176,
+      "code": "db.prepare(`UPDATE cases SET ${fields.join(', ')} WHERE id = ?`).run(...params);"
+    },
+    {
+      "file": "server\\routes\\ai.js",
+      "line": 485,
+      "code": "const row = db.prepare(`SELECT COUNT(*) as cnt FROM \"${tbl}\"`).get();"
+    },
+    {
+      "file": "server\\routes\\lawyerPortal.js",
+      "line": 227,
+      "code": "db.prepare(`UPDATE consultations SET ${updates.join(', ')} WHERE id = ?`).run(...params);"
+    }
+  ],
+  "unmatchedApiEndpoints": [],
+  "missingDomElements": [
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 24,
+      "elementId": "hamburger"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 97,
+      "elementId": "side-link-articles"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 104,
+      "elementId": "side-link-rag"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 394,
+      "elementId": "nav-admin-chip"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 395,
+      "elementId": "dropdown-admin-item"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 406,
+      "elementId": "side-link-admin"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 1331,
+      "elementId": "nav-ai"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2596,
+      "elementId": "lawyers-grid"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2597,
+      "elementId": "lawyer-search-input"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2598,
+      "elementId": "lawyer-search-clear"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2599,
+      "elementId": "lawyer-specialty-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2600,
+      "elementId": "lawyer-avail-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2601,
+      "elementId": "lawyer-rate-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2602,
+      "elementId": "lawyer-rating-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2603,
+      "elementId": "lawyer-count-badge"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2817,
+      "elementId": "badge-avail-count"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2860,
+      "elementId": "badge-avail-count"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2921,
+      "elementId": "tab-available-lawyers"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 2930,
+      "elementId": "tab-available-lawyers"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3538,
+      "elementId": "nav-lawyers"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3565,
+      "elementId": "bookings-total-count"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3566,
+      "elementId": "bookings-plural-s"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3568,
+      "elementId": "badge-booked-count"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3587,
+      "elementId": "lawyers-grid"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 3656,
+      "elementId": "floating-booking-pill"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5083,
+      "elementId": "tab-courts-cards"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5084,
+      "elementId": "tab-courts-map"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5085,
+      "elementId": "courts-map-explorer-container"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5086,
+      "elementId": "map-court-quick-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5087,
+      "elementId": "courts-explorer-iframe"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5088,
+      "elementId": "map-live-badge"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5089,
+      "elementId": "map-live-name"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5090,
+      "elementId": "map-live-loc"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5091,
+      "elementId": "map-live-hours"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5092,
+      "elementId": "btn-live-court-rules"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5093,
+      "elementId": "btn-live-court-dir"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5094,
+      "elementId": "btn-open-explorer-map-ext"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5184,
+      "elementId": "nav-courts"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 5196,
+      "elementId": "footer-ai-link"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 6489,
+      "elementId": "specialty-select"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7284,
+      "elementId": "news-lang-label-text"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7287,
+      "elementId": "world-ticker-badge-text"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7294,
+      "elementId": "world-refresh-text"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7298,
+      "elementId": "pill-region-all"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7301,
+      "elementId": "pill-region-fr"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7304,
+      "elementId": "pill-region-art21"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7307,
+      "elementId": "pill-region-karnataka"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7310,
+      "elementId": "pill-region-basic"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7313,
+      "elementId": "pill-region-equality"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7316,
+      "elementId": "pill-region-federalism"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7319,
+      "elementId": "pill-region-remedies"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7364,
+      "elementId": "world-news-grid"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7365,
+      "elementId": "world-featured-wrapper"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7366,
+      "elementId": "world-search-input"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7367,
+      "elementId": "world-search-clear"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7368,
+      "elementId": "world-refresh-btn"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7369,
+      "elementId": "world-feed-status"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7371,
+      "elementId": "nav-world-news"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7488,
+      "elementId": "world-ticker-content"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7671,
+      "elementId": "ai-drawer-input"
+    },
+    {
+      "htmlFile": "index.html",
+      "jsFile": "script.js",
+      "line": 7734,
+      "elementId": "world-news"
+    },
+    {
+      "htmlFile": "login.html",
+      "jsFile": "login.js",
+      "line": 353,
+      "elementId": "page-login-btn"
+    },
+    {
+      "htmlFile": "login.html",
+      "jsFile": "login.js",
+      "line": 410,
+      "elementId": "page-reg-btn"
+    },
+    {
+      "htmlFile": "user.html",
+      "jsFile": "user.js",
+      "line": 54,
+      "elementId": "admin-impersonation-bar"
+    },
+    {
+      "htmlFile": "user.html",
+      "jsFile": "user.js",
+      "line": 1471,
+      "elementId": "admin-impersonation-bar"
+    },
+    {
+      "htmlFile": "user.html",
+      "jsFile": "user.js",
+      "line": 1487,
+      "elementId": "btn-return-admin"
+    },
+    {
+      "htmlFile": "lawyer.html",
+      "jsFile": "lawyer.js",
+      "line": 1150,
+      "elementId": "admin-impersonation-bar"
+    },
+    {
+      "htmlFile": "lawyer.html",
+      "jsFile": "lawyer.js",
+      "line": 1172,
+      "elementId": "admin-impersonation-bar"
+    },
+    {
+      "htmlFile": "lawyer.html",
+      "jsFile": "lawyer.js",
+      "line": 1188,
+      "elementId": "btn-return-admin"
+    },
+    {
+      "htmlFile": "admin.html",
+      "jsFile": "admin.js",
+      "line": 133,
+      "elementId": "kpi-admin-ai-queries"
+    },
+    {
+      "htmlFile": "admin.html",
+      "jsFile": "admin.js",
+      "line": 137,
+      "elementId": "kpi-admin-courts"
+    },
+    {
+      "htmlFile": "admin.html",
+      "jsFile": "admin.js",
+      "line": 138,
+      "elementId": "kpi-admin-courts-sub"
+    },
+    {
+      "htmlFile": "admin.html",
+      "jsFile": "admin.js",
+      "line": 992,
+      "elementId": "tab-badge-courts"
+    }
+  ],
+  "unprotectedSensitiveRoutes": [],
+  "databaseIntegrityIssues": [],
+  "hardcodedHostnames": [],
+  "brokenFileLinks": [],
+  "emojiMatches": [],
+  "targetBlankMatches": [],
+  "tablesFound": [
+    "users",
+    "sqlite_sequence",
+    "ai_chats",
+    "lawyers",
+    "consultations",
+    "courts",
+    "cases",
+    "notifications",
+    "statutes",
+    "statute_versions",
+    "rag_query_logs",
+    "rag_evaluations",
+    "admins",
+    "advocate_accounts"
+  ]
+}
