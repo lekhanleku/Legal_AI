@@ -618,7 +618,7 @@ window.selectModalRole = function(role) {
     if (badgeText) badgeText.textContent = 'Client & Citizen Case Portal';
     if (modalTitle) modalTitle.textContent = 'Welcome Back, Client';
     if (modalSub) modalSub.textContent = 'Sign in to access your consultations, case checklists & AI legal assistant';
-    if (emailInput) emailInput.placeholder = 'client@example.com (or demouser@legalai.com)';
+    if (emailInput) emailInput.placeholder = 'client@example.com';
     if (submitText) submitText.textContent = 'Sign In to Client Portal';
   }
 };

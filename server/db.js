@@ -453,19 +453,11 @@ try {
     console.warn('Admin seed notice:', aErr.message);
   }
 
-  // Ensure default Demo Client exists in isolated users (clients) table
+  // Clean up any legacy demo client from users table
   try {
-    const userCheck = db.prepare('SELECT id FROM users WHERE LOWER(email) = ?').get('demouser@legalai.com');
-    if (!userCheck) {
-      const bcrypt = require('bcryptjs');
-      const userPass = bcrypt.hashSync('demo1234', 10);
-      db.prepare(`
-        INSERT INTO users (name, email, password, phone, role, isVerified)
-        VALUES ('Demo Client', 'demouser@legalai.com', ?, '+91 98765 43210', 'user', 1)
-      `).run(userPass);
-    }
+    db.prepare("DELETE FROM users WHERE LOWER(email) = 'demouser@legalai.com' OR name = 'Demo Client'").run();
   } catch (uErr) {
-    console.warn('Demo user seed notice:', uErr.message);
+    // ignore
   }
 
   // Ensure Advocate Testing Account exists with lekhanleku017@gmail.com / 12345678

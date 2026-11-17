@@ -33,15 +33,15 @@ const ROLE_CONFIG = {
     title: 'Client Case & Consultation Access',
     subtitle: 'Sign in to track your booked advocate consultations, legal checklists & AI advisory sessions.',
     emailLabel: 'Client Email Address',
-    emailPlaceholder: 'client@example.com (or demouser@legalai.com)',
+    emailPlaceholder: 'client@example.com',
     passwordLabel: 'Account Password',
     submitText: 'Sign In to Client Portal',
     themeClass: 'role-theme-user',
     buttonClass: '',
     helperNote: 'Client Portal: Access your legal consultations, case action checklists, and personalized AI research.',
     helperClass: 'client',
-    demoEmail: 'demouser@legalai.com',
-    demoPass: 'demo1234'
+    demoEmail: '',
+    demoPass: ''
   },
   lawyer: {
     badgeClass: 'badge-advocate',

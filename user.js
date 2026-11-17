@@ -13,7 +13,6 @@ let currentConsultations = [];
 const accessGate = document.getElementById('user-access-gate');
 const dashboardContent = document.getElementById('user-dashboard-content');
 const loginForm = document.getElementById('portal-login-form');
-const btnQuickDemo = document.getElementById('btn-quick-demo-login');
 const btnLogout = document.getElementById('btn-user-logout');
 
 // ── SESSION MANAGEMENT ──
@@ -573,34 +572,6 @@ loginForm?.addEventListener('submit', async (e) => {
     if (alertEl) {
       alertEl.style.display = 'block';
       alertEl.textContent = 'Could not connect to server: ' + err.message;
-    }
-  }
-});
-
-// ── ONE-CLICK DEMO LOGIN ──
-btnQuickDemo?.addEventListener('click', async () => {
-  const alertEl = document.getElementById('gate-alert');
-  try {
-    const res = await fetch(`${SERVER_ORIGIN}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'demouser@legalai.com', password: 'demo1234', role: 'user' })
-    });
-
-    const data = await res.json();
-    if (data.success) {
-      setAuthSession(data.token, data.user);
-      initUserPortal();
-    } else {
-      if (alertEl) {
-        alertEl.style.display = 'block';
-        alertEl.textContent = 'Demo login failed: ' + data.message;
-      }
-    }
-  } catch (err) {
-    if (alertEl) {
-      alertEl.style.display = 'block';
-      alertEl.textContent = 'Demo login error: ' + err.message;
     }
   }
 });

@@ -97,13 +97,22 @@ async function runTestSuite() {
     assert(sampleCourt.name && sampleCourt.city && sampleCourt.jurisdiction, 'Court record has complete metadata');
 
     // 2. AUTHENTICATION - STRICT PORTAL SEGREGATION
-    // 2A. Client Login (demouser@legalai.com)
+    // 2A. Client Login (Isolated Verification Fixture)
+    const testClientEmail = 'test.client.verify@legalai.com';
+    const testClientPass = 'ClientPass123!';
+    const bcrypt = require('bcryptjs');
+    db.prepare('DELETE FROM users WHERE LOWER(email) = ?').run(testClientEmail);
+    db.prepare(`
+      INSERT INTO users (name, email, password, phone, role, isVerified)
+      VALUES ('Verified Client', ?, ?, '+91 98765 43210', 'user', 1)
+    `).run(testClientEmail, bcrypt.hashSync(testClientPass, 8));
+
     const clientAuthRes = await invokeRoute(authRouter, {
       method: 'POST',
       url: '/login',
       body: {
-        email: 'demouser@legalai.com',
-        password: 'demo1234',
+        email: testClientEmail,
+        password: testClientPass,
         role: 'user'
       }
     });
@@ -165,8 +174,8 @@ async function runTestSuite() {
       method: 'POST',
       url: '/login',
       body: {
-        email: 'demouser@legalai.com',
-        password: 'demo1234',
+        email: testClientEmail,
+        password: testClientPass,
         role: 'lawyer'
       }
     });
@@ -195,7 +204,7 @@ async function runTestSuite() {
       url: '/profile',
       headers: { authorization: `Bearer ${clientToken}` }
     });
-    assert(clientProfileRes.statusCode === 200 && clientProfileRes.json?.user?.email === 'demouser@legalai.com', 'Client can view their profile data');
+    assert(clientProfileRes.statusCode === 200 && clientProfileRes.json?.user?.email === testClientEmail, 'Client can view their profile data');
 
     // 3B. Client court dockets / cases
     const clientCasesRes = await invokeRoute(userRouter, {
@@ -217,8 +226,8 @@ async function runTestSuite() {
       body: {
         lawyerId: firstLawyer.id,
         lawyerName: firstLawyer.name,
-        clientName: 'Demo Client',
-        clientEmail: 'demouser@legalai.com',
+        clientName: 'Verified Client',
+        clientEmail: testClientEmail,
         clientPhone: '9876543210',
         preferredDate: '2026-11-28',
         caseSummary: 'Verification of consultation booking flow and notification dispatch.'
@@ -312,7 +321,7 @@ async function runTestSuite() {
       params: { id: String(testClientId) },
       headers: { authorization: `Bearer ${adminToken}` }
     });
-    assert(adminDossierRes.statusCode === 200 && adminDossierRes.json?.user?.email === 'demouser@legalai.com', 'Admin can inspect full 360-degree client dossier');
+    assert(adminDossierRes.statusCode === 200 && adminDossierRes.json?.user?.email === testClientEmail, 'Admin can inspect full 360-degree client dossier');
 
     // 6E. Admin platform statistics
     const adminStatsRes = await invokeRoute(adminRouter, {
@@ -325,6 +334,7 @@ async function runTestSuite() {
     // 7. CLEANUP
     db.prepare('DELETE FROM notifications WHERE consultationId = ?').run(bookedConsultId);
     db.prepare('DELETE FROM consultations WHERE id = ?').run(bookedConsultId);
+    db.prepare('DELETE FROM users WHERE LOWER(email) = ?').run(testClientEmail);
     console.log('[CLEANUP] Test records cleaned up successfully.');
 
     console.log(`\n========================================================`);
