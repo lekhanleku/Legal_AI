@@ -110,6 +110,9 @@ function clearAlert() {
 
 // Select Login Role (user, lawyer, admin)
 window.selectLoginRole = function(role, silent = false) {
+  if (currentTab === 'register' && role === 'admin') {
+    role = 'user';
+  }
   if (!ROLE_CONFIG[role]) role = 'user';
   currentRole = role;
 
@@ -213,6 +216,9 @@ window.switchAuthTab = function(tab) {
   clearAlert();
   currentTab = tab;
 
+  const roleSelector = document.getElementById('auth-role-selector');
+  const adminRoleBtn = document.getElementById('role-btn-admin');
+
   if (tab === 'register') {
     tabLogin.classList.remove('active');
     tabRegister.classList.add('active');
@@ -221,19 +227,44 @@ window.switchAuthTab = function(tab) {
     pageTitle.textContent = 'Create LegalAI Account';
     pageSub.textContent = 'Register for client portal access or enroll as a verified advocate.';
 
+    // Hide Admin Console button on Create Account tab
+    if (adminRoleBtn) {
+      adminRoleBtn.classList.add('hidden');
+    }
+    if (roleSelector) {
+      roleSelector.classList.add('two-roles');
+    }
+
+    // Switch away from admin role if currently selected
+    if (currentRole === 'admin') {
+      selectLoginRole('user', true);
+    } else {
+      const regRoleSelect = document.getElementById('page-reg-role');
+      if (regRoleSelect && (currentRole === 'user' || currentRole === 'lawyer')) {
+        regRoleSelect.value = currentRole;
+        if (typeof handleRegRoleChange === 'function') {
+          handleRegRoleChange(currentRole);
+        }
+      }
+    }
+
     const adminRegBlock = document.getElementById('admin-reg-block');
     if (adminRegBlock) {
-      if (currentRole === 'admin') {
-        adminRegBlock.classList.remove('hidden');
-      } else {
-        adminRegBlock.classList.add('hidden');
-      }
+      adminRegBlock.classList.add('hidden');
     }
   } else {
     tabRegister.classList.remove('active');
     tabLogin.classList.add('active');
     registerForm.classList.add('hidden');
     loginForm.classList.remove('hidden');
+
+    // Show Admin Console button on Sign In tab
+    if (adminRoleBtn) {
+      adminRoleBtn.classList.remove('hidden');
+    }
+    if (roleSelector) {
+      roleSelector.classList.remove('two-roles');
+    }
 
     const cfg = ROLE_CONFIG[currentRole] || ROLE_CONFIG.user;
     pageTitle.textContent = cfg.title;

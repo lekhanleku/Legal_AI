@@ -733,4 +733,63 @@ router.get('/:id', async (req, res) => {
   return res.json({ success: true, article });
 });
 
+// ── POST /api/articles/translate ──
+// Translation gateway for multilingual Indian constitutional news
+const translationMemoryCache = new Map();
+
+router.post('/translate', async (req, res) => {
+  const { texts, targetLang } = req.body;
+  if (!Array.isArray(texts) || !targetLang || targetLang === 'en') {
+    return res.json({ success: true, translations: texts || [] });
+  }
+
+  try {
+    const results = await Promise.all(texts.map(async (text) => {
+      if (!text || typeof text !== 'string') return text;
+      const clean = text.trim();
+      if (!clean) return clean;
+      const cacheKey = `${targetLang}:${clean.slice(0, 120)}`;
+      if (translationMemoryCache.has(cacheKey)) {
+        return translationMemoryCache.get(cacheKey);
+      }
+
+      // Try Google Translate public endpoint
+      try {
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${encodeURIComponent(targetLang)}&dt=t&q=${encodeURIComponent(clean)}`;
+        const resp = await fetchUrl(url);
+        if (resp && resp.status === 200 && resp.body) {
+          const parsed = JSON.parse(resp.body);
+          if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
+            const translated = parsed[0].map(item => (item && item[0]) ? item[0] : '').join('');
+            if (translated && translated.trim()) {
+              translationMemoryCache.set(cacheKey, translated);
+              return translated;
+            }
+          }
+        }
+      } catch (err) {}
+
+      // Try MyMemory public endpoint as fallback
+      try {
+        const myMemUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(clean.slice(0, 500))}&langpair=en|${encodeURIComponent(targetLang)}`;
+        const resp = await fetchUrl(myMemUrl);
+        if (resp && resp.status === 200 && resp.body) {
+          const parsed = JSON.parse(resp.body);
+          if (parsed && parsed.responseData && parsed.responseData.translatedText) {
+            const translated = parsed.responseData.translatedText;
+            translationMemoryCache.set(cacheKey, translated);
+            return translated;
+          }
+        }
+      } catch (err) {}
+
+      return clean;
+    }));
+
+    return res.json({ success: true, translations: results });
+  } catch (e) {
+    return res.json({ success: false, translations: texts });
+  }
+});
+
 module.exports = router;

@@ -305,9 +305,18 @@ function openModal(mode = 'login') {
   authModalOverlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 
+  const modalRoleSelector = document.getElementById('modal-auth-role-selector');
+  const modalAdminRoleBtn = document.getElementById('modal-role-btn-admin');
+
   if (mode === 'login') {
     loginForm.classList.remove('hidden');
     registerForm.classList.add('hidden');
+    if (modalAdminRoleBtn) {
+      modalAdminRoleBtn.classList.remove('hidden');
+    }
+    if (modalRoleSelector) {
+      modalRoleSelector.classList.remove('two-roles');
+    }
     if (typeof selectModalRole === 'function') {
       selectModalRole(activeModalRole || 'user');
     } else {
@@ -319,6 +328,20 @@ function openModal(mode = 'login') {
     modalSubtitle.textContent = 'Join LegalAI to consult top lawyers & AI legal tools';
     registerForm.classList.remove('hidden');
     loginForm.classList.add('hidden');
+
+    if (modalAdminRoleBtn) {
+      modalAdminRoleBtn.classList.add('hidden');
+    }
+    if (modalRoleSelector) {
+      modalRoleSelector.classList.add('two-roles');
+    }
+    if (activeModalRole === 'admin') {
+      if (typeof selectModalRole === 'function') {
+        selectModalRole('user');
+      }
+    } else if (typeof selectModalRole === 'function') {
+      selectModalRole(activeModalRole || 'user');
+    }
   }
 }
 
@@ -464,6 +487,10 @@ document.addEventListener('click', (e) => {
 });
 
 // Menu item triggers
+document.getElementById('nav-news')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (typeof openArticlesModal === 'function') openArticlesModal();
+});
 document.getElementById('menu-ai-assistant')?.addEventListener('click', (e) => {
   e.preventDefault();
   if (typeof openAIDrawer === 'function') openAIDrawer();
@@ -510,6 +537,7 @@ async function initSession() {
 let activeModalRole = 'user';
 
 window.selectModalRole = function(role) {
+  if (currentMode === 'register' && role === 'admin') role = 'user';
   if (!['user', 'lawyer', 'admin'].includes(role)) role = 'user';
   activeModalRole = role;
 
@@ -545,6 +573,29 @@ window.selectModalRole = function(role) {
     if (role === 'admin') submitBtn.classList.add('btn-role-admin');
   }
 
+  // Sync reg-role in register form
+  const regRole = document.getElementById('reg-role');
+  if (regRole && (role === 'user' || role === 'lawyer')) {
+    regRole.value = role;
+  }
+
+  if (currentMode === 'register') {
+    if (role === 'lawyer') {
+      if (badge) badge.className = 'role-portal-badge badge-advocate';
+      if (badgeIcon) badgeIcon.innerHTML = '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>';
+      if (badgeText) badgeText.textContent = 'Advocate Chambers Enrollment';
+      if (modalTitle) modalTitle.textContent = 'Advocate Chambers Registration';
+      if (modalSub) modalSub.textContent = 'Enroll your litigation desk and receive client consultation briefs';
+    } else {
+      if (badge) badge.className = 'role-portal-badge badge-client';
+      if (badgeIcon) badgeIcon.innerHTML = '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>';
+      if (badgeText) badgeText.textContent = 'Client & Citizen Case Portal';
+      if (modalTitle) modalTitle.textContent = 'Create LegalAI Account';
+      if (modalSub) modalSub.textContent = 'Join LegalAI to consult top lawyers & access AI legal advisory';
+    }
+    return;
+  }
+
   if (role === 'admin') {
     if (badge) badge.className = 'role-portal-badge badge-admin';
     if (badgeIcon) badgeIcon.innerHTML = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>';
@@ -571,6 +622,13 @@ window.selectModalRole = function(role) {
     if (submitText) submitText.textContent = 'Sign In to Client Portal';
   }
 };
+
+// Sync account type dropdown with modal role selector
+document.getElementById('reg-role')?.addEventListener('change', function(e) {
+  if (typeof selectModalRole === 'function') {
+    selectModalRole(e.target.value);
+  }
+});
 
 // ── LOGIN FORM SUBMISSION ──
 loginForm?.addEventListener('submit', async (e) => {
@@ -6225,6 +6283,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `<div class="article-card-img" style="background-image:url('${article.image}')"><div class="article-img-overlay"></div></div>`
         : `<div class="article-card-img no-img"><span>${article.icon || ''}</span></div>`;
 
+      const loc = (typeof window.getLocalizedArticle === 'function')
+        ? window.getLocalizedArticle(article, window.currentNewsLanguage || 'en')
+        : article;
       const catColor = getCategoryColor(article.category);
 
       return `
@@ -6232,9 +6293,9 @@ document.addEventListener('DOMContentLoaded', () => {
              style="animation-delay:${i * 0.04}s" data-article-index="${i}">
           ${imgHtml}
           <div class="article-card-body">
-            <div class="article-card-cat" style="--cat-color:${catColor}">${article.icon || ''} ${escapeHtml(article.category || 'Legal')}</div>
-            <h4 class="article-card-title">${escapeHtml(article.title)}</h4>
-            <p class="article-card-desc">${escapeHtml(article.description || '')}</p>
+            <div class="article-card-cat" style="--cat-color:${catColor}">${article.icon || ''} ${escapeHtml(loc.category || article.category || 'Legal')}</div>
+            <h4 class="article-card-title">${escapeHtml(loc.title || article.title)}</h4>
+            <p class="article-card-desc">${escapeHtml(loc.description || loc.lead || article.description || '')}</p>
             <div class="article-card-meta">
               <span class="article-card-source">${escapeHtml(article.source || 'LegalAI')}</span>
               <span class="article-card-time">${timeAgo(article.pubDate)}</span>
@@ -6249,6 +6310,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
     }).join('');
   }
+  window.renderArticles = renderArticles;
 
   // ── CATEGORY COLOR MAP ──
   function getCategoryColor(category) {
@@ -6449,6 +6511,11 @@ document.addEventListener('DOMContentLoaded', () => {
       readerLangSelect.value = window.currentNewsLanguage || 'en';
     }
 
+    // Update reader UI strings to active language
+    if (typeof updateNewsUIStrings === 'function') {
+      updateNewsUIStrings();
+    }
+
     // Populate Reader
     const catColor = getCategoryColor(article.category);
     if (readerCatBadge) {
@@ -6502,6 +6569,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // Warning
     if (readerWarningText) {
       readerWarningText.textContent = localized.warning || article.warning || 'This article provides general informational guidance and is not a substitute for formal attorney-client representation.';
+    }
+
+    // Dynamic translation enhancement
+    const activeLang = window.currentNewsLanguage || 'en';
+    if (activeLang !== 'en' && typeof window.translateArticleAsync === 'function') {
+      window.translateArticleAsync(article, activeLang, (enhanced) => {
+        if (window.currentActiveReaderArticle === article && (window.currentNewsLanguage || 'en') === activeLang) {
+          if (readerTitle && enhanced.title) readerTitle.textContent = enhanced.title;
+          if (readerLead && (enhanced.lead || enhanced.description)) readerLead.textContent = enhanced.lead || enhanced.description;
+          if (readerTakeawaysList && Array.isArray(enhanced.takeaways) && enhanced.takeaways.length > 0) {
+            readerTakeawaysList.innerHTML = enhanced.takeaways.map(t => `<li>${escapeHtml(t)}</li>`).join('');
+          }
+          if (readerBodyContent && Array.isArray(enhanced.sections) && enhanced.sections.length > 0) {
+            readerBodyContent.innerHTML = enhanced.sections.map(sec => `
+              <h3>${escapeHtml(sec.heading)}</h3>
+              ${sec.paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('')}
+            `).join('');
+          }
+          if (readerChecklist && Array.isArray(enhanced.checklist) && enhanced.checklist.length > 0) {
+            readerChecklist.innerHTML = enhanced.checklist.map((item, idx) => `
+              <label class="reader-check-item" id="check-item-${idx}">
+                <input type="checkbox" onchange="this.parentElement.classList.toggle('checked', this.checked)" />
+                <span>${escapeHtml(item)}</span>
+              </label>
+            `).join('');
+          }
+        }
+      });
     }
 
     // External link
@@ -7353,6 +7448,49 @@ function updateNewsUIStrings() {
 
   const pRemedies = document.getElementById('pill-region-remedies');
   if (pRemedies) pRemedies.textContent = ui.constitutionalRemedies || ' Constitutional Writs (Art. 32 & 226)';
+
+  // ── Article Reader Modal Chrome Localization ──
+  const backBtnText = document.querySelector('#reader-back-btn span');
+  if (backBtnText) backBtnText.textContent = ui.allArticles || 'All Articles';
+
+  const speechBtnText = document.getElementById('reader-speech-text');
+  if (speechBtnText) speechBtnText.textContent = ui.listen || 'Listen';
+
+  const bookmarkBtnText = document.getElementById('reader-bookmark-text');
+  if (bookmarkBtnText) bookmarkBtnText.textContent = ui.save || 'Save';
+
+  const shareBtnText = document.getElementById('reader-share-text');
+  if (shareBtnText) shareBtnText.textContent = ui.share || 'Share';
+
+  const askAiBtnText = document.querySelector('#reader-ask-ai-btn span');
+  if (askAiBtnText) askAiBtnText.textContent = ui.askAi || 'Ask AI';
+
+  const takeawaysHeading = document.querySelector('#reader-takeaways-card .takeaways-header h4');
+  if (takeawaysHeading) takeawaysHeading.textContent = ui.keyTakeaways || 'Executive Summary & Key Takeaways';
+
+  const lawsHeading = document.querySelector('#reader-laws-section .reader-section-tag');
+  if (lawsHeading) lawsHeading.textContent = ui.statutesCited || 'Statutory Authority & Key Case Precedents';
+
+  const checklistHeading = document.querySelector('#reader-checklist-section .reader-section-tag');
+  if (checklistHeading) checklistHeading.textContent = ui.checklistHeading || 'Action Steps & Rights Checklist';
+
+  const warningTitle = document.querySelector('#reader-warning-box .warning-content strong');
+  if (warningTitle) warningTitle.textContent = (ui.disclaimerHeading || 'Critical Legal Disclaimer') + ':';
+
+  const footerTitle = document.querySelector('.reader-footer-info h4');
+  if (footerTitle) footerTitle.textContent = ui.counselHeading || 'Need Professional Legal Counsel on This Topic?';
+
+  const lawyerCtaBtn = document.getElementById('reader-lawyer-cta');
+  if (lawyerCtaBtn) lawyerCtaBtn.textContent = ui.practiceCta || 'Find a Specialist Advocate →';
+
+  const aiCtaBtn = document.getElementById('reader-ai-cta');
+  if (aiCtaBtn) aiCtaBtn.textContent = ui.aiCta || 'Consult LegalAI Assistant';
+
+  const prevNavDir = document.querySelector('#reader-prev-btn .nav-direction');
+  if (prevNavDir) prevNavDir.textContent = ui.prevArticle || 'Previous Article';
+
+  const nextNavDir = document.querySelector('#reader-next-btn .nav-direction');
+  if (nextNavDir) nextNavDir.textContent = ui.nextArticle || 'Next Article';
 }
 
 window.setNewsLanguage = function(langCode) {
@@ -7375,7 +7513,7 @@ window.setNewsLanguage = function(langCode) {
     readerSelect.value = langCode;
   }
 
-  // 3. Update UI Strings (ticker label, placeholders, region pills)
+  // 3. Update UI Strings (ticker label, placeholders, region pills, reader modal chrome)
   updateNewsUIStrings();
 
   // 4. Re-render news feed and ticker
@@ -7384,7 +7522,12 @@ window.setNewsLanguage = function(langCode) {
     updateTickerContent(worldNewsData);
   }
 
-  // 5. If reader modal is currently open, re-render article in the chosen language
+  // 5. Re-render articles modal grid if open
+  if (typeof window.renderArticles === 'function') {
+    window.renderArticles();
+  }
+
+  // 6. If reader modal is currently open, re-render article in the chosen language
   const readerOverlay = document.getElementById('article-reader-overlay');
   if (readerOverlay && !readerOverlay.classList.contains('hidden') && window.currentActiveReaderArticle) {
     window.openArticleReader(window.currentActiveReaderArticle.id || currentArticleIndex);

@@ -6,264 +6,288 @@
    ================================================================ */
 
 window.SUPPORTED_NEWS_LANGUAGES = [
-  { code: 'en', label: 'English', native: 'English', flag: '🇬🇧', voiceCode: 'en-IN' },
-  { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ', flag: '🇮🇳', voiceCode: 'kn-IN' },
-  { code: 'hi', label: 'Hindi', native: 'हिन्दी', flag: '🇮🇳', voiceCode: 'hi-IN' },
-  { code: 'ta', label: 'Tamil', native: 'தமிழ்', flag: '🇮🇳', voiceCode: 'ta-IN' },
-  { code: 'te', label: 'Telugu', native: 'తెలుగు', flag: '🇮🇳', voiceCode: 'te-IN' },
-  { code: 'bn', label: 'Bengali', native: 'বাংলা', flag: '🇮🇳', voiceCode: 'bn-IN' },
-  { code: 'mr', label: 'Marathi', native: 'मराठी', flag: '🇮🇳', voiceCode: 'mr-IN' },
-  { code: 'gu', label: 'Gujarati', native: 'ગુજરાતી', flag: '🇮🇳', voiceCode: 'gu-IN' }
+  { code: 'en', label: 'English', native: 'English', flag: '', voiceCode: 'en-IN' },
+  { code: 'kn', label: 'Kannada', native: 'ಕನ್ನಡ', flag: '', voiceCode: 'kn-IN' },
+  { code: 'hi', label: 'Hindi', native: 'हिन्दी', flag: '', voiceCode: 'hi-IN' },
+  { code: 'ta', label: 'Tamil', native: 'தமிழ்', flag: '', voiceCode: 'ta-IN' },
+  { code: 'te', label: 'Telugu', native: 'తెలుగు', flag: '', voiceCode: 'te-IN' },
+  { code: 'bn', label: 'Bengali', native: 'বাংলা', flag: '', voiceCode: 'bn-IN' },
+  { code: 'mr', label: 'Marathi', native: 'मराठी', flag: '', voiceCode: 'mr-IN' },
+  { code: 'gu', label: 'Gujarati', native: 'ગુજરાતી', flag: '', voiceCode: 'gu-IN' }
 ];
 
 window.NEWS_UI_STRINGS = {
-  en: {
-    readIn: 'Read In:',
-    tickerLabel: 'CONSTITUTIONAL WIRE',
-    searchPlaceholder: 'Search Indian Constitution articles, Supreme Court verdicts, fundamental rights...',
-    wireActive: 'Constitutional Wire Active',
-    refresh: 'Refresh Dispatches',
-    allRegions: ' All Constitutional Domains',
-    fundamentalRights: ' Fundamental Rights (Part III)',
-    article21Privacy: ' Art. 21 & Personal Liberty',
-    karnatakaHighCourt: ' Karnataka & High Courts (Art. 226)',
-    basicStructure: '🇮🇳 Basic Structure & Democracy',
-    equalityJustice: ' Equality & Non-Discrimination (Art. 14-16)',
-    federalism: ' Federalism & State Autonomy (Art. 200)',
-    constitutionalRemedies: ' Constitutional Writs (Art. 32 & 226)',
-    readDispatch: 'Read Constitutional Analysis',
-    askAi: 'Ask LegalAI',
-    officialSource: 'Supreme Court Docket ↗',
-    topDispatch: ' LANDMARK CONSTITUTIONAL BENCH RULING',
-    readFull: 'Read Full Constitutional Analysis',
-    analyzeAi: 'Analyze with LegalAI',
-    statutesCited: 'Constitutional Articles & Statutes Cited:',
-    keyTakeaways: 'Core Constitutional Takeaways',
-    backToArticles: 'All Constitutional Dispatches',
-    listen: 'Listen',
-    save: 'Save',
-    share: 'Share',
-    checklistHeading: 'Constitutional Compliance & Legal Checklist',
-    disclaimerHeading: 'Constitutional Law Advisory & Precedent Guidance',
-    practiceCta: 'Consult an Appellate Advocate →',
-    aiCta: 'Ask LegalAI about this Constitutional Verdict'
+  "en": {
+    "readIn": "Read In:",
+    "tickerLabel": "CONSTITUTIONAL WIRE",
+    "searchPlaceholder": "Search Indian Constitution articles, Supreme Court verdicts, fundamental rights...",
+    "wireActive": "Constitutional Wire Active",
+    "refresh": "Refresh Dispatches",
+    "allRegions": " All Constitutional Domains",
+    "fundamentalRights": " Fundamental Rights (Part III)",
+    "article21Privacy": " Art. 21 & Personal Liberty",
+    "karnatakaHighCourt": " Karnataka & High Courts (Art. 226)",
+    "basicStructure": "Basic Structure & Democracy",
+    "equalityJustice": " Equality & Non-Discrimination (Art. 14-16)",
+    "federalism": " Federalism & State Autonomy (Art. 200)",
+    "constitutionalRemedies": " Constitutional Writs (Art. 32 & 226)",
+    "readDispatch": "Read Constitutional Analysis",
+    "askAi": "Ask LegalAI",
+    "officialSource": "Supreme Court Docket ↗",
+    "topDispatch": " LANDMARK CONSTITUTIONAL BENCH RULING",
+    "readFull": "Read Full Constitutional Analysis",
+    "analyzeAi": "Analyze with LegalAI",
+    "statutesCited": "Constitutional Articles & Statutes Cited:",
+    "keyTakeaways": "Core Constitutional Takeaways",
+    "backToArticles": "All Constitutional Dispatches",
+    "listen": "Listen",
+    "save": "Save",
+    "share": "Share",
+    "checklistHeading": "Constitutional Compliance & Legal Checklist",
+    "disclaimerHeading": "Constitutional Law Advisory & Precedent Guidance",
+    "practiceCta": "Consult an Appellate Advocate →",
+    "aiCta": "Ask LegalAI about this Constitutional Verdict",
+    "allArticles": "All Articles",
+    "prevArticle": "Previous Article",
+    "nextArticle": "Next Article"
   },
-  kn: {
-    readIn: 'ಭಾಷೆ ಆಯ್ಕೆ (Read In):',
-    tickerLabel: 'ಸಾಂವಿಧಾನಿಕ ನೇರ ವರದಿ (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'ಭಾರತೀಯ ಸಂವಿಧಾನದ ವಿಧಿಗಳು, ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು, ಮೂಲಭೂತ ಹಕ್ಕುಗಳನ್ನು ಹುಡುಕಿ...',
-    wireActive: 'ಸಾಂವಿಧಾನಿಕ ಲೈವ್ ವರದಿ ಸಕ್ರಿಯ',
-    refresh: 'ವರದಿಗಳನ್ನು ನವೀಕರಿಸಿ',
-    allRegions: ' ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವಲಯಗಳು',
-    fundamentalRights: ' ಮೂಲಭೂತ ಹಕ್ಕುಗಳು (ಭಾಗ 3)',
-    article21Privacy: ' 21ನೇ ವಿಧಿ & ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯ',
-    karnatakaHighCourt: ' ಕರ್ನಾಟಕ & ಉಚ್ಚ ನ್ಯಾಯಾಲಯಗಳು (ವಿಧಿ 226)',
-    basicStructure: '🇮🇳 ಮೂಲ ಸಂರಚನೆ & ಪ್ರಜಾಪ್ರಭುತ್ವ',
-    equalityJustice: ' ಸಮಾನತೆ & ತಾರತಮ್ಯ ವಿರೋಧ (ವಿಧಿ 14-16)',
-    federalism: ' ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ & ರಾಜ್ಯಗಳ ಅಧಿಕಾರ (ವಿಧಿ 200)',
-    constitutionalRemedies: ' ಸಾಂವಿಧಾನಿಕ ಪರಿಹಾರಗಳು (ವಿಧಿ 32 & 226)',
-    readDispatch: 'ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ',
-    askAi: 'LegalAI ಗೆ ಕೇಳಿ',
-    officialSource: 'ಅಧಿಕೃತ ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ದಾಖಲೆ ↗',
-    topDispatch: ' ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠದ ಐತಿಹಾಸಿಕ ತೀರ್ಪು',
-    readFull: 'ಪೂರ್ಣ ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ',
-    analyzeAi: 'LegalAI ನೊಂದಿಗೆ ವಿಶ್ಲೇಷಿಸಿ',
-    statutesCited: 'ಉಲ್ಲೇಖಿಸಲಾದ ಸಂವಿಧಾನದ ವಿಧಿಗಳು & ಕಾಯ್ದೆಗಳು:',
-    keyTakeaways: 'ಪ್ರಮುಖ ಸಾಂವಿಧಾನಿಕ ಮುಖ್ಯಾಂಶಗಳು',
-    backToArticles: 'ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವರದಿಗಳು',
-    listen: 'ಆಲಿಸಿ',
-    save: 'ಉಳಿಸಿ',
-    share: 'ಹಂಚಿಕೊಳ್ಳಿ',
-    checklistHeading: 'ಸಾಂವಿಧಾನಿಕ ಅನುಸರಣಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ',
-    disclaimerHeading: 'ಶಾಸನಬದ್ಧ ಮುನ್ನೆಚ್ಚರಿಕೆ & ಸಾಂವಿಧಾನಿಕ ಮಾರ್ಗದರ್ಶನ',
-    practiceCta: 'ಅನುಭವಿ ವಕೀಲರೊಂದಿಗೆ ಸಮಾಲೋಚಿಸಿ →',
-    aiCta: 'ಈ ಸಾಂವಿಧಾನಿಕ ತೀರ್ಪಿನ ಬಗ್ಗೆ LegalAI ಸಹಾಯಕನನ್ನು ಕೇಳಿ'
+  "kn": {
+    "readIn": "ಭಾಷೆ ಆಯ್ಕೆ (Read In):",
+    "tickerLabel": "ಸಾಂವಿಧಾನಿಕ ನೇರ ವರದಿ (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "ಭಾರತೀಯ ಸಂವಿಧಾನದ ವಿಧಿಗಳು, ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ತೀರ್ಪು, ಮೂಲಭೂತ ಹಕ್ಕುಗಳನ್ನು ಹುಡುಕಿ...",
+    "wireActive": "ಸಾಂವಿಧಾನಿಕ ಲೈವ್ ವರದಿ ಸಕ್ರಿಯ",
+    "refresh": "ವರದಿಗಳನ್ನು ನವೀಕರಿಸಿ",
+    "allRegions": " ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವಲಯಗಳು",
+    "fundamentalRights": " ಮೂಲಭೂತ ಹಕ್ಕುಗಳು (ಭಾಗ 3)",
+    "article21Privacy": " 21ನೇ ವಿಧಿ & ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯ",
+    "karnatakaHighCourt": " ಕರ್ನಾಟಕ & ಉಚ್ಚ ನ್ಯಾಯಾಲಯಗಳು (ವಿಧಿ 226)",
+    "basicStructure": "ಮೂಲ ಸಂರಚನೆ & ಪ್ರಜಾಪ್ರಭುತ್ವ",
+    "equalityJustice": " ಸಮಾನತೆ & ತಾರತಮ್ಯ ವಿರೋಧ (ವಿಧಿ 14-16)",
+    "federalism": " ಒಕ್ಕೂಟ ವ್ಯವಸ್ಥೆ & ರಾಜ್ಯಗಳ ಅಧಿಕಾರ (ವಿಧಿ 200)",
+    "constitutionalRemedies": " ಸಾಂವಿಧಾನಿಕ ಪರಿಹಾರಗಳು (ವಿಧಿ 32 & 226)",
+    "readDispatch": "ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ",
+    "askAi": "LegalAI ಗೆ ಕೇಳಿ",
+    "officialSource": "ಅಧಿಕೃತ ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ದಾಖಲೆ ↗",
+    "topDispatch": " ಸುಪ್ರೀಂ ಕೋರ್ಟ್ ಸಂವಿಧಾನ ಪೀಠದ ಐತಿಹಾಸಿಕ ತೀರ್ಪು",
+    "readFull": "ಪೂರ್ಣ ಸಾಂವಿಧಾನಿಕ ವಿಶ್ಲೇಷಣೆ ಓದಿ",
+    "analyzeAi": "LegalAI ನೊಂದಿಗೆ ವಿಶ್ಲೇಷಿಸಿ",
+    "statutesCited": "ಉಲ್ಲೇಖಿಸಲಾದ ಸಂವಿಧಾನದ ವಿಧಿಗಳು & ಕಾಯ್ದೆಗಳು:",
+    "keyTakeaways": "ಪ್ರಮುಖ ಸಾಂವಿಧಾನಿಕ ಮುಖ್ಯಾಂಶಗಳು",
+    "backToArticles": "ಎಲ್ಲ ಸಾಂವಿಧಾನಿಕ ವರದಿಗಳು",
+    "listen": "ಆಲಿಸಿ",
+    "save": "ಉಳಿಸಿ",
+    "share": "ಹಂಚಿಕೊಳ್ಳಿ",
+    "checklistHeading": "ಸಾಂವಿಧಾನಿಕ ಅನುಸರಣಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ",
+    "disclaimerHeading": "ಶಾಸನಬದ್ಧ ಮುನ್ನೆಚ್ಚರಿಕೆ & ಸಾಂವಿಧಾನಿಕ ಮಾರ್ಗದರ್ಶನ",
+    "practiceCta": "ಅನುಭವಿ ವಕೀಲರೊಂದಿಗೆ ಸಮಾಲೋಚಿಸಿ →",
+    "aiCta": "ಈ ಸಾಂವಿಧಾನಿಕ ತೀರ್ಪಿನ ಬಗ್ಗೆ LegalAI ಸಹಾಯಕನನ್ನು ಕೇಳಿ",
+    "allArticles": "ಎಲ್ಲ ಲೇಖನಗಳು",
+    "prevArticle": "ಹಿಂದಿನ ಲೇಖನ",
+    "nextArticle": "ಮುಂದಿನ ಲೇಖನ"
   },
-  hi: {
-    readIn: 'भाषा चुनें (Read In):',
-    tickerLabel: 'संवैधानिक लाइव वायर (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'भारतीय संविधान के अनुच्छेद, सुप्रीम कोर्ट के संवैधानिक फैसले खोजें...',
-    wireActive: 'संवैधानिक समाचार सक्रिय',
-    refresh: 'ताज़ा करें',
-    allRegions: ' सभी संवैधानिक क्षेत्र',
-    fundamentalRights: ' मौलिक अधिकार (भाग 3)',
-    article21Privacy: ' अनु. 21 एवं व्यक्तिगत स्वतंत्रता',
-    karnatakaHighCourt: ' कर्नाटक एवं उच्च न्यायालय (अनु. 226)',
-    basicStructure: '🇮🇳 मूल संरचना एवं लोकतंत्र',
-    equalityJustice: ' समानता एवं गैर-भेदभाव (अनु. 14-16)',
-    federalism: ' संघवाद एवं राज्यों के अधिकार (अनु. 200)',
-    constitutionalRemedies: ' संवैधानिक उपचार (अनु. 32 एवं 226)',
-    readDispatch: 'संवैधानिक विश्लेषण पढ़ें',
-    askAi: 'LegalAI से पूछें',
-    officialSource: 'आधिकारिक सुप्रीम कोर्ट रिकॉर्ड ↗',
-    topDispatch: ' सुप्रीम कोर्ट संविधान पीठ का ऐतिहासिक फैसला',
-    readFull: 'संपूर्ण संवैधानिक विश्लेषण पढ़ें',
-    analyzeAi: 'LegalAI से विश्लेषण करें',
-    statutesCited: 'संवैधानिक अनुच्छेद एवं अधिनियम:',
-    keyTakeaways: 'प्रमुख संवैधानिक निष्कर्ष',
-    backToArticles: 'सभी संवैधानिक रिपोर्ट',
-    listen: 'सुनें',
-    save: 'सहेजें',
-    share: 'साझा करें',
-    checklistHeading: 'संवैधानिक अनुपालन चेकलिस्ट',
-    disclaimerHeading: 'संवैधानिक सलाह एवं पूर्वोदाहरण मार्गदर्शन',
-    practiceCta: 'अधिवक्ता से परामर्श करें →',
-    aiCta: 'इस संवैधानिक फैसले पर LegalAI से पूछें'
+  "hi": {
+    "readIn": "भाषा चुनें (Read In):",
+    "tickerLabel": "संवैधानिक लाइव वायर (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "भारतीय संविधान के अनुच्छेद, सुप्रीम कोर्ट के संवैधानिक फैसले खोजें...",
+    "wireActive": "संवैधानिक समाचार सक्रिय",
+    "refresh": "ताज़ा करें",
+    "allRegions": " सभी संवैधानिक क्षेत्र",
+    "fundamentalRights": " मौलिक अधिकार (भाग 3)",
+    "article21Privacy": " अनु. 21 एवं व्यक्तिगत स्वतंत्रता",
+    "karnatakaHighCourt": " कर्नाटक एवं उच्च न्यायालय (अनु. 226)",
+    "basicStructure": "मूल संरचना एवं लोकतंत्र",
+    "equalityJustice": " समानता एवं गैर-भेदभाव (अनु. 14-16)",
+    "federalism": " संघवाद एवं राज्यों के अधिकार (अनु. 200)",
+    "constitutionalRemedies": " संवैधानिक उपचार (अनु. 32 एवं 226)",
+    "readDispatch": "संवैधानिक विश्लेषण पढ़ें",
+    "askAi": "LegalAI से पूछें",
+    "officialSource": "आधिकारिक सुप्रीम कोर्ट रिकॉर्ड ↗",
+    "topDispatch": " सुप्रीम कोर्ट संविधान पीठ का ऐतिहासिक फैसला",
+    "readFull": "संपूर्ण संवैधानिक विश्लेषण पढ़ें",
+    "analyzeAi": "LegalAI से विश्लेषण करें",
+    "statutesCited": "संवैधानिक अनुच्छेद एवं अधिनियम:",
+    "keyTakeaways": "प्रमुख संवैधानिक निष्कर्ष",
+    "backToArticles": "सभी संवैधानिक रिपोर्ट",
+    "listen": "सुनें",
+    "save": "सहेजें",
+    "share": "साझा करें",
+    "checklistHeading": "संवैधानिक अनुपालन चेकलिस्ट",
+    "disclaimerHeading": "संवैधानिक सलाह एवं पूर्वोदाहरण मार्गदर्शन",
+    "practiceCta": "अधिवक्ता से परामर्श करें →",
+    "aiCta": "इस संवैधानिक फैसले पर LegalAI से पूछें",
+    "allArticles": "सभी रिपोर्ट",
+    "prevArticle": "पिछला लेख",
+    "nextArticle": "अगला लेख"
   },
-  ta: {
-    readIn: 'மொழியைத் தேர்வுசெய்க (Read In):',
-    tickerLabel: 'அரசியலமைப்பு நேரலை (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'இந்திய அரசியலமைப்பு விதிகள், உச்ச நீதிமன்ற தீர்ப்புகளைத் தேடுக...',
-    wireActive: 'அரசியலமைப்பு நேரலை செயலில் உள்ளது',
-    refresh: 'புதுப்பிக்குக',
-    allRegions: ' அனைத்து அரசியலமைப்புப் பிரிவுகள்',
-    fundamentalRights: ' அடிப்படை உரிமைகள் (பகுதி 3)',
-    article21Privacy: ' பிரிவு 21 & தனிநபர் சுதந்திரம்',
-    karnatakaHighCourt: ' கர்நாடகா & உயர் நீதிமன்றங்கள் (பிரிவு 226)',
-    basicStructure: '🇮🇳 அடிப்படை கட்டமைப்பு & ஜனநாயகம்',
-    equalityJustice: ' சமத்துவம் & பாகுபாடின்மை (பிரிவு 14-16)',
-    federalism: ' கூட்டாட்சி & மாநில சுயாட்சி (பிரிவு 200)',
-    constitutionalRemedies: ' அரசியலமைப்புப் பரிகாரங்கள் (பிரிவு 32 & 226)',
-    readDispatch: 'அரசியலமைப்புப் பகுப்பாய்வைப் படிக்க',
-    askAi: 'LegalAI இடம் கேட்க',
-    officialSource: 'அதிகாரப்பூர்வ உச்ச நீதிமன்ற ஆவணம் ↗',
-    topDispatch: ' அரசியலமைப்பு அமர்வின் வரலாற்றுத் தீர்ப்பு',
-    readFull: 'முழு அரசியலமைப்பு பகுப்பாய்வைப் படிக்க',
-    analyzeAi: 'LegalAI உடன் ஆராய்க',
-    statutesCited: 'அரசியலமைப்புப் பிரிவுகள் & சட்டங்கள்:',
-    keyTakeaways: 'முக்கிய அரசியலமைப்பு அம்சங்கள்',
-    backToArticles: 'அனைத்து செய்திகள்',
-    listen: 'கேட்க',
-    save: 'சேமிக்க',
-    share: 'பகிர்க',
-    checklistHeading: 'அரசியலமைப்பு இணக்க சரிபார்ப்புப் பட்டியல்',
-    disclaimerHeading: 'சட்ட வழிகாட்டல் & எச்சரிக்கை',
-    practiceCta: 'வழக்கறிஞரிடம் ஆலோசனை பெற →',
-    aiCta: 'இந்தத் தீர்ப்பு குறித்து LegalAI இடம் கேட்க'
+  "ta": {
+    "readIn": "மொழியைத் தேர்வுசெய்க (Read In):",
+    "tickerLabel": "அரசியலமைப்பு நேரலை (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "இந்திய அரசியலமைப்பு விதிகள், உச்ச நீதிமன்ற தீர்ப்புகளைத் தேடுக...",
+    "wireActive": "அரசியலமைப்பு நேரலை செயலில் உள்ளது",
+    "refresh": "புதுப்பிக்குக",
+    "allRegions": " அனைத்து அரசியலமைப்புப் பிரிவுகள்",
+    "fundamentalRights": " அடிப்படை உரிமைகள் (பகுதி 3)",
+    "article21Privacy": " பிரிவு 21 & தனிநபர் சுதந்திரம்",
+    "karnatakaHighCourt": " கர்நாடகா & உயர் நீதிமன்றங்கள் (பிரிவு 226)",
+    "basicStructure": "அடிப்படை கட்டமைப்பு & ஜனநாயகம்",
+    "equalityJustice": " சமத்துவம் & பாகுபாடின்மை (பிரிவு 14-16)",
+    "federalism": " கூட்டாட்சி & மாநில சுயாட்சி (பிரிவு 200)",
+    "constitutionalRemedies": " அரசியலமைப்புப் பரிகாரங்கள் (பிரிவு 32 & 226)",
+    "readDispatch": "அரசியலமைப்புப் பகுப்பாய்வைப் படிக்க",
+    "askAi": "LegalAI இடம் கேட்க",
+    "officialSource": "அதிகாரப்பூர்வ உச்ச நீதிமன்ற ஆவணம் ↗",
+    "topDispatch": " அரசியலமைப்பு அமர்வின் வரலாற்றுத் தீர்ப்பு",
+    "readFull": "முழு அரசியலமைப்பு பகுப்பாய்வைப் படிக்க",
+    "analyzeAi": "LegalAI உடன் ஆராய்க",
+    "statutesCited": "அரசியலமைப்புப் பிரிவுகள் & சட்டங்கள்:",
+    "keyTakeaways": "முக்கிய அரசியலமைப்பு அம்சங்கள்",
+    "backToArticles": "அனைத்து செய்திகள்",
+    "listen": "கேட்க",
+    "save": "சேமிக்க",
+    "share": "பகிர்க",
+    "checklistHeading": "அரசியலமைப்பு இணக்க சரிபார்ப்புப் பட்டியல்",
+    "disclaimerHeading": "சட்ட வழிகாட்டல் & எச்சரிக்கை",
+    "practiceCta": "வழக்கறிஞரிடம் ஆலோசனை பெற →",
+    "aiCta": "இந்தத் தீர்ப்பு குறித்து LegalAI இடம் கேட்க",
+    "allArticles": "அனைத்து கட்டுரைகள்",
+    "prevArticle": "முந்தைய கட்டுரை",
+    "nextArticle": "அடுத்த கட்டுரை"
   },
-  te: {
-    readIn: 'భాషను ఎంచుకోండి (Read In):',
-    tickerLabel: 'రాజ్యాంగ ప్రత్యక్ష వార్తలు (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'భారత రాజ్యాంగ అధికరణలు, సుప్రీంకోర్టు తీర్పులను శోధించండి...',
-    wireActive: 'రాజ్యాంగ వైర్ క్రియాశీలంగా ఉంది',
-    refresh: 'తాజాకరించు',
-    allRegions: ' అన్ని రాజ్యాంగ విభాగాలు',
-    fundamentalRights: ' ప్రాథమిక హక్కులు (భాగం 3)',
-    article21Privacy: ' అధికరణ 21 & వ్యక్తిగత స్వేచ్ఛ',
-    karnatakaHighCourt: ' కర్ణాటక & హైకోర్టులు (అధికరణ 226)',
-    basicStructure: '🇮🇳 మౌలిక స్వరూపం & ప్రజాస్వామ్యం',
-    equalityJustice: ' సమానత్వం & వివక్ష రహితం (అధికరణ 14-16)',
-    federalism: ' సమాఖ్య వ్యవస్థ & రాష్ట్రాల అధికారాలు (అధికరణ 200)',
-    constitutionalRemedies: ' రాజ్యాంగ పరిహారాలు (అధికరణ 32 & 226)',
-    readDispatch: 'రాజ్యాంగ విశ్లేషణను చదవండి',
-    askAi: 'LegalAI ని అడగండి',
-    officialSource: 'అధికారిక సుప్రీంకోర్టు రికార్డు ↗',
-    topDispatch: ' సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం చారిత్రాత్మక తీర్పు',
-    readFull: 'పూర్తి రాజ్యాంగ విశ్లేషణను చదవండి',
-    analyzeAi: 'LegalAI తో విశ్లేషించండి',
-    statutesCited: 'ప్రస్తావించిన రాజ్యాంగ అధికరణలు & చట్టాలు:',
-    keyTakeaways: 'కీలక రాజ్యాంగ ముఖ్యాంశాలు',
-    backToArticles: 'అన్ని నివేదికలు',
-    listen: 'వినండి',
-    save: 'భద్రపరచు',
-    share: 'భాగస్వామ్యం',
-    checklistHeading: 'రాజ్యాంగ అనుసరణ తనిఖీ జాబితా',
-    disclaimerHeading: 'చట్టపరమైన మార్గదర్శకత్వం & హెచ్చరిక',
-    practiceCta: 'న్యాయవాదిని సంప్రదించండి →',
-    aiCta: 'ఈ తీర్పు గురించి LegalAI ని అడగండి'
+  "te": {
+    "readIn": "భాషను ఎంచుకోండి (Read In):",
+    "tickerLabel": "రాజ్యాంగ ప్రత్యక్ష వార్తలు (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "భారత రాజ్యాంగ అధికరణలు, సుప్రీంకోర్టు తీర్పులను శోధించండి...",
+    "wireActive": "రాజ్యాంగ వైర్ క్రియాశీలంగా ఉంది",
+    "refresh": "తాజాకరించు",
+    "allRegions": " అన్ని రాజ్యాంగ విభాగాలు",
+    "fundamentalRights": " ప్రాథమిక హక్కులు (భాగం 3)",
+    "article21Privacy": " అధికరణ 21 & వ్యక్తిగత స్వేచ్ఛ",
+    "karnatakaHighCourt": " కర్ణాటక & హైకోర్టులు (అధికరణ 226)",
+    "basicStructure": "మౌలిక స్వరూపం & ప్రజాస్వామ్యం",
+    "equalityJustice": " సమానత్వం & వివక్ష రహితం (అధికరణ 14-16)",
+    "federalism": " సమాఖ్య వ్యవస్థ & రాష్ట్రాల అధికారాలు (అధికరణ 200)",
+    "constitutionalRemedies": " రాజ్యాంగ పరిహారాలు (అధికరణ 32 & 226)",
+    "readDispatch": "రాజ్యాంగ విశ్లేషణను చదవండి",
+    "askAi": "LegalAI ని అడగండి",
+    "officialSource": "అధికారిక సుప్రీంకోర్టు రికార్డు ↗",
+    "topDispatch": " సుప్రీంకోర్టు రాజ్యాంగ ధర్మాసనం చారిత్రాత్మక తీర్పు",
+    "readFull": "పూర్తి రాజ్యాంగ విశ్లేషణను చదవండి",
+    "analyzeAi": "LegalAI తో విశ్లేషించండి",
+    "statutesCited": "ప్రస్తావించిన రాజ్యాంగ అధికరణలు & చట్టాలు:",
+    "keyTakeaways": "కీలక రాజ్యాంగ ముఖ్యాంశాలు",
+    "backToArticles": "అన్ని నివేదికలు",
+    "listen": "వినండి",
+    "save": "భద్రపరచు",
+    "share": "భాగస్వామ్యం",
+    "checklistHeading": "రాజ్యాంగ అనుసరణ తనిఖీ జాబితా",
+    "disclaimerHeading": "చట్టపరమైన మార్గదర్శకత్వం & హెచ్చరిక",
+    "practiceCta": "న్యాయవాదిని సంప్రదించండి →",
+    "aiCta": "ఈ తీర్పు గురించి LegalAI ని అడగండి",
+    "allArticles": "అన్ని వ్యాసాలు",
+    "prevArticle": "మునుపటి వ్యాసం",
+    "nextArticle": "తదుపరి వ్యాసం"
   },
-  bn: {
-    readIn: 'ভাষা নির্বাচন করুন (Read In):',
-    tickerLabel: 'সাংবিধানিক লাইভ ওয়্যার (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'ভারতের সংবিধানের অনুচ্ছেদ, সুপ্রিম কোর্টের সাংবিধানিক রায় খুঁজুন...',
-    wireActive: 'সাংবিধানিক পরিষেবা সক্রিয়',
-    refresh: 'রিফ্রেশ',
-    allRegions: ' সমস্ত সাংবিধানিক ক্ষেত্র',
-    fundamentalRights: ' মৌলিক অধিকার (অংশ ৩)',
-    article21Privacy: ' অনুচ্ছেদ ২১ ও ব্যক্তিগত স্বাধীনতা',
-    karnatakaHighCourt: ' কর্ণাটক ও হাইকোর্ট (অনুচ্ছেদ ২২৬)',
-    basicStructure: '🇮🇳 মূল কাঠামো ও গণতন্ত্র',
-    equalityJustice: ' সমতা ও বৈষম্যহীনতা (অনুচ্ছেদ ১৪-১৬)',
-    federalism: ' যুক্তরাষ্ট্রীয় ব্যবস্থা ও রাজ্যের অধিকার (অনুচ্ছেদ ২০০)',
-    constitutionalRemedies: ' সাংবিধানিক প্রতিকার (অনুচ্ছেদ ৩২ ও ২২৬)',
-    readDispatch: 'সাংবিধানিক বিশ্লেষণ পড়ুন',
-    askAi: 'LegalAI কে জিজ্ঞাসা করুন',
-    officialSource: 'অফিসিয়াল সুপ্রিম কোর্ট রেকর্ড ↗',
-    topDispatch: ' সুপ্রিম কোর্টের সংবিধান বেঞ্চের ঐতিহাসিক রায়',
-    readFull: 'সম্পূর্ণ সাংবিধানিক বিশ্লেষণ পড়ুন',
-    analyzeAi: 'LegalAI দিয়ে বিশ্লেষণ করুন',
-    statutesCited: 'উল্লেখিত সংবিধানের অনুচ্ছেদ ও আইন:',
-    keyTakeaways: 'মূল সাংবিধানিক দিকসমূহ',
-    backToArticles: 'সমস্ত সাংবিধানिक প্রতিবেদন',
-    listen: 'শুনুন',
-    save: 'সংরক্ষণ',
-    share: 'শেয়ার',
-    checklistHeading: 'সাংবিধানিক সম্মতি চেকলিস্ট',
-    disclaimerHeading: 'আইনি পরামর্শ ও সতর্কতা',
-    practiceCta: 'আইনজীবীর পরামর্শ নিন →',
-    aiCta: 'এই রায় সম্পর্কে LegalAI কে জিজ্ঞাসা করুন'
+  "bn": {
+    "readIn": "ভাষা নির্বাচন করুন (Read In):",
+    "tickerLabel": "সাংবিধানিক লাইভ ওয়্যার (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "ভারতের সংবিধানের অনুচ্ছেদ, সুপ্রিম কোর্টের সাংবিধানিক রায় খুঁজুন...",
+    "wireActive": "সাংবিধানিক পরিষেবা সক্রিয়",
+    "refresh": "রিফ্রেশ",
+    "allRegions": " সমস্ত সাংবিধানিক ক্ষেত্র",
+    "fundamentalRights": " মৌলিক অধিকার (অংশ ৩)",
+    "article21Privacy": " অনুচ্ছেদ ২১ ও ব্যক্তিগত স্বাধীনতা",
+    "karnatakaHighCourt": " কর্ণাটক ও হাইকোর্ট (অনুচ্ছেদ ২২৬)",
+    "basicStructure": "মূল কাঠামো ও গণতন্ত্র",
+    "equalityJustice": " সমতা ও বৈষম্যহীনতা (অনুচ্ছেদ ১৪-১৬)",
+    "federalism": " যুক্তরাষ্ট্রীয় ব্যবস্থা ও রাজ্যের অধিকার (অনুচ্ছেদ ২০০)",
+    "constitutionalRemedies": " সাংবিধানিক প্রতিকার (অনুচ্ছেদ ৩২ ও ২২৬)",
+    "readDispatch": "সাংবিধানিক বিশ্লেষণ পড়ুন",
+    "askAi": "LegalAI কে জিজ্ঞাসা করুন",
+    "officialSource": "অফিসিয়াল সুপ্রিম কোর্ট রেকর্ড ↗",
+    "topDispatch": " সুপ্রিম কোর্টের সংবিধান বেঞ্চের ঐতিহাসিক রায়",
+    "readFull": "সম্পূর্ণ সাংবিধানিক বিশ্লেষণ পড়ুন",
+    "analyzeAi": "LegalAI দিয়ে বিশ্লেষণ করুন",
+    "statutesCited": "উল্লেখিত সংবিধানের অনুচ্ছেদ ও আইন:",
+    "keyTakeaways": "মূল সাংবিধানিক দিকসমূহ",
+    "backToArticles": "সমস্ত সাংবিধানिक প্রতিবেদন",
+    "listen": "শুনুন",
+    "save": "সংরক্ষণ",
+    "share": "শেয়ার",
+    "checklistHeading": "সাংবিধানিক সম্মতি চেকলিস্ট",
+    "disclaimerHeading": "আইনি পরামর্শ ও সতর্কতা",
+    "practiceCta": "আইনজীবীর পরামর্শ নিন →",
+    "aiCta": "এই রায় সম্পর্কে LegalAI কে জিজ্ঞাসা করুন",
+    "allArticles": "সমস্ত প্রতিবেদন",
+    "prevArticle": "পূর্ববর্তী প্রতিবেদন",
+    "nextArticle": "পরবর্তী প্রতিবেদন"
   },
-  mr: {
-    readIn: 'भाषा निवडा (Read In):',
-    tickerLabel: 'संवैधानिक थेट बातम्या (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'भारतीय राज्यघटनेची कलमे, सर्वोच्च न्यायालयाचे घटनापीठाचे निकाल शोधा...',
-    wireActive: 'संवैधानिक सेवा सुरू आहे',
-    refresh: 'ताजे करा',
-    allRegions: ' सर्व घटनात्मक विभाग',
-    fundamentalRights: ' मूलभूत हक्क (भाग ३)',
-    article21Privacy: ' कलम २१ आणि वैयक्तिक स्वातंत्र्य',
-    karnatakaHighCourt: ' कर्नाटक आणि उच्च न्यायालये (कलम २२६)',
-    basicStructure: '🇮🇳 मूलभूत चौकट आणि लोकशाही',
-    equalityJustice: ' समता आणि भेदभावमुक्ती (कलम १४-१६)',
-    federalism: ' संघराज्य आणि राज्यांचे अधिकार (कलम २००)',
-    constitutionalRemedies: ' घटनात्मक उपाययोजना (कलम ३२ व २२६)',
-    readDispatch: 'संवैधानिक विश्लेषण वाचा',
-    askAi: 'LegalAI ला विचारा',
-    officialSource: 'अधिकृत सर्वोच्च न्यायालय नोंद ↗',
-    topDispatch: ' सर्वोच्च न्यायालयाच्या घटनापीठाचा ऐतिहासिक निकाल',
-    readFull: 'संपूर्ण घटनात्मक विश्लेषण वाचा',
-    analyzeAi: 'LegalAI द्वारे विश्लेषण करा',
-    statutesCited: 'उल्लेखित राज्यघटनेची कलमे आणि कायदे:',
-    keyTakeaways: 'महत्त्वाचे घटनात्मक मुद्दे',
-    backToArticles: 'सर्व घटनात्मक वृत्ते',
-    listen: 'ऐका',
-    save: 'जतन करा',
-    share: 'शेअर करा',
-    checklistHeading: 'घटनात्मक अनुपालन तपासणी यादी',
-    disclaimerHeading: 'वैधानिक मार्गदर्शक इशारा',
-    practiceCta: 'वकिलांचा सल्ला घ्या →',
-    aiCta: 'या निकालावर LegalAI ला विचारा'
+  "mr": {
+    "readIn": "भाषा निवडा (Read In):",
+    "tickerLabel": "संवैधानिक थेट बातम्या (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "भारतीय राज्यघटनेची कलमे, सर्वोच्च न्यायालयाचे घटनापीठाचे निकाल शोधा...",
+    "wireActive": "संवैधानिक सेवा सुरू आहे",
+    "refresh": "ताजे करा",
+    "allRegions": " सर्व घटनात्मक विभाग",
+    "fundamentalRights": " मूलभूत हक्क (भाग ३)",
+    "article21Privacy": " कलम २१ आणि वैयक्तिक स्वातंत्र्य",
+    "karnatakaHighCourt": " कर्नाटक आणि उच्च न्यायालये (कलम २२६)",
+    "basicStructure": "मूलभूत चौकट आणि लोकशाही",
+    "equalityJustice": " समता आणि भेदभावमुक्ती (कलम १४-१६)",
+    "federalism": " संघराज्य आणि राज्यांचे अधिकार (कलम २००)",
+    "constitutionalRemedies": " घटनात्मक उपाययोजना (कलम ३२ व २२६)",
+    "readDispatch": "संवैधानिक विश्लेषण वाचा",
+    "askAi": "LegalAI ला विचारा",
+    "officialSource": "अधिकृत सर्वोच्च न्यायालय नोंद ↗",
+    "topDispatch": " सर्वोच्च न्यायालयाच्या घटनापीठाचा ऐतिहासिक निकाल",
+    "readFull": "संपूर्ण घटनात्मक विश्लेषण वाचा",
+    "analyzeAi": "LegalAI द्वारे विश्लेषण करा",
+    "statutesCited": "उल्लेखित राज्यघटनेची कलमे आणि कायदे:",
+    "keyTakeaways": "महत्त्वाचे घटनात्मक मुद्दे",
+    "backToArticles": "सर्व घटनात्मक वृत्ते",
+    "listen": "ऐका",
+    "save": "जतन करा",
+    "share": "शेअर करा",
+    "checklistHeading": "घटनात्मक अनुपालन तपासणी यादी",
+    "disclaimerHeading": "वैधानिक मार्गदर्शक इशारा",
+    "practiceCta": "वकिलांचा सल्ला घ्या →",
+    "aiCta": "या निकालावर LegalAI ला विचारा",
+    "allArticles": "सर्व बातम्या",
+    "prevArticle": "मागील लेख",
+    "nextArticle": "पुढील लेख"
   },
-  gu: {
-    readIn: 'ભાષા પસંદ કરો (Read In):',
-    tickerLabel: 'બંધારણીય લાઇવ સમાચાર (CONSTITUTIONAL WIRE)',
-    searchPlaceholder: 'ભારતના બંધારણની કલમો, સુપ્રીમ કોર્ટના બંધારણીય ચુકાદા શોધો...',
-    wireActive: 'બંધારણીય સેવા સક્રિય',
-    refresh: 'તાજું કરો',
-    allRegions: ' તમામ બંધારણીય ક્ષેત્રો',
-    fundamentalRights: ' મૂળભૂત અધિકારો (ભાગ ૩)',
-    article21Privacy: ' અનુચ્છેદ ૨૧ અને અંગત સ્વતંત્રતા',
-    karnatakaHighCourt: ' કર્ણાટક અને વડી અદાલતો (અનુચ્છેદ ૨૨૬)',
-    basicStructure: '🇮🇳 મૂળભૂત માળખું અને લોકશાહી',
-    equalityJustice: ' સમાનતા અને બિન-ભેદભાવ (અનુચ્છેદ ૧૪-૧૬)',
-    federalism: ' સંઘવાદ અને રાજ્યોની સ્વાયત્તતા (અનુચ્છેદ ૨૦૦)',
-    constitutionalRemedies: ' બંધારણીય ઉપાયો (અનુચ્છેદ ૩૨ અને ૨૨૬)',
-    readDispatch: 'બંધારણીય વિશ્લેષણ વાંચો',
-    askAi: 'LegalAI ને પૂછો',
-    officialSource: 'સત્તાવાર સુપ્રીમ કોર્ટ રેકોર્ડ ↗',
-    topDispatch: ' સુપ્રીમ કોર્ટ બંધારણીય ખંડપીઠનો ઐતિહાસિક ચુકાદો',
-    readFull: 'સંપૂર્ણ બંધારણીય વિશ્લેષણ વાંચો',
-    analyzeAi: 'LegalAI સાથે વિશ્લેષણ કરો',
-    statutesCited: 'સંદર્ભિત બંધારણીય અનુચ્છેદો અને કાયદા:',
-    keyTakeaways: 'મુખ્ય બંધારણીય મુદ્દાઓ',
-    backToArticles: 'તમામ બંધારણીય અહેવાલો',
-    listen: 'સાંભળો',
-    save: 'સાચવો',
-    share: 'શેર કરો',
-    checklistHeading: 'બંધારણીય પાલન ચેકલિસ્ટ',
-    disclaimerHeading: 'કાનૂની માર્ગદર્શન અને ચેતવણી',
-    practiceCta: 'નિષ્ણાત વકીલની સલાહ લો →',
-    aiCta: 'આ ચુકાદા વિશે LegalAI ને પૂછો'
+  "gu": {
+    "readIn": "ભાષા પસંદ કરો (Read In):",
+    "tickerLabel": "બંધારણીય લાઇવ સમાચાર (CONSTITUTIONAL WIRE)",
+    "searchPlaceholder": "ભારતના બંધારણની કલમો, સુપ્રીમ કોર્ટના બંધારણીય ચુકાદા શોધો...",
+    "wireActive": "બંધારણીય સેવા સક્રિય",
+    "refresh": "તાજું કરો",
+    "allRegions": " તમામ બંધારણીય ક્ષેત્રો",
+    "fundamentalRights": " મૂળભૂત અધિકારો (ભાગ ૩)",
+    "article21Privacy": " અનુચ્છેદ ૨૧ અને અંગત સ્વતંત્રતા",
+    "karnatakaHighCourt": " કર્ણાટક અને વડી અદાલતો (અનુચ્છેદ ૨૨૬)",
+    "basicStructure": "મૂળભૂત માળખું અને લોકશાહી",
+    "equalityJustice": " સમાનતા અને બિન-ભેદભાવ (અનુચ્છેદ ૧૪-૧૬)",
+    "federalism": " સંઘવાદ અને રાજ્યોની સ્વાયત્તતા (અનુચ્છેદ ૨૦૦)",
+    "constitutionalRemedies": " બંધારણીય ઉપાયો (અનુચ્છેદ ૩૨ અને ૨૨૬)",
+    "readDispatch": "બંધારણીય વિશ્લેષણ વાંચો",
+    "askAi": "LegalAI ને પૂછો",
+    "officialSource": "સત્તાવાર સુપ્રીમ કોર્ટ રેકોર્ડ ↗",
+    "topDispatch": " સુપ્રીમ કોર્ટ બંધારણીય ખંડપીઠનો ઐતિહાસિક ચુકાદો",
+    "readFull": "સંપૂર્ણ બંધારણીય વિશ્લેષણ વાંચો",
+    "analyzeAi": "LegalAI સાથે વિશ્લેષણ કરો",
+    "statutesCited": "સંદર્ભિત બંધારણીય અનુચ્છેદો અને કાયદા:",
+    "keyTakeaways": "મુખ્ય બંધારણીય મુદ્દાઓ",
+    "backToArticles": "તમામ બંધારણીય અહેવાલો",
+    "listen": "સાંભળો",
+    "save": "સાચવો",
+    "share": "શેર કરો",
+    "checklistHeading": "બંધારણીય પાલન ચેકલિસ્ટ",
+    "disclaimerHeading": "કાનૂની માર્ગદર્શન અને ચેતવણી",
+    "practiceCta": "નિષ્ણાત વકીલની સલાહ લો →",
+    "aiCta": "આ ચુકાદા વિશે LegalAI ને પૂછો",
+    "allArticles": "બધા લેખો",
+    "prevArticle": "અગાઉનો લેખ",
+    "nextArticle": "આગળનો લેખ"
   }
 };
 
@@ -272,7 +296,7 @@ window.MULTILINGUAL_LEGAL_ARTICLES = [
   {
     id: 'india-const-article21-privacy-dpdp',
     region: 'Fundamental Rights (Part III)',
-    flag: '🇮🇳',
+    flag: '',
     category: 'Article 21 & Privacy Jurisprudence',
     source: 'Supreme Court of India (Constitution Bench)',
     pubDate: new Date().toISOString(),
@@ -554,7 +578,7 @@ window.MULTILINGUAL_LEGAL_ARTICLES = [
   {
     id: 'india-const-electoral-bonds-article19',
     region: 'Basic Structure & Democracy',
-    flag: '🇮🇳',
+    flag: '',
     category: 'Freedom of Speech & Democratic Sovereignty',
     source: 'Supreme Court of India (Constitution Bench)',
     pubDate: new Date(Date.now() - 24 * 3600 * 1000).toISOString(),
@@ -788,7 +812,7 @@ window.MULTILINGUAL_LEGAL_ARTICLES = [
   {
     id: 'india-const-article20-22-bns-criminal-safeguards',
     region: 'Criminal Due Process & Safeguards',
-    flag: '🇮🇳',
+    flag: '',
     category: 'Constitutional Criminal Safeguards',
     source: 'Supreme Court of India (Criminal Appellate Division)',
     pubDate: new Date(Date.now() - 48 * 3600 * 1000).toISOString(),
@@ -1014,7 +1038,7 @@ window.MULTILINGUAL_LEGAL_ARTICLES = [
   {
     id: 'india-const-article25-secularism-religious-autonomy',
     region: 'Fundamental Freedoms & Secularism',
-    flag: '🇮🇳',
+    flag: '',
     category: 'Freedom of Religion & Constitutional Morality',
     source: 'Supreme Court of India (7-Judge Constitutional Reference)',
     pubDate: new Date(Date.now() - 72 * 3600 * 1000).toISOString(),
@@ -1240,25 +1264,373 @@ window.MULTILINGUAL_LEGAL_ARTICLES = [
   }
 ];
 
+// ================================================================
+// MULTILINGUAL LEGAL TRANSLATION ENGINE & DICTIONARY
+// Covers Kannada (kn), Hindi (hi), Tamil (ta), Telugu (te),
+// Bengali (bn), Marathi (mr), Gujarati (gu)
+// ================================================================
+
+window._legalArticleTranslationCache = {};
+
+window.LEGAL_TRANSLATIONS_DICT = {
+  gu: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'ART કાયદાની વય મર્યાદાઓ વ્યક્તિગત રીતે લાગુ પડે છે, પરિણીત યુગલ તરીકે એકમ તરીકે નહીં: પંજાબ અને હરિયાણા હાઈકોર્ટે IVF ની મંજૂરી આપી...' },
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF', tr: 'ART કાયદાની વય મર્યાદાઓ વ્યક્તિગત રીતે લાગુ પડે છે, પરિણીત યુગલ તરીકે એકમ તરીકે નહીં: પંજાબ અને હરિયાણા હાઈકોર્ટે IVF ની મંજૂરી આપી' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'લાઈવ લો દ્વારા નોંધાયેલ અને સમીક્ષા કરાયેલ સત્તાવાર અદાલતી કાર્યવાહી.' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'આંતરરાષ્ટ્રીય સંધિઓ અને સંમેલનો હેઠળ સંચાલિત પ્રત્યક્ષ કાનૂની પાલન.' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'કાનૂની સલાહકારોને સક્રિય અરજીઓ અને પ્રાદેશિક અપીલ સમયમર્યાદા પર નજર રાખવાની સલાહ આપવામાં આવે છે.' },
+    { en: 'Live legal dispatch reported by Live Law: In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'લાઈવ લો દ્વારા અહેવાલ કરાયેલ કાનૂની વિશ્લેષણ: વિકસતી ન્યાયિક કાર્યવાહી, અધિકારક્ષેત્રના ચુકાદાઓ અને નિયમનકારી પાલન ધોરણોનું ગહન વિશ્લેષણ:' },
+    { en: 'Live legal dispatch reported by Live Law:', tr: 'લાઈવ લો દ્વારા અહેવાલ કરાયેલ કાનૂની વિશ્લેષણ:' },
+    { en: 'Live legal dispatch reported by Bar & Bench:', tr: 'બાર એન્ડ બેન્ચ દ્વારા અહેવાલ કરાયેલ અદાલતી વિશ્લેષણ:' },
+    { en: 'In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'વિકસતી ન્યાયિક કાર્યવાહી, અધિકારક્ષેત્રના ચુકાદાઓ અને નિયમનકારી પાલન ધોરણોનું ગહન વિશ્લેષણ:' },
+    { en: 'In-depth analysis of evolving judicial proceedings', tr: 'વિકસતી ન્યાયિક કાર્યવાહી અને કાનૂની પ્રક્રિયાઓનું ગહન વિશ્લેષણ' },
+    { en: 'Factual Background & Judicial Forum', tr: 'વાસ્તવિક પૃષ્ઠભૂમિ અને ન્યાયિક મંચ' },
+    { en: 'Substantive Legal Findings & Statutory Holding', tr: 'મુખ્ય કાનૂની તારણો અને અદાલતી ચુકાદો' },
+    { en: 'Compliance Checklist & Operational Safeguards', tr: 'કાનૂની પાલન ચેકલિસ્ટ અને સુરક્ષા પગલાં' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'કાર્યકારી સારાંશ અને મુખ્ય તારણો' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'કાનૂની સત્તા અને અદાલતી દાખલાઓ' },
+    { en: 'Action Steps & Rights Checklist', tr: 'પગલાં અને અધિકારોની ચકાસણી સૂચિ' },
+    { en: 'Critical Legal Disclaimer:', tr: 'મહત્વપૂર્ણ કાનૂની અસ્વીકરણ:' },
+    { en: 'Critical Legal Disclaimer', tr: 'મહત્વપૂર્ણ કાનૂની અસ્વીકરણ' },
+    { en: 'This article provides general informational guidance and is not a substitute for formal attorney-client representation.', tr: 'આ લેખ સામાન્ય માહિતીપ્રદ માર્ગદર્શન પૂરું પાડે છે અને ઔપચારિક વકીલ-અસીલ પ્રતિનિધિત્વનો વિકલ્પ નથી.' },
+    { en: 'This article provides educational guidance and is not a formal legal consultation. State laws and local court rules vary significantly.', tr: 'આ લેખ શૈક્ષણિક માર્ગદર્શન પૂરું પાડે છે અને ઔપચારિક કાનૂની સલાહ નથી. રાજ્યના કાયદા અને સ્થાનિક અદાલતી નિયમો અલગ હોઈ શકે છે.' },
+    { en: 'Punjab & Haryana High Court', tr: 'પંજાબ અને હરિયાણા હાઈકોર્ટ' },
+    { en: 'Punjab and Haryana High Court', tr: 'પંજાબ અને હરિયાણા હાઈકોર્ટ' },
+    { en: 'P&H High Court', tr: 'પી એન્ડ એચ હાઈકોર્ટ' },
+    { en: 'Karnataka High Court', tr: 'કર્ણાટક વડી અદાલત' },
+    { en: 'Delhi High Court', tr: 'દિલ્હી વડી અદાલત' },
+    { en: 'Bombay High Court', tr: 'બોમ્બે વડી અદાલત' },
+    { en: 'Madras High Court', tr: 'મદ્રાસ વડી અદાલત' },
+    { en: 'Supreme Court of India', tr: 'ભારતની સર્વોચ્ચ અદાલત (સુપ્રીમ કોર્ટ)' },
+    { en: 'Supreme Court', tr: 'સર્વોચ્ચ અદાલત (સુપ્રીમ કોર્ટ)' },
+    { en: 'High Court', tr: 'વડી અદાલત (હાઈકોર્ટ)' },
+    { en: 'Constitution Bench', tr: 'બંધારણીય ખંડપીઠ' },
+    { en: 'Division Bench', tr: 'ડિવિઝન બેન્ચ' },
+    { en: 'District Court', tr: 'જિલ્લા અદાલત' },
+    { en: 'Sessions Court', tr: 'સેશન્સ કોર્ટ' },
+    { en: 'Trial Court', tr: 'ટ્રાયલ કોર્ટ' },
+    { en: 'ART Act', tr: 'એઆરટી કાયદો (આસિસ્ટિડ રિપ્રોડક્ટિવ ટેકનોલોજી એક્ટ)' },
+    { en: 'Assisted Reproductive Technology', tr: 'આસિસ્ટિડ રિપ્રોડક્ટિવ ટેકનોલોજી' },
+    { en: 'Age Restrictions', tr: 'વય મર્યાદાઓ' },
+    { en: 'Apply Individually', tr: 'વ્યક્તિગત રીતે લાગુ પડે છે' },
+    { en: 'Not To Married Couples As A Unit', tr: 'પરિણીત યુગલ તરીકે એકમ તરીકે નહીં' },
+    { en: 'Allows IVF', tr: 'IVF ની મંજૂરી આપી' },
+    { en: 'Fundamental Rights', tr: 'મૂળભૂત અધિકારો' },
+    { en: 'Right to Privacy', tr: 'પ્રાઈવસીનો મૂળભૂત અધિકાર' },
+    { en: 'Personal Liberty', tr: 'વ્યક્તિગત સ્વતંત્રતા' },
+    { en: 'Habeas Corpus', tr: 'હેબિયસ કોર્પસ' },
+    { en: 'Anticipatory Bail', tr: 'આગોતરા જામીન' },
+    { en: 'Bail', tr: 'જામીન' },
+    { en: 'International Treaties & Conventions', tr: 'આંતરરાષ્ટ્રીય સંધિઓ અને સંમેલનો' },
+    { en: 'Criminal Law', tr: 'ફોજદારી કાયદો' },
+    { en: 'Family Law', tr: 'પારિવારિક કાયદો' },
+    { en: 'Corporate Law', tr: 'કોર્પોરેટ કાયદો' },
+    { en: 'Civil Rights', tr: 'નાગરિક અધિકારો' }
+  ],
+  kn: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'ಎಆರ್‌ಟಿ ಕಾಯ್ದೆಯ ವಯಸ್ಸಿನ ಮಿತಿಗಳು ಪ್ರತ್ಯೇಕವಾಗಿ ಅನ್ವಯಿಸುತ್ತವೆ, ದಂಪತಿಗಳಿಗೆ ಒಟ್ಟಾರೆಯಾಗಿ ಅಲ್ಲ: ಪಂಜಾಬ್ ಮತ್ತು ಹರಿಯಾಣ ಹೈಕೋರ್ಟ್ ಐವಿಎಫ್‌ಗೆ ಅನುಮತಿ ನೀಡಿದೆ...' },
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF', tr: 'ಎಆರ್‌ಟಿ ಕಾಯ್ದೆಯ ವಯಸ್ಸಿನ ಮಿತಿಗಳು ಪ್ರತ್ಯೇಕವಾಗಿ ಅನ್ವಯಿಸುತ್ತವೆ, ದಂಪತಿಗಳಿಗೆ ಒಟ್ಟಾರೆಯಾಗಿ ಅಲ್ಲ: ಪಂಜಾಬ್ ಮತ್ತು ಹರಿಯಾಣ ಹೈಕೋರ್ಟ್ ಐವಿಎಫ್‌ಗೆ ಅನುಮತಿ ನೀಡಿದೆ' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'ಲೈವ್ ಲಾ ದಾಖಲಿಸಿದ ಮತ್ತು ಪರಿಶೀಲಿಸಿದ ಅಧಿಕೃತ ನ್ಯಾಯಾಂಗ ವಿಚಾರಣೆ.' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'ಅಂತಾರಾಷ್ಟ್ರೀಯ ಒಪ್ಪಂದಗಳು ಮತ್ತು ಸಮಾವೇಶಗಳ ಅಡಿಯಲ್ಲಿ ನಿಯಂತ್ರಿಸಲ್ಪಡುವ ಶಾಸನಬದ್ಧ ಅನುಸರಣೆ.' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'ಸಕ್ರಿಯ ಅರ್ಜಿಗಳು ಮತ್ತು ಪ್ರಾದೇಶಿಕ ಮೇಲ್ಮನವಿ ಗಡುವುಗಳನ್ನು ಮೇಲ್ವಿಚಾರಣೆ ಮಾಡಲು ವಕೀಲರಿಗೆ ಸಲಹೆ ನೀಡಲಾಗಿದೆ.' },
+    { en: 'Live legal dispatch reported by Live Law: In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'ಲೈವ್ ಲಾ ವರದಿ ಮಾಡಿದ ಕಾನೂನು ವಿಶ್ಲೇಷಣೆ: ನ್ಯಾಯಾಂಗ ಪ್ರಕ್ರಿಯೆಗಳು, ಅಧಿಕಾರ ವ್ಯಾಪ್ತಿಯ ತೀರ್ಪುಗಳು ಮತ್ತು ಶಾಸನಬದ್ಧ ನಿಯಮಗಳ ಸಮಗ್ರ ವಿಶ್ಲೇಷಣೆ:' },
+    { en: 'Live legal dispatch reported by Live Law:', tr: 'ಲೈವ್ ಲಾ ವರದಿ ಮಾಡಿದ ನೇರ ಕಾನೂನು ವರದಿ:' },
+    { en: 'Live legal dispatch reported by Bar & Bench:', tr: 'ಬಾರ್ ಅಂಡ್ ಬೆಂಚ್ ವರದಿ ಮಾಡಿದ ನ್ಯಾಯಾಂಗ ವರದಿ:' },
+    { en: 'In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'ನ್ಯಾಯಾಂಗ ಪ್ರಕ್ರಿಯೆಗಳು, ಅಧಿಕಾರ ವ್ಯಾಪ್ತಿಯ ತೀರ್ಪುಗಳು ಮತ್ತು ಶಾಸನಬದ್ಧ ನಿಯಮಗಳ ಸಮಗ್ರ ವಿಶ್ಲೇಷಣೆ:' },
+    { en: 'Factual Background & Judicial Forum', tr: 'ವಾಸ್ತವಾಂಶದ ಹಿನ್ನೆಲೆ ಮತ್ತು ನ್ಯಾಯಾಂಗ ವೇದಿಕೆ' },
+    { en: 'Substantive Legal Findings & Statutory Holding', tr: 'ಕಾನೂನು ಮುಖ್ಯಾಂಶಗಳು ಮತ್ತು ಶಾಸನಬದ್ಧ ತೀರ್ಪು' },
+    { en: 'Compliance Checklist & Operational Safeguards', tr: 'ಅನುಸರಣಾ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ ಮತ್ತು ಸುರಕ್ಷತಾ ಕ್ರಮಗಳು' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'ಪ್ರಮುಖ ಸಾಂವಿಧಾನಿಕ ಮುಖ್ಯಾಂಶಗಳು' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'ಉಲ್ಲೇಖಿಸಲಾದ ಕಾಯ್ದೆಗಳು ಮತ್ತು ಪೂರ್ವನಿದರ್ಶನಗಳು' },
+    { en: 'Action Steps & Rights Checklist', tr: 'ಕ್ರಮ ಕೈಗೊಳ್ಳುವ ಹಂತಗಳು & ಹಕ್ಕುಗಳ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ' },
+    { en: 'Critical Legal Disclaimer:', tr: 'ಪ್ರಮುಖ ಕಾನೂನು ಹಕ್ಕು ನಿರಾಕರಣೆ:' },
+    { en: 'Punjab & Haryana High Court', tr: 'ಪಂಜಾಬ್ ಮತ್ತು ಹರಿಯಾಣ ಹೈಕೋರ್ಟ್' },
+    { en: 'P&H High Court', tr: 'ಪಂಜಾಬ್ ಮತ್ತು ಹರಿಯಾಣ ಹೈಕೋರ್ಟ್' },
+    { en: 'Karnataka High Court', tr: 'ಕರ್ನಾಟಕ ಉಚ್ಚ ನ್ಯಾಯಾಲಯ' },
+    { en: 'Supreme Court of India', tr: 'ಭಾರತದ ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ (ಸುಪ್ರೀಂ ಕೋರ್ಟ್)' },
+    { en: 'Supreme Court', tr: 'ಸರ್ವೋಚ್ಚ ನ್ಯಾಯಾಲಯ (ಸುಪ್ರೀಂ ಕೋರ್ಟ್)' },
+    { en: 'High Court', tr: 'ಉಚ್ಚ ನ್ಯಾಯಾಲಯ (ಹೈಕೋರ್ಟ್)' },
+    { en: 'ART Act', tr: 'ಎಆರ್‌ಟಿ ಕಾಯ್ದೆ (ಸಹಾಯಕ ಸಂತಾನೋತ್ಪತ್ತಿ ತಂತ್ರಜ್ಞಾನ)' },
+    { en: 'Age Restrictions', tr: 'ವಯಸ್ಸಿನ ಮಿತಿಗಳು' },
+    { en: 'Apply Individually', tr: 'ಪ್ರತ್ಯೇಕವಾಗಿ ಅನ್ವಯಿಸುತ್ತವೆ' },
+    { en: 'Not To Married Couples As A Unit', tr: 'ದಂಪತಿಗಳಿಗೆ ಒಟ್ಟಾರೆಯಾಗಿ ಅಲ್ಲ' },
+    { en: 'Allows IVF', tr: 'ಐವಿಎಫ್ (IVF) ಚಿಕಿತ್ಸೆಗೆ ಅನುಮತಿ ನೀಡಿದೆ' },
+    { en: 'Fundamental Rights', tr: 'ಮೂಲಭೂತ ಹಕ್ಕುಗಳು' },
+    { en: 'Right to Privacy', tr: 'ಗೌಪ್ಯತೆಯ ಮೂಲಭೂತ ಹಕ್ಕು' },
+    { en: 'Personal Liberty', tr: 'ವೈಯಕ್ತಿಕ ಸ್ವಾತಂತ್ರ್ಯ' },
+    { en: 'International Treaties & Conventions', tr: 'ಅಂತಾರಾಷ್ಟ್ರೀಯ ಒಪ್ಪಂದಗಳು ಮತ್ತು ಸಮಾವೇಶಗಳು' }
+  ],
+  hi: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'एआरटी कानून की आयु सीमा व्यक्तिगत रूप से लागू होती है, विवाहित जोड़े पर एक इकाई के रूप में नहीं: पंजाब एवं हरियाणा उच्च न्यायालय ने आईवीएफ की अनुमति दी...' },
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF', tr: 'एआरटी कानून की आयु सीमा व्यक्तिगत रूप से लागू होती है, विवाहित जोड़े पर एक इकाई के रूप में नहीं: पंजाब एवं हरियाणा उच्च न्यायालय ने आईवीएफ की अनुमति दी' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'लाइव लॉ द्वारा दर्ज और समीक्षित आधिकारिक अदालती कार्यवाही।' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'अंतर्राष्ट्रीय संधियों और सम्मेलनों के तहत प्रत्यक्ष कानूनी अनुपालन।' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'अधिवक्ताओं को सक्रिय अपीलीय समयसीमा और कार्यवाहियों पर निगरानी रखने की सलाह दी गई है।' },
+    { en: 'Live legal dispatch reported by Live Law: In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'लाइव लॉ द्वारा रिपोर्ट किया गया कानूनी विश्लेषण: न्यायिक कार्यवाहियों, क्षेत्राधिकार निर्णयों और विनियामक अनुपालन मानकों का गहन विश्लेषण:' },
+    { en: 'Live legal dispatch reported by Live Law:', tr: 'लाइव लॉ द्वारा रिपोर्ट किया गया कानूनी विश्लेषण:' },
+    { en: 'Live legal dispatch reported by Bar & Bench:', tr: 'बार एंड बेंच द्वारा रिपोर्ट किया गया अदालती विश्लेषण:' },
+    { en: 'In-depth analysis of evolving judicial proceedings, jurisdictional rulings, and regulatory compliance standards concerning', tr: 'न्यायिक कार्यवाहियों, क्षेत्राधिकार निर्णयों और विनियामक अनुपालन मानकों का गहन विश्लेषण:' },
+    { en: 'Factual Background & Judicial Forum', tr: 'तथ्यात्मक पृष्ठभूमि एवं न्यायिक मंच' },
+    { en: 'Substantive Legal Findings & Statutory Holding', tr: 'सारभूत कानूनी निष्कर्ष एवं वैधानिक व्यवस्था' },
+    { en: 'Compliance Checklist & Operational Safeguards', tr: 'अनुपालन चेकलिस्ट एवं संचालन सुरक्षा' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'कार्यकारी सारांश एवं मुख्य निष्कर्ष' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'सांविधिक प्राधिकरण एवं मुख्य न्यायिक मिसालें' },
+    { en: 'Action Steps & Rights Checklist', tr: 'कार्रवाई के कदम एवं अधिकार चेकलिस्ट' },
+    { en: 'Critical Legal Disclaimer:', tr: 'महत्वपूर्ण कानूनी अस्वीकरण:' },
+    { en: 'Punjab & Haryana High Court', tr: 'पंजाब एवं हरियाणा उच्च न्यायालय' },
+    { en: 'P&H High Court', tr: 'पंजाब एवं हरियाणा उच्च न्यायालय' },
+    { en: 'Karnataka High Court', tr: 'कर्नाटक उच्च न्यायालय' },
+    { en: 'Delhi High Court', tr: 'दिल्ली उच्च न्यायालय' },
+    { en: 'Supreme Court of India', tr: 'भारत का सर्वोच्च न्यायालय (सुप्रीम कोर्ट)' },
+    { en: 'Supreme Court', tr: 'सर्वोच्च न्यायालय (सुप्रीम कोर्ट)' },
+    { en: 'High Court', tr: 'उच्च न्यायालय' },
+    { en: 'ART Act', tr: 'एआरटी अधिनियम (सहायक प्रजनन प्रौद्योगिकी कानून)' },
+    { en: 'Age Restrictions', tr: 'आयु सीमाएं' },
+    { en: 'Apply Individually', tr: 'व्यक्तिगत रूप से लागू होती हैं' },
+    { en: 'Not To Married Couples As A Unit', tr: 'विवाहित जोड़े पर एक इकाई के रूप में नहीं' },
+    { en: 'Allows IVF', tr: 'आईवीएफ (IVF) की अनुमति दी' },
+    { en: 'Fundamental Rights', tr: 'मौलिक अधिकार' },
+    { en: 'Right to Privacy', tr: 'निजता का मौलिक अधिकार' },
+    { en: 'Personal Liberty', tr: 'व्यक्तिगत स्वतंत्रता' },
+    { en: 'International Treaties & Conventions', tr: 'अंतर्राष्ट्रीय संधियां एवं सम्मेलन' }
+  ],
+  ta: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'ஏஆர்டி சட்ட வயது வரம்புகள் தனித்தனியாக பொருந்தும், தம்பதியருக்கு ஒரு அலகாக அல்ல: பஞ்சாப் & ஹரியானா உயர் நீதிமன்றம் IVF சிகிச்சைக்கு அனுமதி...' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'லைவ் லாவால் ஆவணப்படுத்தப்பட்டு மதிப்பாய்வு செய்யப்பட்ட அதிகாரப்பூர்வ நடவடிக்கை.' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'சர்வதேச ஒப்பந்தங்கள் மற்றும் உடன்படிக்கைகளின் கீழ் நிர்வகிக்கப்படும் நேரடி சட்ட இணக்கம்.' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'மேல்முறையீட்டு காலக்கெடு மற்றும் நீதிமன்ற நடவடிக்கைகளை கண்காணிக்க வழக்கறிஞர்களுக்கு அறிவுறுத்தப்படுகிறது.' },
+    { en: 'Factual Background & Judicial Forum', tr: 'உண்மை பின்னணி & நீதித்துறை அரங்கம்' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'நிர்வாக சுருக்கம் & முக்கிய அம்சங்கள்' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'சட்டப்பூர்வ அதிகாரம் & முக்கிய முன்மாதிரிகள்' },
+    { en: 'Action Steps & Rights Checklist', tr: 'செயல் படிகள் & உரிமைகள் சரிபார்ப்பு பட்டியல்' },
+    { en: 'Critical Legal Disclaimer:', tr: 'முக்கிய சட்ட மறுப்பு:' },
+    { en: 'Punjab & Haryana High Court', tr: 'பஞ்சாப் மற்றும் ஹரியானா உயர் நீதிமன்றம்' },
+    { en: 'P&H High Court', tr: 'பஞ்சாப் மற்றும் ஹரியானா உயர் நீதிமன்றம்' },
+    { en: 'Supreme Court', tr: 'உச்ச நீதிமன்றம்' },
+    { en: 'High Court', tr: 'உயர் நீதிமன்றம்' },
+    { en: 'Allows IVF', tr: 'IVF சிகிச்சைக்கு அனுமதி அளித்தது' }
+  ],
+  te: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'ఏఆర్‌టీ చట్ట వయోపరిమితులు వ్యక్తిగతంగా వర్తిస్తాయి, వివాహిత దంపతులకు ఒకే యూనిట్‌గా కాదు: పంజాబ్ & హర్యానా హైకోర్టు IVF కి అనుమతి...' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'లైవ్ లా రికార్డ్ చేసి సమీక్షించిన అధికారిక విచారణ.' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'అంతర్జాతీయ ఒప్పందాలు మరియు సమావేశాల క్రింద నియంత్రించబడే చట్టబద్ధమైన నిబంధనలు.' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'అప్పీల్ గడువులు మరియు న్యాయస్థాన ప్రక్రియలను పర్యవేక్షించాలని న్యాయవాదులకు సూచించబడింది.' },
+    { en: 'Factual Background & Judicial Forum', tr: 'వాస్తవ నేపథ్యం & న్యాయ వేదిక' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'కార్యనిర్వాహక సారాంశం & కీలక ఫలితాలు' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'చట్టబద్ధమైన అధికారం & కీలక పూర్వాపరాలు' },
+    { en: 'Action Steps & Rights Checklist', tr: 'చర్యలు & హక్కుల తనిఖీ జాబితా' },
+    { en: 'Critical Legal Disclaimer:', tr: 'ముఖ్యమైన చట్టపరమైన నిరాకరణ:' },
+    { en: 'Punjab & Haryana High Court', tr: 'పంజాబ్ మరియు హర్యానా హైకోర్టు' },
+    { en: 'P&H High Court', tr: 'పంజాబ్ మరియు హర్యానా హైకోర్టు' },
+    { en: 'Supreme Court', tr: 'సుప్రీంకోర్టు' },
+    { en: 'High Court', tr: 'హైకోర్టు' },
+    { en: 'Allows IVF', tr: 'IVF కి అనుమతి ఇచ్చింది' }
+  ],
+  bn: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'এআরটি আইনের বয়সসীমা ব্যক্তিগতভাবে প্রযোজ্য, বিবাহিত দম্পতিদের একক ইউনিট হিসেবে নয়: পাঞ্জাব ও হরিয়ানা হাইকোর্ট আইভিএফ-এর অনুমতি দিল...' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'লাইভ ল কর্তৃক নথিভুক্ত ও পর্যালোচিত প্রামাণ্য কার্যবিবরণী।' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'আন্তর্জাতিক চুক্তি ও সনদের অধীনে পরিচালিত প্রত্যক্ষ আইনগত সম্মতি।' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'আপিলের সময়সীমা এবং আদালতের কার্যধারার ওপর নজর রাখার জন্য আইনজীবীদের পরামর্শ দেওয়া হচ্ছে।' },
+    { en: 'Factual Background & Judicial Forum', tr: 'বাস্তব প্রেক্ষাপট ও বিচারিক ফোরাম' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'সারসংক্ষেপ ও প্রধান দিকসমূহ' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'সংবিধিবদ্ধ কর্তৃপক্ষ ও নজির' },
+    { en: 'Action Steps & Rights Checklist', tr: 'পদক্ষেপ ও অধিকারের চেকলিস্ট' },
+    { en: 'Critical Legal Disclaimer:', tr: 'গুরুত্বপূর্ণ আইনি দাবিত্যাগ:' },
+    { en: 'Punjab & Haryana High Court', tr: 'পাঞ্জাব ও হরিয়ানা হাইকোর্ট' },
+    { en: 'P&H High Court', tr: 'পাঞ্জাব ও হরিয়ানা হাইকোর্ট' },
+    { en: 'Supreme Court', tr: 'সুপ্রিম কোর্ট' },
+    { en: 'High Court', tr: 'হাইকোর্ট' },
+    { en: 'Allows IVF', tr: 'আইভিএফ-এর অনুমতি দিল' }
+  ],
+  mr: [
+    { en: 'ART Act Age Restrictions Apply Individually, Not To Married Couples As A Unit: P&H High Court Allows IVF...', tr: 'एआरटी कायद्यातील वयोमर्यादा वैयक्तिकरित्या लागू होते, विवाहित जोडप्याला एक युनिट म्हणून नाही: पंजाब आणि हरियाणा उच्च न्यायालयाकडून आयव्हीएफला परवानगी...' },
+    { en: 'Authoritative proceeding docketed and reviewed by Live Law.', tr: 'लाइव्ह लॉ द्वारे नोंदवलेली आणि पुनरावलोकन केलेली अधिकृत कार्यवाही.' },
+    { en: 'Direct compliance and operational exposure governed under International Treaties & Conventions.', tr: 'आंतरराष्ट्रीय करार आणि अधिवेशनांतर्गत नियंत्रित थेट कायदेशीर अनुपालन.' },
+    { en: 'Legal counsel advised to monitor active motions and regional appellate deadlines.', tr: 'सक्रिय अर्ज आणि अपीलाच्या अंतिम मुदतीवर लक्ष ठेवण्याचा सल्ला कायदेशीर सल्लागारांना देण्यात आला आहे.' },
+    { en: 'Factual Background & Judicial Forum', tr: 'वास्तविक पार्श्वभूमी आणि न्यायालयीन मंच' },
+    { en: 'Executive Summary & Key Takeaways', tr: 'कार्यकारी सारांश आणि महत्त्वाचे मुद्दे' },
+    { en: 'Statutory Authority & Key Case Precedents', tr: 'वैधानिक अधिकार आणि महत्त्वाचे दाखले' },
+    { en: 'Action Steps & Rights Checklist', tr: 'कृती पायऱ्या आणि हक्क पडताळणी सूची' },
+    { en: 'Critical Legal Disclaimer:', tr: 'महत्त्वाचे कायदेशीर अस्वीकरण:' },
+    { en: 'Punjab & Haryana High Court', tr: 'पंजाब आणि हरियाणा उच्च न्यायालय' },
+    { en: 'P&H High Court', tr: 'पंजाब आणि हरियाणा उच्च न्यायालय' },
+    { en: 'Supreme Court', tr: 'सर्वोच्च न्यायालय' },
+    { en: 'High Court', tr: 'उच्च न्यायालय' },
+    { en: 'Allows IVF', tr: 'आयव्हीएफ उपचारांना परवानगी दिली' }
+  ]
+};
+
+// Offline text translator with exact-match and phrase-replacement
+window.translateTextOffline = function(text, lang) {
+  if (!text || typeof text !== 'string' || !lang || lang === 'en') return text;
+  let res = text;
+  const list = (window.LEGAL_TRANSLATIONS_DICT && window.LEGAL_TRANSLATIONS_DICT[lang]) || [];
+  for (const item of list) {
+    if (res.includes(item.en)) {
+      res = res.split(item.en).join(item.tr);
+    }
+  }
+  return res;
+};
+
+// Offline article translator
+window.translateArticleOffline = function(article, lang) {
+  if (!article || !lang || lang === 'en') return article;
+
+  const translatedTitle = window.translateTextOffline(article.title || '', lang);
+  const rawLead = article.lead || article.description || '';
+  const translatedLead = window.translateTextOffline(rawLead, lang);
+  const translatedCat = window.translateTextOffline(article.category || '', lang);
+
+  const translatedTakeaways = Array.isArray(article.takeaways)
+    ? article.takeaways.map(t => window.translateTextOffline(t, lang))
+    : [];
+
+  const translatedSections = Array.isArray(article.sections)
+    ? article.sections.map(sec => ({
+        heading: window.translateTextOffline(sec.heading || '', lang),
+        paragraphs: Array.isArray(sec.paragraphs)
+          ? sec.paragraphs.map(p => window.translateTextOffline(p, lang))
+          : []
+      }))
+    : [];
+
+  const translatedChecklist = Array.isArray(article.checklist)
+    ? article.checklist.map(c => window.translateTextOffline(c, lang))
+    : [];
+
+  const translatedWarning = window.translateTextOffline(article.warning || '', lang);
+
+  return {
+    ...article,
+    title: translatedTitle,
+    lead: translatedLead,
+    description: translatedLead,
+    category: translatedCat,
+    takeaways: translatedTakeaways,
+    sections: translatedSections,
+    checklist: translatedChecklist,
+    warning: translatedWarning
+  };
+};
+
 // Helper to retrieve article data localized to the active language
 window.getLocalizedArticle = function(article, lang = 'en') {
   if (!article) return null;
   const currentLang = lang || window.currentNewsLanguage || 'en';
-  const tr = (article.translations && article.translations[currentLang])
-    ? article.translations[currentLang]
-    : (article.translations && article.translations['en'])
-      ? article.translations['en']
-      : null;
+  if (currentLang === 'en') return article;
 
-  return {
-    ...article,
-    title: (tr && tr.title) ? tr.title : article.title,
-    lead: (tr && tr.lead) ? tr.lead : (article.lead || article.description || ''),
-    description: (tr && tr.lead) ? tr.lead : (article.description || article.lead || ''),
-    category: (tr && tr.category) ? tr.category : article.category,
-    takeaways: (tr && tr.takeaways && tr.takeaways.length > 0) ? tr.takeaways : (article.takeaways || []),
-    sections: (tr && tr.sections && tr.sections.length > 0) ? tr.sections : (article.sections || []),
-    checklist: (tr && tr.checklist && tr.checklist.length > 0) ? tr.checklist : (article.checklist || []),
-    warning: (tr && tr.warning) ? tr.warning : (article.warning || '')
-  };
+  // 1. Check embedded pre-translations
+  if (article.translations && article.translations[currentLang]) {
+    const tr = article.translations[currentLang];
+    return {
+      ...article,
+      title: tr.title || article.title,
+      lead: tr.lead || tr.description || article.lead || article.description || '',
+      description: tr.lead || tr.description || article.description || article.lead || '',
+      category: tr.category || article.category,
+      takeaways: (tr.takeaways && tr.takeaways.length) ? tr.takeaways : (article.takeaways || []),
+      sections: (tr.sections && tr.sections.length) ? tr.sections : (article.sections || []),
+      checklist: (tr.checklist && tr.checklist.length) ? tr.checklist : (article.checklist || []),
+      warning: tr.warning || article.warning || ''
+    };
+  }
+
+  // 2. Check in-memory cache
+  const cacheKey = (article.id || article.title || 'article') + '_' + currentLang;
+  if (window._legalArticleTranslationCache && window._legalArticleTranslationCache[cacheKey]) {
+    return window._legalArticleTranslationCache[cacheKey];
+  }
+
+  // 3. Fallback to immediate offline legal translation
+  const translated = window.translateArticleOffline(article, currentLang);
+  if (window._legalArticleTranslationCache) {
+    window._legalArticleTranslationCache[cacheKey] = translated;
+  }
+  return translated;
+};
+
+// Asynchronous dynamic translation with server fallback
+window.translateArticleAsync = async function(article, lang, onDone) {
+  if (!article || !lang || lang === 'en') {
+    if (typeof onDone === 'function') onDone(article);
+    return;
+  }
+
+  const cacheKey = (article.id || article.title || 'article') + '_' + lang;
+
+  // Provide immediate localized version
+  const currentBest = window.getLocalizedArticle(article, lang);
+  if (typeof onDone === 'function') onDone(currentBest);
+
+  // If already in translations object or already fully cached, stop
+  if (article.translations && article.translations[lang]) return;
+
+  const textsToTranslate = [];
+  textsToTranslate.push(article.title || '');
+  textsToTranslate.push(article.lead || article.description || '');
+  if (Array.isArray(article.takeaways)) {
+    article.takeaways.forEach(t => textsToTranslate.push(t));
+  }
+  if (Array.isArray(article.sections)) {
+    article.sections.forEach(sec => {
+      textsToTranslate.push(sec.heading || '');
+      if (Array.isArray(sec.paragraphs)) {
+        sec.paragraphs.forEach(p => textsToTranslate.push(p));
+      }
+    });
+  }
+
+  try {
+    const origin = (typeof SERVER_ORIGIN !== 'undefined') ? SERVER_ORIGIN : 'http://localhost:5000';
+    const resp = await fetch(origin + '/api/articles/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ texts: textsToTranslate, targetLang: lang })
+    });
+
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.success && Array.isArray(data.translations) && data.translations.length === textsToTranslate.length) {
+        let cursor = 0;
+        const newTitle = data.translations[cursor++] || currentBest.title;
+        const newLead = data.translations[cursor++] || currentBest.lead;
+        const newTakeaways = [];
+        if (Array.isArray(article.takeaways)) {
+          article.takeaways.forEach(() => {
+            newTakeaways.push(data.translations[cursor++] || '');
+          });
+        }
+        const newSections = [];
+        if (Array.isArray(article.sections)) {
+          article.sections.forEach(sec => {
+            const h = data.translations[cursor++] || sec.heading;
+            const pars = [];
+            if (Array.isArray(sec.paragraphs)) {
+              sec.paragraphs.forEach(() => {
+                pars.push(data.translations[cursor++] || '');
+              });
+            }
+            newSections.push({ heading: h, paragraphs: pars });
+          });
+        }
+
+        const enhanced = {
+          ...currentBest,
+          title: newTitle,
+          lead: newLead,
+          description: newLead,
+          takeaways: newTakeaways.length ? newTakeaways : currentBest.takeaways,
+          sections: newSections.length ? newSections : currentBest.sections
+        };
+
+        if (window._legalArticleTranslationCache) {
+          window._legalArticleTranslationCache[cacheKey] = enhanced;
+        }
+        if (typeof onDone === 'function') onDone(enhanced);
+      }
+    }
+  } catch (err) {
+    // Immediate translation was already supplied
+  }
 };
